@@ -1,0 +1,19 @@
+{
+  "name": "midtown-assistance-center",
+  "version": "1.0.0",
+  "description": "The midtown assistance non profit tutor to student connection project.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/GTBitsOfGood/midtown-assistance-center.git"
+  },
+  "author": "Ganapathy Hari Narayan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/GTBitsOfGood/midtown-assistance-center/issues"
+  },
+  "homepage": "https://github.com/GTBitsOfGood/midtown-assistance-center#readme"
+}
