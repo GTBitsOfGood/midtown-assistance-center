@@ -19,6 +19,7 @@
   "homepage": "https://github.com/GTBitsOfGood/midtown-assistance-center#readme",
   "dependencies": {
     "express": "^4.15.4",
+    "handlebars": "^4.0.10",
     "mongodb": "^2.2.31",
     "react": "^15.6.1",
     "react-dom": "^15.6.1"
