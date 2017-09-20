@@ -1,8 +1,11 @@
 module.exports = {
-	entry: './src/index.js',
+	entry: {
+		entry1: './src/homePage.js',
+		entry2: './src/Dashboard.js'
+	},
 	output: {
 		path: __dirname + "/public",
-		filename: "bundle.js"
+		filename: "[name].bundle.js"
 	},
 	module: {
 		loaders: [
