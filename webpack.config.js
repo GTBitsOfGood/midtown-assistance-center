@@ -4,7 +4,7 @@ module.exports = {
 		entry2: './src/Dashboard.js'
 	},
 	output: {
-		path: __dirname + "/public",
+		path: __dirname + "/public/js",
 		filename: "[name].bundle.js"
 	},
 	module: {
