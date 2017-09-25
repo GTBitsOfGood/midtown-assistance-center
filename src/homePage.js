@@ -9,7 +9,7 @@ export class StudentSignUpForm extends React.Component {
     super(props);
     this.state = {
       showModal: false,
-      username: 'test',
+      username: '',
       usernameValidation: 'error'
     };
 
@@ -36,7 +36,7 @@ export class StudentSignUpForm extends React.Component {
   checkUsername(e) {
     console.log(e);
 
-    var currentUsername = event.target.value;
+    let currentUsername = e.target.value;
     this.setState({ username: currentUsername });
 
     if (currentUsername.length < 6) {
@@ -56,12 +56,12 @@ export class StudentSignUpForm extends React.Component {
         </Button>
 
         <Modal show={this.state.showModal} onHide={this.close}>
+
           <Modal.Header closeButton>
             <Modal.Title>Modal heading</Modal.Title>
           </Modal.Header>
+
           <Modal.Body>
-
-
             <Form>
               <FormGroup
                 controlId="formName">
@@ -135,19 +135,17 @@ export class StudentSignUpForm extends React.Component {
                 Already have an account? <a href='.\login'>Click here to log in!</a>
               </FormGroup>
             </Form>
-
-
           </Modal.Body>
-          <Modal.Footer>
 
+          <Modal.Footer>
             <Button type="submit">
               Submit
             </Button>
             <Button onClick={this.close}>
               Close
             </Button>
-
           </Modal.Footer>
+
         </Modal>
       </div>
     );
