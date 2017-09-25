@@ -10,39 +10,72 @@ export class StudentSignUpForm extends React.Component {
     this.state = {
       showModal: false,
       username: '',
-      usernameValidation: 'error'
+      usernameValidation: 'error',
+      password: '',
+      passwordValidation: 'error',
+      confirmPassword: '',
+      confirmPasswordValidation: 'success'
     };
 
+    // Bindings
     this.close = this.close.bind(this);
     this.open = this.open.bind(this);
     this.checkUsername = this.checkUsername.bind(this);
+    this.checkPassword = this.checkPassword.bind(this);
+    this.checkConfirmPassword = this.checkConfirmPassword.bind(this);
 
+    // Other logic
     this.state.grades = [];
     for (let i = props.startingGrade; i <= props.endingGrade; i++) {
       this.state.grades.push(i);
     }
   }
 
-  close(e) {
-    console.log(e);
+  close() {
     this.setState({ showModal: false });
   }
 
-  open(e) {
-    console.log(e);
+  open() {
     this.setState({ showModal: true });
   }
 
   checkUsername(e) {
-    console.log(e);
-
     let currentUsername = e.target.value;
     this.setState({ username: currentUsername });
 
-    if (currentUsername.length < 6) {
+    if (currentUsername.length < 4) {
       this.setState({ usernameValidation: 'error'});
     } else {
       this.setState({ usernameValidation: 'success'});
+    }
+  }
+
+  checkPassword(e) {
+    let currentPassword = e.target.value;
+    this.setState({ password: currentPassword });
+
+    if (currentPassword.length < 6) {
+      this.setState({ passwordValidation: 'error'});
+    } else {
+      this.setState({ passwordValidation: 'success'});
+    }
+
+    if (currentPassword === this.state.confirmPassword) {
+      this.setState({ confirmPasswordValidation: 'success'});
+    } else {
+      this.setState({ confirmPasswordValidation: 'error'});
+    }
+  }
+
+  checkConfirmPassword(e) {
+    let currentPassword = e.target.value;
+    let previousPassword = this.state.password;
+    this.setState({ confirmPassword: currentPassword });
+
+    if (currentPassword === previousPassword) {
+      this.setState({ passwordValidation: 'success'});
+    } else {
+      this.setState({ passwordValidation: 'error'});
     }
   }
 
@@ -83,25 +116,33 @@ export class StudentSignUpForm extends React.Component {
                   value={this.state.username}
                   onChange={this.checkUsername}
                 />
-                <HelpBlock>Username must be at least 6 characters.</HelpBlock>
+                <HelpBlock>Username must be at least 4 characters.</HelpBlock>
               </FormGroup>
               <FormGroup
-                controlId="formPassword">
+                controlId="formPassword"
+                validationState={this.state.passwordValidation}>
                 <FormControl
                   id="formControlsPassword"
                   label="Password"
                   type="password"
                   placeholder="Create A Password"
+                  value={this.state.password}
+                  onChange={this.checkPassword}
                 />
+                <HelpBlock>Password must be at least 6 characters.</HelpBlock>
               </FormGroup>
               <FormGroup
-                controlId="formConfirmPassword">
+                controlId="formConfirmPassword"
+                validationState={this.state.confirmPasswordValidation}>
                 <FormControl
                   id="formControlsConfirmPassword"
                   label="Password"
                   type="password"
                   placeholder="Confirm Password"
+                  value={this.state.confirmPassword}
+                  onChange={this.checkConfirmPassword}
                 />
+                <HelpBlock>Passwords must match.</HelpBlock>
               </FormGroup>
               <FormGroup
                 controlId="formEmail">
