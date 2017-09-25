@@ -23,6 +23,7 @@
     "handlebars": "^4.0.10",
     "mongodb": "^2.2.31",
     "react": "^15.6.1",
+    "react-bootstrap": "^0.31.3",
     "react-dom": "^15.6.1"
   },
   "devDependencies": {

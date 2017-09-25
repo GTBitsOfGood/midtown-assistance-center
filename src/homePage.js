@@ -1,4 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-ReactDOM.render(<h1>hellooooooo</h1>, document.getElementById('root'));
+export class MenuBarComponent extends React.Component {
+  constructor(props) {
+    super(props);
+
+  }
+
+  render() {
+    return (
+
+    );
+  }
+}
+
+
+ReactDOM.render(<MenuBarComponent />, document.getElementById('root'));
