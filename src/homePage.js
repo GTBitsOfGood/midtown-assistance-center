@@ -7,7 +7,7 @@ class StudentSignUpForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      showModal: false,
+      showModal: true,
     };
   }
 
@@ -22,9 +22,9 @@ class StudentSignUpForm extends React.Component {
   render() {
     return (
       <div>
-        <p>Click to get the full Modal experience!</p>
+        <h1>Hello {this.props.name}!</h1>
 
-        <Button bsStyle="success" bsSize="large" onClick={this.open}>
+        <Button bsStyle="info" onClick={this.open}>
           Launch demo modal
         </Button>
 
@@ -52,5 +52,4 @@ StudentSignUpForm.defaultProps = {
   name: 'Stranger'
 };
 
-ReactDOM.render(<StudentSignUpForm name='Student'/>,
-  document.getElementById('root'));
+ReactDOM.render(<StudentSignUpForm name='Teju'/>, document.getElementById('root'));
