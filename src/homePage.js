@@ -15,7 +15,7 @@ export class StudentSignUpForm extends React.Component {
     this.open = this.open.bind(this);
 
     this.state.grades = [];
-    for (let i = 6; i <= 12; i++) {
+    for (let i = this.props.startingGrade; i <= this.props.endingGrade; i++) {
       this.state.grades.push(i);
     }
   }
@@ -120,11 +120,15 @@ export class StudentSignUpForm extends React.Component {
 }
 
 StudentSignUpForm.propTypes = {
-  name: PropTypes.string
+  name: PropTypes.string,
+  startingGrade: PropTypes.number,
+  endingGrade: PropTypes.number
 };
 
 StudentSignUpForm.defaultProps = {
-  name: 'Stranger'
+  name: 'Stranger',
+  startingGrade: 6,
+  endingGrade: 12
 };
 
 ReactDOM.render(<StudentSignUpForm name='Teju'/>, document.getElementById('root'));
