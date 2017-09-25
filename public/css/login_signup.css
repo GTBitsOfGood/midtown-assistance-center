@@ -7,7 +7,6 @@
     --purple: #160c28;
     --black: #000411;
     --blackhover: #222633;
-
 }
 
 body {
@@ -23,11 +22,14 @@ body {
     #background-color: var(--ltgray);
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     border-top: 2px solid var(--gold);
+    padding-right: 0;
+    padding-left: 2%;
 }
 
 .signup-form .signup-header {
     color: var(--black);
 }
+
 .signup-form input {
     border-top: 0;
     border-left: 0;
@@ -52,5 +54,4 @@ body {
     #color: var(--black);
     #border: 2px solid var(--black);
     background-color: var(--gray);
-
 }
