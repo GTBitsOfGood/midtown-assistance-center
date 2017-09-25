@@ -26,4 +26,8 @@ StudentSignUpForm.propTypes = {
   name: PropTypes.string
 };
 
-ReactDOM.render(<StudentSignUpForm name="student"/>, document.getElementById('root'));
+StudentSignUpForm.defaultProps = {
+  name: 'Stranger'
+};
+
+ReactDOM.render(<StudentSignUpForm name='Student'/>, document.getElementById('root'));
