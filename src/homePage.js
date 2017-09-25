@@ -84,13 +84,13 @@ export class StudentSignUpForm extends React.Component {
         <h1>Hello {this.props.name}!</h1>
 
         <Button bsStyle="info" onClick={this.open}>
-          Launch demo modal
+          Student Sign Up
         </Button>
 
         <Modal show={this.state.showModal} onHide={this.close}>
 
           <Modal.Header closeButton>
-            <Modal.Title>Modal heading</Modal.Title>
+            <Modal.Title>Student Sign Up</Modal.Title>
           </Modal.Header>
 
           <Modal.Body>
