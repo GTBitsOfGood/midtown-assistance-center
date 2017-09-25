@@ -3,7 +3,8 @@ import { Nav, Navbar, NavItem } from 'react-bootstrap';
 
 const divStyle = {
   background: '#EEB211',
-  text: 'black'
+  color: '#262626',
+  fontFamily: 'Roboto Slab',
 };
 
 export class HomeMenuBar extends React.Component {
