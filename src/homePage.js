@@ -13,6 +13,11 @@ export class StudentSignUpForm extends React.Component {
 
     this.close = this.close.bind(this);
     this.open = this.open.bind(this);
+
+    this.state.grades = [];
+    for (let i = 6; i <= 12; i++) {
+      this.state.grades.add(i);
+    }
   }
 
   close(e) {
@@ -43,28 +48,48 @@ export class StudentSignUpForm extends React.Component {
 
             <Form>
               <FormControl
-                id="formControlsText"
+                id="formControlsName"
                 type="text"
                 label="Text"
-                placeholder="Enter text"
+                placeholder="Your Name"
               />
               <FormControl
-                id="formControlsEmail"
-                type="email"
-                label="Email address"
-                placeholder="Enter email"
+                id="formControlsUsername"
+                type="text"
+                label="Text"
+                placeholder="Create A Username"
               />
               <FormControl
                 id="formControlsPassword"
                 label="Password"
                 type="password"
+                placeholder="Create A Password"
+              />
+              <FormControl
+                id="formControlsConfirmPassword"
+                label="Password"
+                type="password"
+                placeholder="Confirm Password"
+              />
+              <FormControl
+                id="formControlsEmail"
+                type="email"
+                label="Email address"
+                placeholder="Your Email"
+              />
+              <FormControl
+                id="formControlsAccessCode"
+                type="text"
+                label="Text"
+                placeholder="Classroom Access Code"
               />
 
-              <FormGroup controlId="formControlsSelect">
+              <FormGroup controlId="formControlsGradeLevel">
                 <ControlLabel>Select</ControlLabel>
                 <FormControl componentClass="select" placeholder="select">
-                  <option value="select">select</option>
-                  <option value="other">...</option>
+                  {this.state.grades.map(grade =>
+                    <option key={grade}>{grade}</option>
+                  )}
                 </FormControl>
               </FormGroup>
 
@@ -74,16 +99,19 @@ export class StudentSignUpForm extends React.Component {
                   email@example.com
                 </FormControl.Static>
               </FormGroup>
-
-              <Button type="submit">
-                Submit
-              </Button>
             </Form>
 
 
           </Modal.Body>
           <Modal.Footer>
-            <Button onClick={this.close}>Close</Button>
+
+            <Button type="submit">
+              Submit
+            </Button>
+            <Button onClick={this.close}>
+              Close
+            </Button>
+
           </Modal.Footer>
         </Modal>
       </div>
