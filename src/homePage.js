@@ -5,8 +5,8 @@ import PropTypes from 'prop-types';
 import {Button, Modal, FormGroup, ControlLabel, FormControl, Form} from 'react-bootstrap';
 
 export class StudentSignUpForm extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       showModal: false,
     };
@@ -15,7 +15,7 @@ export class StudentSignUpForm extends React.Component {
     this.open = this.open.bind(this);
 
     this.state.grades = [];
-    for (let i = this.props.startingGrade; i <= this.props.endingGrade; i++) {
+    for (let i = props.startingGrade; i <= props.endingGrade; i++) {
       this.state.grades.push(i);
     }
   }
