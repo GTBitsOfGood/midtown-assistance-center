@@ -68,14 +68,13 @@ export class StudentSignUpForm extends React.Component {
   }
 
   checkConfirmPassword(e) {
-    let currentPassword = e.target.value;
-    let previousPassword = this.state.password;
-    this.setState({ confirmPassword: currentPassword });
+    let currentConfirmPassword = e.target.value;
+    this.setState({ confirmPassword: currentConfirmPassword });
 
-    if (currentPassword === previousPassword) {
-      this.setState({ passwordValidation: 'success'});
+    if (currentConfirmPassword === this.state.password) {
+      this.setState({ confirmPasswordValidation: 'success'});
     } else {
-      this.setState({ passwordValidation: 'error'});
+      this.setState({ confirmPasswordValidation: 'error'});
     }
   }
 
