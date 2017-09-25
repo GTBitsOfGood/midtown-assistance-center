@@ -71,7 +71,7 @@ class SignupTutor extends React.Component {
                     <input type="text" className="input-lg col-md-10 col-md-offset-1" placeholder="Confirm Email"/>
                 </div>
                 <div className="row col-md-12">
-                    <input className="signup-button btn btn-lg btn-default col-md-4 col-md-offset-4" type="submit" value="SIGN UP" />
+                    <input className="signup-button btn btn-lg btn-default col-md-4 col-md-offset-4" type="submit" value="SUBMIT" />
                 </div>
             </form>
         </div>

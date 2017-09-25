@@ -40,16 +40,17 @@ body {
 }
 
 .signup-form .signup-button {
-    border: 2px solid var(--gold);
-    background-color: var(--black);
-    color: var(--gold);
+    border: 2px solid var(--ltgray);
+    background-color: var(--gold);
+    color: var(--ltgray);
     margin-top: 5%;
     margin-bottom: 3%;
     border-radius: 10px;
 }
 
 .signup-form .signup-button:hover {
-    color: var(--ltgray);
-    border: 2px solid var(--ltgray);
+    #color: var(--black);
+    #border: 2px solid var(--black);
+    background-color: var(--gray);
 
 }
