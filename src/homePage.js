@@ -7,7 +7,6 @@ export class StudentSignUpForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showModal: false,
       username: '',
       usernameValidation: 'error',
       password: '',
@@ -17,25 +16,16 @@ export class StudentSignUpForm extends React.Component {
     };
 
     // Bindings
-    this.close = this.close.bind(this);
-    this.open = this.open.bind(this);
     this.checkUsername = this.checkUsername.bind(this);
     this.checkPassword = this.checkPassword.bind(this);
     this.checkConfirmPassword = this.checkConfirmPassword.bind(this);
+    this.submitForm = this.submitForm.bind(this);
 
     // Other logic
     this.state.grades = [];
     for (let i = props.startingGrade; i <= props.endingGrade; i++) {
       this.state.grades.push(i);
     }
-  }
-
-  close() {
-    this.setState({ showModal: false });
-  }
-
-  open() {
-    this.setState({ showModal: true });
   }
 
   checkUsername(e) {
@@ -77,18 +67,16 @@ export class StudentSignUpForm extends React.Component {
     }
   }
 
+  submitForm() {
+    // TODO
+  }
+
   render() {
     return (
       <div>
-        <h1>Hello {this.props.name}!</h1>
+        <Modal.Dialog>
 
-        <Button bsStyle="info" onClick={this.open}>
-          Student Sign Up
-        </Button>
-
-        <Modal show={this.state.showModal} onHide={this.close}>
-
-          <Modal.Header closeButton>
+          <Modal.Header>
             <Modal.Title>Student Sign Up</Modal.Title>
           </Modal.Header>
 
@@ -177,15 +165,12 @@ export class StudentSignUpForm extends React.Component {
           </Modal.Body>
 
           <Modal.Footer>
-            <Button type="submit">
+            <Button type="submit" onClick={this.submitForm}>
               Submit
-            </Button>
-            <Button onClick={this.close}>
-              Close
             </Button>
           </Modal.Footer>
 
-        </Modal>
+        </Modal.Dialog>
       </div>
     );
   }
