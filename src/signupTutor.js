@@ -46,31 +46,32 @@ class SignupTutor extends React.Component {
 
     render() {
         return (
-        <div className="col-md-8 col-md-offset-2 jumbotron text-center">
-            <form className="form" onSubmit={this.handleSubmit}>
+        <div className="col-md-4 col-md-offset-4 text-center signup-form container">
+            <h2 className="signup-header">SIGN UP</h2>
+            <form className="" onSubmit={this.handleSubmit}>
                 <div className="row col-md-12">
-                    <input type="text" className="input-lg col-md-8 col-md-offset-2" placeholder="First Name" value={this.state.firstName} onChange={this.handleFirstNameChange} />
+                    <input type="text" className="input-lg col-md-10 col-md-offset-1" placeholder="First Name" value={this.state.firstName} onChange={this.handleFirstNameChange} />
                 </div>
                 <div className="row col-md-12">
-                    <input type="text" className="input-lg col-md-8 col-md-offset-2" placeholder="Last Name" value={this.state.lastName} onChange={this.handleLastNameChange} />
+                    <input type="text" className="input-lg col-md-10 col-md-offset-1" placeholder="Last Name" value={this.state.lastName} onChange={this.handleLastNameChange} />
                 </div>
                 <div className="row col-md-12">
-                    <input type="text" className="input-lg col-md-8 col-md-offset-2" placeholder="Username" value={this.state.username} onChange={this.handleUsernameChange} />
+                    <input type="text" className="input-lg col-md-10 col-md-offset-1" placeholder="Username" value={this.state.username} onChange={this.handleUsernameChange} />
                 </div>
                 <div className="row col-md-12">
-                    <input type="text" className="input-lg col-md-8 col-md-offset-2" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange} />
+                    <input type="text" className="input-lg col-md-10 col-md-offset-1" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange} />
                 </div>
                 <div className="row col-md-12">
-                    <input type="text" className="input-lg col-md-8 col-md-offset-2" placeholder="Confirm Password"/>
+                    <input type="text" className="input-lg col-md-10 col-md-offset-1" placeholder="Confirm Password"/>
                 </div>
                 <div className="row col-md-12">
-                    <input type="text" className="input-lg col-md-8 col-md-offset-2" placeholder="Georgia Tech Email" value={this.state.email} onChange={this.handleEmailChange}/>
+                    <input type="text" className="input-lg col-md-10 col-md-offset-1" placeholder="Georgia Tech Email" value={this.state.email} onChange={this.handleEmailChange}/>
                 </div>
                 <div className="row col-md-12">
-                    <input type="text" className="input-lg col-md-8 col-md-offset-2" placeholder="Confirm Email"/>
+                    <input type="text" className="input-lg col-md-10 col-md-offset-1" placeholder="Confirm Email"/>
                 </div>
                 <div className="row col-md-12">
-                    <input className="btn btn-lg btn-primary col-md-8 col-md-offset-2" type="submit" value="Sign Up" />
+                    <input className="signup-button btn btn-lg btn-default col-md-4 col-md-offset-4" type="submit" value="SIGN UP" />
                 </div>
             </form>
         </div>
