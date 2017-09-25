@@ -1,21 +1,27 @@
+/* eslint-disable no-console */
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import {Button, Modal, Form, FormGroup, FieldGroup, ControlLabel, FormControl} from 'react-bootstrap';
+import {Button, Modal, FormGroup, ControlLabel, FormControl, Form} from 'react-bootstrap';
 
-class StudentSignUpForm extends React.Component {
+export class StudentSignUpForm extends React.Component {
   constructor() {
     super();
     this.state = {
-      showModal: true,
+      showModal: false,
     };
+
+    this.close = this.close.bind(this);
+    this.open = this.open.bind(this);
   }
 
-  close() {
+  close(e) {
+    console.log(e);
     this.setState({ showModal: false });
   }
 
-  open() {
+  open(e) {
+    console.log(e);
     this.setState({ showModal: true });
   }
 
@@ -36,19 +42,19 @@ class StudentSignUpForm extends React.Component {
 
 
             <Form>
-              <FieldGroup
+              <FormControl
                 id="formControlsText"
                 type="text"
                 label="Text"
                 placeholder="Enter text"
               />
-              <FieldGroup
+              <FormControl
                 id="formControlsEmail"
                 type="email"
                 label="Email address"
                 placeholder="Enter email"
               />
-              <FieldGroup
+              <FormControl
                 id="formControlsPassword"
                 label="Password"
                 type="password"
@@ -58,13 +64,6 @@ class StudentSignUpForm extends React.Component {
                 <ControlLabel>Select</ControlLabel>
                 <FormControl componentClass="select" placeholder="select">
                   <option value="select">select</option>
-                  <option value="other">...</option>
-                </FormControl>
-              </FormGroup>
-              <FormGroup controlId="formControlsSelectMultiple">
-                <ControlLabel>Multiple select</ControlLabel>
-                <FormControl componentClass="select" multiple>
-                  <option value="select">select (multiple)</option>
                   <option value="other">...</option>
                 </FormControl>
               </FormGroup>
