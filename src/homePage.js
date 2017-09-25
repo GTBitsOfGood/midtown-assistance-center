@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import PropTypes from 'prop-types';
-import {Button, Modal} from 'react-bootstrap';
+import {Button, Modal, Form, FormGroup, FieldGroup, ControlLabel, FormControl} from 'react-bootstrap';
 
 class StudentSignUpForm extends React.Component {
   constructor() {
@@ -33,7 +33,55 @@ class StudentSignUpForm extends React.Component {
             <Modal.Title>Modal heading</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            TODO modal body
+
+
+            <Form>
+              <FieldGroup
+                id="formControlsText"
+                type="text"
+                label="Text"
+                placeholder="Enter text"
+              />
+              <FieldGroup
+                id="formControlsEmail"
+                type="email"
+                label="Email address"
+                placeholder="Enter email"
+              />
+              <FieldGroup
+                id="formControlsPassword"
+                label="Password"
+                type="password"
+              />
+
+              <FormGroup controlId="formControlsSelect">
+                <ControlLabel>Select</ControlLabel>
+                <FormControl componentClass="select" placeholder="select">
+                  <option value="select">select</option>
+                  <option value="other">...</option>
+                </FormControl>
+              </FormGroup>
+              <FormGroup controlId="formControlsSelectMultiple">
+                <ControlLabel>Multiple select</ControlLabel>
+                <FormControl componentClass="select" multiple>
+                  <option value="select">select (multiple)</option>
+                  <option value="other">...</option>
+                </FormControl>
+              </FormGroup>
+
+              <FormGroup>
+                <ControlLabel>Static text</ControlLabel>
+                <FormControl.Static>
+                  email@example.com
+                </FormControl.Static>
+              </FormGroup>
+
+              <Button type="submit">
+                Submit
+              </Button>
+            </Form>
+
+
           </Modal.Body>
           <Modal.Footer>
             <Button onClick={this.close}>Close</Button>
