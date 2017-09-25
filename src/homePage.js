@@ -16,7 +16,7 @@ export class StudentSignUpForm extends React.Component {
 
     this.state.grades = [];
     for (let i = 6; i <= 12; i++) {
-      this.state.grades.add(i);
+      this.state.grades.push(i);
     }
   }
 
