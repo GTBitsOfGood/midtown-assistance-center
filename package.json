@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/GTBitsOfGood/midtown-assistance-center#readme",
   "dependencies": {
+    "css-loader": "^0.28.7",
     "ejs": "^2.5.7",
     "express": "^4.15.4",
     "handlebars": "^4.0.10",
@@ -25,7 +26,8 @@
     "prop-types": "latest",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.3",
-    "react-dom": "^15.6.1"
+    "react-dom": "^15.6.1",
+    "style-loader": "^0.18.2"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

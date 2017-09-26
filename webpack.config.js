@@ -14,6 +14,10 @@ module.exports = {
 				loader: 'babel-loader'
 			},
 			{
+              test: /\.css$/,
+              loader: 'style-loader'
+            },
+			{
 				 test: /\.css$/,
 				 loader: 'css-loader',
 				 query: {
