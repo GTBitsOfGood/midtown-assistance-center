@@ -1,5 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import SignupTutor from './SignupTutor';
+import HomeMenuBar from './homeMenuBar';
+import StudentSignUpForm from './StudentSignUpForm.js';
+import Loginpage from './login.js';
 
-ReactDOM.render(<SignupTutor></SignupTutor>, document.getElementById('root'));
+const HomeComp = function() {
+  return (
+    <div>
+        <Loginpage/>
+    </div>
+  );
+};
+
+ReactDOM.render(<HomeComp/>, document.getElementById('root'));
