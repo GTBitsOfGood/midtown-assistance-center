@@ -23,6 +23,7 @@
     "express": "^4.15.4",
     "handlebars": "^4.0.10",
     "mongodb": "^2.2.31",
+    "mongoose": "^4.11.13",
     "prop-types": "latest",
     "react": "^15.6.1",
     "react-bootstrap": "^0.31.3",
