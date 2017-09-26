@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import './Homepage.css';
-import styles from './login.css';
+import styles from '../public/css/login.css';
 // import './mac.jpg'
 
 class Loginpage extends React.Component {

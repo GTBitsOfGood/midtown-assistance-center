@@ -8,7 +8,7 @@ import Loginpage from './login.js';
 const HomeComp = function() {
   return (
     <div>
-        <Loginpage/>
+        <SignupTutor/>
     </div>
   );
 };
