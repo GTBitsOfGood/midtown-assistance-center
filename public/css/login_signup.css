@@ -13,7 +13,7 @@ body {
     font-family: 'Open Sans', sans-serif;
 }
 
-.signup-form {
+.signup-form, .login-form {
     height: 60vh;
     margin-top: 20vh;
     min-height: 300px;
@@ -26,32 +26,44 @@ body {
     padding-left: 1.5%;
 }
 
-.signup-form .signup-header {
+.signup-form .signup-header, .login-form .login-header {
     color: var(--black);
 }
 
-.signup-form input {
+.signup-form input, .login-form input {
     border-top: 0;
     border-left: 0;
     border-right: 0;
     border-bottom: 1px solid var(--gray);
     border-radius: 0px;
     margin-top: 2%;
-    background-color: var(--ltgray)
-    color: var(--dkgray)
+    color: var(--dkgray);
 }
 
-.signup-form .signup-button {
+.login-form input {
+    margin-top: 5%;
+}
+
+.signup-form .signup-button, .login-form .login-button {
     border: 2px solid var(--ltgray);
     background-color: var(--gold);
     color: var(--ltgray);
-    margin-top: 5%;
-    margin-bottom: 3%;
+    margin-top: 10%;
+    margin-bottom: 5%;
     border-radius: 10px;
 }
 
-.signup-form .signup-button:hover {
+.signup-form .signup-button:hover, login-form .login-button:hover {
     #color: var(--black);
     #border: 2px solid var(--black);
     background-color: var(--gray);
+}
+
+.login-anchor {
+    color: var(--gray);
+}
+
+.login-anchor:hover {
+    color: var(--black);
+    text-decoration: none;
 }
