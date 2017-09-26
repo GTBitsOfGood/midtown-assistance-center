@@ -35,8 +35,10 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-2": "^6.24.1",
     "bootstrap": "^3.3.7",
+    "css-loader": "^0.28.7",
     "eslint": "^4.7.0",
     "eslint-plugin-react": "^7.3.0",
+    "image-loader": "0.0.1",
     "nodemon": "^1.12.1",
     "react-bootstrap": "^0.31.3",
     "webpack": "^3.6.0"
