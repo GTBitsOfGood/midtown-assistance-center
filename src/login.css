@@ -1,12 +1,12 @@
-body {
+/*body {
   background: linear-gradient(35deg, #ffcccc, #ccffff);
-  /*background: linear-gradient(90deg, lightblue, lightpink);*/
+  background: linear-gradient(90deg, lightblue, lightpink);
   width: 95vw;
   height: 95vh;
   border: 3px white solid;
   margin: 1.2em auto;
   padding: 0px;
-}
+}*/
 .wrap {
     height: 100%;
     background-color: lightgreen;
