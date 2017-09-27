@@ -1,6 +1,11 @@
 import Tutor from '../models/Tutor';
 import Student from '../models/Student';
 
+
+// TODO: write functions for access code
+// mongodb://<dbuser>:<dbpassword>@ds149934.mlab.com:49934/mac-info
+// admin / gatech
+
 module.exports = {
   checkIfUsernameIsTaken: function(username, callback) {
     Tutor.find({_id: username}, function (err, docs) {
