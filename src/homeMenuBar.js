@@ -1,11 +1,8 @@
 import React from 'react';
 import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import styles from '../public/css/index.css';
 
-const divStyle = {
-  background: '#EEB211',
-  color: '#262626',
-  fontFamily: 'Roboto Slab',
-};
+
 
 export class HomeMenuBar extends React.Component {
   constructor(props) {
@@ -14,20 +11,20 @@ export class HomeMenuBar extends React.Component {
 
   render() {
     return (
-      <Navbar collapseOnSelect style={divStyle}>
+      <Navbar collapseOnSelect className={styles.navigationbar}>
         <Navbar.Header>
-          <Navbar.Brand>
+          <Navbar.Brand className={styles.navbarheader}>
             <a href="#">Midtown Assistance Center</a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullLeft>
-            <NavItem>About us</NavItem>
+            <NavItem className={styles.navbartext}>About us</NavItem>
           </Nav>
-          <Nav pullRight>
-            <NavItem eventKey={1} href="#">Sign In</NavItem>
-            <NavItem eventKey={2} href="#">Sign Up</NavItem>
+          <Nav pullRight >
+            <NavItem eventKey={1} href="#" className={styles.navbartext}>Sign In</NavItem>
+            <NavItem eventKey={2} href="#" className={styles.navbartext}>Sign Up</NavItem>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
