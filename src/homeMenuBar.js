@@ -13,18 +13,18 @@ export class HomeMenuBar extends React.Component {
     return (
       <Navbar collapseOnSelect className={styles.navigationbar}>
         <Navbar.Header>
-          <Navbar.Brand>
+          <Navbar.Brand className={styles.navbarheader}>
             <a href="#">Midtown Assistance Center</a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullLeft>
-            <NavItem>About us</NavItem>
+            <NavItem className={styles.navbartext}>About us</NavItem>
           </Nav>
-          <Nav pullRight>
-            <NavItem eventKey={1} href="#">Sign In</NavItem>
-            <NavItem eventKey={2} href="#">Sign Up</NavItem>
+          <Nav pullRight >
+            <NavItem eventKey={1} href="#" className={styles.navbartext}>Sign In</NavItem>
+            <NavItem eventKey={2} href="#" className={styles.navbartext}>Sign Up</NavItem>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

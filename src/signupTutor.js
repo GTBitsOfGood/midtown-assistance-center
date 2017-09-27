@@ -147,13 +147,13 @@ class SignupTutor extends React.Component {
                     placeholder="Confirm Email"/>
                 </div>
                 <div className="row col-md-12">
-                    <h5 className="signup-dialogue">Already have an account? <a className="signup-anchor" href='#'>Click here to log in!</a></h5>
-                </div>
-                <div className="row col-md-12">
                     <input
-                    className="signup-button btn btn-lg btn-default col-md-4 col-md-offset-4"
+                    className="signup-button btn btn-lg btn-default col-md-10 col-md-offset-1"
                     type="submit"
                     value="SUBMIT" />
+                </div>
+                <div className="row col-md-12">
+                    <h5 className="signup-dialogue">Already have an account? <a className="signup-anchor" href='#'>Click here to log in!</a></h5>
                 </div>
             </form>
         </div>

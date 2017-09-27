@@ -148,18 +148,18 @@ class StudentSignUpForm extends React.Component {
 
           <div className="row col-md-12">
             <select className="select input-lg col-md-10 col-md-offset-1" placeholder="select">
-            <option selected><span className="signup-select-option">Select Grade Level</span></option>
+            <option><span className="signup-select-option">Select Grade Level</span></option>
               {this.state.grades.map(grade =>
                 <option key={grade}>{grade}</option>
               )}
             </select>
           </div>
           <div className="row col-md-12">
-            <h5 className="signup-dialogue">Already have an account? <a className="signup-anchor" href='#'>Click here to log in!</a></h5>
+              <input type="Submit" className="signup-button btn btn-lg btn-default col-md-10 col-md-offset-1" onClick={this.submitForm} value="SUBMIT">
+              </input>
           </div>
           <div className="row col-md-12">
-              <input type="Submit" className="signup-button btn btn-lg btn-default col-md-4 col-md-offset-4" onClick={this.submitForm} value="SUBMIT">
-              </input>
+              <h5 className="signup-dialogue">Already have an account? <a className="signup-anchor" href='#'>Click here to log in!</a></h5>
           </div>
         </Form>
       </div>

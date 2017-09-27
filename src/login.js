@@ -31,7 +31,7 @@ class Loginpage extends React.Component {
                     </div>
                     <div className="row col-md-12">
                       <input
-                      className="login-button btn btn-lg btn-default col-md-4 col-md-offset-4"
+                      className="login-button btn btn-lg btn-default col-md-10 col-md-offset-1"
                       type="submit"
                       value="SUBMIT"
                       ></input>
