@@ -50,10 +50,6 @@ body {
     background-position: right center;
 }
 
-.signup-form select option {
-    color: var(--dkgray) ! important;
-}
-
 .login-form input {
     margin-top: 5%;
 }
@@ -62,22 +58,31 @@ body {
     border: 2px solid var(--ltgray);
     background-color: var(--gold);
     color: var(--ltgray);
-    margin-top: 10%;
+    margin-top: 2%;
     margin-bottom: 5%;
     border-radius: 10px;
+
 }
 
-.signup-form .signup-button:hover, login-form .login-button:hover {
+.bootstrap-select.btn-group .dropdown-menu li a {
+    color: var(--dkgray) ! important;
+}
+
+.login-form .login-button {
+    margin-top: 10%;
+}
+
+.signup-form .signup-button:hover, .login-form .login-button:hover {
     #color: var(--black);
     #border: 2px solid var(--black);
     background-color: var(--gray);
 }
 
-.login-anchor, signup-anchor {
+.login-anchor, .signup-anchor {
     color: var(--gray);
 }
 
-.login-anchor:hover, signup-anchor:hover {
+.login-anchor:hover, .signup-anchor:hover {
     color: var(--black);
     text-decoration: none;
 }
@@ -87,5 +92,5 @@ body {
 }
 
 .signup-dialogue {
-    margin-top: 2%;
+    margin-top: 10%;
 }

@@ -84,15 +84,23 @@ class StudentSignUpForm extends React.Component {
     return (
       <div className="col-sm-4 col-sm-offset-4 text-center signup-form container">
         <Form>
-          <h2 className="signup-header">SIGNUP</h2>
+          <h2 className="signup-header">SIGN UP</h2>
           <div className="row col-md-12">
             <input
               id="inputsName"
               type="text"
               label="Text"
-              placeholder="Your Name"
+              placeholder="First Name"
               className="input-lg col-md-10 col-md-offset-1"/>
           </div>
+          <div className="row col-md-12">
+              <input
+                id="inputsName"
+                type="text"
+                label="Text"
+                placeholder="Last Name"
+                className="input-lg col-md-10 col-md-offset-1"/>
+            </div>
           <div className="row col-md-12">
             <input
               id="inputsUsername"
@@ -148,17 +156,17 @@ class StudentSignUpForm extends React.Component {
 
           <div className="row col-md-12">
             <select className="select input-lg col-md-10 col-md-offset-1" placeholder="select">
-            <option className="signup-select-option" selected>Select Grade Level</option>
+            <option selected><span className="signup-select-option">Select Grade Level</span></option>
               {this.state.grades.map(grade =>
                 <option key={grade}>{grade}</option>
               )}
             </select>
           </div>
           <div className="row col-md-12">
-            <h5 class="signup-dialogue">Already have an account? <a className="signup-anchor" href='./login'>Click here to log in!</a></h5>
+            <h5 className="signup-dialogue">Already have an account? <a className="signup-anchor" href='#'>Click here to log in!</a></h5>
           </div>
           <div className="row col-md-12">
-              <input type="submit" className="signup-button btn btn-lg btn-default col-md-4 col-md-offset-4" onClick={this.submitForm} value="Submit">
+              <input type="Submit" className="signup-button btn btn-lg btn-default col-md-4 col-md-offset-4" onClick={this.submitForm} value="SUBMIT">
               </input>
           </div>
         </Form>

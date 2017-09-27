@@ -18,7 +18,7 @@ class Loginpage extends React.Component {
                       className="input-lg col-md-10 col-md-offset-1"
                       type="text"
                       name="fname"
-                      placeholder="Username">
+                      placeholder="Enter Username">
                       </input>
                     </div>
                     <div className="row col-md-12">
@@ -26,18 +26,18 @@ class Loginpage extends React.Component {
                       className="input-lg col-md-10 col-md-offset-1"
                       type="Password"
                       name="lname"
-                      placeholder="Password">
+                      placeholder="Enter Password">
                       </input>
                     </div>
                     <div className="row col-md-12">
                       <input
                       className="login-button btn btn-lg btn-default col-md-4 col-md-offset-4"
                       type="submit"
-                      value="Submit"
+                      value="SUBMIT"
                       ></input>
                     </div>
                     <div className="row col-md-12">
-                        <a className="login-anchor" href="#">Forgot password</a>
+                        <a className="login-anchor" href="#">Forgot your password?</a>
                     </div>
                 </form>
             </div>

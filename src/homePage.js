@@ -10,6 +10,7 @@ import styles from '../public/css/login_signup.css';
 const HomeComp = function() {
   return (
     <div>
+        <HomeMenuBar/>
         <StudentSignUpForm/>
     </div>
   );

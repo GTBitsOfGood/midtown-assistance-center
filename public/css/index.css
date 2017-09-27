@@ -1,4 +1,22 @@
+:root {
+    --gold: #d4af37;
+    --gray: #aeb7b3;
+    --ltgray: #f1f6f7;
+    --dkgray: #5f6462;
+    --purple: #160c28;
+    --black: #000411;
+    --blackhover: #222633;
+}
+
 body {
 	height: 100%;
 	width: 100%;
+    font-family: 'Open Sans', sans-serif;
+
+}
+
+/* Navigation */
+.navigationbar {
+  background-color: #EEB211 ! important;
+  color: #262626 ! important;
 }

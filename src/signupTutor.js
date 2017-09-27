@@ -70,7 +70,7 @@ class SignupTutor extends React.Component {
                     <input
                     type="text"
                     className="input-lg col-md-10 col-md-offset-1"
-                    placeholder="Username"
+                    placeholder="Create A Username"
                     value={this.state.username}
                     onChange={this.handleUsernameChange} />
                 </div>
@@ -78,7 +78,7 @@ class SignupTutor extends React.Component {
                     <input
                     type="text"
                     className="input-lg col-md-10 col-md-offset-1"
-                    placeholder="Password"
+                    placeholder="Create A Password"
                     value={this.state.password}
                     onChange={this.handlePasswordChange} />
                 </div>
@@ -101,6 +101,9 @@ class SignupTutor extends React.Component {
                     type="text"
                     className="input-lg col-md-10 col-md-offset-1"
                     placeholder="Confirm Email"/>
+                </div>
+                <div className="row col-md-12">
+                    <h5 className="signup-dialogue">Already have an account? <a className="signup-anchor" href='#'>Click here to log in!</a></h5>
                 </div>
                 <div className="row col-md-12">
                     <input
