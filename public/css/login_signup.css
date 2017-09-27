@@ -30,7 +30,7 @@ body {
     color: var(--black);
 }
 
-.signup-form input, .login-form input {
+.signup-form input, .signup-form select, .login-form input {
     border-top: 0;
     border-left: 0;
     border-right: 0;
@@ -38,6 +38,20 @@ body {
     border-radius: 0px;
     margin-top: 2%;
     color: var(--dkgray);
+}
+
+.signup-form select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url("/images/select-down-arrow.png");
+    background-repeat: no-repeat;
+    background-size: 10px 10px;
+    background-position: right center;
+}
+
+.signup-form select option {
+    color: var(--dkgray) ! important;
 }
 
 .login-form input {
@@ -59,11 +73,19 @@ body {
     background-color: var(--gray);
 }
 
-.login-anchor {
+.login-anchor, signup-anchor {
     color: var(--gray);
 }
 
-.login-anchor:hover {
+.login-anchor:hover, signup-anchor:hover {
     color: var(--black);
     text-decoration: none;
+}
+
+.username-block, .password-block, .conf-password-block {
+    display: none;
+}
+
+.signup-dialogue {
+    margin-top: 2%;
 }

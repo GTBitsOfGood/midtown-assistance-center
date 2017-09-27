@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, Modal, FormGroup, ControlLabel, FormControl, Form, HelpBlock} from 'react-bootstrap';
+import {Button, Modal, ControlLabel, Form, HelpBlock} from 'react-bootstrap';
+import styles from '../public/css/login_signup.css';
+
 
 class StudentSignUpForm extends React.Component {
   constructor(props) {
@@ -68,109 +70,99 @@ class StudentSignUpForm extends React.Component {
 
   submitForm() {
     // TODO
+    //
+    //validationState = {this.state.usernameValidation}
+
+    //<Modal.Header>
+      //<Modal.Title>Student Sign Up</Modal.Title>
+    //</Modal.Header>
+
   }
+
 
   render() {
     return (
-      <div>
-        <Modal.Dialog style={{marginTop: '50px'}}>
+      <div className="col-sm-4 col-sm-offset-4 text-center signup-form container">
+        <Form>
+          <h2 className="signup-header">SIGNUP</h2>
+          <div className="row col-md-12">
+            <input
+              id="inputsName"
+              type="text"
+              label="Text"
+              placeholder="Your Name"
+              className="input-lg col-md-10 col-md-offset-1"/>
+          </div>
+          <div className="row col-md-12">
+            <input
+              id="inputsUsername"
+              type="text"
+              placeholder="Create A Username"
+              className="input-lg col-md-10 col-md-offset-1"
+              value={this.state.username}
+              onChange={this.checkUsername}/>
+            <HelpBlock className="username-block">Username must be at least 4 characters.</HelpBlock>
+          </div>
+          <div className="row col-md-12">
+            <input
+              id="inputsPassword"
+              label="Password"
+              type="password"
+              placeholder="Create A Password"
+              className="input-lg col-md-10 col-md-offset-1"
+              value={this.state.password}
+              onChange={this.checkPassword}
+            />
+            <HelpBlock className="password-block">Password must be at least 6 characters.</HelpBlock>
+          </div>
+          <div className="row col-md-12">
+            <input
+              id="inputsConfirmPassword"
+              label="Password"
+              type="password"
+              placeholder="Confirm Password"
+              className="input-lg col-md-10 col-md-offset-1"
+              value={this.state.confirmPassword}
+              onChange={this.checkConfirmPassword}
+            />
+            <HelpBlock className="conf-password-block">Passwords must match.</HelpBlock>
+          </div>
+          <div className="row col-md-12">
+            <input
+              id="inputsEmail"
+              type="email"
+              label="Email address"
+              className="input-lg col-md-10 col-md-offset-1"
+              placeholder="Your Email"
+            />
+          </div>
+          <div className="row col-md-12">
+            <input
+              id="inputsAccessCode"
+              type="text"
+              label="Text"
+              className="input-lg col-md-10 col-md-offset-1"
+              placeholder="Classroom Access Code"
+            />
+          </div>
 
-          <Modal.Header>
-            <Modal.Title>Student Sign Up</Modal.Title>
-          </Modal.Header>
-
-          <Modal.Body>
-            <Form>
-              <FormGroup
-                controlId="formName">
-                <FormControl
-                  id="formControlsName"
-                  type="text"
-                  label="Text"
-                  placeholder="Your Name"
-                />
-              </FormGroup>
-              <FormGroup
-                controlId="formUsername"
-                validationState={this.state.usernameValidation}>
-                <FormControl
-                  id="formControlsUsername"
-                  type="text"
-                  label="Text"
-                  placeholder="Create A Username"
-                  value={this.state.username}
-                  onChange={this.checkUsername}
-                />
-                <HelpBlock>Username must be at least 4 characters.</HelpBlock>
-              </FormGroup>
-              <FormGroup
-                controlId="formPassword"
-                validationState={this.state.passwordValidation}>
-                <FormControl
-                  id="formControlsPassword"
-                  label="Password"
-                  type="password"
-                  placeholder="Create A Password"
-                  value={this.state.password}
-                  onChange={this.checkPassword}
-                />
-                <HelpBlock>Password must be at least 6 characters.</HelpBlock>
-              </FormGroup>
-              <FormGroup
-                controlId="formConfirmPassword"
-                validationState={this.state.confirmPasswordValidation}>
-                <FormControl
-                  id="formControlsConfirmPassword"
-                  label="Password"
-                  type="password"
-                  placeholder="Confirm Password"
-                  value={this.state.confirmPassword}
-                  onChange={this.checkConfirmPassword}
-                />
-                <HelpBlock>Passwords must match.</HelpBlock>
-              </FormGroup>
-              <FormGroup
-                controlId="formEmail">
-                <FormControl
-                  id="formControlsEmail"
-                  type="email"
-                  label="Email address"
-                  placeholder="Your Email"
-                />
-              </FormGroup>
-              <FormGroup
-                controlId="formAccessCode">
-                <FormControl
-                  id="formControlsAccessCode"
-                  type="text"
-                  label="Text"
-                  placeholder="Classroom Access Code"
-                />
-              </FormGroup>
-
-              <FormGroup controlId="formControlsGradeLevel">
-                <ControlLabel>Grade Level</ControlLabel>
-                <FormControl componentClass="select" placeholder="select">
-                  {this.state.grades.map(grade =>
-                    <option key={grade}>{grade}</option>
-                  )}
-                </FormControl>
-              </FormGroup>
-
-              <FormGroup>
-                Already have an account? <a href='.\login'>Click here to log in!</a>
-              </FormGroup>
-            </Form>
-          </Modal.Body>
-
-          <Modal.Footer>
-            <Button type="submit" onClick={this.submitForm}>
-              Submit
-            </Button>
-          </Modal.Footer>
-
-        </Modal.Dialog>
-      </div>
+          <div className="row col-md-12">
+            <select className="select input-lg col-md-10 col-md-offset-1" placeholder="select">
+            <option className="signup-select-option" selected>Select Grade Level</option>
+              {this.state.grades.map(grade =>
+                <option key={grade}>{grade}</option>
+              )}
+            </select>
+          </div>
+          <div className="row col-md-12">
+            <h5 class="signup-dialogue">Already have an account? <a className="signup-anchor" href='./login'>Click here to log in!</a></h5>
+          </div>
+          <div className="row col-md-12">
+              <input type="submit" className="signup-button btn btn-lg btn-default col-md-4 col-md-offset-4" onClick={this.submitForm} value="Submit">
+              </input>
+          </div>
+        </Form>
+        </div>
     );
   }
 }
