@@ -11,7 +11,7 @@ const HomeComp = function() {
   return (
     <div>
         <HomeMenuBar/>
-        <StudentSignUpForm/>
+        <SignupTutor/>
     </div>
   );
 };

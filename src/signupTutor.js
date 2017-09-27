@@ -1,19 +1,29 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import {Button, Modal, ControlLabel, Form, HelpBlock} from 'react-bootstrap';
+import styles from '../public/css/login_signup.css';
 
 
 class SignupTutor extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {firstName: '', lastName: '', username:'', password:'', email:''};
-
+        this.state = {
+            firstName: '',
+            lastName: '',
+            username:'',
+            password:'',
+            email:'',
+            usernameValidation: '',
+            passwordValidation: '',
+            confirmPassword: '',
+            confirmPasswordValidation: ''
+        };
         this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
         this.handleLastNameChange = this.handleLastNameChange.bind(this);
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-        this.checkPasswords = this.checkPasswords.bind(this);
+        this.checkConfirmPassword = this.checkConfirmPassword.bind(this);
     }
 
     handleFirstNameChange(event) {
@@ -25,20 +35,49 @@ class SignupTutor extends React.Component {
     }
 
     handleUsernameChange(event) {
-        this.setState({username: event.target.value});
+        let currentUsername = event.target.value;
+        this.setState({ username: currentUsername });
+
+        if (currentUsername.length < 4 && currentUsername.length !== 0) {
+          this.setState({ usernameValidation: 'input-error'});
+        } else {
+          this.setState({ usernameValidation: 'input-success'});
+        }
     }
 
     handlePasswordChange(event) {
-        this.setState({password: event.target.value});
+        let currentPassword = event.target.value;
+        this.setState({ password: currentPassword });
+
+        if (currentPassword.length < 6 && currentPassword.length !== 0) {
+          this.setState({ passwordValidation: 'input-error'});
+        } else {
+          this.setState({ passwordValidation: 'input-success'});
+        }
+
+        if (currentPassword === this.state.confirmPassword) {
+          this.setState({ confirmPasswordValidation: 'input-success'});
+        } else {
+          this.setState({ confirmPasswordValidation: 'input-error'});
+        }
+    }
+
+    checkConfirmPassword(event) {
+        let currentConfirmPassword = event.target.value;
+        this.setState({ confirmPassword: currentConfirmPassword });
+
+        if (currentConfirmPassword === this.state.password) {
+          this.setState({ confirmPasswordValidation: 'input-success'});
+        } else {
+          this.setState({ confirmPasswordValidation: 'input-error'});
+        }
     }
 
     handleEmailChange(event) {
         this.setState({email: event.target.value});
     }
 
-    checkPasswords(event) {
-        return event.target.value == this.password;
-    }
+
 
     handleSubmit(event) {
         alert('A name was submitted: ' + this.state.firstName + ' ' + this.state.lastName);
@@ -69,24 +108,29 @@ class SignupTutor extends React.Component {
                 <div className="row col-md-12">
                     <input
                     type="text"
-                    className="input-lg col-md-10 col-md-offset-1"
+                    className={this.state.usernameValidation + " input-lg col-md-10 col-md-offset-1"}
                     placeholder="Create A Username"
                     value={this.state.username}
                     onChange={this.handleUsernameChange} />
+                    <HelpBlock className={this.state.usernameValidation === 'input-error' ? 'show-error' : 'hide-error'}>Username must be at least 4 characters.</HelpBlock>
                 </div>
                 <div className="row col-md-12">
                     <input
-                    type="text"
-                    className="input-lg col-md-10 col-md-offset-1"
+                    type="password"
+                    className={this.state.passwordValidation + " input-lg col-md-10 col-md-offset-1"}
                     placeholder="Create A Password"
                     value={this.state.password}
                     onChange={this.handlePasswordChange} />
+                    <HelpBlock className={this.state.passwordValidation === 'input-error' ? 'show-error' : 'hide-error'}>Password must be at least 6 characters.</HelpBlock>
                 </div>
                 <div className="row col-md-12">
                     <input
-                    type="text"
-                    className="input-lg col-md-10 col-md-offset-1"
-                    placeholder="Confirm Password"/>
+                    type="password"
+                    className={this.state.confirmPasswordValidation + " input-lg col-md-10 col-md-offset-1"}
+                    placeholder="Confirm Password"
+                    value={this.state.confirmPassword}
+                    onChange={this.checkConfirmPassword}/>
+                    <HelpBlock className={this.state.confirmPasswordValidation === 'input-error' ? 'show-error' : 'hide-error'}>Passwords must match.</HelpBlock>
                 </div>
                 <div className="row col-md-12">
                     <input

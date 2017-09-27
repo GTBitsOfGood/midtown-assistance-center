@@ -7,6 +7,9 @@
     --purple: #160c28;
     --black: #000411;
     --blackhover: #222633;
+    --error_red: #D8000C;
+    --success_green: #4F8A10;
+    --warning_yellow: #9F6000;
 }
 
 body {
@@ -14,8 +17,9 @@ body {
 }
 
 .signup-form, .login-form {
+    position: fixed;
     height: 60vh;
-    margin-top: 20vh;
+    margin-top: 10vh;
     min-height: 300px;
     padding: 2%;
     overflow-y: scroll;
@@ -30,11 +34,19 @@ body {
     color: var(--black);
 }
 
+.signup-form .input-error, .login-form .input-error {
+    border-bottom: 1px solid var(--error_red);
+
+}
+
+.signup-form input:not(.input-error), .signup-form select, .login-form input:not(.input-error) {
+    border-bottom: 1px solid var(--gray);
+}
+
 .signup-form input, .signup-form select, .login-form input {
     border-top: 0;
     border-left: 0;
     border-right: 0;
-    border-bottom: 1px solid var(--gray);
     border-radius: 0px;
     margin-top: 2%;
     color: var(--dkgray);
@@ -61,7 +73,6 @@ body {
     margin-top: 2%;
     margin-bottom: 5%;
     border-radius: 10px;
-
 }
 
 .bootstrap-select.btn-group .dropdown-menu li a {
@@ -87,8 +98,12 @@ body {
     text-decoration: none;
 }
 
-.username-block, .password-block, .conf-password-block {
+.hide-error {
     display: none;
+}
+
+.show-error {
+    display: block;
 }
 
 .signup-dialogue {

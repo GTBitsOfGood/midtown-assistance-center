@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Button, Modal, ControlLabel, Form, HelpBlock} from 'react-bootstrap';
-import styles from '../public/css/login_signup.css';
 
 
 class StudentSignUpForm extends React.Component {
@@ -9,11 +8,11 @@ class StudentSignUpForm extends React.Component {
     super(props);
     this.state = {
       username: '',
-      usernameValidation: 'error',
+      usernameValidation: '',
       password: '',
-      passwordValidation: 'error',
+      passwordValidation: '',
       confirmPassword: '',
-      confirmPasswordValidation: 'success'
+      confirmPasswordValidation: ''
     };
 
     // Bindings
@@ -33,10 +32,10 @@ class StudentSignUpForm extends React.Component {
     let currentUsername = e.target.value;
     this.setState({ username: currentUsername });
 
-    if (currentUsername.length < 4) {
-      this.setState({ usernameValidation: 'error'});
+    if (currentUsername.length < 4 && currentUsername.length !== 0) {
+      this.setState({ usernameValidation: 'input-error'});
     } else {
-      this.setState({ usernameValidation: 'success'});
+      this.setState({ usernameValidation: 'input-success'});
     }
   }
 
@@ -44,16 +43,16 @@ class StudentSignUpForm extends React.Component {
     let currentPassword = e.target.value;
     this.setState({ password: currentPassword });
 
-    if (currentPassword.length < 6) {
-      this.setState({ passwordValidation: 'error'});
+    if (currentPassword.length < 6 && currentPassword.length !== 0) {
+      this.setState({ passwordValidation: 'input-error'});
     } else {
-      this.setState({ passwordValidation: 'success'});
+      this.setState({ passwordValidation: 'input-success'});
     }
 
     if (currentPassword === this.state.confirmPassword) {
-      this.setState({ confirmPasswordValidation: 'success'});
+      this.setState({ confirmPasswordValidation: 'input-success'});
     } else {
-      this.setState({ confirmPasswordValidation: 'error'});
+      this.setState({ confirmPasswordValidation: 'input-error'});
     }
   }
 
@@ -62,23 +61,16 @@ class StudentSignUpForm extends React.Component {
     this.setState({ confirmPassword: currentConfirmPassword });
 
     if (currentConfirmPassword === this.state.password) {
-      this.setState({ confirmPasswordValidation: 'success'});
+      this.setState({ confirmPasswordValidation: 'input-success'});
     } else {
-      this.setState({ confirmPasswordValidation: 'error'});
+      this.setState({ confirmPasswordValidation: 'input-error'});
     }
   }
 
   submitForm() {
     // TODO
-    //
-    //validationState = {this.state.usernameValidation}
-
-    //<Modal.Header>
-      //<Modal.Title>Student Sign Up</Modal.Title>
-    //</Modal.Header>
 
   }
-
 
   render() {
     return (
@@ -106,10 +98,10 @@ class StudentSignUpForm extends React.Component {
               id="inputsUsername"
               type="text"
               placeholder="Create A Username"
-              className="input-lg col-md-10 col-md-offset-1"
+              className={this.state.usernameValidation + " input-lg col-md-10 col-md-offset-1"}
               value={this.state.username}
               onChange={this.checkUsername}/>
-            <HelpBlock className="username-block">Username must be at least 4 characters.</HelpBlock>
+            <HelpBlock className={this.state.usernameValidation === 'input-error' ? 'show-error' : 'hide-error'}>Username must be at least 4 characters.</HelpBlock>
           </div>
           <div className="row col-md-12">
             <input
@@ -117,11 +109,11 @@ class StudentSignUpForm extends React.Component {
               label="Password"
               type="password"
               placeholder="Create A Password"
-              className="input-lg col-md-10 col-md-offset-1"
+              className={this.state.passwordValidation + " input-lg col-md-10 col-md-offset-1"}
               value={this.state.password}
               onChange={this.checkPassword}
             />
-            <HelpBlock className="password-block">Password must be at least 6 characters.</HelpBlock>
+            <HelpBlock className={this.state.passwordValidation === 'input-error' ? 'show-error' : 'hide-error'}>Password must be at least 6 characters.</HelpBlock>
           </div>
           <div className="row col-md-12">
             <input
@@ -129,11 +121,11 @@ class StudentSignUpForm extends React.Component {
               label="Password"
               type="password"
               placeholder="Confirm Password"
-              className="input-lg col-md-10 col-md-offset-1"
+              className={this.state.confirmPasswordValidation + " input-lg col-md-10 col-md-offset-1"}
               value={this.state.confirmPassword}
               onChange={this.checkConfirmPassword}
             />
-            <HelpBlock className="conf-password-block">Passwords must match.</HelpBlock>
+            <HelpBlock className={this.state.confirmPasswordValidation === 'input-error' ? 'show-error' : 'hide-error'}>Passwords must match.</HelpBlock>
           </div>
           <div className="row col-md-12">
             <input
@@ -170,7 +162,7 @@ class StudentSignUpForm extends React.Component {
               </input>
           </div>
         </Form>
-        </div>
+      </div>
     );
   }
 }
