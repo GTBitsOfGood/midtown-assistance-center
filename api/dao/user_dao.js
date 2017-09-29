@@ -8,7 +8,7 @@ module.exports = {
     // Look for tutors with the same username
     Tutor.find({_id: username}, function (err, docs) {
       if (err) {
-        console.warn('Error checking if username is taken: ', err);
+        console.error('Error checking if username is taken:', err);
       
       } else if (docs.length > 0) {
         // Found a tutor with the same username
@@ -19,7 +19,7 @@ module.exports = {
         // Look for students with the same username
         Student.find({_id: username}, function (err, docs) {
           if (err) {
-            console.warn('Error checking if username is taken: ', err);
+            console.error('Error checking if username is taken:', err);
           
           } else if (docs.length > 0) {
             // Found a student with the same username
@@ -38,7 +38,7 @@ module.exports = {
     // Look for tutors with the same email
     Tutor.find({email: email}, function (err, docs) {
       if (err) {
-        console.warn('Error checking if email is taken: ', err);
+        console.error('Error checking if email is taken:', err);
 
       } else if (docs.length > 0) {
         // Found a tutor with the same email
@@ -49,7 +49,7 @@ module.exports = {
         // Look for students with the same email
         Student.find({email: email}, function (err, docs) {
           if (err) {
-            console.warn('Error checking if email is taken: ', err);
+            console.error('Error checking if email is taken:', err);
 
           } else if (docs.length > 0) {
             // Found a student with the same email
@@ -64,15 +64,28 @@ module.exports = {
     });
   },
 
-  validateAccessCode: function(accessFolder) {
-
+  createStudent: function(student, callback) {
+    Student.create(student, function (err, student_instance) {
+      if (err) {
+        console.error('Error creating a new student:', err);
+      } else {
+        callback(student_instance);
+      }
+    });
   },
 
-  createUser: function(user) {
-
+  createTutor: function(tutor, callback) {
+    Tutor.create(tutor, function (err, tutor_instance) {
+      if (err) {
+        console.error('Error creating a new tutor:', err);
+      } else {
+        callback(tutor_instance);
+      }
+    });
   },
 
-  getUser: function(loginDetails) {
+  getUser: function(loginDetails, callback) {
 
   }
+
 };
