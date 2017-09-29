@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import './Homepage.css';
-import styles from './login.css';
 import $ from 'jquery';
+import styles from '../public/css/login_signup.css';
 // import './mac.jpg'
 
 class Loginpage extends React.Component {
@@ -37,31 +37,43 @@ class Loginpage extends React.Component {
 
     render() {
         return (
-          <div className="wrap">
-            <div className="header">
-                <img src="mac.jpg" alt="" height="100%"></img>
-                <button type="button">About</button>
-                <button type="button">Sign Up</button>
-                <button type="button">Login</button>
+            <div className="col-sm-4 col-sm-offset-4 text-center login-form container">
+                <h2 className="login-header">LOGIN</h2>
+                <form onSubmit={this.sendToServer}>
+                    <div className="row col-md-12">
+                      <input
+                      className="input-lg col-md-10 col-md-offset-1"
+                      type="text"
+                      name="fname"
+                      value={this.state.username} 
+                      onChange={this.handleUsernameChange}
+                      placeholder="Enter Username">
+                      </input>
+                    </div>
+                    <div className="row col-md-12">
+                      <input
+                      className="input-lg col-md-10 col-md-offset-1"
+                      type="Password"
+                      name="lname"
+                      value={this.state.password} 
+                      onChange={this.handlePasswordChange}
+                      placeholder="Enter Password">
+                      </input>
+                    </div>
+                    <div className="row col-md-12">
+                      <input
+                      className="login-button btn btn-lg btn-default col-md-10 col-md-offset-1"
+                      type="submit"
+                      value="SUBMIT"
+                      ></input>
+                    </div>
+                    <div className="row col-md-12">
+                        <a className="login-anchor" href="#">Forgot your password?</a>
+                    </div>
+                </form>
             </div>
-            <div className="inputbox">
-                <div className="formarea">
-                    <h1>Login</h1>
-                    <form onSubmit={this.sendToServer}>
-                      <input type="text" name="fname" placeholder="Username" value={this.state.username} onChange={this.handleUsernameChange}></input><br></br>
-                      <input type="Password" name="lname" placeholder="Password" value={this.state.password} onChange={this.handlePasswordChange}></input><br></br>
-                      <input type="submit" value="Submit"></input>
-                    </form> 
-                </div>
-            </div>
-            <div className="footer"></div>
-         </div>
         );
     }
 }
 
 export default Loginpage;
-
-// export default Homepage;
-// ReactDOM.render(<h1>hello</h1>, document.getElementById('root'));
-// ReactDOM.render(<Homepage/>, document.getElementById('root'));

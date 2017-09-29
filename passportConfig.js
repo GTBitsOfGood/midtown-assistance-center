@@ -26,6 +26,7 @@ const user = {
 passport.use(new LocalStrategy(
   function(username, password, done) {
   	//Fill in the access to MongoDB and the users within that
+  	console.log(username);
   	if (username === user.username) {
   		if (password === user.password) {
   			return done(null, user);
@@ -46,11 +47,16 @@ passport.deserializeUser(function(id, done) {
 });
 
 app.post('/login', function(req, res, next){
+	console.log('post');
 	passport.authenticate('local', function(err, user, info) {
-	    if (err) { return next(err); }
+	    if (err) {
+	    	console.log(err);
+	    	return next(err); 
+	    }
 	    if (!user) {
 	    	return res.send(null); 
 	    }
+	    console.log(user);
 	    req.logIn(user, function(err) {
 	      if (err) { 
 	      	console.log(err);
