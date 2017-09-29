@@ -3,7 +3,7 @@ const users = require('./user_dao');
 const mongoose = require('mongoose');
 
 // Set up default mongoose connection
-const mongoDB = 'mongodb://127.0.0.1/my_database';
+const mongoDB = process.env.DB_CONNECTION_STRING;
 mongoose.connect(mongoDB, {
   useMongoClient: true
 });

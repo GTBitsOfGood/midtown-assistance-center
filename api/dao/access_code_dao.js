@@ -1,3 +1,4 @@
+const AccessCode = require('../../models/AccessCode');
 
 module.exports = {
 

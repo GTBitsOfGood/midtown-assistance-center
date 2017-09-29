@@ -8,7 +8,7 @@ let schema = new Schema({
   _id: {type: String, required: true},
   password: {type: String, required: true},
   join_date: {type: Date, default: Date.now, required: true},
-  bio: {type: String},
+  bio: {type: String, default: ''},
   profile_picture: {type: String, default: ''},
   classroom: {type: String, required: true},
   grade_level: {type: Number, required: true}

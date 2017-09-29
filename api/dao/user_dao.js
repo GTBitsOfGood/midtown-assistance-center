@@ -1,5 +1,5 @@
-import Tutor from '../../models/Tutor';
-import Student from '../../models/Student';
+const Tutor = require('../../models/Tutor');
+const Student = require('../../models/Student');
 
 module.exports = {
 
@@ -84,8 +84,40 @@ module.exports = {
     });
   },
 
-  getUser: function(loginDetails, callback) {
+  getUser: function(username, callback) {
     // TODO figure out API to integrate with passport
+
+    // Look for tutors with the same username
+    Tutor.find({_id: username}, function (err, docs) {
+      if (err) {
+        console.error('Error checking if username is taken:', err);
+
+      } else if (docs.length === 1) {
+        // Found a tutor with the same username
+        callback(docs[0]);
+      } else if (docs.length > 1) {
+        console.error('Multiple tutors with username', username);
+
+      } else {
+
+        // Look for students with the same username
+        Student.find({_id: username}, function (err, docs) {
+          if (err) {
+            console.error('Error checking if username is taken:', err);
+
+          } else if (docs.length === 1) {
+            // Found a student with the same username
+            callback(docs[0]);
+          } else if (docs.length > 1) {
+            console.error('Multiple students with username', username);
+
+          } else {
+            // No tutors or students with that username!
+            callback(null);
+          }
+        });
+      }
+    });
   }
 
 };
