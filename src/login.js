@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import './Homepage.css';
-import $ from 'jquery';
 import styles from '../public/css/login_signup.css';
+import axios from 'axios';
 // import './mac.jpg'
 
 class Loginpage extends React.Component {
@@ -28,10 +28,20 @@ class Loginpage extends React.Component {
     sendToServer(e) {
         console.log('hello');
         e.preventDefault();
-        $.post( "/login", this.state, function(data, status){
-            if (data) {
-                document.location.href = '/dash';
-            }
+        // $.post( "/login", this.state, function(data, status){
+        //     if (data) {
+        //         document.location.href = '/dash';
+        //     }
+        // });
+
+        axios.post('/login', this.state)
+        .then(function (response) {
+                if (response) {
+                    document.location.href = '/dash';
+                }
+        })
+        .catch(function (error) {
+            console.log(error);
         });
     }
 

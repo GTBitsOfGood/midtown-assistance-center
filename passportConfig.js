@@ -1,7 +1,6 @@
 import express from 'express';
-var bodyParser = require('body-parser');
-var session = require('express-session');
-var flash = require('connect-flash');
+const session = require('express-session');
+const flash = require('connect-flash');
 const app = express();
 const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy;
@@ -14,9 +13,9 @@ app.use(
 	  saveUninitialized: false
 }));
 
-app.use(bodyParser());
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 const user = {
 	username: "ganhari",

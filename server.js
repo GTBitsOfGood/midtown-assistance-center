@@ -1,12 +1,11 @@
 import express from 'express';
+const server = express();
 import ApiRouter from './api/index.js';
 import passportRoutes from './passportConfig';
 const bodyParser = require('body-parser');
-const server = express();
 server.use(express.static('public'));
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
-
 server.set('views', './views');
 server.set('view engine', 'ejs');
 server.use('/api', ApiRouter);
