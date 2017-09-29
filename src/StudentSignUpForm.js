@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, Modal, ControlLabel, Form, HelpBlock} from 'react-bootstrap';
-
+import {Form, HelpBlock} from 'react-bootstrap';
 
 class StudentSignUpForm extends React.Component {
   constructor(props) {
