@@ -85,7 +85,7 @@ module.exports = {
   },
 
   getUser: function(loginDetails, callback) {
-
+    // TODO figure out API to integrate with passport
   }
 
 };
