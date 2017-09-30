@@ -2,22 +2,61 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 // import './Homepage.css';
 import styles from '../public/css/login_signup.css';
+import axios from 'axios';
 // import './mac.jpg'
 
 class Loginpage extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            username: "",
+            password: ""
+        }
+        this.handleUsernameChange = this.handleUsernameChange.bind(this);
+        this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.sendToServer = this.sendToServer.bind(this);
     }
+
+    handleUsernameChange(e) {
+       this.setState({username: e.target.value});
+    }
+
+    handlePasswordChange(e) {
+       this.setState({password: e.target.value});
+    }
+
+    sendToServer(e) {
+        console.log('hello');
+        e.preventDefault();
+        // $.post( "/login", this.state, function(data, status){
+        //     if (data) {
+        //         document.location.href = '/dash';
+        //     }
+        // });
+
+        axios.post('/login', this.state)
+        .then(function (response) {
+                if (response) {
+                    document.location.href = '/dash';
+                }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+    }
+
     render() {
         return (
             <div className="col-sm-4 col-sm-offset-4 text-center login-form container">
                 <h2 className="login-header">LOGIN</h2>
-                <form>
+                <form onSubmit={this.sendToServer}>
                     <div className="row col-md-12">
                       <input
                       className="input-lg col-md-10 col-md-offset-1"
                       type="text"
                       name="fname"
+                      value={this.state.username} 
+                      onChange={this.handleUsernameChange}
                       placeholder="Enter Username">
                       </input>
                     </div>
@@ -26,6 +65,8 @@ class Loginpage extends React.Component {
                       className="input-lg col-md-10 col-md-offset-1"
                       type="Password"
                       name="lname"
+                      value={this.state.password} 
+                      onChange={this.handlePasswordChange}
                       placeholder="Enter Password">
                       </input>
                     </div>
@@ -46,7 +87,3 @@ class Loginpage extends React.Component {
 }
 
 export default Loginpage;
-
-// export default Homepage;
-// ReactDOM.render(<h1>hello</h1>, document.getElementById('root'));
-// ReactDOM.render(<Homepage/>, document.getElementById('root'));
