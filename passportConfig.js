@@ -53,9 +53,18 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  //Access to mongoDB to deserialize the user that is loggedin
-  let user = {username: id, password: 'pass'};
-  done(null, user);
+  // Access to mongoDB to deserialize the user that is loggedin
+  data_access.users.getUser(username, function (err, user_instance) {
+    if (err) {
+      return done(err);
+    }
+
+    if (user_instance === null) {
+      return done(null, false, { message: 'Incorrect username' });
+    }
+
+    return done(null, user_instance);
+  });
 });
 
 app.post('/login', function(req, res, next){
