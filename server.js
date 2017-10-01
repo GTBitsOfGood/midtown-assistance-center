@@ -1,5 +1,13 @@
 import express from 'express';
+import mongoose from 'mongoose';
 const server = express();
+
+var mongoDB = 'mongodb://admin:gatech@ds149934.mlab.com:49934/mac-info';
+mongoose.connect(mongoDB, {
+  useMongoClient: true
+});
+
+
 
 server.set('views', './views');
 server.set('view engine', 'ejs');
