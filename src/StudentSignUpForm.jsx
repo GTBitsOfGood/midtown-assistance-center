@@ -2,17 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Button, Modal, ControlLabel, Form, HelpBlock} from 'react-bootstrap';
 
-
 class StudentSignUpForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       username: '',
-      usernameValidation: '',
+      usernameValidation: 'input-error',
       password: '',
-      passwordValidation: '',
+      passwordValidation: 'input-error',
       confirmPassword: '',
-      confirmPasswordValidation: ''
+      confirmPasswordValidation: 'input-success'
     };
 
     // Bindings
@@ -168,13 +167,11 @@ class StudentSignUpForm extends React.Component {
 }
 
 StudentSignUpForm.propTypes = {
-  name: PropTypes.string,
   startingGrade: PropTypes.number,
   endingGrade: PropTypes.number
 };
 
 StudentSignUpForm.defaultProps = {
-  name: 'Stranger',
   startingGrade: 6,
   endingGrade: 12
 };
