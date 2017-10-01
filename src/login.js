@@ -11,7 +11,8 @@ class Loginpage extends React.Component {
         this.state = {
             username: "",
             password: ""
-        }
+        };
+
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
         this.sendToServer = this.sendToServer.bind(this);
@@ -28,21 +29,18 @@ class Loginpage extends React.Component {
     sendToServer(e) {
         console.log('hello');
         e.preventDefault();
-        // $.post( "/login", this.state, function(data, status){
-        //     if (data) {
-        //         document.location.href = '/dash';
-        //     }
-        // });
 
-        axios.post('/login', this.state)
-        .then(function (response) {
-                if (response) {
-                    document.location.href = '/dash';
-                }
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+        axios.post('/passport/login', this.state)
+            .then(function (response) {
+                    if (response) {
+                        document.location.href = '/dash';
+                    } else {
+                      // TODO show error message
+                    }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     render() {
