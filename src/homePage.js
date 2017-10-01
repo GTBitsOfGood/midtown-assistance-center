@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom';
 import SignupTutor from './SignupTutor';
 import HomeMenuBar from './homeMenuBar';
 import StudentSignUpForm from './StudentSignUpForm.js';
-import Loginpage from './login.js';
+import LoginPage from './login.js';
 import styles from '../public/css/login_signup.css';
 
 

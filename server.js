@@ -1,30 +1,45 @@
 import express from 'express';
 import mongoose from 'mongoose';
 const server = express();
-
-var mongoDB = 'mongodb://admin:gatech@ds149934.mlab.com:49934/mac-info';
-mongoose.connect(mongoDB, {
-  useMongoClient: true
-});
-
-
-
+import ApiRouter from './api/index.js';
+import passportRoutes from './passportConfig';
+const bodyParser = require('body-parser');
+server.use(express.static('public'));
+server.use(bodyParser.urlencoded({ extended: false }));
+server.use(bodyParser.json());
 server.set('views', './views');
 server.set('view engine', 'ejs');
-server.use(express.static('public'));
+server.use('/api', ApiRouter);
+server.use('/', passportRoutes);
 
-server.get('/', (req, res) => {
-  res.redirect('/home');
+server.get('/', isLoggedIn, (req, res) => {
+	res.redirect('/home');
 });
 
-server.get('/home', (req, res) => {
-  res.render('home');
+server.get('/home', isLoggedIn, (req, res) => {
+	res.render('home');
 });
 
-server.get('/dash', (req, res) => {
-  res.render('dash');
+server.get('/dash', isLoggedOut, (req, res) => {
+	res.render('dash');
 });
+
+function isLoggedIn(req, res, next) {
+	if (!req.user) {
+		next();
+	} else {
+		res.redirect('/dash');
+	}
+}
+
+function isLoggedOut(req, res, next) {
+	if (!req.user) {
+		res.redirect('/home');
+	} else {
+		next();
+	}
+}
 
 server.listen(3000, () => {
-  console.log('server is listening on the port 3000');
+  console.info('server is listening on the port 3000');
 });
