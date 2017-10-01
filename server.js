@@ -12,19 +12,19 @@ server.set('view engine', 'ejs');
 server.use('/api', ApiRouter);
 server.use('/', passportRoutes);
 
-server.get('/', allowIfLoggedIn, (req, res) => {
+server.get('/', allowIfLoggedOut, (req, res) => {
   res.redirect('/home');
 });
 
-server.get('/home', allowIfLoggedIn, (req, res) => {
+server.get('/home', allowIfLoggedOut, (req, res) => {
   res.render('home');
 });
 
-server.get('/dash', allowIfLoggedOut, (req, res) => {
+server.get('/dash', allowIfLoggedIn, (req, res) => {
   res.render('dash');
 });
 
-function allowIfLoggedIn(req, res, next) {
+function allowIfLoggedOut(req, res, next) {
   if (!req.user) {
     next();
   } else {
@@ -32,7 +32,7 @@ function allowIfLoggedIn(req, res, next) {
   }
 }
 
-function allowIfLoggedOut(req, res, next) {
+function allowIfLoggedIn(req, res, next) {
   if (!req.user) {
     res.redirect('/home');
   } else {
