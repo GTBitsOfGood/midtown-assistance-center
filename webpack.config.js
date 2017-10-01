@@ -1,7 +1,7 @@
 module.exports = {
 	entry: {
-		entry1: './src/homePage.js',
-		entry2: './src/Dashboard.js'
+		entry1: './src/HomePage.jsx',
+		entry2: './src/Dashboard.jsx'
 	},
 	output: {
 		path: __dirname + "/public/js",
