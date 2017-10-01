@@ -1,4 +1,5 @@
 import express from 'express';
+import mongoose from 'mongoose';
 const server = express();
 import ApiRouter from './api/index.js';
 import passportRoutes from './passportConfig';
@@ -40,5 +41,5 @@ function isLoggedOut(req, res, next) {
 }
 
 server.listen(3000, () => {
-	console.log('server is listening on the port 3000');
+  console.info('server is listening on the port 3000');
 });
