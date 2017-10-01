@@ -9,7 +9,7 @@ module.exports = {
     Tutor.find({_id: username}, function (err, docs) {
       if (err) {
         console.error('Error checking if username is taken:', err);
-        callback(err, null);
+        callback(err);
       
       } else if (docs.length > 0) {
         // Found a tutor with the same username
@@ -21,7 +21,7 @@ module.exports = {
         Student.find({_id: username}, function (err, docs) {
           if (err) {
             console.error('Error checking if username is taken:', err);
-            callback(err, null);
+            callback(err);
           
           } else if (docs.length > 0) {
             // Found a student with the same username
@@ -41,7 +41,7 @@ module.exports = {
     Tutor.find({email: email}, function (err, docs) {
       if (err) {
         console.error('Error checking if email is taken:', err);
-        callback(err, null);
+        callback(err);
 
       } else if (docs.length > 0) {
         // Found a tutor with the same email
@@ -53,7 +53,7 @@ module.exports = {
         Student.find({email: email}, function (err, docs) {
           if (err) {
             console.error('Error checking if email is taken:', err);
-            callback(err, null);
+            callback(err);
 
           } else if (docs.length > 0) {
             // Found a student with the same email
@@ -72,7 +72,7 @@ module.exports = {
     Student.create(student, function (err, student_instance) {
       if (err) {
         console.error('Error creating a new student:', err);
-        callback(err, null);
+        callback(err);
       } else {
         callback(null, student_instance);
       }
@@ -83,7 +83,7 @@ module.exports = {
     Tutor.create(tutor, function (err, tutor_instance) {
       if (err) {
         console.error('Error creating a new tutor:', err);
-        callback(err, null);
+        callback(err);
       } else {
         callback(null, tutor_instance);
       }
@@ -97,7 +97,7 @@ module.exports = {
     Tutor.find({_id: username}, function (err, docs) {
       if (err) {
         console.error('Error checking if username is taken:', err);
-        callback(err, null);
+        callback(err);
 
       } else if (docs.length === 1) {
         // Found a tutor with the same username
@@ -111,7 +111,7 @@ module.exports = {
         Student.find({_id: username}, function (err, docs) {
           if (err) {
             console.error('Error checking if username is taken:', err);
-            callback(err, null);
+            callback(err);
 
           } else if (docs.length === 1) {
             // Found a student with the same username

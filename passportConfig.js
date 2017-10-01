@@ -31,7 +31,7 @@ passport.use(new LocalStrategy(
 
   	data_access.users.getUser(username, function (err, user_instance) {
   	  if (err) {
-        return done(null, false, { message: 'Internal Server Error' });
+        return done(err);
       }
 
       if (user_instance === null) {
