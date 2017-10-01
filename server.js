@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const server = express();
 import ApiRouter from './api/index.js';
 import passportRoutes from './passportConfig';
+
 const bodyParser = require('body-parser');
 server.use(express.static('public'));
 server.use(bodyParser.urlencoded({ extended: false }));
@@ -10,34 +11,34 @@ server.use(bodyParser.json());
 server.set('views', './views');
 server.set('view engine', 'ejs');
 server.use('/api', ApiRouter);
-server.use('/', passportRoutes);
+server.use('/passport', passportRoutes);
 
-server.get('/', isLoggedIn, (req, res) => {
-	res.redirect('/home');
+server.get('/', allowIfLoggedOut, (req, res) => {
+  res.redirect('/home');
 });
 
-server.get('/home', isLoggedIn, (req, res) => {
-	res.render('home');
+server.get('/home', allowIfLoggedOut, (req, res) => {
+  res.render('home');
 });
 
-server.get('/dash', isLoggedOut, (req, res) => {
-	res.render('dash');
+server.get('/dash', allowIfLoggedIn, (req, res) => {
+  res.render('dash');
 });
 
-function isLoggedIn(req, res, next) {
-	if (!req.user) {
-		next();
-	} else {
-		res.redirect('/dash');
-	}
+function allowIfLoggedOut(req, res, next) {
+  if (!req.user) {
+    next();
+  } else {
+    res.redirect('/dash');
+  }
 }
 
-function isLoggedOut(req, res, next) {
-	if (!req.user) {
-		res.redirect('/home');
-	} else {
-		next();
-	}
+function allowIfLoggedIn(req, res, next) {
+  if (!req.user) {
+    res.redirect('/home');
+  } else {
+    next();
+  }
 }
 
 server.listen(3000, () => {
