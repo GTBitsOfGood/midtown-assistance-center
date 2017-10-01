@@ -4,6 +4,8 @@ const flash = require('connect-flash');
 const app = express();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
+const data_access = require('./api/data_access');
+
 app.use(require('cookie-parser')());
 
 app.use(
@@ -24,14 +26,25 @@ const user = {
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-  	//Fill in the access to MongoDB and the users within that
-  	console.log(username);
-  	if (username === user.username) {
-  		if (password === user.password) {
-  			return done(null, user);
-  		}
-  	}
-  	return done(null, false);
+  	// Fill in the access to MongoDB and the users within that
+  	console.info(username);
+
+  	data_access.users.getUser(username, function (err, user_instance) {
+  	  if (err) {
+        return done(null, false, { message: 'Internal Server Error' });
+      }
+
+      if (user_instance === null) {
+        return done(null, false, { message: 'Incorrect username or password!' });
+      }
+
+      // FIXME hashing passwords
+      if (user_instance.password === password) {
+        return done(null, user_instance);
+      }
+
+      return done(null, false, { message: 'Incorrect username or password!' });
+    });
   }
 ));
 
