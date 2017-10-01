@@ -13,31 +13,31 @@ server.use('/api', ApiRouter);
 server.use('/', passportRoutes);
 
 server.get('/', isLoggedIn, (req, res) => {
-	res.redirect('/home');
+  res.redirect('/home');
 });
 
 server.get('/home', isLoggedIn, (req, res) => {
-	res.render('home');
+  res.render('home');
 });
 
 server.get('/dash', isLoggedOut, (req, res) => {
-	res.render('dash');
+  res.render('dash');
 });
 
 function isLoggedIn(req, res, next) {
-	if (!req.user) {
-		next();
-	} else {
-		res.redirect('/dash');
-	}
+  if (!req.user) {
+    next();
+  } else {
+    res.redirect('/dash');
+  }
 }
 
 function isLoggedOut(req, res, next) {
-	if (!req.user) {
-		res.redirect('/home');
-	} else {
-		next();
-	}
+  if (!req.user) {
+    res.redirect('/home');
+  } else {
+    next();
+  }
 }
 
 server.listen(3000, () => {
