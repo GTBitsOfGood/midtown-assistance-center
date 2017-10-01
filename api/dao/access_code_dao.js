@@ -7,6 +7,7 @@ module.exports = {
     AccessCode.find({code: accessFolder}, function (err, docs) {
       if (err) {
         console.error('Error checking retrieving school is taken: ', err);
+        callback(null);
 
       } else if (docs.length === 1) {
         callback(docs[0]);
