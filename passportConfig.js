@@ -2,7 +2,7 @@ import express from 'express';
 const session = require('express-session');
 const flash = require('connect-flash');
 const app = express();
-const passport = require('passport')
+const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 app.use(require('cookie-parser')());
 
@@ -40,30 +40,34 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-	//Access to mongoDB to deserialize the user that is loggedin
-  	var user = {username: id, password: "pass"};
-  	done(null, user);
+  //Access to mongoDB to deserialize the user that is loggedin
+  let user = {username: id, password: 'pass'};
+  done(null, user);
 });
 
 app.post('/login', function(req, res, next){
-	console.log('post');
-	passport.authenticate('local', function(err, user, info) {
-	    if (err) {
-	    	console.log(err);
-	    	return next(err); 
-	    }
-	    if (!user) {
-	    	return res.send(null); 
-	    }
-	    console.log(user);
-	    req.logIn(user, function(err) {
-	      if (err) { 
-	      	console.log(err);
-	      	return next(err); 
-	      }
-	      return res.send(user);
-	    });
-	})(req, res, next);
+  console.info('post');
+
+  passport.authenticate('local', function(err, user, info) {
+    if (err) {
+      console.info(err);
+      return next(err);
+    }
+
+    if (!user) {
+      return res.send(null);
+    }
+    console.info(user);
+
+    req.logIn(user, function(err) {
+      if (err) {
+        console.info(err);
+        return next(err);
+      }
+      return res.send(user);
+    });
+
+  })(req, res, next);
 });
 
 export default app;
