@@ -1,7 +1,5 @@
 import React from 'react';
-import {Button, Modal, ControlLabel, Form, HelpBlock} from 'react-bootstrap';
-import styles from '../public/css/login_signup.css';
-
+import { HelpBlock } from 'react-bootstrap';
 
 class SignupTutor extends React.Component {
   constructor(props) {
@@ -86,7 +84,7 @@ class SignupTutor extends React.Component {
 
   render() {
     return (
-      <div className="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center signup-form container">
+      <div>
         <h2 className="signup-header">SIGN UP</h2>
         <form className="" onSubmit={this.handleSubmit}>
           <div className="row col-xs-12">
