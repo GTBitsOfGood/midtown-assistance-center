@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const server = express();
 import ApiRouter from './api/index.js';
 import passportRoutes from './passportConfig';
+
 const bodyParser = require('body-parser');
 server.use(express.static('public'));
 server.use(bodyParser.urlencoded({ extended: false }));
@@ -10,7 +11,7 @@ server.use(bodyParser.json());
 server.set('views', './views');
 server.set('view engine', 'ejs');
 server.use('/api', ApiRouter);
-server.use('/', passportRoutes);
+server.use('/passport', passportRoutes);
 
 server.get('/', allowIfLoggedOut, (req, res) => {
   res.redirect('/home');

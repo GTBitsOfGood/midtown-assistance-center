@@ -18,12 +18,6 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-
-const user = {
-	username: "ganhari",
-	password: "password"
-};
-
 passport.use(new LocalStrategy(
   function(username, password, done) {
   	// Fill in the access to MongoDB and the users within that
@@ -59,10 +53,6 @@ passport.deserializeUser(function(id, done) {
       return done(err);
     }
 
-    if (user_instance === null) {
-      return done(null, false, { message: 'Incorrect username' });
-    }
-
     return done(null, user_instance);
   });
 });
@@ -72,7 +62,7 @@ app.post('/login', function(req, res, next){
 
   passport.authenticate('local', function(err, user, info) {
     if (err) {
-      console.info(err);
+      console.error(err);
       return next(err);
     }
 
