@@ -54,7 +54,7 @@ passport.serializeUser(function(user, done) {
 
 passport.deserializeUser(function(id, done) {
   // Access to mongoDB to deserialize the user that is loggedin
-  data_access.users.getUser(username, function (err, user_instance) {
+  data_access.users.getUser(id, function (err, user_instance) {
     if (err) {
       return done(err);
     }
