@@ -1,5 +1,6 @@
 import Tutor from '../models/Tutor';
 import Student from '../models/Student';
+import AccessCode from '../models/AccessCode';
 
 
 // TODO: write functions for access code
@@ -41,5 +42,14 @@ module.exports = {
 
   getUser: function(loginDetails) {
 
+  },
+
+  getClassroom: function(code) {
+    AccessCode.find({code: code}, function (err, docs) {
+      if (err) {
+        console.log('Error checking retrieving school is taken: ', err);
+      }
+      return docs;
+    });
   }
 };
