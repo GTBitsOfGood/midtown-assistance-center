@@ -71,7 +71,7 @@ body {
     background-color: var(--gold);
     color: var(--ltgray);
     margin-top: 8%;
-    border-radius: 0px;
+    border-radius: 1px;
 }
 
 .login-form .login-button {
