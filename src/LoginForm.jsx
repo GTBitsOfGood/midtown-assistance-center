@@ -72,8 +72,7 @@ class Loginpage extends React.Component {
                       <input
                         className="login-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
                         type="submit"
-                        value="SUBMIT"
-                      >Login</input>
+                        value="SUBMIT"/>
                     </div>
                     <div className="row col-xs-12">
                         <a className="login-anchor" href="#">Forgot your password?</a>
