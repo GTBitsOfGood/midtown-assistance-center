@@ -15,9 +15,10 @@ server.get('/', isLoggedIn, (req, res) => {
 	res.redirect('/home');
 });
 
-server.get('/home', isLoggedIn, (req, res) => {
+server.get('/home*', isLoggedIn, (req, res) => {
 	res.render('home');
 });
+
 
 server.get('/dash', isLoggedOut, (req, res) => {
 	res.render('dash');
