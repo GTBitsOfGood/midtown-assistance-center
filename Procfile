@@ -1,1 +1,1 @@
-web 1: npm prod && npm dev
+web 1: npm start
