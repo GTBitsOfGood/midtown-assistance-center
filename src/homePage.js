@@ -5,18 +5,19 @@ import HomeMenuBar from './homeMenuBar';
 import StudentSignUpForm from './StudentSignUpForm.js';
 import LoginPage from './login.js';
 import styles from '../public/css/login_signup.css';
-import { Switch, Router, Route, IndexRoute, browserHistory } from 'react-router';
+import {Router, Route, browserHistory} from 'react-router';
 
 
 const HomeComp = function() {
   return (
     <div>
-        <HomeMenuBar/>
-        <Router history={ browserHistory }>
-            <Route exact path='home/login' component={LoginPage}/>
-            <Route path='home/studentSignUp' component={StudentSignUpForm}/>
-            <Route path='home/tutorSignUp' component={SignupTutor}/>
-        </Router>
+    <HomeMenuBar/>
+    <Router history={browserHistory}>
+    <Route path="/home" component={HomeMenuBar}/>
+          <Route path="/home/login" component={LoginPage}/>
+          <Route path="/home/signUp" component={SignupTutor}/>
+        
+    </Router>
     </div>
   );
 };

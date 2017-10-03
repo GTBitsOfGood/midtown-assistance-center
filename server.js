@@ -12,10 +12,11 @@ server.use('/api', ApiRouter);
 server.use('/', passportRoutes);
 
 server.get('/', isLoggedIn, (req, res) => {
-	res.redirect('/home');
+	res.redirect('/home/login');
 });
 
 server.get('/home*', isLoggedIn, (req, res) => {
+	console.log('hi');
 	res.render('home');
 });
 
@@ -34,7 +35,7 @@ function isLoggedIn(req, res, next) {
 
 function isLoggedOut(req, res, next) {
 	if (!req.user) {
-		res.redirect('/home');
+		res.redirect('/home/login');
 	} else {
 		next();
 	}

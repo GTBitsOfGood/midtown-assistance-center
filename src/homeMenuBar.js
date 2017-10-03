@@ -25,7 +25,7 @@ export class HomeMenuBar extends React.Component {
           </Nav>
           <Nav pullRight>
             <MenuItem href="/home/login" className={styles.navbartext}>Sign In</MenuItem>
-            <MenuItem href="/home/studentSignUp" className={styles.navbartext}>Sign Up</MenuItem>
+            <MenuItem href="/home/signUp" className={styles.navbartext}>Sign Up</MenuItem>
           </Nav>
         </Navbar.Collapse>
       </Navbar>
