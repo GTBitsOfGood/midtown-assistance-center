@@ -13,7 +13,6 @@ const HomeComp = function() {
     <div>
     <HomeMenuBar/>
     <Router history={browserHistory}>
-    <Route path="/home" component={HomeMenuBar}/>
           <Route path="/home/login" component={LoginPage}/>
           <Route path="/home/signUp" component={SignupTutor}/>
         
