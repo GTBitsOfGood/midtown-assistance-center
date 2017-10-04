@@ -86,7 +86,7 @@ class SignupTutor extends React.Component {
     return (
       <div>
         <h2 className="signup-header">SIGN UP</h2>
-        <form className="" onSubmit={this.handleSubmit}>
+        <form onSubmit={this.handleSubmit}>
           <div className="row col-xs-12">
             <input
               type="text"
@@ -106,7 +106,7 @@ class SignupTutor extends React.Component {
           <div className="row col-xs-12">
             <input
               type="text"
-              className={this.state.usernameValidation + ' input-lg col-xs-10 col-xs-offset-1'}
+              className={`${this.state.usernameValidation} input-lg col-xs-10 col-xs-offset-1`}
               placeholder="Create A Username"
               value={this.state.username}
               onChange={this.handleUsernameChange} />
@@ -115,7 +115,7 @@ class SignupTutor extends React.Component {
           <div className="row col-xs-12">
             <input
               type="password"
-              className={this.state.passwordValidation + ' input-lg col-xs-10 col-xs-offset-1'}
+              className={`${this.state.passwordValidation} input-lg col-xs-10 col-xs-offset-1`}
               placeholder="Create A Password"
               value={this.state.password}
               onChange={this.handlePasswordChange} />
@@ -124,7 +124,7 @@ class SignupTutor extends React.Component {
           <div className="row col-xs-12">
             <input
               type="password"
-              className={this.state.confirmPasswordValidation + ' input-lg col-xs-10 col-xs-offset-1'}
+              className={`${this.state.confirmPasswordValidation} input-lg col-xs-10 col-xs-offset-1`}
               placeholder="Confirm Password"
               value={this.state.confirmPassword}
               onChange={this.checkConfirmPassword}/>

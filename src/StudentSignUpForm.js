@@ -98,7 +98,7 @@ class StudentSignUpForm extends React.Component {
               id="inputsUsername"
               type="text"
               placeholder="Create A Username"
-              className={this.state.usernameValidation + ' input-lg col-xs-10 col-xs-offset-1'}
+              className={`${this.state.usernameValidation} input-lg col-xs-10 col-xs-offset-1`}
               value={this.state.username}
               onChange={this.checkUsername}/>
             <HelpBlock className={this.state.usernameValidation === 'input-error' ? 'show-error' : 'hide-error'}>Username must be at least 4 characters.</HelpBlock>
@@ -109,7 +109,7 @@ class StudentSignUpForm extends React.Component {
               label="Password"
               type="password"
               placeholder="Create A Password"
-              className={this.state.passwordValidation + ' input-lg col-xs-10 col-xs-offset-1'}
+              className={`${this.state.passwordValidation} input-lg col-xs-10 col-xs-offset-1`}
               value={this.state.password}
               onChange={this.checkPassword}
             />
@@ -121,7 +121,7 @@ class StudentSignUpForm extends React.Component {
               label="Password"
               type="password"
               placeholder="Confirm Password"
-              className={this.state.confirmPasswordValidation + ' input-lg col-xs-10 col-xs-offset-1'}
+              className={`${this.state.confirmPasswordValidation} input-lg col-xs-10 col-xs-offset-1`}
               value={this.state.confirmPassword}
               onChange={this.checkConfirmPassword}
             />
