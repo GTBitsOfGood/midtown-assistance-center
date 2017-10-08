@@ -32,8 +32,9 @@ class Loginpage extends React.Component {
 
         axios.post('/passport/login', this.state)
             .then(function (response) {
-                    if (response) {
-                        document.location.href = '/dash';
+                    if (response.data !== '') {
+                      console.info('trying to redirect to /dash after login');
+                      document.location.href = '/dash';
                     } else {
                       // TODO show error message
                     }
