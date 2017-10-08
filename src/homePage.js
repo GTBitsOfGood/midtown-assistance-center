@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import SignupTutor from './SignupTutor';
+import SignupTutor from './signupTutor';
 import HomeMenuBar from './homeMenuBar';
 import StudentSignUpForm from './StudentSignUpForm.js';
 import LoginPage from './login.js';
