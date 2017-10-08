@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {Button, Modal, ControlLabel, Form, HelpBlock} from 'react-bootstrap';
+import { Form, HelpBlock } from 'react-bootstrap';
 
 
 class StudentSignUpForm extends React.Component {
@@ -74,7 +74,7 @@ class StudentSignUpForm extends React.Component {
 
   render() {
     return (
-      <div className="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center signup-form container">
+      <div>
         <Form>
           <h2 className="signup-header">SIGN UP</h2>
           <div className="row col-xs-12">
@@ -86,19 +86,19 @@ class StudentSignUpForm extends React.Component {
               className="input-lg col-xs-10 col-xs-offset-1"/>
           </div>
           <div className="row col-xs-12">
-              <input
-                id="inputsName"
-                type="text"
-                label="Text"
-                placeholder="Last Name"
-                className="input-lg col-xs-10 col-xs-offset-1"/>
-            </div>
+            <input
+              id="inputsName"
+              type="text"
+              label="Text"
+              placeholder="Last Name"
+              className="input-lg col-xs-10 col-xs-offset-1"/>
+          </div>
           <div className="row col-xs-12">
             <input
               id="inputsUsername"
               type="text"
               placeholder="Create A Username"
-              className={this.state.usernameValidation + " input-lg col-xs-10 col-xs-offset-1"}
+              className={`${this.state.usernameValidation} input-lg col-xs-10 col-xs-offset-1`}
               value={this.state.username}
               onChange={this.checkUsername}/>
             <HelpBlock className={this.state.usernameValidation === 'input-error' ? 'show-error' : 'hide-error'}>Username must be at least 4 characters.</HelpBlock>
@@ -109,7 +109,7 @@ class StudentSignUpForm extends React.Component {
               label="Password"
               type="password"
               placeholder="Create A Password"
-              className={this.state.passwordValidation + " input-lg col-xs-10 col-xs-offset-1"}
+              className={`${this.state.passwordValidation} input-lg col-xs-10 col-xs-offset-1`}
               value={this.state.password}
               onChange={this.checkPassword}
             />
@@ -121,7 +121,7 @@ class StudentSignUpForm extends React.Component {
               label="Password"
               type="password"
               placeholder="Confirm Password"
-              className={this.state.confirmPasswordValidation + " input-lg col-xs-10 col-xs-offset-1"}
+              className={`${this.state.confirmPasswordValidation} input-lg col-xs-10 col-xs-offset-1`}
               value={this.state.confirmPassword}
               onChange={this.checkConfirmPassword}
             />
@@ -148,18 +148,18 @@ class StudentSignUpForm extends React.Component {
 
           <div className="row col-xs-12">
             <select className="select input-lg col-xs-10 col-xs-offset-1" placeholder="select">
-            <option><span className="signup-select-option">Select Grade Level</span></option>
+              <option><span className="signup-select-option">Select Grade Level</span></option>
               {this.state.grades.map(grade =>
                 <option key={grade}>{grade}</option>
               )}
             </select>
           </div>
           <div className="row col-xs-12">
-              <input type="Submit" className="signup-button btn btn-lg btn-default col-xs-10 col-xs-offset-1" onClick={this.submitForm} value="SUBMIT">
-              </input>
+            <input type="Submit" className="signup-button btn btn-lg btn-default col-xs-10 col-xs-offset-1" onClick={this.submitForm} value="SUBMIT">
+            </input>
           </div>
           <div className="row col-xs-12">
-              <h5 className="signup-dialogue">Already have an account? <a className="signup-anchor" href='#'>Click here to log in!</a></h5>
+            <h5 className="signup-dialogue">Already have an account? <a className="signup-anchor" href='#'>Click here to log in!</a></h5>
           </div>
         </Form>
       </div>
