@@ -52,6 +52,10 @@ body {
     color: var(--dkgray);
 }
 
+.signup-form input:focus, .login-form input:focus {
+    outline:none;
+}
+
 .signup-form select {
     -webkit-appearance: none;
     -moz-appearance: none;
