@@ -21,7 +21,6 @@ app.use(passport.session());
 passport.use(new LocalStrategy(
   function(username, password, done) {
   	// Fill in the access to MongoDB and the users within that
-  	console.info('local strategy username:', username);
 
   	data_access.users.getUser(username, function (err, user_instance) {
   	  if (err) {
@@ -29,13 +28,11 @@ passport.use(new LocalStrategy(
       }
 
       if (user_instance === null) {
-  	    console.warn('no user exists for:', username);
         return done(null, false, { message: 'Incorrect username or password!' });
       }
 
       // FIXME hashing passwords
       if (user_instance.password === password) {
-  	    console.info('passwords matched!');
         return done(null, user_instance);
       }
 
@@ -45,46 +42,38 @@ passport.use(new LocalStrategy(
 ));
 
 passport.serializeUser(function(user, done) {
-  console.info('serialize:', user.username);
   done(null, user.username);
 });
 
 passport.deserializeUser(function(id, done) {
-  console.info('deserialize:', id);
 
-  // Access to mongoDB to deserialize the user that is loggedin
+  //Access to mongoDB to deserialize the user that is loggedin
   data_access.users.getUser(id, function (err, user_instance) {
-    if (err) {
-      return done(err);
-    }
-
-    return done(null, user_instance);
+    done(err, user_instance);
   });
 });
 
+app.get('/user', (req, res) => {
+  res.send(req.user);
+});
+
+
 app.post('/login', function(req, res, next){
-  console.info('post to /login');
 
   passport.authenticate('local', function(err, user, info) {
     if (err) {
-      console.error(err);
       return next(err);
     }
 
     if (!user) {
-      console.warn('res.send(null) here');
       return res.send(null);
     }
-    console.info('user from passport:', user);
 
     req.logIn(user, function(err) {
-      console.info('trying to login');
 
       if (err) {
-        console.info(err);
         return next(err);
       }
-
       return res.send(user);
     });
 

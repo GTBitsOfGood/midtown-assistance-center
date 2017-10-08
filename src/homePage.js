@@ -13,7 +13,6 @@ const HomeComp = function() {
     <div>
     <HomeMenuBar/>
     <Router history={browserHistory}>
-          <IndexRedirect to="/home/login"/>
           <Route path="/home/login" component={LoginPage}/>
           <Route path="/home/signUp" component={SignupTutor}/>
         
