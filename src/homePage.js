@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import SignupTutor from './signupTutor';
 import HomeMenuBar from './homeMenuBar';
 import StudentSignUpForm from './StudentSignUpForm.js';
 import LoginPage from './login.js';
@@ -10,6 +11,7 @@ const HomeComp = function() {
   return (
     <div>
       <HomeMenuBar/>
+      <SignupTutor/>
     </div>
   );
 };
