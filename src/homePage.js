@@ -5,7 +5,7 @@ import HomeMenuBar from './homeMenuBar';
 import StudentSignUpForm from './StudentSignUpForm.js';
 import LoginPage from './login.js';
 import styles from '../public/css/login_signup.css';
-import {Router, Route, browserHistory} from 'react-router';
+import {Router, Route, browserHistory, IndexRedirect} from 'react-router';
 
 
 const HomeComp = function() {
@@ -13,6 +13,7 @@ const HomeComp = function() {
     <div>
     <HomeMenuBar/>
     <Router history={browserHistory}>
+          <IndexRedirect to="/home/login"/>
           <Route path="/home/login" component={LoginPage}/>
           <Route path="/home/signUp" component={SignupTutor}/>
         
