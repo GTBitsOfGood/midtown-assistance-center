@@ -15,7 +15,6 @@ const HomeComp = function() {
     <Router history={browserHistory}>
           <Route path="/home/login" component={LoginPage}/>
           <Route path="/home/signUp" component={SignupTutor}/>
-        
     </Router>
     </div>
   );
