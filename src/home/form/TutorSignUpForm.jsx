@@ -1,6 +1,6 @@
 import React from 'react';
 import {Button, Modal, ControlLabel, Form, HelpBlock} from 'react-bootstrap';
-import styles from '../public/css/login_signup.css';
+import styles from '../../../public/css/login_signup.css';
 
 class SignupTutor extends React.Component {
   constructor(props) {
