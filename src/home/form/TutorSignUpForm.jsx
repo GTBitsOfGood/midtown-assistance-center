@@ -7,9 +7,9 @@ class SignupTutor extends React.Component {
     super(props);
     this.state = {
       firstName: '',
-      firstNameValidation: 'input-error',
+      firstNameValidation: 'input-success',
       lastName: '',
-      lastNameValidation: 'input-error',
+      lastNameValidation: 'input-success',
       username: '',
       usernameValidation: 'input-error',
       password: '',
@@ -17,7 +17,7 @@ class SignupTutor extends React.Component {
       confirmPassword: '',
       confirmPasswordValidation: 'input-success',
       email: '',
-      emailValidation: 'input-error',
+      emailValidation: 'input-success',
       confirmEmail: '',
       confirmEmailValidation: 'input-success'
     };

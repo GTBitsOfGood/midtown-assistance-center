@@ -1,7 +1,7 @@
 import React from 'react';
 import { Tabs, Tab } from 'react-bootstrap';
-import StudentSignUpForm from './StudentSignUpForm';
-import SignupTutor from './signupTutor';
+import StudentSignUpForm from './form/StudentSignUpForm';
+import SignupTutor from './form/TutorSignUpForm';
 
 const Signup = () => {
   return (
