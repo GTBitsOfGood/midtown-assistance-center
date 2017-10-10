@@ -21,7 +21,6 @@ app.use(passport.session());
 passport.use(new LocalStrategy(
   function(username, password, done) {
   	// Fill in the access to MongoDB and the users within that
-  	console.info(username);
 
   	data_access.users.getUser(username, function (err, user_instance) {
   	  if (err) {
@@ -47,33 +46,32 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(id, done) {
-  // Access to mongoDB to deserialize the user that is loggedin
-  data_access.users.getUser(id, function (err, user_instance) {
-    if (err) {
-      return done(err);
-    }
 
-    return done(null, user_instance);
+  //Access to mongoDB to deserialize the user that is loggedin
+  data_access.users.getUser(id, function (err, user_instance) {
+    done(err, user_instance);
   });
 });
 
+app.get('/user', (req, res) => {
+  res.send(req.user);
+});
+
+
 app.post('/login', function(req, res, next){
-  console.info('post');
 
   passport.authenticate('local', function(err, user, info) {
     if (err) {
-      console.error(err);
       return next(err);
     }
 
     if (!user) {
       return res.send(null);
     }
-    console.info(user);
 
     req.logIn(user, function(err) {
+
       if (err) {
-        console.info(err);
         return next(err);
       }
       return res.send(user);
