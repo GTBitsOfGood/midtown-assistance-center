@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import HomeMenuBar from './menu/HomeMenuBar.jsx';
+import HomeMenuBar from './HomeMenuBar.jsx';
 import StudentSignUpForm from './form/StudentSignUpForm.jsx';
 import TutorSignUpForm from './form/TutorSignUpForm.jsx';
 import LoginPage from './form/LoginForm.jsx';
