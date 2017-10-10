@@ -14,7 +14,6 @@ const HomeComp = function() {
         <Route path="/home/login" component={LoginPage}/>
         <Route path="/home/signUp" component={SignUpTabs}/>
       </Router>
-      <SignupTutor/>
     </div>
   );
 };

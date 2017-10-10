@@ -1,9 +1,6 @@
 import React from 'react';
 import styles from '../../public/css/index.css';
 import { Nav, Navbar, NavItem, MenuItem } from 'react-bootstrap';
-import { LinkContainer } from 'react-router-bootstrap';
-
-
 
 export class HomeMenuBar extends React.Component {
   constructor(props) {
