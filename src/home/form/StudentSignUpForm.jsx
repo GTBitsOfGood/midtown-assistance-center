@@ -28,6 +28,7 @@ class StudentSignUpForm extends React.Component {
     this.handleLastNameChange = this.handleLastNameChange.bind(this);
     this.handleUsernameChange = this.handleUsernameChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handleAccessCodeChange = this.handleAccessCodeChange.bind(this);
     this.handleGradeChange = this.handleGradeChange.bind(this);
@@ -179,7 +180,7 @@ class StudentSignUpForm extends React.Component {
             <input
               type="text"
               className={this.state.emailValidation + " input-lg col-xs-10 col-xs-offset-1"}
-              placeholder="Georgia Tech Email"
+              placeholder="Your Email"
               value={this.state.email}
               onChange={this.handleEmailChange}/>
             <HelpBlock className={this.state.emailValidation === 'input-error' ? 'show-error' : 'hide-error'}>Email must be valid.</HelpBlock>
