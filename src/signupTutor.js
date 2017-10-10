@@ -1,34 +1,39 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Form, HelpBlock } from 'react-bootstrap';
+import { HelpBlock } from 'react-bootstrap';
 
-class StudentSignUpForm extends React.Component {
+class SignupTutor extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      username: '',
-      usernameValidation: 'input-error',
-      password: '',
-      passwordValidation: 'input-error',
+      firstName: '',
+      lastName: '',
+      username:'',
+      password:'',
+      email:'',
+      usernameValidation: '',
+      passwordValidation: '',
       confirmPassword: '',
-      confirmPasswordValidation: 'input-success'
+      confirmPasswordValidation: ''
     };
-
-    // Bindings
-    this.checkUsername = this.checkUsername.bind(this);
-    this.checkPassword = this.checkPassword.bind(this);
+    this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
+    this.handleLastNameChange = this.handleLastNameChange.bind(this);
+    this.handleUsernameChange = this.handleUsernameChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
     this.checkConfirmPassword = this.checkConfirmPassword.bind(this);
-    this.submitForm = this.submitForm.bind(this);
-
-    // Other logic
-    this.state.grades = [];
-    for (let i = props.startingGrade; i <= props.endingGrade; i++) {
-      this.state.grades.push(i);
-    }
   }
 
-  checkUsername(e) {
-    let currentUsername = e.target.value;
+  handleFirstNameChange(event) {
+    this.setState({firstName: event.target.value});
+  }
+
+  handleLastNameChange(event) {
+    this.setState({lastName: event.target.value});
+  }
+
+  handleUsernameChange(event) {
+    let currentUsername = event.target.value;
     this.setState({ username: currentUsername });
 
     if (currentUsername.length < 4 && currentUsername.length !== 0) {
@@ -38,8 +43,8 @@ class StudentSignUpForm extends React.Component {
     }
   }
 
-  checkPassword(e) {
-    let currentPassword = e.target.value;
+  handlePasswordChange(event) {
+    let currentPassword = event.target.value;
     this.setState({ password: currentPassword });
 
     if (currentPassword.length < 6 && currentPassword.length !== 0) {
@@ -55,8 +60,8 @@ class StudentSignUpForm extends React.Component {
     }
   }
 
-  checkConfirmPassword(e) {
-    let currentConfirmPassword = e.target.value;
+  checkConfirmPassword(event) {
+    let currentConfirmPassword = event.target.value;
     this.setState({ confirmPassword: currentConfirmPassword });
 
     if (currentConfirmPassword === this.state.password) {
@@ -66,114 +71,91 @@ class StudentSignUpForm extends React.Component {
     }
   }
 
-  submitForm() {
-    // TODO
+  handleEmailChange(event) {
+    this.setState({email: event.target.value});
+  }
 
+
+
+  handleSubmit(event) {
+    alert('A name was submitted: ' + this.state.firstName + ' ' + this.state.lastName);
+    event.preventDefault();
   }
 
   render() {
     return (
       <div>
-        <Form>
-          <h2 className="signup-header">SIGN UP</h2>
+        <h2 className="signup-header">SIGN UP</h2>
+        <form onSubmit={this.handleSubmit}>
           <div className="row col-xs-12">
             <input
-              id="inputsName"
               type="text"
-              label="Text"
+              className="input-lg col-xs-10 col-xs-offset-1"
               placeholder="First Name"
-              className="input-lg col-xs-10 col-xs-offset-1"/>
+              value={this.state.firstName}
+              onChange={this.handleFirstNameChange} />
           </div>
           <div className="row col-xs-12">
             <input
-              id="inputsName"
               type="text"
-              label="Text"
+              className="input-lg col-xs-10 col-xs-offset-1"
               placeholder="Last Name"
-              className="input-lg col-xs-10 col-xs-offset-1"/>
+              value={this.state.lastName}
+              onChange={this.handleLastNameChange} />
           </div>
           <div className="row col-xs-12">
             <input
-              id="inputsUsername"
               type="text"
-              placeholder="Create A Username"
               className={`${this.state.usernameValidation} input-lg col-xs-10 col-xs-offset-1`}
+              placeholder="Create A Username"
               value={this.state.username}
-              onChange={this.checkUsername}/>
+              onChange={this.handleUsernameChange} />
             <HelpBlock className={this.state.usernameValidation === 'input-error' ? 'show-error' : 'hide-error'}>Username must be at least 4 characters.</HelpBlock>
           </div>
           <div className="row col-xs-12">
             <input
-              id="inputsPassword"
-              label="Password"
               type="password"
-              placeholder="Create A Password"
               className={`${this.state.passwordValidation} input-lg col-xs-10 col-xs-offset-1`}
+              placeholder="Create A Password"
               value={this.state.password}
-              onChange={this.checkPassword}
-            />
+              onChange={this.handlePasswordChange} />
             <HelpBlock className={this.state.passwordValidation === 'input-error' ? 'show-error' : 'hide-error'}>Password must be at least 6 characters.</HelpBlock>
           </div>
           <div className="row col-xs-12">
             <input
-              id="inputsConfirmPassword"
-              label="Password"
               type="password"
-              placeholder="Confirm Password"
               className={`${this.state.confirmPasswordValidation} input-lg col-xs-10 col-xs-offset-1`}
+              placeholder="Confirm Password"
               value={this.state.confirmPassword}
-              onChange={this.checkConfirmPassword}
-            />
+              onChange={this.checkConfirmPassword}/>
             <HelpBlock className={this.state.confirmPasswordValidation === 'input-error' ? 'show-error' : 'hide-error'}>Passwords must match.</HelpBlock>
           </div>
           <div className="row col-xs-12">
             <input
-              id="inputsEmail"
-              type="email"
-              label="Email address"
+              type="text"
               className="input-lg col-xs-10 col-xs-offset-1"
-              placeholder="Your Email"
-            />
+              placeholder="Georgia Tech Email"
+              value={this.state.email}
+              onChange={this.handleEmailChange}/>
           </div>
           <div className="row col-xs-12">
             <input
-              id="inputsAccessCode"
               type="text"
-              label="Text"
               className="input-lg col-xs-10 col-xs-offset-1"
-              placeholder="Classroom Access Code"
-            />
-          </div>
-
-          <div className="row col-xs-12">
-            <select className="select input-lg col-xs-10 col-xs-offset-1" placeholder="select">
-              <option><span className="signup-select-option">Select Grade Level</span></option>
-              {this.state.grades.map(grade =>
-                <option key={grade}>{grade}</option>
-              )}
-            </select>
+              placeholder="Confirm Email"/>
           </div>
           <div className="row col-xs-12">
-            <input type="Submit" className="signup-button btn btn-lg btn-default col-xs-10 col-xs-offset-1" onClick={this.submitForm} value="SUBMIT">
-            </input>
+            <input
+              className="signup-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
+              type="submit"
+              value="SUBMIT" />
           </div>
           <div className="row col-xs-12">
             <h5 className="signup-dialogue">Already have an account? <a className="signup-anchor" href='#'>Click here to log in!</a></h5>
           </div>
-        </Form>
+        </form>
       </div>
     );
   }
 }
-
-StudentSignUpForm.propTypes = {
-  startingGrade: PropTypes.number,
-  endingGrade: PropTypes.number
-};
-
-StudentSignUpForm.defaultProps = {
-  startingGrade: 6,
-  endingGrade: 12
-};
-
-export default StudentSignUpForm;
+export default SignupTutor;
