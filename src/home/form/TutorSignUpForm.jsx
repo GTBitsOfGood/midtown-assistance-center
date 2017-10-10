@@ -203,7 +203,7 @@ class SignupTutor extends React.Component {
                   onClick={this.handleSubmit}/>
               </div>
               <div className="row col-xs-12">
-                  <h5 className="signup-dialogue">Already have an account? <a className="signup-anchor" href='#'>Click here to log in!</a></h5>
+                  <h5 className="signup-dialogue">Already have an account? <a className="signup-anchor" href='/home/login'>Click here to log in!</a></h5>
               </div>
           </form>
       </div>

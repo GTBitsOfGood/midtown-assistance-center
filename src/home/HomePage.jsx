@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import {Router, Route, browserHistory} from 'react-router';
 import HomeMenuBar from './HomeMenuBar.jsx';
 import SignUpTabs from './SignUpTabs.jsx'
 import LoginPage from './form/LoginForm.jsx';
@@ -9,7 +10,11 @@ const HomeComp = function() {
   return (
     <div>
       <HomeMenuBar/>
-      <SignUpTabs/>
+      <Router history={browserHistory}>
+        <Route path="/home/login" component={LoginPage}/>
+        <Route path="/home/signUp" component={SignUpTabs}/>
+      </Router>
+      <SignupTutor/>
     </div>
   );
 };
