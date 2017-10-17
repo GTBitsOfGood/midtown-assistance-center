@@ -50,6 +50,22 @@ const tutors = [
         bio: 'Hello, my name is Alice.',
         gtemail: 'asmith3@gatech.edu',
         online:true
+    },
+    {
+        firstName: 'Dan',
+        lastName: 'Jones',
+        subjects: ['Politics', 'Art', 'Philosophy'],
+        availability: {
+            Monday: ['1:00-2:00', '5:30-6:30'],
+            Tuesday: [],
+            Wednesday: ['4:00-5:00','6:00-7:00'],
+            Thursday: ['3:00-4:00'],
+            Friday: []
+        },
+        photo: '/images/default_user_img.png',
+        bio: 'Hello, my name is Dan.',
+        gtemail: 'djones3@gatech.edu',
+        online:true
     }
 ]
 

@@ -22,7 +22,7 @@ class TutorSearchResult extends React.Component {
                 <div className="panel panel-default">
                     <div className="panel-heading">
                         <div className="col-md-2">
-                            <img src={this.state.photo} height="100" width="100"></img>
+                            <img src={this.state.photo} height="125" width="125"></img>
                         </div>
                         <div className="">
                         <a data-toggle="collapse" data-parent="#accordion" href={'#collapse' + this.state.id}>
@@ -30,7 +30,8 @@ class TutorSearchResult extends React.Component {
                         {this.state.name}
                         </h2>
                         </a>
-                        <h4>Subjects: {this.state.subjects.map((subject, num) => {return subject + ' ';})}</h4>
+                        <h4><strong>Subjects:</strong> {this.state.subjects.map((subject, num) => {return subject + ' ';})}</h4>
+                        <h5><strong>Availability:</strong> {Object.keys(this.state.availability).map((day, num) => {return (this.state.availability[day].length != 0 ? day + ': ' + this.state.availability[day].map((time, num) => {return time}) + ' ': '') })}</h5>
                         </div>
                     </div>
                     <div id={"collapse" + this.state.id} className="panel-collapse collapse">
