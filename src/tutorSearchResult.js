@@ -27,7 +27,10 @@ class TutorSearchResult extends React.Component {
                         <div className="">
                         <a data-toggle="collapse" data-parent="#accordion" href={'#collapse' + this.state.id}>
                         <h2>
-                        {this.state.name}
+                        {this.state.name + ' '}
+                        <span>
+                        <img src={this.state.online ? '/images/status-online.png' : '/images/status-offline.png'}></img>
+                        </span>
                         </h2>
                         </a>
                         <h4><strong>Subjects:</strong> {this.state.subjects.map((subject, num) => {return subject + ' ';})}</h4>
