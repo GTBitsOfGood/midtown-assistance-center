@@ -21,3 +21,16 @@ body {
   color: #262626 ! important;
 }
 
+/*Dash*/
+
+.search-input {
+    border-radius: 0;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+}
+
+.search-btn {
+    border-radius: 0;
+}
+
