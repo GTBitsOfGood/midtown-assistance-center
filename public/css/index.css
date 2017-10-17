@@ -22,16 +22,31 @@ body {
 }
 
 /*Dash*/
+.search-items {
+    border: 1px solid var(--gray);
+    padding: 0;
+
+}
 
 .search-input {
     border-radius: 0;
     box-shadow: none;
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
+    border: 0;
+    border-right: 1px solid var(--gray) ! important;
 }
 
 .search-btn {
     border-radius: 0;
+    border: 0;
+    height: 100% ! important;
+    border-left: 1px solid var(--gray);
+}
+
+.search-btn:hover {
+    color: var(--gold);
+    background-color: white;
 }
 
 .search-select {
