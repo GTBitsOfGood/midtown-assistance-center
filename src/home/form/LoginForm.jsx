@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 // import './Homepage.css';
-import styles from '../public/css/login_signup.css';
+import styles from '../../../public/css/login_signup.css';
 import axios from 'axios';
 // import './mac.jpg'
 
@@ -70,10 +70,9 @@ class Loginpage extends React.Component {
                     </div>
                     <div className="row col-xs-12">
                       <input
-                      className="login-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
-                      type="submit"
-                      value="SUBMIT"
-                      ></input>
+                        className="login-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
+                        type="submit"
+                        value="SUBMIT"/>
                     </div>
                     <div className="row col-xs-12">
                         <a className="login-anchor" href="#">Forgot your password?</a>

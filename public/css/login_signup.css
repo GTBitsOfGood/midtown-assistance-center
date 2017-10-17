@@ -18,8 +18,8 @@ body {
 
 .signup-form, .login-form {
     position: fixed;
-    height: 60vh;
-    margin-top: 10vh;
+    height: 70vh;
+    margin-top: 5vh;
     min-height: 300px;
     padding: 2%;
     overflow-y: scroll;
@@ -32,6 +32,11 @@ body {
 
 .signup-form .signup-header, .login-form .login-header {
     color: var(--black);
+}
+
+.signup-form .signup-header {
+    margin-bottom: 10px;
+    margin-top: 5px;
 }
 
 .signup-form .input-error, .login-form .input-error {
