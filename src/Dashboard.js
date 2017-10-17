@@ -1,4 +1,17 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import HomeMenuBar from './homeMenuBar';
 
-ReactDOM.render(<h1>whats up</h1>, document.getElementById('root'));
+const DashComp = function() {
+  return (
+    <div>
+      <HomeMenuBar/>
+    </div>
+  );
+};
+
+
+ReactDOM.render(
+    <DashComp></DashComp>,
+    document.getElementById('root')
+);
