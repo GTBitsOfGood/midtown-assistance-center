@@ -17,6 +17,8 @@ const tutors = [
         photo: '/images/default_user_img.png',
         bio: 'Hello, my name is Sruti.',
         gtemail: 'sguhathakurta6@gatech.edu',
+        classStanding: 'Senior',
+        rating: 5,
         online:false
     },
     {
@@ -33,6 +35,8 @@ const tutors = [
         photo: '/images/default_user_img.png',
         bio: 'Hello, my name is Bob.',
         gtemail: 'bsmith3@gatech.edu',
+        classStanding: 'Senior',
+        rating: 3.5,
         online:true
     },
     {
@@ -49,6 +53,8 @@ const tutors = [
         photo: '/images/default_user_img.png',
         bio: 'Hello, my name is Alice.',
         gtemail: 'asmith3@gatech.edu',
+        classStanding: 'Sophomore',
+        rating: 4,
         online:true
     },
     {
@@ -65,6 +71,8 @@ const tutors = [
         photo: '/images/default_user_img.png',
         bio: 'Hello, my name is Dan.',
         gtemail: 'djones3@gatech.edu',
+        classStanding: 'Junior',
+        rating: 1,
         online:true
     }
 ]
