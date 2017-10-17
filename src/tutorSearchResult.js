@@ -21,10 +21,17 @@ class TutorSearchResult extends React.Component {
             <div>
                 <div className="panel panel-default">
                     <div className="panel-heading">
-                      <h4 className="panel-title">
+                        <div className="col-md-2">
+                            <img src={this.state.photo} height="100" width="100"></img>
+                        </div>
+                        <div className="">
                         <a data-toggle="collapse" data-parent="#accordion" href={'#collapse' + this.state.id}>
-                        {this.state.name}</a>
-                      </h4>
+                        <h2>
+                        {this.state.name}
+                        </h2>
+                        </a>
+                        <h4>Subjects: {this.state.subjects.map((subject, num) => {return subject + ' ';})}</h4>
+                        </div>
                     </div>
                     <div id={"collapse" + this.state.id} className="panel-collapse collapse">
                       <div className="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
@@ -48,11 +55,11 @@ class DefaultDashTutorList extends React.Component {
 
     render() {
         const renData = this.props.data.map((obj, num) => {
-            return <TutorSearchResult data={obj} id={num}/>
+            return obj.online ? <TutorSearchResult data={obj} id={num}/> : ''
         });
 
         return (
-            <div className="col-md-12">
+            <div className="col-md-10 col-md-offset-1">
                 <h1>Tutors Currently Online</h1>
                  <div className="panel-group" id="accordion">
                   {renData}

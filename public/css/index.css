@@ -25,6 +25,8 @@ body {
 .search-items {
     border: 1px solid var(--gray);
     padding: 0;
+    margin-top: 50px;
+    margin-bottom: 50px;
 
 }
 

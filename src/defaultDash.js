@@ -14,7 +14,7 @@ const tutors = [
             Thursday: ['3:00-4:00', '5:00-6:00'],
             Friday: []
         },
-        photo: 'images/default_tutor_img.png',
+        photo: '/images/default_user_img.png',
         bio: 'Hello, my name is Sruti.',
         gtemail: 'sguhathakurta6@gatech.edu',
         online:false
@@ -30,7 +30,7 @@ const tutors = [
             Thursday: ['3:00-4:00'],
             Friday: []
         },
-        photo: 'images/default_tutor_img.png',
+        photo: '/images/default_user_img.png',
         bio: 'Hello, my name is Bob.',
         gtemail: 'bsmith3@gatech.edu',
         online:true
@@ -46,7 +46,7 @@ const tutors = [
             Thursday: ['3:00-4:00'],
             Friday: ['1:00-2:00']
         },
-        photo: 'images/default_tutor_img.png',
+        photo: '/images/default_user_img.png',
         bio: 'Hello, my name is Alice.',
         gtemail: 'asmith3@gatech.edu',
         online:true
