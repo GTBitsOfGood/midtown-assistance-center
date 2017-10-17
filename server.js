@@ -11,7 +11,7 @@ server.use(bodyParser.json());
 server.set('views', './views');
 server.set('view engine', 'ejs');
 server.use('/api', ApiRouter);
-server.use('/passport', passportRoutes);
+server.use('/', passportRoutes);
 
 server.get('/', allowIfLoggedOut, (req, res) => {
   res.redirect('/home/login');
@@ -63,6 +63,6 @@ function normalizePort(val) {
 // Set up the port
 let port = normalizePort(process.env.PORT || '3000');
 
-server.listen(port, () => {
+server.listen(3000, () => {
   console.info('server is listening on the port 3000');
 });
