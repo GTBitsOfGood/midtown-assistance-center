@@ -62,7 +62,6 @@ body {
     appearance: none;
     background-image: url("/images/select-down-arrow.png");
     background-repeat: no-repeat;
-    background-size: 10px 10px;
     background-position: right center;
 }
 
