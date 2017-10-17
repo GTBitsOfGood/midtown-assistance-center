@@ -11,13 +11,13 @@ server.use(bodyParser.json());
 server.set('views', './views');
 server.set('view engine', 'ejs');
 server.use('/api', ApiRouter);
-server.use('/passport', passportRoutes);
+server.use('/', passportRoutes);
 
 server.get('/', allowIfLoggedOut, (req, res) => {
-  res.redirect('/home');
+  res.redirect('/home/login');
 });
 
-server.get('/home', allowIfLoggedOut, (req, res) => {
+server.get('/home*', allowIfLoggedOut, (req, res) => {
   res.render('home');
 });
 
@@ -35,7 +35,7 @@ function allowIfLoggedOut(req, res, next) {
 
 function allowIfLoggedIn(req, res, next) {
   if (!req.user) {
-    res.redirect('/home');
+    res.redirect('/home/login');
   } else {
     next();
   }

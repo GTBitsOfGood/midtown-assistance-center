@@ -75,8 +75,6 @@ class SignupTutor extends React.Component {
     this.setState({email: event.target.value});
   }
 
-
-
   handleSubmit(event) {
     alert('A name was submitted: ' + this.state.firstName + ' ' + this.state.lastName);
     event.preventDefault();

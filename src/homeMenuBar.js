@@ -1,6 +1,7 @@
 import React from 'react';
-import { Nav, Navbar, NavItem } from 'react-bootstrap';
+import { Nav, Navbar, NavItem, MenuItem } from 'react-bootstrap';
 import styles from '../public/css/index.css';
+import { LinkContainer } from 'react-router-bootstrap';
 
 
 
@@ -22,9 +23,9 @@ export class HomeMenuBar extends React.Component {
           <Nav pullLeft>
             <NavItem className={styles.navbartext}>About us</NavItem>
           </Nav>
-          <Nav pullRight >
-            <NavItem eventKey={1} href="#" className={styles.navbartext}>Sign In</NavItem>
-            <NavItem eventKey={2} href="#" className={styles.navbartext}>Sign Up</NavItem>
+          <Nav pullRight>
+            <MenuItem href="/home/login" className={styles.navbartext}>Sign In</MenuItem>
+            <MenuItem href="/home/signUp" className={styles.navbartext}>Sign Up</MenuItem>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

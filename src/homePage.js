@@ -4,16 +4,24 @@ import SignupTutor from './signupTutor';
 import HomeMenuBar from './homeMenuBar';
 import LoginPage from './login.js';
 import styles from '../public/css/login_signup.css';
-import Signup from './signup';
+import {Router, Route, browserHistory, IndexRedirect} from 'react-router';
 
 
 const HomeComp = function() {
   return (
     <div>
       <HomeMenuBar/>
-      <Signup/>
+      <Router history={browserHistory}>
+            <Route path="/home/login" component={LoginPage}/>
+            <Route path="/home/signUp" component={SignupTutor}/>
+      </Router>
     </div>
   );
 };
 
-ReactDOM.render(<HomeComp/>, document.getElementById('root'));
+
+ReactDOM.render(
+    <HomeComp></HomeComp>,
+    document.getElementById('root')
+);
+

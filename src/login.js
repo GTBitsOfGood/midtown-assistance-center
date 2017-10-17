@@ -30,10 +30,10 @@ class Loginpage extends React.Component {
         console.log('hello');
         e.preventDefault();
 
-        axios.post('/passport/login', this.state)
+        axios.post('/login', this.state)
             .then(function (response) {
-                    if (response) {
-                        document.location.href = '/dash';
+                    if (response.data !== '') {
+                      document.location.href = '/dash';
                     } else {
                       // TODO show error message
                     }
