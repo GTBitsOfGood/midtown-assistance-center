@@ -82,7 +82,7 @@ class SignupTutor extends React.Component {
 
   render() {
     return (
-      <div>
+      <div className="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center signup-form container">
         <h2 className="signup-header">SIGN UP</h2>
         <form onSubmit={this.handleSubmit}>
           <div className="row col-xs-12">
