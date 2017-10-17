@@ -128,8 +128,6 @@ class StudentSignUpForm extends React.Component {
 
   render() {
     return (
-      <div className="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center signup-form container">
-        <h2 className="signup-header">SIGN UP</h2>
         <form className="" onSubmit={this.handleSubmit}>
           <div className="row col-xs-12">
             <input
@@ -218,7 +216,6 @@ class StudentSignUpForm extends React.Component {
             <h5 className="signup-dialogue">Already have an account? <a className="signup-anchor" href='/home/login'>Click here to log in!</a></h5>
           </div>
         </form>
-      </div>
     );
   }
 }
