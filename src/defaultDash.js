@@ -6,7 +6,7 @@ const tutors = [
     {
         firstName: 'Sruti',
         lastName: 'Guhathakurta',
-        subjects: ['Math', 'Science', 'Computers'],
+        subjects: ['Math(K-12)', 'Science(5-7)', 'Computers(K-12)'],
         availability: {
             Monday: [],
             Tuesday: ['2:00-3:00'],
@@ -24,7 +24,7 @@ const tutors = [
     {
         firstName: 'Bob',
         lastName: 'Smith',
-        subjects: ['English', 'Science', 'History'],
+        subjects: ['English(K-12)', 'Science(6-8)', 'History(8-12)'],
         availability: {
             Monday: ['2:00-3:00'],
             Tuesday: [],
@@ -42,7 +42,7 @@ const tutors = [
     {
         firstName: 'Alice',
         lastName: 'Smith',
-        subjects: ['Math', 'Science', 'History'],
+        subjects: ['Math(K-5)', 'Science(6-8)', 'History(K-10)'],
         availability: {
             Monday: [],
             Tuesday: [],
@@ -60,7 +60,7 @@ const tutors = [
     {
         firstName: 'Dan',
         lastName: 'Jones',
-        subjects: ['Politics', 'Art', 'Philosophy'],
+        subjects: ['Politics(5-12)', 'Art(6-10)', 'Philosophy(K-2)'],
         availability: {
             Monday: ['1:00-2:00', '5:30-6:30'],
             Tuesday: [],

@@ -58,8 +58,8 @@ class TutorSearchResult extends React.Component {
                         {stars}
                         </h2>
                         </a>
-                        <h4><strong>Subjects:</strong> {this.state.subjects.map((subject, num) => {return subject + ' ';})}</h4>
-                        <h5><strong>Availability:</strong> {Object.keys(this.state.availability).map((day, num) => {return (this.state.availability[day].length != 0 ? day + ': ' + this.state.availability[day].map((time, num) => {return time}) + ' ': '') })}</h5>
+                        <h4><strong>Subjects:</strong> {this.state.subjects.map((subject, num) => {return ' ' + subject + ' ';})}</h4>
+                        <h5><strong>Availability:</strong> {Object.keys(this.state.availability).map((day, num) => {return (this.state.availability[day].length != 0 ? day + '- ' + this.state.availability[day].map((time, num) => {return time}) + ' ': '') })}</h5>
                         </div>
                     </div>
                     <div id={"collapse" + this.state.id} className="panel-collapse collapse">
