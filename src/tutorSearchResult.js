@@ -11,14 +11,28 @@ class TutorSearchResult extends React.Component {
             photo: this.props.data.photo ? this.props.data.photo : '',
             bio: this.props.data.bio ? this.props.data.bio : '',
             online: this.props.data.online ? this.props.data.online : '',
-            subjects: this.props.data.subjects ? this.props.data.subjects : ''
+            subjects: this.props.data.subjects ? this.props.data.subjects : '',
+            id: this.props.id ? this.props.id : ''
         }
     }
 
     render() {
         return (
             <div>
-                <h1>{this.state.name}</h1>
+                <div className="panel panel-default">
+                    <div className="panel-heading">
+                      <h4 className="panel-title">
+                        <a data-toggle="collapse" data-parent="#accordion" href={'#collapse' + this.state.id}>
+                        {this.state.name}</a>
+                      </h4>
+                    </div>
+                    <div id={"collapse" + this.state.id} className="panel-collapse collapse">
+                      <div className="panel-body">Lorem ipsum dolor sit amet, consectetur adipisicing elit,
+                      sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+                      minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+                      commodo consequat.</div>
+                    </div>
+                 </div>
             </div>
         )
     }
@@ -34,13 +48,16 @@ class DefaultDashTutorList extends React.Component {
 
     render() {
         const renData = this.props.data.map((obj, num) => {
-            return <TutorSearchResult data={obj} />
+            return <TutorSearchResult data={obj} id={num}/>
         });
 
         return (
             <div className="col-md-12">
-            <h1>Tutors Currently Online</h1>
-                {renData}
+                <h1>Tutors Currently Online</h1>
+                 <div className="panel-group" id="accordion">
+                  {renData}
+                 </div>
+
             </div>
         )
     }
