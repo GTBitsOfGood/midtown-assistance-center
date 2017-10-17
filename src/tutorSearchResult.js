@@ -14,7 +14,7 @@ class TutorSearchResult extends React.Component {
             subjects: this.props.data.subjects ? this.props.data.subjects : '',
             classStanding: this.props.data.classStanding ? this.props.data.classStanding : '',
             rating: this.props.data.rating ? this.props.data.rating : '',
-            id: this.props.id ? this.props.data.id : '',
+            id: this.props.id ? this.props.id : '',
             fullStars:0,
             halfStars:0,
             emptyStars:0,
@@ -42,13 +42,13 @@ class TutorSearchResult extends React.Component {
         }
         return (
             <div>
-                <div className="panel panel-default">
-                    <div className="panel-heading">
+                <div className="panel panel-default tutor-panel">
+                    <div className="panel-heading tutor-panel-heading">
                         <div className="col-md-2">
                             <img src={this.state.photo} height="125" width="125"></img>
                         </div>
                         <div className="">
-                        <a data-toggle="collapse" data-parent="#accordion" href={'#collapse' + this.state.id}>
+                        <a data-toggle="collapse" className="tutor-name" data-parent="#accordion" href={'#collapse' + this.state.id}>
                         <h2>
                         {this.state.name + ' '}
                         <span>
@@ -63,10 +63,11 @@ class TutorSearchResult extends React.Component {
                         </div>
                     </div>
                     <div id={"collapse" + this.state.id} className="panel-collapse collapse">
-                      <div className="panel-body">
+                      <div className="panel-body tutor-panel-body">
+                      <div className="col-md-3"></div>
                       <h4><strong>{this.state.classStanding}</strong> at Georgia Tech</h4>
-                      <h5><strong>Bio: </strong>{this.state.bio}</h5>
-                      <button className="btn btn-lg btn-default" type="button">Request Google Hangouts</button>
+                      <h4><strong>Bio: </strong>{this.state.bio}</h4>
+                      <h3 className="text-center"><a href='#' className='panel-anchor'>Click Here</a> to request a Google Hangouts meeting with {this.state.name}</h3>
                       </div>
                     </div>
                  </div>

@@ -63,3 +63,33 @@ body {
     margin-bottom: 5px;
 }
 
+.tutor-name, .panel-anchor {
+    color: var(--dkgray);
+}
+
+.tutor-name:hover, .panel-anchor:hover {
+    text-decoration: none;
+    color: var(--gold);
+}
+
+.tutor-name:visited, .tutor-name:active {
+    text-decoration:none ! important;
+}
+
+.tutor-panel {
+    border-radius: 0;
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+
+.tutor-panel-heading {
+    border-radius: 0 ! important;
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+
+.tutor-panel-body {
+}
+

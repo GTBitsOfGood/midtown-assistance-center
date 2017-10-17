@@ -33,7 +33,7 @@ const tutors = [
             Friday: []
         },
         photo: '/images/default_user_img.png',
-        bio: 'Hello, my name is Bob.',
+        bio: 'Hello, my name is Bob. I like to teach English, Science, and History. My interests are karate and underwater basket weaving. If you have any questions, please send me an email at bsmith@gatech.edu.',
         gtemail: 'bsmith3@gatech.edu',
         classStanding: 'Senior',
         rating: 3.5,
@@ -51,7 +51,7 @@ const tutors = [
             Friday: ['1:00-2:00']
         },
         photo: '/images/default_user_img.png',
-        bio: 'Hello, my name is Alice.',
+        bio: 'Hello, my name is Alice. I like teaching Math, Science, and History. If you have any questions, please send me an email at asmith3@gatech.edu.',
         gtemail: 'asmith3@gatech.edu',
         classStanding: 'Sophomore',
         rating: 4,
