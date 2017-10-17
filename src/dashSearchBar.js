@@ -12,6 +12,7 @@ class DashSearchBar extends React.Component {
                 <select className="col-xs-12 col-sm-2 col-md-3 input input-lg search-select search-input">
                     <option value="ASAP">ASAP</option>
                     <option value="today">Sometime today</option>
+                    <option value="week">This week</option>
                 </select>
                 <span className="input-group-btn">
                     <button className="col-xs-12 btn btn-default btn-lg search-btn" type="button">
