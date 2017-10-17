@@ -34,3 +34,12 @@ body {
     border-radius: 0;
 }
 
+.search-select {
+    -webkit-appearance: none;
+    -webkit-border-radius: 0px;
+    -moz-appearance: none;
+    -moz-border-radius: 0px;
+    appearance: none;
+    border-radius: 0px;
+}
+

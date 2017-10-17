@@ -9,7 +9,10 @@ class DashSearchBar extends React.Component {
         return (
             <div className="col-md-8 col-md-offset-2 form-group">
                 <input type="text" className="col-md-8 input-lg search-input" placeholder="What subject do you need help with?"></input>
-                <input type="datetime-local" className="col-md-3 input-lg search-input" placeholder="Time"></input>
+                <select className="col-md-3 input-lg search-select search-input">
+                    <option>ASAP</option>
+                    <option>Sometime today</option>
+                </select>
                 <span className="input-group-btn">
                     <button className="btn btn-default btn-lg search-btn col-md-12" type="button">
                         <i className="glyphicon glyphicon-search"></i>
