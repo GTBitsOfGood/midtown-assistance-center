@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import HomeMenuBar from './homeMenuBar';
+import HomeMenuBar from '../home/HomeMenuBar.jsx';
 import DefaultDash from './defaultDash';
 
 const DashComp = function() {

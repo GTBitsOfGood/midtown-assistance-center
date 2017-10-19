@@ -16,7 +16,7 @@ const tutors = [
         },
         photo: '/images/default_user_img.png',
         bio: 'Hello, my name is Sruti.',
-        gtemail: 'sguhathakurta6@gatech.edu',
+        gtemail: 'sruti@gatech.edu',
         classStanding: 'Senior',
         rating: 5,
         online:false

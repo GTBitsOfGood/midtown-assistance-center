@@ -1,7 +1,7 @@
 module.exports = {
 	entry: {
-		entry1: './src/homePage.js',
-		entry2: './src/Dashboard.js'
+		entry1: './src/home/HomePage.jsx',
+		entry2: './src/dash/Dashboard.jsx'
 	},
 	output: {
 		path: __dirname + "/public/js",
@@ -9,14 +9,18 @@ module.exports = {
 	},
 	module: {
 		loaders: [
+      {
+        test: /.jsx?$/,
+        loader: 'babel-loader',
+        exclude: /node_modules/,
+        query: {
+          presets: ['es2015', 'react']
+        }
+      },
 			{
-				test: /\.js$/,
-				loader: 'babel-loader'
-			},
-			{
-              test: /\.css$/,
-              loader: 'style-loader'
-            },
+        test: /\.css$/,
+        loader: 'style-loader'
+      },
 			{
 				 test: /\.css$/,
 				 loader: 'css-loader',
