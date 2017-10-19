@@ -2,7 +2,7 @@ import express from 'express';
 const app = express();
 
 app.get('/', (req, res) => {
-	res.send({blank: "blank"});
+  res.send({blank: 'blank'});
 });
 
 export default app;

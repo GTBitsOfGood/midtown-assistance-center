@@ -9,21 +9,21 @@ const data_access = require('./api/data_access');
 app.use(require('cookie-parser')());
 
 app.use(
-	session ({
-	  secret: 'mac',
-	  resave: false,
-	  saveUninitialized: false
-}));
+  session ({
+    secret: 'mac',
+    resave: false,
+    saveUninitialized: false
+  }));
 
 app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(new LocalStrategy(
   function(username, password, done) {
-  	// Fill in the access to MongoDB and the users within that
+    // Fill in the access to MongoDB and the users within that
 
-  	data_access.users.getUser(username, function (err, user_instance) {
-  	  if (err) {
+    data_access.users.getUser(username, function (err, user_instance) {
+      if (err) {
         return done(err);
       }
 

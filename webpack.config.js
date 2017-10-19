@@ -1,14 +1,14 @@
 module.exports = {
-	entry: {
-		entry1: './src/home/HomePage.jsx',
-		entry2: './src/dash/Dashboard.jsx'
-	},
-	output: {
-		path: __dirname + "/public/js",
-		filename: "[name].bundle.js"
-	},
-	module: {
-		loaders: [
+  entry: {
+    entry1: './src/home/HomePage.jsx',
+    entry2: './src/dash/Dashboard.jsx'
+  },
+  output: {
+    path: __dirname + '/public/js',
+    filename: '[name].bundle.js'
+  },
+  module: {
+    loaders: [
       {
         test: /.jsx?$/,
         loader: 'babel-loader',
@@ -17,18 +17,18 @@ module.exports = {
           presets: ['es2015', 'react']
         }
       },
-			{
+      {
         test: /\.css$/,
         loader: 'style-loader'
       },
-			{
-				 test: /\.css$/,
-				 loader: 'css-loader',
-				 query: {
-				   modules: true,
-				   localIdentName: '[name]__[local]___[hash:base64:5]'
-				}
-			}
-		]
-	}
+      {
+        test: /\.css$/,
+        loader: 'css-loader',
+        query: {
+          modules: true,
+          localIdentName: '[name]__[local]___[hash:base64:5]'
+        }
+      }
+    ]
+  }
 };
