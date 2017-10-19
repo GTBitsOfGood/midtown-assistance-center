@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios';
 import {HelpBlock} from 'react-bootstrap';
 import styles from '../../../public/css/login_signup.css';
 
@@ -124,6 +125,13 @@ class SignupTutor extends React.Component {
 
   handleSubmit(event) {
     alert('A name was submitted: ' + this.state.firstName + ' ' + this.state.lastName);
+    axios.post('/registerTutor', this.state)
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
     event.preventDefault();
   }
 
