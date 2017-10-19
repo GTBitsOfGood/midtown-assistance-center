@@ -125,7 +125,7 @@ class SignupTutor extends React.Component {
 
   handleSubmit(event) {
     alert('A name was submitted: ' + this.state.firstName + ' ' + this.state.lastName);
-    axios.post('/registerTutor', this.state)
+    axios.post('/api/registerTutor', this.state)
       .then(function (response) {
         console.log(response);
       })
