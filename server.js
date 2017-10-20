@@ -15,58 +15,58 @@ server.use('/api', ApiRouter);
 server.use('/', passportRoutes);
 
 server.get('/', allowIfLoggedOut, (req, res) => {
-  res.redirect('/home/login');
+    res.redirect('/home/login');
 });
 
 server.get('/home*', allowIfLoggedOut, (req, res) => {
-  res.render('home');
+    res.render('home');
 });
 
 server.get('/dash', allowIfLoggedIn, (req, res) => {
-  res.render('dash');
+    res.render('dash');
 });
 
 server.use('/api', apiRoute);
 
 
 function allowIfLoggedOut(req, res, next) {
-  if (!req.user) {
-    next();
-  } else {
-    res.redirect('/dash');
-  }
+    if (!req.user) {
+        next();
+    } else {
+        res.redirect('/dash');
+    }
 }
 
 function allowIfLoggedIn(req, res, next) {
-  if (!req.user) {
-    res.redirect('/home/login');
-  } else {
-    next();
-  }
+    if (!req.user) {
+        res.redirect('/home/login');
+    } else {
+        next();
+    }
 }
 
 /**
  * Normalizes the port into a number
  */
 function normalizePort(val) {
-  let port = parseInt(val, 10);
+    let port = parseInt(val, 10);
 
-  if (isNaN(port)) {
+    if (isNaN(port)) {
     // named pipe
-    return val;
-  }
+        return val;
+    }
 
-  if (port >= 0) {
+    if (port >= 0) {
     // port number
-    return port;
-  }
+        return port;
+    }
 
-  return false;
+    return false;
 }
 
 // Set up the port
 let port = normalizePort(process.env.PORT || '3000');
 
 server.listen(port, () => {
-  console.info('server is listening on the port 3000');
+    console.info('server is listening on the port 3000');
 });
