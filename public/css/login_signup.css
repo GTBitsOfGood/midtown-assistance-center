@@ -19,7 +19,7 @@ body {
 .signup-form, .login-form {
     position: fixed;
     height: 70vh;
-    margin-top: 5vh;
+    margin-top: 10vh;
     min-height: 300px;
     padding: 2%;
     overflow-y: scroll;
