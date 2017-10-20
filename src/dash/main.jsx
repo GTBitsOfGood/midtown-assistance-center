@@ -25,7 +25,6 @@ class Main extends React.Component {
 	render() {
 		return (
 			<div>Hello {this.props.user}
-			<button onClick={() => this.setUserState()} >Click me</button>
 			</div>
 		);
 	}
