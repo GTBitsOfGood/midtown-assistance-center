@@ -19,7 +19,8 @@ const tutors = [
         gtemail: 'sruti@gatech.edu',
         classStanding: 'Senior',
         rating: 5,
-        online:false
+        online:false,
+        gender: 'female'
     },
     {
         firstName: 'Bob',
@@ -37,7 +38,8 @@ const tutors = [
         gtemail: 'bsmith3@gatech.edu',
         classStanding: 'Senior',
         rating: 3.5,
-        online:true
+        online:true,
+        gender: 'male'
     },
     {
         firstName: 'Alice',
@@ -55,7 +57,8 @@ const tutors = [
         gtemail: 'asmith3@gatech.edu',
         classStanding: 'Sophomore',
         rating: 4,
-        online:true
+        online:true,
+        gender: 'female'
     },
     {
         firstName: 'Dan',
@@ -73,7 +76,8 @@ const tutors = [
         gtemail: 'djones3@gatech.edu',
         classStanding: 'Junior',
         rating: 1,
-        online:true
+        online:true,
+        gender: 'male'
     }
 ]
 

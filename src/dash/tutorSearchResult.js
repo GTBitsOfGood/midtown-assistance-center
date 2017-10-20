@@ -14,6 +14,7 @@ class TutorSearchResult extends React.Component {
             subjects: this.props.data.subjects ? this.props.data.subjects : '',
             classStanding: this.props.data.classStanding ? this.props.data.classStanding : '',
             rating: this.props.data.rating ? this.props.data.rating : '',
+            gender: this.props.data.gender ? this.props.data.gender : '',
             id: this.props.id ? this.props.id : '',
             fullStars:0,
             halfStars:0,
@@ -64,17 +65,24 @@ class TutorSearchResult extends React.Component {
                     </div>
                     <div id={"collapse" + this.state.id} className="panel-collapse collapse">
                       <div className="panel-body tutor-panel-body">
+                      <div className="tutor_details container col-md-12">
                       <div className="col-md-6">
                       <h3><strong>Details</strong></h3>
-                      <h4><em>{this.state.classStanding}</em> at Georgia Tech</h4>
-
+                      <h4><span><img className="small_img" src='/images/graduate-cap.png'></img></span><strong>{this.state.classStanding}</strong> at Georgia Tech</h4>
+                      <h4><span><img className="small_img" src={'/images/' + this.state.gender + '.png'}></img></span>{this.state.gender}</h4>
                       </div>
                       <div className="col-md-6">
                       <h3><strong>Bio </strong></h3>
                       <h4>{this.state.bio}</h4>
                       </div>
-                      <h3 className="text-center"><a href='#' className='panel-anchor'>Click Here</a> to request a Google Hangouts meeting with {this.state.name}</h3>
-
+                      </div>
+                      <div className="request_hangout text-center">
+                      <h3 className="text-center"><strong>Request a Google Hangouts meeting with {this.state.name}</strong>
+                      </h3>
+                      <button className="btn btn-lg btn-default mac_button" type="button">
+                      Click Here
+                      </button>
+                      </div>
                       </div>
                     </div>
                  </div>

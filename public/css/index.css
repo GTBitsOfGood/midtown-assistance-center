@@ -103,6 +103,18 @@ body {
     margin-top: 3%;
 }
 
+.tutor_details {
+    margin-bottom: 3%;
+}
+
+.request_hangout {
+    margin-top: 3%;
+}
+
+.small_img {
+    margin-right: 2%;
+    margin-bottom: 1%;
+}
 .atlanta {
     background: url("/images/atlanta.png");
     margin-top: 0;
@@ -110,5 +122,17 @@ body {
     margin-bottom: 5%;
     background-position: center;
     background-size: 100% 100%;
+}
+
+/*general*/
+
+.mac_button {
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    margin-left: 1%;
+}
+
+.gold_text {
+    color: var(--gold);
 }
 
