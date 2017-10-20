@@ -64,10 +64,17 @@ class TutorSearchResult extends React.Component {
                     </div>
                     <div id={"collapse" + this.state.id} className="panel-collapse collapse">
                       <div className="panel-body tutor-panel-body">
-                      <div className="col-md-3"></div>
-                      <h4><strong>{this.state.classStanding}</strong> at Georgia Tech</h4>
-                      <h4><strong>Bio: </strong>{this.state.bio}</h4>
+                      <div className="col-md-6">
+                      <h3><strong>Details</strong></h3>
+                      <h4><em>{this.state.classStanding}</em> at Georgia Tech</h4>
+
+                      </div>
+                      <div className="col-md-6">
+                      <h3><strong>Bio </strong></h3>
+                      <h4>{this.state.bio}</h4>
+                      </div>
                       <h3 className="text-center"><a href='#' className='panel-anchor'>Click Here</a> to request a Google Hangouts meeting with {this.state.name}</h3>
+
                       </div>
                     </div>
                  </div>
@@ -92,7 +99,7 @@ class DefaultDashTutorList extends React.Component {
         return (
             <div className="col-md-10 col-md-offset-1">
                 <h1>Tutors Currently Online</h1>
-                 <div className="panel-group" id="accordion">
+                 <div className="panel-group tutors-list" id="accordion">
                   {renData}
                  </div>
 

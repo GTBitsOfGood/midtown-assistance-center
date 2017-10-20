@@ -19,6 +19,8 @@ body {
 .navigationbar {
   background-color: #EEB211 ! important;
   color: #262626 ! important;
+  margin-bottom: 0;
+  border: 0;
 }
 
 /*Dash*/
@@ -44,6 +46,10 @@ body {
     border: 0;
     height: 100% ! important;
     border-left: 1px solid var(--gray);
+    border-style: solid;
+    -webkit-box-shadow: none ! important;
+    -moz-box-shadow: none ! important;
+    box-shadow: none ! important;
 }
 
 .search-btn:hover {
@@ -91,5 +97,18 @@ body {
 }
 
 .tutor-panel-body {
+}
+
+.tutors-list {
+    margin-top: 3%;
+}
+
+.atlanta {
+    background: url("/images/atlanta.png");
+    margin-top: 0;
+    padding: 7%;
+    margin-bottom: 5%;
+    background-position: center;
+    background-size: 100% 100%;
 }
 

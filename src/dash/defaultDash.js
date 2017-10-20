@@ -84,7 +84,9 @@ class DefaultDash extends React.Component {
     render() {
         return (
         <div>
-            <DashSearchBar/>
+            <div className="col-md-12 atlanta">
+                <DashSearchBar/>
+            </div>
             <DefaultDashTutorList data={tutors} />
         </div>
         )
