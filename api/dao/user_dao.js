@@ -80,9 +80,15 @@ module.exports = {
     },
 
     createTutor: function(tutor, callback) {
+
+        // TO DO : VALIDATE TUTOR BEFORE YOU SAVE IT
+        // LIKE CHECK EMAIL AND CHECK USERNAME FOR CONFLICT
+
+
+
         Tutor.create(tutor, function (err, tutor_instance) {
             if (err) {
-                console.error('Error creating a new tutor:', err);
+                console.error('Error creating a new tutor AND THIS IS WHY DUDE:', err);
                 callback(err);
             } else {
                 callback(null, tutor_instance);

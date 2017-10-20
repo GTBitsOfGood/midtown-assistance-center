@@ -27,7 +27,7 @@ class Loginpage extends React.Component {
     }
 
     sendToServer(e) {
-        console.log('hello');
+        console.log('LoginForm is submitting the DATA MAN');
         e.preventDefault();
 
         axios.post('/login', this.state)
@@ -35,6 +35,7 @@ class Loginpage extends React.Component {
                 if (response.data !== '') {
                     document.location.href = '/dash';
                 } else {
+                    console.log(response.data);
                     // TODO show error message
                 }
             })
