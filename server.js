@@ -1,9 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 const server = express();
-import ApiRouter from './api/index.js';
+import ApiRouter from './api/registration.js';
 import passportRoutes from './passportConfig';
-import apiRoute from './api/index';
 
 const bodyParser = require('body-parser');
 server.use(express.static('public'));
@@ -25,8 +24,6 @@ server.get('/home*', allowIfLoggedOut, (req, res) => {
 server.get('/dash', allowIfLoggedIn, (req, res) => {
     res.render('dash');
 });
-
-server.use('/api', apiRoute);
 
 
 function allowIfLoggedOut(req, res, next) {

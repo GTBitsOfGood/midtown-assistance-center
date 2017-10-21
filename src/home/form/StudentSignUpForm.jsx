@@ -123,6 +123,20 @@ class StudentSignUpForm extends React.Component {
 
     handleSubmit(event) {
         alert('A name was submitted: ' + this.state.firstName + ' ' + this.state.lastName);
+        axios.post('/api/registerStudent', this.state)
+            .then(function (response) {
+                console.log(response);
+                if (response.data) {
+                    document.location.href = '/home/login';
+                    console.log("registration successful");
+                } else {
+                    //Registration error
+                }
+                
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
         event.preventDefault();
     }
 
@@ -195,7 +209,7 @@ class StudentSignUpForm extends React.Component {
                     />
                 </div>
                 <div className="row col-xs-12">
-                    <select className="select input-lg col-xs-10 col-xs-offset-1"
+                    <select style={{height: "60px"}} className="select input-lg col-xs-10 col-xs-offset-1"
                         placeholder="select"
                         defaultValue={this.state.grade_level}
                         onChange={this.handleGradeChange}>

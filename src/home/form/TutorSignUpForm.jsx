@@ -128,6 +128,14 @@ class SignupTutor extends React.Component {
         axios.post('/api/registerTutor', this.state)
             .then(function (response) {
                 console.log(response);
+                if (response.data) {
+                    document.location.href = '/home/login';
+                    console.log("registration successful");
+                } else {
+                    //registration failed
+                    
+                }
+                
             })
             .catch(function (error) {
                 console.log(error);
