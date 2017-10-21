@@ -1,4 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { Provider } from 'react-redux';
+import Main from './main.jsx';
+import store from '../redux/store.js';
 
-ReactDOM.render(<h1>whats up</h1>, document.getElementById('root'));
+ReactDOM.render(
+	<Provider store={store}>
+		<Main/>
+</Provider>, document.getElementById('root'));
