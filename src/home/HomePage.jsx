@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Router, Route, browserHistory} from 'react-router';
-import HomeMenuBar from './HomeMenuBar.jsx';
+import HomeMenuBar from '../HomeMenuBar.jsx';
 import SignUpTabs from './SignUpTabs.jsx';
 import LoginPage from './form/LoginForm.jsx';
 import AboutUs from './AboutUs.jsx';

@@ -1,8 +1,8 @@
 import React from 'react';
-import styles from '../../public/css/index.css';
+import styles from '../public/css/index.css';
 import { Nav, Navbar, NavItem, MenuItem } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { setUserAction } from '../redux/userActions.js';
+import { setUserAction } from './redux/userActions.js';
 import axios from 'axios';
 
 export class homeMenuBar extends React.Component {

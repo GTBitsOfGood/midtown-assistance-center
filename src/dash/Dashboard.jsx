@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import HomeMenuBar from '../home/HomeMenuBar.jsx';
-import DefaultDash from './defaultDash';
+import HomeMenuBar from '../HomeMenuBar.jsx';
+import DefaultDash from './DefaultDash';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 
