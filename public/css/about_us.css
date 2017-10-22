@@ -1,0 +1,45 @@
+/*!
+ * Start Bootstrap - Freelancer v4.0.0-beta (https://startbootstrap.com/template-overviews/freelancer)
+ * Copyright 2013-2017 Start Bootstrap
+ * Licensed under MIT (https://github.com/BlackrockDigital/startbootstrap-freelancer/blob/master/LICENSE)
+ */
+
+
+p {
+    font-size: 16px; }
+
+hr {
+    height: 1px;
+    background-color: #FFFFFF;
+}
+
+a,
+a.active,
+a:active,
+a:focus,
+a:hover {
+    color: #EEB211;
+    outline: none; }
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-weight: 700;
+    text-transform: uppercase; }
+
+section {
+    padding: 100px 0; }
+section h2 {
+    font-size: 3em;
+    margin: 0; }
+
+section.who-we-are {
+    color: white;
+    background: #EEB211; }
+
+.text-left {
+    text-align: left;
+}
