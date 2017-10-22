@@ -13,12 +13,13 @@
 }
 
 body {
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Lato', sans-serif;
 }
 
 .signup-form, .login-form {
     position: fixed;
-    margin-top: 5vh;
+    height: 70vh;
+    margin-top: 10vh;
     min-height: 300px;
     padding: 2%;
     overflow-y: scroll;
@@ -66,8 +67,8 @@ body {
     appearance: none;
     background-image: url("/images/select-down-arrow.png");
     background-repeat: no-repeat;
-    background-size: 10px 10px;
     background-position: right center;
+    background-size: 10px 10px;
 }
 
 .login-form input {
