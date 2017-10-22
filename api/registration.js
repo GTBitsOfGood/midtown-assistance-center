@@ -61,7 +61,7 @@ app.post('/registerStudent', (req, res) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log(resultEmail)
+                    console.log(resultEmail);
                     if (!resultEmail) {
                         user_dao.createStudent({
                             first_name: req.body.firstName,
@@ -70,7 +70,8 @@ app.post('/registerStudent', (req, res) => {
                             _id: req.body.username,
                             password: req.body.password,
                             join_date: Date.now(),
-                            status: 'in review'
+                            classroom: req.body.access_code,
+                            grade_level: req.body.grade_level
                         }, function(err, user_instance){
                                 if (err) {
                                     console.log(err);
