@@ -35,8 +35,7 @@ class Profile extends React.Component {
                                     <img src="http://placehold.it/380x500" alt="" class="img-rounded img-responsive" />
                                 </div>
                                 <div class="col-sm-6 col-md-8">
-                                    <h4>
-                                        Bhaumik Patel</h4>
+                                    <h4>Bhaumik Patel</h4>
                                     <small><cite title="San Francisco, USA">San Francisco, USA <i class="glyphicon glyphicon-map-marker">
                                     </i></cite></small>
                                     <p>
