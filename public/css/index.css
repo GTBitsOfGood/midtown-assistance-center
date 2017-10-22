@@ -11,7 +11,7 @@
 body {
 	height: 100%;
 	width: 100%;
-    font-family: 'Open Sans', sans-serif;
+    font-family: 'Lato', sans-serif;
 
 }
 
@@ -19,5 +19,120 @@ body {
 .navigationbar {
   background-color: #EEB211 ! important;
   color: #262626 ! important;
+  margin-bottom: 0;
+  border: 0;
+}
+
+/*Dash*/
+.search-items {
+    border: 1px solid var(--gray);
+    padding: 0;
+    margin-top: 50px;
+    margin-bottom: 50px;
+
+}
+
+.search-input {
+    border-radius: 0;
+    box-shadow: none;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    border: 0;
+    border-right: 1px solid var(--gray) ! important;
+}
+
+.search-btn {
+    border-radius: 0;
+    border: 0;
+    height: 100% ! important;
+    border-left: 1px solid var(--gray);
+    border-style: solid;
+    -webkit-box-shadow: none ! important;
+    -moz-box-shadow: none ! important;
+    box-shadow: none ! important;
+}
+
+.search-btn:hover {
+    color: var(--gold);
+    background-color: white;
+}
+
+.search-select {
+    -webkit-border-radius: 0px;
+    -moz-appearance: none;
+    -moz-border-radius: 0px;
+    appearance: none;
+    border-radius: 0px;
+}
+
+.star {
+    margin-bottom: 5px;
+}
+
+.tutor-name, .panel-anchor {
+    color: var(--dkgray);
+}
+
+.tutor-name:hover, .panel-anchor:hover {
+    text-decoration: none;
+    color: var(--gold);
+}
+
+.tutor-name:visited, .tutor-name:active {
+    text-decoration:none ! important;
+}
+
+.tutor-panel {
+    border-radius: 0;
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+
+.tutor-panel-heading {
+    border-radius: 0 ! important;
+    -webkit-border-radius: 0 !important;
+    -moz-border-radius: 0 !important;
+    border-radius: 0 !important;
+}
+
+.tutor-panel-body {
+}
+
+.tutors-list {
+    margin-top: 3%;
+}
+
+.tutor_details {
+    margin-bottom: 3%;
+}
+
+.request_hangout {
+    margin-top: 3%;
+}
+
+.small_img {
+    margin-right: 2%;
+    margin-bottom: 1%;
+}
+.atlanta {
+    background: url("/images/atlanta.png");
+    margin-top: 0;
+    padding: 7%;
+    margin-bottom: 5%;
+    background-position: center;
+    background-size: 100% 100%;
+}
+
+/*general*/
+
+.mac_button {
+    border: 1px solid var(--gold);
+    color: var(--gold);
+    margin-left: 1%;
+}
+
+.gold_text {
+    color: var(--gold);
 }
 

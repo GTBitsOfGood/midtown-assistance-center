@@ -57,6 +57,11 @@ app.get('/user', (req, res) => {
   res.send(req.user);
 });
 
+app.get('/logout', (req, res) => {
+    req.logout();
+    res.send(true);
+});
+
 
 app.post('/login', function(req, res, next){
 
