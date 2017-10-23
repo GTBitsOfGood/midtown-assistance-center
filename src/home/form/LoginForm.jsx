@@ -10,11 +10,13 @@ class Loginpage extends React.Component {
         super(props);
         this.state = {
             username: '',
-            password: ''
+            password: '',
+            errorMessage: this.props.errorMessage ? this.props.errorMessage : 'error-message-hide',
         };
 
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
+        this.setErrorMessage = this.setErrorMessage.bind(this);
         this.sendToServer = this.sendToServer.bind(this);
     }
 
@@ -26,28 +28,35 @@ class Loginpage extends React.Component {
         this.setState({password: e.target.value});
     }
 
+    setErrorMessage() {
+        this.setState({errorMessage:'error-message'});
+    }
+
     sendToServer(e) {
         console.log('LoginForm is submitting the DATA MAN');
         e.preventDefault();
-
+        var self = this;
         axios.post('/login', this.state)
             .then(function (response) {
                 if (response.data !== '') {
                     document.location.href = '/dash';
                 } else {
                     console.log(response.data);
-                    // TODO show error message
+                    self.setErrorMessage();
                 }
             })
             .catch(function (error) {
                 console.log(error);
+                self.setErrorMessage();
             });
+
     }
 
     render() {
         return (
             <div className="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center login-form container">
                 <h2 className="login-header">LOGIN</h2>
+                <h5 className={this.state.errorMessage}>username or password incorrect</h5>
                 <form onSubmit={this.sendToServer}>
                     <div className="row col-xs-12">
                         <input

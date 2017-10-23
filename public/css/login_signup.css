@@ -44,6 +44,15 @@ body {
 
 }
 
+.error-message {
+    display: block;
+    color: var(--error_red);
+}
+
+.error-message-hide {
+    display: none;
+}
+
 .signup-form input:not(.input-error), .signup-form select, .login-form input:not(.input-error) {
     border-bottom: 1px solid var(--gray);
 }
