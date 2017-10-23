@@ -33,6 +33,7 @@ body {
 
 .signup-form .signup-header, .login-form .login-header {
     color: var(--black);
+    font-weight: 400;
 }
 
 .signup-form .signup-header {
@@ -48,6 +49,7 @@ body {
 .error-message {
     display: block;
     color: var(--error_red);
+
 }
 
 .error-message-hide {
@@ -128,5 +130,7 @@ body {
 
 .signup-dialogue {
     margin-bottom: 5%;
+    text-transform: none;
+    font-weight: 400;
 }
 
