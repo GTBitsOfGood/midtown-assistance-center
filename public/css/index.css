@@ -22,8 +22,12 @@ body {
   border: 0;
 }
 
-.navbartext {
+.navbartext, .navbartext > a, .navbarheader {
     color: var(--black) ! important;
+}
+
+.navbartext:hover, .navbartext > a:hover, .navbarheader:hover {
+    color: var(--dkgray) ! important;
 }
 
 .nav-prof-pic {
@@ -40,7 +44,7 @@ body {
 
 .dropdown-menu-button:hover {
     background-color: #EEB211;
-    color: var(--ltgray);
+    color: var(--dkgray);
 }
 
 .open>.dropdown-menu-button {
