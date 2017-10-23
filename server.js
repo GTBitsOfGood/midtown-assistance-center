@@ -21,7 +21,7 @@ server.get('/home*', allowIfLoggedOut, (req, res) => {
     res.render('home');
 });
 
-server.get('/dash', allowIfLoggedIn, (req, res) => {
+server.get('/dash*', allowIfLoggedIn, (req, res) => {
     res.render('dash');
 });
 
