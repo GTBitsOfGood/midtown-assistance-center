@@ -18,9 +18,12 @@ body {
 /* Navigation */
 .navigationbar {
   background-color: #EEB211 ! important;
-  color: #262626 ! important;
   margin-bottom: 0;
   border: 0;
+}
+
+.navbartext {
+    color: var(--black) ! important;
 }
 
 .dropdown-menu-button {

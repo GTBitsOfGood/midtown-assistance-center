@@ -45,7 +45,7 @@ export class homeMenuBar extends React.Component {
       <Navbar collapseOnSelect className={styles.navigationbar}>
         <Navbar.Header>
           <Navbar.Brand className={styles.navbarheader}>
-            <a href="#">Midtown Assistance Center</a>
+            <a href="/home/about">Midtown Assistance Center</a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
