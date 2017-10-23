@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../public/css/index.css';
-import { Nav, Navbar, NavItem, MenuItem } from 'react-bootstrap';
+import { Nav, Navbar, NavItem, MenuItem, DropdownButton } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { setUserAction } from './redux/userActions.js';
 import axios from 'axios';
@@ -74,7 +74,11 @@ export class homeMenuBar extends React.Component {
             <NavItem className={styles.navbartext}>About us</NavItem>
           </Nav>
           <Nav pullRight>
-            <MenuItem onClick={() => this.logout()} className={styles.navbartext}>{this.props.user}</MenuItem>
+            <DropdownButton className="btn btn-sm dropdown-menu-button" title={this.props.user}>
+                <MenuItem href="#books">Usage</MenuItem>
+                <MenuItem href="#podcasts">Edit Profile</MenuItem>
+                <MenuItem onClick={() => this.logout()} className={styles.navbartext}>Log Out</MenuItem>
+            </DropdownButton>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

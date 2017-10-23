@@ -23,6 +23,19 @@ body {
   border: 0;
 }
 
+.dropdown-menu-button {
+    background-color: #EEB211;
+    border: 0;
+    margin-top: 10px;
+    font-size: 1em;
+    color: var(--black);
+}
+
+.dropdown-menu-button:hover {
+    background-color: #EEB211;
+    color: var(--ltgray);
+}
+
 /*Dash*/
 .search-items {
     border: 1px solid var(--gray);
@@ -125,14 +138,21 @@ body {
 }
 
 /*general*/
-
 .mac_button {
+    border: 1px solid var(--black);
+    color: var(--black);
+    margin-left: 1%;
+}
+
+.mac_button:hover {
     border: 1px solid var(--gold);
     color: var(--gold);
-    margin-left: 1%;
+    background-color: inherit;
 }
 
 .gold_text {
     color: var(--gold);
 }
+
+
 
