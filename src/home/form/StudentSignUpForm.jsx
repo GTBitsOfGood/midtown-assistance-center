@@ -156,7 +156,6 @@ class StudentSignUpForm extends React.Component {
                     self.setState({errorMessage:'error-message'});
                     self.setState({inputErrorMessage:'error-message-hide'});
                 });
-
         }
     }
 
