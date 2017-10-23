@@ -74,6 +74,7 @@ export class homeMenuBar extends React.Component {
             <MenuItem className={styles.navbartext} href="/dash/about">About us</MenuItem>
           </Nav>
           <Nav pullRight>
+            <span><img className="nav-prof-pic" src='/images/default_user_img.png' height='25' width='25'></img></span>
             <DropdownButton className="btn btn-sm dropdown-menu-button" title={this.props.user}>
                 <MenuItem href="#">Usage</MenuItem>
                 <MenuItem href="#">Edit Profile</MenuItem>

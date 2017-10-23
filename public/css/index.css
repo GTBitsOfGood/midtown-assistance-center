@@ -26,6 +26,10 @@ body {
     color: var(--black) ! important;
 }
 
+.nav-prof-pic {
+    margin-top: 10px;
+}
+
 .dropdown-menu-button {
     background-color: #EEB211;
     border: 0;
@@ -37,6 +41,11 @@ body {
 .dropdown-menu-button:hover {
     background-color: #EEB211;
     color: var(--ltgray);
+}
+
+.open>.dropdown-menu-button {
+    background: #EEB211 ! important;
+    border: 0;
 }
 
 /*Dash*/
