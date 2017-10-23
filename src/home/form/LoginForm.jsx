@@ -11,7 +11,7 @@ class Loginpage extends React.Component {
         this.state = {
             username: '',
             password: '',
-            errorMessage: this.props.errorMessage ? this.props.errorMessage : 'error-message-hide',
+            errorMessage: 'error-message-hide',
         };
 
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
