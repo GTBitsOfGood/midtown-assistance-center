@@ -65,18 +65,18 @@ export class homeMenuBar extends React.Component {
       <Navbar collapseOnSelect className={styles.navigationbar}>
         <Navbar.Header>
           <Navbar.Brand className={styles.navbarheader}>
-            <a href="#">Midtown Assistance Center</a>
+            <a href="/dash">Midtown Assistance Center</a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullLeft>
-            <NavItem className={styles.navbartext}>About us</NavItem>
+            <MenuItem className={styles.navbartext} href="/dash/about">About us</MenuItem>
           </Nav>
           <Nav pullRight>
             <DropdownButton className="btn btn-sm dropdown-menu-button" title={this.props.user}>
-                <MenuItem href="#books">Usage</MenuItem>
-                <MenuItem href="#podcasts">Edit Profile</MenuItem>
+                <MenuItem href="#">Usage</MenuItem>
+                <MenuItem href="#">Edit Profile</MenuItem>
                 <MenuItem onClick={() => this.logout()} className={styles.navbartext}>Log Out</MenuItem>
             </DropdownButton>
           </Nav>
