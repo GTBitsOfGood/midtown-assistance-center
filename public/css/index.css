@@ -126,8 +126,9 @@ body {
     color: var(--gold);
 }
 
-.tutor-name:visited, .tutor-name:active {
+.tutor-name:focus {
     text-decoration:none ! important;
+    color: var(--dkgray) ! important;
 }
 
 .tutor-panel {
