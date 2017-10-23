@@ -65,7 +65,7 @@ body {
 
 .open>.dropdown-menu-button {
     /*background: #EEB211 ! important;*/
-    background-color: var(--gold);
+    background-color: var(--gold) ! important;
     /*background-color: var(--black) ! important;
     color: var(--ltgray);*/
     border: 0;
