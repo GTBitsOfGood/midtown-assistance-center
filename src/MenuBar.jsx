@@ -51,7 +51,7 @@ export class homeMenuBar extends React.Component {
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullLeft>
-            <NavItem className={styles.navbartext}>About us</NavItem>
+            <MenuItem href="/home/about" className={styles.navbartext}>About Us</MenuItem>
           </Nav>
           <Nav pullRight>
             <MenuItem href="/home/login" className={styles.navbartext}>Sign In</MenuItem>
