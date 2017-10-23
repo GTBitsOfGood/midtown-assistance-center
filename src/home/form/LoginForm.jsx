@@ -9,8 +9,8 @@ class Loginpage extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            username: "",
-            password: ""
+            username: '',
+            password: ''
         };
 
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
@@ -19,24 +19,25 @@ class Loginpage extends React.Component {
     }
 
     handleUsernameChange(e) {
-       this.setState({username: e.target.value});
+        this.setState({username: e.target.value});
     }
 
     handlePasswordChange(e) {
-       this.setState({password: e.target.value});
+        this.setState({password: e.target.value});
     }
 
     sendToServer(e) {
-        console.log('hello');
+        console.log('LoginForm is submitting the DATA MAN');
         e.preventDefault();
 
         axios.post('/login', this.state)
             .then(function (response) {
-                    if (response.data !== '') {
-                      document.location.href = '/dash';
-                    } else {
-                      // TODO show error message
-                    }
+                if (response.data !== '') {
+                    document.location.href = '/dash';
+                } else {
+                    console.log(response.data);
+                    // TODO show error message
+                }
             })
             .catch(function (error) {
                 console.log(error);
@@ -49,30 +50,30 @@ class Loginpage extends React.Component {
                 <h2 className="login-header">LOGIN</h2>
                 <form onSubmit={this.sendToServer}>
                     <div className="row col-xs-12">
-                      <input
-                      className="input-lg col-xs-10 col-xs-offset-1"
-                      type="text"
-                      name="fname"
-                      value={this.state.username} 
-                      onChange={this.handleUsernameChange}
-                      placeholder="Enter Username">
-                      </input>
+                        <input
+                            className="input-lg col-xs-10 col-xs-offset-1"
+                            type="text"
+                            name="fname"
+                            value={this.state.username} 
+                            onChange={this.handleUsernameChange}
+                            placeholder="Enter Username">
+                        </input>
                     </div>
                     <div className="row col-xs-12">
-                      <input
-                      className="input-lg col-xs-10 col-xs-offset-1"
-                      type="Password"
-                      name="lname"
-                      value={this.state.password} 
-                      onChange={this.handlePasswordChange}
-                      placeholder="Enter Password">
-                      </input>
+                        <input
+                            className="input-lg col-xs-10 col-xs-offset-1"
+                            type="Password"
+                            name="lname"
+                            value={this.state.password} 
+                            onChange={this.handlePasswordChange}
+                            placeholder="Enter Password">
+                        </input>
                     </div>
                     <div className="row col-xs-12">
-                      <input
-                        className="login-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
-                        type="submit"
-                        value="SUBMIT"/>
+                        <input
+                            className="login-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
+                            type="submit"
+                            value="SUBMIT"/>
                     </div>
                     <div className="row col-xs-12">
                         <a className="login-anchor" href="#">Forgot your password?</a>

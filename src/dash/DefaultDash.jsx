@@ -1,6 +1,6 @@
 import React from 'react';
-import DashSearchBar from './dashSearchBar';
-import DefaultDashTutorList from './tutorSearchResult';
+import DashSearchBar from './DashSearchBar.jsx';
+import DefaultDashTutorList from './TutorSearchResult.jsx';
 
 const tutors = [
     {
