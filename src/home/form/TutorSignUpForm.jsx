@@ -127,7 +127,6 @@ class SignupTutor extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        alert('A name was submitted: ' + this.state.firstName + ' ' + this.state.lastName);
         if (this.state.firstNameValidation === 'input-error' ||
             this.state.lastNameValidation === 'input-error' ||
             this.state.usernameValidation === 'input-error' ||
