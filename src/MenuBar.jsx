@@ -78,7 +78,8 @@ export class homeMenuBar extends React.Component {
             <DropdownButton className="btn btn-sm dropdown-menu-button" title={this.props.user}>
                 <MenuItem href="#">Usage</MenuItem>
                 <MenuItem href="#">Edit Profile</MenuItem>
-                <MenuItem onClick={() => this.logout()} className={styles.navbartext}>Log Out</MenuItem>
+                <MenuItem divider></MenuItem>
+                <MenuItem onClick={() => this.logout()}>Log Out</MenuItem>
             </DropdownButton>
           </Nav>
         </Navbar.Collapse>
