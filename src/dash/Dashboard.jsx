@@ -9,7 +9,9 @@ import store from '../redux/store.js';
 const DashComp = function() {
   return (
     <div>
-      <HomeMenuBar homeordash='dash'/>
+      <Provider store={store}>
+        <HomeMenuBar homeordash='dash'/>
+      </Provider>
       {/*<DefaultDash/>*/}
       <DefaultProfile/>
     </div>
