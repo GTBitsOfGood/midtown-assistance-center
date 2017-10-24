@@ -194,5 +194,8 @@ body {
     font-weight: 300;
 }
 
+.capitalize {
+    text-transform: capitalize;
+}
 
 

@@ -68,12 +68,12 @@ class TutorSearchResult extends React.Component {
                       <div className="tutor_details container col-md-12">
                       <div className="col-md-6">
                       <h3><strong>Details</strong></h3>
-                      <h4><span><img className="small_img" src='/images/graduate-cap.png'></img></span><strong>{this.state.classStanding}</strong> at Georgia Tech</h4>
-                      <h4><span><img className="small_img" src={'/images/' + this.state.gender + '.png'}></img></span>{this.state.gender}</h4>
+                      <h4><span><img className="small_img" src='/images/graduate-cap.png'></img></span><strong>{this.state.classStanding}</strong><span className="lighter-text"> at Georgia Tech</span></h4>
+                      <h4 className="capitalize"><span><img className="small_img" src={'/images/' + this.state.gender + '.png'}></img></span><strong>{this.state.gender}</strong></h4>
                       </div>
                       <div className="col-md-6">
                       <h3><strong>Bio </strong></h3>
-                      <h4>{this.state.bio}</h4>
+                      <h4><span className="lighter-text">{this.state.bio}</span></h4>
                       </div>
                       </div>
                       <div className="request_hangout text-center">
