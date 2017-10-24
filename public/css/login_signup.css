@@ -53,6 +53,7 @@ body {
 .error-message {
     display: block;
     color: var(--error_red);
+    padding-left: 0;
 
 }
 
