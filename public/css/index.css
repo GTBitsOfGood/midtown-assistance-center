@@ -190,5 +190,9 @@ body {
     color: var(--gold);
 }
 
+.lighter-text {
+    font-weight:300;
+}
+
 
 
