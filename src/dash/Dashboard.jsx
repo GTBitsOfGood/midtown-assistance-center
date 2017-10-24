@@ -7,7 +7,7 @@ import store from '../redux/store.js';
 
 const DashComp = function() {
     return (
-        <div className="animated fadeInDownBig">
+        <div className="animated fadeInDown">
             <HomeMenuBar homeordash='dash'/>
             <DefaultDash/>
         </div>
