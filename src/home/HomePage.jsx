@@ -18,6 +18,7 @@ const HomeComp = function() {
       </Provider>
       <Router history={browserHistory}>
         <Route path="/home" component={AboutUs}/>
+        <Route path="/home/about" component={AboutUs}/>
         <Route path="/home/login" component={LoginPage}/>
         <Route path="/home/signUp" component={SignUpTabs}/>
       </Router>

@@ -24,18 +24,17 @@ passport.use(new LocalStrategy(
 
         data_access.users.getUser(username, function (err, user_instance) {
             if (err) {
-                console.log('ERROR ');
+                console.log('ERROR: logging in');
                 return done(err);
             }
 
             if (user_instance === null) {
-                console.log('TWOOO');
+                console.log('ERROR: user instance is null');
                 return done(null, false, { message: 'Incorrect username or password!' });
             }
 
             // FIXME hashing passwords
             if (user_instance.password === password) {
-                console.log('THREEEE');
                 return done(null, user_instance);
             }
 

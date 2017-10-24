@@ -14,7 +14,7 @@ server.use('/api', ApiRouter);
 server.use('/', passportRoutes);
 
 server.get('/', allowIfLoggedOut, (req, res) => {
-    res.redirect('/home/login');
+    res.redirect('/home/about');
 });
 
 server.get('/home*', allowIfLoggedOut, (req, res) => {
