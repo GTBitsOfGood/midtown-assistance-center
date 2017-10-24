@@ -4,12 +4,19 @@ import HomeMenuBar from '../MenuBar.jsx';
 import DefaultDash from './DefaultDash.jsx';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
+import AboutUs from '../home/AboutUs.jsx';
+import {Router, Route, browserHistory} from 'react-router';
+
+
 
 const DashComp = function() {
   return (
     <div>
       <HomeMenuBar homeordash='dash'/>
-      <DefaultDash/>
+      <Router history={browserHistory}>
+          <Route path="/dash" component={DefaultDash}/>
+          <Route path="/dash/about" component={AboutUs}/>
+      </Router>
     </div>
   );
 };
