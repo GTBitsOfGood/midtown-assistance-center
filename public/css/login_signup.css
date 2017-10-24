@@ -19,7 +19,6 @@ body {
 
 .signup-form, .login-form {
     position: fixed;
-    height: 70vh;
     margin-top: 10vh;
     min-height: 300px;
     padding: 2%;
@@ -29,6 +28,11 @@ body {
     border-top: 2px solid var(--gold);
     padding-right: 0;
     padding-left: 1.5%;
+}
+
+.signup-form {
+    height: 70vh;
+    min-height: 300px;
 }
 
 .signup-form .signup-header, .login-form .login-header {

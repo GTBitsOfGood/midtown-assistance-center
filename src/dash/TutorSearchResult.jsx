@@ -46,7 +46,7 @@ class TutorSearchResult extends React.Component {
                 <div className="panel panel-default tutor-panel">
                     <div className="panel-heading tutor-panel-heading">
                         <div className="col-md-2">
-                            <img src={this.state.photo} height="125" width="125"></img>
+                            <img className="tutor-profile-pic img-circle" src={this.state.photo} height="125" width="125"></img>
                         </div>
                         <div className="">
                         <a data-toggle="collapse" className="tutor-name" data-parent="#accordion" href={'#collapse' + this.state.id}>
@@ -68,12 +68,12 @@ class TutorSearchResult extends React.Component {
                       <div className="tutor_details container col-md-12">
                       <div className="col-md-6">
                       <h3><strong>Details</strong></h3>
-                      <h4><span><img className="small_img" src='/images/graduate-cap.png'></img></span><strong>{this.state.classStanding}</strong> at Georgia Tech</h4>
-                      <h4><span><img className="small_img" src={'/images/' + this.state.gender + '.png'}></img></span>{this.state.gender}</h4>
+                      <h4><span><img className="small_img" src='/images/graduate-cap.png'></img></span><strong>{this.state.classStanding}</strong><span className="lighter-text"> at Georgia Tech</span></h4>
+                      <h4 className="capitalize"><span><img className="small_img" src={'/images/' + this.state.gender + '.png'}></img></span><strong>{this.state.gender}</strong></h4>
                       </div>
                       <div className="col-md-6">
                       <h3><strong>Bio </strong></h3>
-                      <h4>{this.state.bio}</h4>
+                      <h4><span className="lighter-text">{this.state.bio}</span></h4>
                       </div>
                       </div>
                       <div className="request_hangout text-center">
@@ -105,8 +105,8 @@ class DefaultDashTutorList extends React.Component {
         });
 
         return (
-            <div className="col-md-10 col-md-offset-1">
-                <h1>Tutors Currently Online</h1>
+            <div className="col-md-10 col-md-offset-1 tutor-list-wrapper">
+                <h3 className="text-uppercase tutors-header">Tutors Currently Online</h3>
                  <div className="panel-group tutors-list" id="accordion">
                   {renData}
                  </div>

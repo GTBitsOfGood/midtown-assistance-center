@@ -7,6 +7,8 @@
     --purple: #160c28;
     --black: #000411;
     --blackhover: #222633;
+    --tutorBorderColor: var(--gray);
+    --primaryLight: #EEEEEE;
 }
 
 body {
@@ -113,12 +115,22 @@ body {
     border-radius: 0px;
 }
 
+@media screen and (max-width:800px) {
+    .search-select {
+        display: none;
+    }
+
+    .search-input {
+        border-bottom: 1px solid var(--gray);
+    }
+}
+
 .star {
     margin-bottom: 5px;
 }
 
 .tutor-name, .panel-anchor {
-    color: var(--dkgray);
+    color: var(--purple);
 }
 
 .tutor-name:hover, .panel-anchor:hover {
@@ -136,6 +148,16 @@ body {
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
+    border: 0 ! important;
+
+
+}
+
+.tutors-list {
+    border-top: 1px solid var(--tutorBorderColor) ! important;
+    border-right: 1px solid var(--tutorBorderColor) ! important;
+    border-left: 1px solid var(--tutorBorderColor) ! important;
+
 }
 
 .tutor-panel-heading {
@@ -143,14 +165,32 @@ body {
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
+    padding: 1%;
+    border-bottom: 1px solid var(--tutorBorderColor) ! important;
+    /*background-color: var(--ltgray) ! important;*/
 }
 
 .tutor-panel-body {
+    border-top: 0 ! important;
+    border-bottom: 1px solid var(--tutorBorderColor) ! important;
+
+}
+
+.tutor-list-wrapper {
+    padding: 0;
 }
 
 .tutors-list {
-    margin-top: 3%;
+    margin-top: 2%;
+    margin-bottom: 0;
 }
+
+.tutors-header {
+    color: var(--black);
+    font-weight: 400;
+}
+
+
 
 .tutor_details {
     margin-bottom: 3%;
@@ -171,6 +211,7 @@ body {
     margin-bottom: 5%;
     background-position: center;
     background-size: 100% 100%;
+    min-height: 300px;
 }
 
 /*general*/
@@ -194,5 +235,8 @@ body {
     font-weight:300;
 }
 
+.capitalize {
+    text-transform: capitalize;
+}
 
 
