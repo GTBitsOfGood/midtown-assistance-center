@@ -71,6 +71,7 @@ class Loginpage extends React.Component {
                     </div>
                     <div className="row col-xs-12">
                         <input
+                            style = {{animationDelay: '2s'}}
                             className="animated bounce login-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
                             type="submit"
                             value="SUBMIT"/>
