@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../public/css/index.css';
-import { Nav, Navbar, NavItem, MenuItem } from 'react-bootstrap';
+import { Nav, Navbar, NavItem, MenuItem, DropdownButton } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { setUserAction } from './redux/userActions.js';
 import axios from 'axios';
@@ -45,7 +45,7 @@ export class homeMenuBar extends React.Component {
       <Navbar collapseOnSelect className={styles.navigationbar}>
         <Navbar.Header>
           <Navbar.Brand className={styles.navbarheader}>
-            <a href="#">Midtown Assistance Center</a>
+            <a href="/home/about">Midtown Assistance Center</a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
@@ -65,16 +65,25 @@ export class homeMenuBar extends React.Component {
       <Navbar collapseOnSelect className={styles.navigationbar}>
         <Navbar.Header>
           <Navbar.Brand className={styles.navbarheader}>
-            <a href="#">Midtown Assistance Center</a>
+            <a href="/dash">Midtown Assistance Center</a>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullLeft>
-            <NavItem className={styles.navbartext}>About us</NavItem>
+            {window.location.pathname === '/dash/about' ?
+            <MenuItem className={styles.navbartext} href="/dash">Dashboard</MenuItem>
+            :
+            <MenuItem className={styles.navbartext} href="/dash/about">About us</MenuItem>}
           </Nav>
           <Nav pullRight>
-            <MenuItem onClick={() => this.logout()} className={styles.navbartext}>{this.props.user}</MenuItem>
+            <span><img className="nav-prof-pic" src='/images/user.png'></img></span>
+            <DropdownButton className="btn btn-sm dropdown-menu-button" title={this.props.user}>
+                <MenuItem href="#">Usage</MenuItem>
+                <MenuItem href="#">Edit Profile</MenuItem>
+                <MenuItem divider></MenuItem>
+                <MenuItem onClick={() => this.logout()}>Log Out</MenuItem>
+            </DropdownButton>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

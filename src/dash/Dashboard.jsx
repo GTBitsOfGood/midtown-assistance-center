@@ -5,20 +5,18 @@ import DefaultDash from './DefaultDash.jsx';
 import DefaultProfile from './Profile.jsx';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
-
+import AboutUs from '../home/AboutUs.jsx';
 import {Router, Route, browserHistory} from 'react-router';
 
 const DashComp = function() {
   return (
     <div>
-      <Provider store={store}>
-        <HomeMenuBar homeordash='dash'/>
-      </Provider>
-      {/*<DefaultDash/>*/}
-        <Router history={browserHistory}>
-            <Route path="/dash" component={DefaultDash}/>
-            <Route path="/dash/profile" component={DefaultProfile}/>
-        </Router>
+      <HomeMenuBar homeordash='dash'/>
+      <Router history={browserHistory}>
+          <Route path="/dash" component={DefaultDash}/>
+          <Route path="/dash/about" component={AboutUs}/>
+          <Route path="/dash/profile" component={DefaultProfile}/>
+      </Router>
     </div>
   );
 };

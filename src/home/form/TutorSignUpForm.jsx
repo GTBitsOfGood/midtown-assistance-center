@@ -20,7 +20,9 @@ class SignupTutor extends React.Component {
             email: '',
             emailValidation: 'input-success',
             confirmEmail: '',
-            confirmEmailValidation: 'input-success'
+            confirmEmailValidation: 'input-success',
+            errorMessage: 'error-message-hide',
+            inputErrorMessage:'error-message-hide'
         };
 
         this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -124,23 +126,38 @@ class SignupTutor extends React.Component {
     }
 
     handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.firstName + ' ' + this.state.lastName);
-        axios.post('/api/registerTutor', this.state)
-            .then(function (response) {
-                console.log(response);
-                if (response.data) {
-                    document.location.href = '/home/login';
-                    console.log("registration successful");
-                } else {
-                    //registration failed
-                    
-                }
-                
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
         event.preventDefault();
+        if (this.state.firstNameValidation === 'input-error' ||
+            this.state.lastNameValidation === 'input-error' ||
+            this.state.usernameValidation === 'input-error' ||
+            this.state.passwordValidation === 'input-error' ||
+            this.state.confirmPasswordValidation === 'input-error' ||
+            this.state.emailValidation === 'input-error' ||
+            this.state.confirmEmailValidation === 'input-error') {
+            this.setState({inputErrorMessage:'error-message'});
+            this.setState({errorMessage:'error-message-hide'});
+        } else {
+            var self = this;
+            axios.post('/api/registerTutor', this.state)
+                .then(function (response) {
+                    console.log(response);
+                    if (response.data) {
+                        document.location.href = '/home/login';
+                        console.log("registration successful");
+                    } else {
+                        //registration failed
+                        self.setState({errorMessage:'error-message'});
+                        self.setState({inputErrorMessage:'error-message-hide'});
+
+                    }
+
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    self.setState({errorMessage:'error-message'});
+                    self.setState({inputErrorMessage:'error-message-hide'});
+                });
+        }
     }
 
     render() {
@@ -216,9 +233,12 @@ class SignupTutor extends React.Component {
                         value="SUBMIT"
                         onClick={this.handleSubmit}/>
                 </div>
+                <h5 className={'col-xs-12 ' + this.state.inputErrorMessage}>one or more fields invalid</h5>
+                <h5 className={'col-xs-12 ' + this.state.errorMessage}>this username already exists</h5>
                 <div className="row col-xs-12">
                     <h5 className="signup-dialogue">Already have an account? <a className="signup-anchor" href='/home/login'>Click here to log in!</a></h5>
                 </div>
+
             </form>
         );
     }
