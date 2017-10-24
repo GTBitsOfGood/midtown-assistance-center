@@ -113,6 +113,16 @@ body {
     border-radius: 0px;
 }
 
+@media screen and (max-width:800px) {
+    .search-select {
+        display: none;
+    }
+
+    .search-input {
+        border-bottom: 1px solid var(--gray);
+    }
+}
+
 .star {
     margin-bottom: 5px;
 }
@@ -171,6 +181,7 @@ body {
     margin-bottom: 5%;
     background-position: center;
     background-size: 100% 100%;
+    min-height: 300px;
 }
 
 /*general*/
