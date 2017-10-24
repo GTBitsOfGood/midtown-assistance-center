@@ -106,7 +106,7 @@ class DefaultDashTutorList extends React.Component {
 
         return (
             <div className="col-md-10 col-md-offset-1">
-                <h1>Tutors Currently Online</h1>
+                <h3 className="text-uppercase">Tutors Currently Online</h3>
                  <div className="panel-group tutors-list" id="accordion">
                   {renData}
                  </div>
