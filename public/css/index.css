@@ -7,6 +7,8 @@
     --purple: #160c28;
     --black: #000411;
     --blackhover: #222633;
+    --tutorBorderColor: var(--gray);
+    --primaryLight: #EEEEEE;
 }
 
 body {
@@ -146,6 +148,16 @@ body {
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
+    border: 0 ! important;
+
+
+}
+
+.tutors-list {
+    border-top: 1px solid var(--tutorBorderColor) ! important;
+    border-right: 1px solid var(--tutorBorderColor) ! important;
+    border-left: 1px solid var(--tutorBorderColor) ! important;
+
 }
 
 .tutor-panel-heading {
@@ -153,14 +165,31 @@ body {
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
+    padding: 1%;
+    border-bottom: 1px solid var(--tutorBorderColor) ! important;
 }
 
 .tutor-panel-body {
+    border-top: 0 ! important;
+    border-bottom: 1px solid var(--tutorBorderColor) ! important;
+
+}
+
+.tutor-list-wrapper {
+    padding: 0;
 }
 
 .tutors-list {
-    margin-top: 3%;
+    margin-top: 2%;
+    margin-bottom: 0;
 }
+
+.tutors-header {
+    color: var(--black);
+    font-weight: 400;
+}
+
+
 
 .tutor_details {
     margin-bottom: 3%;

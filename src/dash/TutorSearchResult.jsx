@@ -46,7 +46,7 @@ class TutorSearchResult extends React.Component {
                 <div className="panel panel-default tutor-panel">
                     <div className="panel-heading tutor-panel-heading">
                         <div className="col-md-2">
-                            <img src={this.state.photo} height="125" width="125"></img>
+                            <img className="tutor-profile-pic img-circle" src={this.state.photo} height="125" width="125"></img>
                         </div>
                         <div className="">
                         <a data-toggle="collapse" className="tutor-name" data-parent="#accordion" href={'#collapse' + this.state.id}>
@@ -105,8 +105,8 @@ class DefaultDashTutorList extends React.Component {
         });
 
         return (
-            <div className="col-md-10 col-md-offset-1">
-                <h3 className="text-uppercase">Tutors Currently Online</h3>
+            <div className="col-md-10 col-md-offset-1 tutor-list-wrapper">
+                <h3 className="text-uppercase tutors-header">Tutors Currently Online</h3>
                  <div className="panel-group tutors-list" id="accordion">
                   {renData}
                  </div>
