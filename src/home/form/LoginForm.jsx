@@ -46,7 +46,7 @@ class Loginpage extends React.Component {
 
     render() {
         return (
-            <div className="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center login-form container">
+            <div className="animated fadeInDown col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center login-form container">
                 <h2 className="login-header">LOGIN</h2>
                 <form onSubmit={this.sendToServer}>
                     <div className="row col-xs-12">
