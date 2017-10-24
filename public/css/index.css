@@ -130,7 +130,7 @@ body {
 }
 
 .tutor-name, .panel-anchor {
-    color: var(--dkgray);
+    color: var(--purple);
 }
 
 .tutor-name:hover, .panel-anchor:hover {
@@ -167,6 +167,7 @@ body {
     border-radius: 0 !important;
     padding: 1%;
     border-bottom: 1px solid var(--tutorBorderColor) ! important;
+    /*background-color: var(--ltgray) ! important;*/
 }
 
 .tutor-panel-body {
