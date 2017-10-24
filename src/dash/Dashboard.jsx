@@ -6,18 +6,18 @@ import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 
 const DashComp = function() {
-  return (
-    <div>
-      <HomeMenuBar homeordash='dash'/>
-      <DefaultDash/>
-    </div>
-  );
+    return (
+        <div>
+            <HomeMenuBar homeordash='dash'/>
+            <DefaultDash/>
+        </div>
+    );
 };
 
 
 ReactDOM.render(
     <Provider store={store}>
-    <DashComp></DashComp>
+        <DashComp></DashComp>
     </Provider>,
     document.getElementById('root')
 );

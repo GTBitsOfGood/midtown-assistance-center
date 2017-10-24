@@ -79,7 +79,7 @@ const tutors = [
         online:true,
         gender: 'male'
     }
-]
+];
 
 class DefaultDash extends React.Component {
     constructor(props) {
@@ -87,13 +87,13 @@ class DefaultDash extends React.Component {
     }
     render() {
         return (
-        <div>
-            <div className="col-md-12 atlanta">
-                <DashSearchBar/>
+            <div>
+                <div className="col-md-12 atlanta">
+                    <DashSearchBar/>
+                </div>
+                <DefaultDashTutorList data={tutors} />
             </div>
-            <DefaultDashTutorList data={tutors} />
-        </div>
-        )
+        );
     }
 }
 
