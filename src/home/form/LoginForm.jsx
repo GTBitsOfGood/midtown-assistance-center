@@ -56,7 +56,12 @@ class Loginpage extends React.Component {
         return (
             <div className="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center login-form container">
                 <h2 className="login-header">LOGIN</h2>
+
+                <h5 className={this.state.errorMessage}>username or password incorrect</h5>
                 <form onSubmit={ this.sendToServer }>
+
+                
+
                     <div className="row col-xs-12">
                         <input
                             className="input-lg col-xs-10 col-xs-offset-1"
