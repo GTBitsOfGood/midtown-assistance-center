@@ -163,8 +163,6 @@ class SignupTutor extends React.Component {
     render() {
         return (
             <form className="" onSubmit={this.handleSubmit}>
-                <h5 className={this.state.inputErrorMessage}>one or more fields invalid</h5>
-                <h5 className={this.state.errorMessage}>this username already exists</h5>
                 <div className="row col-xs-12">
                     <input
                         type="text"

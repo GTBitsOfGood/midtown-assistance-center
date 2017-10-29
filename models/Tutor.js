@@ -14,7 +14,68 @@ let schema = new Schema({
     resume: {type: String, default: ''},
     gpa: {type: Number},
     transcript: {type: String, default: ''},
-    points: {type: Number, default: 0}
+    rating: {type: Number, default: 0},
+    subjects: {type:[
+        {
+            subject: {type:String},
+            start_grade: {type:Number},
+            end_grade: {type:Number}
+        }
+    ], required:false},
+    availability: {type:{
+        Monday: {type: [
+            {
+                start_time: {type:String},
+                end_time: {type:String}
+            },
+            required:false
+        ]},
+        Tuesday: {type: [
+            {
+                start_time: {type:String},
+                end_time: {type:String}
+            },
+            required:false
+        ]},
+        Wednesday: {type: [
+            {
+                start_time: {type:String},
+                end_time: {type:String}
+            },
+            required:false
+        ]},
+        Thursday: {type: [
+            {
+                start_time: {type:String},
+                end_time: {type:String}
+            },
+            required:false
+        ]},
+        Friday: {type: [
+            {
+                start_time: {type:String},
+                end_time: {type:String}
+            },
+            required:false
+        ]},
+        Saturday: {type: [
+            {
+                start_time: {type:String},
+                end_time: {type:String}
+            },
+            required: false
+        ]},
+        Sunday: {type: [
+            {
+                start_time: {type:String},
+                end_time: {type:String}
+            },
+            required: false
+        ]},
+    }},
+    gender: {type:String},
+    online: {type:Boolean}
+
 });
 
 schema.virtual('username').get(function() {
