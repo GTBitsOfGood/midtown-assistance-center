@@ -1,11 +1,14 @@
 :root {
-    --gold: #d4af37;
+    /*--gold: #d4af37;*/
+    --gold: #EEB211;
     --gray: #aeb7b3;
     --ltgray: #f1f6f7;
     --dkgray: #5f6462;
     --purple: #160c28;
     --black: #000411;
     --blackhover: #222633;
+    --tutorBorderColor: var(--gray);
+    --primaryLight: #EEEEEE;
 }
 
 body {
@@ -17,10 +20,57 @@ body {
 
 /* Navigation */
 .navigationbar {
-  background-color: #EEB211 ! important;
-  color: #262626 ! important;
+  /*background-color: #EEB211 ! important;*/
+  background-color: var(--gold);
+  /*background-color:var(--black);*/
   margin-bottom: 0;
   border: 0;
+  border-radius: 0 ! important;
+}
+
+.navbartext, .navbartext > a, .navbarheader {
+    color: var(--black) ! important;
+    /*color: var(--gold) ! important;*/
+}
+
+.navbartext:hover, .navbartext > a:hover, .navbarheader:hover {
+   color: var(--dkgray) ! important;
+   /*color: var(--ltgray) ! important;*/
+}
+
+.navbarheader {
+    font-size: 1.5em;
+}
+
+.nav-prof-pic {
+    margin-top: 10px;
+}
+
+.dropdown-menu-button {
+    /*background-color: #EEB211;*/
+    background-color: var(--gold);
+    /*background-color: var(--black);*/
+    border: 0;
+    margin-top: 10px;
+    font-size: 1em;
+    color: var(--black);
+    /*color: var(--gold);*/
+}
+
+.dropdown-menu-button:hover {
+    /*background-color: #EEB211;*/
+    background-color: var(--gold);
+    color: var(--dkgray);
+    /*background-color: var(--black);
+    color: var(--ltgray);*/
+}
+
+.open>.dropdown-menu-button {
+    /*background: #EEB211 ! important;*/
+    background-color: var(--gold) ! important;
+    /*background-color: var(--black) ! important;
+    color: var(--ltgray);*/
+    border: 0;
 }
 
 /*Dash*/
@@ -65,12 +115,22 @@ body {
     border-radius: 0px;
 }
 
+@media screen and (max-width:800px) {
+    .search-select {
+        display: none;
+    }
+
+    .search-input {
+        border-bottom: 1px solid var(--gray);
+    }
+}
+
 .star {
     margin-bottom: 5px;
 }
 
 .tutor-name, .panel-anchor {
-    color: var(--dkgray);
+    color: var(--purple);
 }
 
 .tutor-name:hover, .panel-anchor:hover {
@@ -78,8 +138,9 @@ body {
     color: var(--gold);
 }
 
-.tutor-name:visited, .tutor-name:active {
+.tutor-name:focus {
     text-decoration:none ! important;
+    color: var(--dkgray) ! important;
 }
 
 .tutor-panel {
@@ -87,6 +148,16 @@ body {
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
+    border: 0 ! important;
+
+
+}
+
+.tutors-list {
+    border-top: 1px solid var(--tutorBorderColor) ! important;
+    border-right: 1px solid var(--tutorBorderColor) ! important;
+    border-left: 1px solid var(--tutorBorderColor) ! important;
+
 }
 
 .tutor-panel-heading {
@@ -94,14 +165,32 @@ body {
     -webkit-border-radius: 0 !important;
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
+    padding: 1%;
+    border-bottom: 1px solid var(--tutorBorderColor) ! important;
+    /*background-color: var(--ltgray) ! important;*/
 }
 
 .tutor-panel-body {
+    border-top: 0 ! important;
+    border-bottom: 1px solid var(--tutorBorderColor) ! important;
+
+}
+
+.tutor-list-wrapper {
+    padding: 0;
 }
 
 .tutors-list {
-    margin-top: 3%;
+    margin-top: 2%;
+    margin-bottom: 0;
 }
+
+.tutors-header {
+    color: var(--black);
+    font-weight: 400;
+}
+
+
 
 .tutor_details {
     margin-bottom: 3%;
@@ -122,17 +211,35 @@ body {
     margin-bottom: 5%;
     background-position: center;
     background-size: 100% 100%;
+    min-height: 300px;
 }
 
+.form-group.row {
+    margin: 5px;
+}
 /*general*/
-
 .mac_button {
+    border: 1px solid var(--black);
+    color: var(--black);
+    margin-left: 1%;
+}
+
+.mac_button:hover {
     border: 1px solid var(--gold);
     color: var(--gold);
-    margin-left: 1%;
+    background-color: inherit;
 }
 
 .gold_text {
     color: var(--gold);
 }
+
+.lighter-text {
+    font-weight:300;
+}
+
+.capitalize {
+    text-transform: capitalize;
+}
+
 

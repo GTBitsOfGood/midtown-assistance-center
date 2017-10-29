@@ -1,6 +1,7 @@
 /* Signup Tutor Form */
 :root {
-    --gold: #d4af37;
+    /*--gold: #d4af37;*/
+    --gold: #EEB211;
     --gray: #aeb7b3;
     --ltgray: #f1f6f7;
     --dkgray: #5f6462;
@@ -18,7 +19,6 @@ body {
 
 .signup-form, .login-form {
     position: fixed;
-    height: 70vh;
     margin-top: 10vh;
     min-height: 300px;
     padding: 2%;
@@ -30,8 +30,14 @@ body {
     padding-left: 1.5%;
 }
 
+.signup-form {
+    height: 70vh;
+    min-height: 300px;
+}
+
 .signup-form .signup-header, .login-form .login-header {
     color: var(--black);
+    font-weight: 400;
 }
 
 .signup-form .signup-header {
@@ -42,6 +48,17 @@ body {
 .signup-form .input-error, .login-form .input-error {
     border-bottom: 1px solid var(--error_red);
 
+}
+
+.error-message {
+    display: block;
+    color: var(--error_red);
+    padding-left: 0;
+
+}
+
+.error-message-hide {
+    display: none;
 }
 
 .signup-form input:not(.input-error), .signup-form select, .login-form input:not(.input-error) {
@@ -118,5 +135,7 @@ body {
 
 .signup-dialogue {
     margin-bottom: 5%;
+    text-transform: none;
+    font-weight: 400;
 }
 

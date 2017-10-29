@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from '../public/css/index.css';
-import { Nav, Navbar, NavItem, MenuItem } from 'react-bootstrap';
+import { Nav, Navbar, NavItem, MenuItem, DropdownButton } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { setUserAction } from './redux/userActions.js';
 import axios from 'axios';
@@ -36,7 +36,6 @@ export class homeMenuBar extends React.Component {
             console.log(error);
         });
     }
-
 
 
     render() {
@@ -80,7 +79,6 @@ export class homeMenuBar extends React.Component {
                 </Navbar>
             );
         }
-
     }
 }
 
