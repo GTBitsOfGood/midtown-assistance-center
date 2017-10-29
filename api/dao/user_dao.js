@@ -80,12 +80,6 @@ module.exports = {
     },
 
     createTutor: function(tutor, callback) {
-
-        // TO DO : VALIDATE TUTOR BEFORE YOU SAVE IT
-        // LIKE CHECK EMAIL AND CHECK USERNAME FOR CONFLICT
-
-
-
         Tutor.create(tutor, function (err, tutor_instance) {
             if (err) {
                 console.error('Error creating a new tutor AND THIS IS WHY DUDE:', err);
@@ -147,10 +141,22 @@ module.exports = {
           // Note this is synchronous
           if (tutor.online && tutor.status === 'approved') {
             onlineTutors.append(tutor);
+
+            // TODO filter based on subject
           }
         });
 
         callback(null, onlineTutors);
+      });
+    },
+
+    saveUser: function(user, callback) {
+      user.save(function (err, updatedTank) {
+        if (err) {
+          return callback(err);
+        }
+
+        callback(null, true);
       });
     }
 
