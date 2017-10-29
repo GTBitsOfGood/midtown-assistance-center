@@ -214,6 +214,9 @@ body {
     min-height: 300px;
 }
 
+.form-group.row {
+    margin: 5px;
+}
 /*general*/
 .mac_button {
     border: 1px solid var(--black);

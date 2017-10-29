@@ -84,7 +84,6 @@ class Loginpage extends React.Component {
                             value="SUBMIT"/>
                     </div>
                     <h5 className={'col-xs-12 ' + this.state.errorMessage}>username or password incorrect</h5>
-
                     <div className="row col-xs-12">
                         <a className="login-anchor" href="#">Forgot your password?</a>
                     </div>
