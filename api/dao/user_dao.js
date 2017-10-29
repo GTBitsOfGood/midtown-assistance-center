@@ -97,41 +97,61 @@ module.exports = {
     },
 
     getUser: function(username, callback) {
-    // TODO figure out API to integrate with passport
+      // TODO figure out API to integrate with passport
 
-    // Look for tutors with the same username
-        Tutor.find({_id: username}, function (err, docs) {
+      // Look for tutors with the same username
+      Tutor.find({_id: username}, function (err, docs) {
+        if (err) {
+          console.error('Error checking if username is taken:', err);
+          callback(err);
+
+        } else if (docs.length === 1) {
+          // Found a tutor with the same username
+          callback(null, docs[0]);
+        } else if (docs.length > 1) {
+          console.error('Multiple tutors with username', username);
+
+        } else {
+
+          // Look for students with the same username
+          Student.find({_id: username}, function (err, docs) {
             if (err) {
-                console.error('Error checking if username is taken:', err);
-                callback(err);
+              console.error('Error checking if username is taken:', err);
+              callback(err);
 
             } else if (docs.length === 1) {
-                // Found a tutor with the same username
-                callback(null, docs[0]);
+              // Found a student with the same username
+              callback(null, docs[0]);
             } else if (docs.length > 1) {
-                console.error('Multiple tutors with username', username);
+              console.error('Multiple students with username', username);
 
             } else {
-
-                // Look for students with the same username
-                Student.find({_id: username}, function (err, docs) {
-                    if (err) {
-                        console.error('Error checking if username is taken:', err);
-                        callback(err);
-
-                    } else if (docs.length === 1) {
-                        // Found a student with the same username
-                        callback(null, docs[0]);
-                    } else if (docs.length > 1) {
-                        console.error('Multiple students with username', username);
-
-                    } else {
-                        // No tutors or students with that username!
-                        callback(null, null);
-                    }
-                });
+              // No tutors or students with that username!
+              callback(null, null);
             }
+          });
+        }
+      });
+    },
+
+    getAllOnlineTutors: function(subject, callback) {
+      Tutor.find({}, function(err, tutors) {
+        if (err) {
+          console.log('Error getting all online tutors');
+          callback(err);
+        }
+
+        let onlineTutors = [];
+
+        tutors.forEach(function(tutor) {
+          // Note this is synchronous
+          if (tutor.online && tutor.status === 'approved') {
+            onlineTutors.append(tutor);
+          }
         });
+
+        callback(null, onlineTutors);
+      });
     }
 
 };
