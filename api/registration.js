@@ -34,16 +34,25 @@ app.post('/registerTutor', (req, res) => {
                                 if (err) {
                                     console.log(err);
                                 } else {
-                                    res.send(true);
+                                    res.send({
+                                        success: true,
+                                        error_message: null
+                                    });
                                 }
                         });
                     } else {
-                        res.send(false);
+                        res.send({
+                            success: false,
+                            error_message: "Email already exists"
+                        });
                     }
                 }
             });
         } else {
-            res.send(false);
+            res.send({
+                success: false,
+                error_message: "Username already exists"
+            });
         }
     });
 });
@@ -76,16 +85,25 @@ app.post('/registerStudent', (req, res) => {
                                 if (err) {
                                     console.log(err);
                                 } else {
-                                    res.send(true);
+                                    res.send({
+                                        success: true,
+                                        error_message: null,
+                                    });
                                 }
                         });
                     } else {
-                        res.send(false);
+                        res.json({
+                            success: false,
+                            error_message: "Email already exists"
+                        });
                     }
                 }
             });
         } else {
-            res.send(false);
+            res.json({
+                success: false,
+                error_message: "Username already exists"
+            });
         }
     });
 });
