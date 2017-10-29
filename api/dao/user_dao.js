@@ -140,9 +140,19 @@ module.exports = {
         tutors.forEach(function(tutor) {
           // Note this is synchronous
           if (tutor.online && tutor.status === 'approved') {
-            onlineTutors.append(tutor);
 
-            // TODO filter based on subject
+            // Filter based on subject
+            if (!subject) {
+              // No subject passed in, so no filter applied
+              onlineTutors.add(tutor);
+            } else {
+              // Look for tutors with the correct subject
+              tutor.subjects.forEach(function (subjectObj) {
+                if (subjectObj.subject === subject) {
+                  onlineTutors.add(tutor);
+                }
+              });
+            }
           }
         });
 
@@ -151,12 +161,13 @@ module.exports = {
     },
 
     saveUser: function(user, callback) {
-      user.save(function (err, updatedTank) {
+      user.save(function (err, updatedUser) {
         if (err) {
+          console.log('Error saving user');
           return callback(err);
         }
 
-        callback(null, true);
+        callback(null, updatedUser);
       });
     }
 
