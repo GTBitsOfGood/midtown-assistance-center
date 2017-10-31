@@ -128,35 +128,45 @@ module.exports = {
       });
     },
 
-    getAllOnlineTutors: function(subject, callback) {
+    getAllAvailableTutors: function(subject, availability, callback) {
+      function filterByOnline(tutor) {
+        return tutor.online;
+      }
+
+      function filterByApproved(tutor) {
+        return tutor.status === 'approved';
+      }
+
+      function filterBySubject(tutor) {
+        for (let i = 0; i < tutor.subjects.length; i++) {
+          let subject_json = tutor.subjects[i];
+
+          if (subject_json.subject === subject) {
+            // TODO match grade levels
+            return true;
+          }
+        }
+
+        return false;
+      }
+
+      function filterByAvailability(tutor) {
+        // TODO
+        return true;
+      }
+
       Tutor.find({}, function(err, tutors) {
         if (err) {
           console.log('Error getting all online tutors');
           callback(err);
         }
 
-        let onlineTutors = [];
+        tutors = tutors.filter(filterByOnline);
+        tutors = tutors.filter(filterByApproved);
+        tutors = tutors.filter(filterBySubject);
+        tutors = tutors.filter(filterByAvailability);
 
-        tutors.forEach(function(tutor) {
-          // Note this is synchronous
-          if (tutor.online && tutor.status === 'approved') {
-
-            // Filter based on subject
-            if (!subject) {
-              // No subject passed in, so no filter applied
-              onlineTutors.add(tutor);
-            } else {
-              // Look for tutors with the correct subject
-              tutor.subjects.forEach(function (subjectObj) {
-                if (subjectObj.subject === subject) {
-                  onlineTutors.add(tutor);
-                }
-              });
-            }
-          }
-        });
-
-        callback(null, onlineTutors);
+        callback(null, tutors);
       });
     },
 
