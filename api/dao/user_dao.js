@@ -91,8 +91,6 @@ module.exports = {
     },
 
     getUser: function(username, callback) {
-      // TODO figure out API to integrate with passport
-
       // Look for tutors with the same username
       Tutor.find({_id: username}, function (err, docs) {
         if (err) {
