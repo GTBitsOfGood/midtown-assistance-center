@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import HomeMenuBar from '../MenuBar.jsx';
 import DefaultDash from './DefaultDash.jsx';
-import DefaultProfile from './Profile.jsx';
+import StudentProfile from './StudentProfile.jsx';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 import AboutUs from '../home/AboutUs.jsx';
@@ -15,7 +15,7 @@ const DashComp = function() {
       <Router history={browserHistory}>
           <Route path="/dash" component={DefaultDash}/>
           <Route path="/dash/about" component={AboutUs}/>
-          <Route path="/dash/profile" component={DefaultProfile}/>
+          <Route path="/dash/profile" component={StudentProfile}/>
       </Router>
     </div>
   );

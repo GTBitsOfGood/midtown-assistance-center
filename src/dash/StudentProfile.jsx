@@ -156,9 +156,9 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const DefaultProfile = connect(
+const StudentProfile = connect(
     mapStateToProps,
     mapDispatchToProps
 )(Profile);
 
-export default DefaultProfile;
+export default StudentProfile;
