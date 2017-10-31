@@ -4,29 +4,29 @@ const Student = require('../../models/Student');
 module.exports = {
 
     checkIfUsernameIsTaken: function(username, callback) {
-    
+
     // Look for tutors with the same username
         Tutor.find({_id: username}, function (err, docs) {
             if (err) {
                 console.error('Error checking if username is taken:', err);
                 callback(err);
-      
+
             } else if (docs.length > 0) {
                 // Found a tutor with the same username
                 callback(null, true);
-        
+
             } else {
-        
+
                 // Look for students with the same username
                 Student.find({_id: username}, function (err, docs) {
                     if (err) {
                         console.error('Error checking if username is taken:', err);
                         callback(err);
-          
+
                     } else if (docs.length > 0) {
                         // Found a student with the same username
                         callback(null, true);
-          
+
                     } else {
                         // No student or tutor found with that username!
                         callback(null, false);
@@ -128,6 +128,10 @@ module.exports = {
       });
     },
 
+    /**
+     * TODO: Availability is not used currently
+     * TODO: No grade level checking for subject
+     */
     getAllAvailableTutors: function(subject, availability, callback) {
       function filterByOnline(tutor) {
         return tutor.online;
