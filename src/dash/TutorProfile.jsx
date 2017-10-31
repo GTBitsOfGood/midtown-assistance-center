@@ -7,13 +7,12 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            first_name: 'Sammy',
-            last_name: 'Student',
+            first_name: 'Sam',
+            last_name: 'Tutor',
             email: 'asdf@email.com',
             join_date: new Date(),
             bio: 'Currently this is hardcoded json. The username and password are from the user. Still need to make responsive',
             classroom: 'asdf1234',
-            grade_level: 9,
             is_edit: false,
             button_text: 'Edit',
         }
@@ -74,10 +73,11 @@ class Profile extends React.Component {
                                     <img src="../../images/default_user_img.png" alt="" className="img-rounded img-responsive" />
                                 </div>
                                 <div className="col-sm-6 col-md-8">
-                                    <h1>{ this.props.user }</h1>
+                                    <h1>{ this.state.first_name + " " + this.state.last_name }</h1>
                                     <small><cite title="Atlanta, USA">
                                         Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
                                     </cite></small>
+                                    <h3>{ this.props.user }</h3>
                                     <div className="form-group">
                                         <div className="row">
                                             <div className="col-xs-12">
@@ -94,18 +94,6 @@ class Profile extends React.Component {
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-lock"></i>Password:
                                                 <p>{ this.props.password }</p>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-globe"></i>Grade Level:
-                                                <p>{ this.state.grade_level }</p>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-apple"></i>Classroom:
-                                                <p>{ this.state.classroom }</p>
                                             </div>
                                         </div>
                                         <div className="row">
@@ -156,9 +144,9 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-const StudentProfile = connect(
+const TutorProfile = connect(
     mapStateToProps,
     mapDispatchToProps
 )(Profile);
 
-export default StudentProfile;
+export default TutorProfile;

@@ -7,6 +7,7 @@ import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 import AboutUs from '../home/AboutUs.jsx';
 import {Router, Route, browserHistory} from 'react-router';
+import TutorProfile from './TutorProfile.jsx';
 
 const DashComp = function() {
   return (
@@ -16,6 +17,7 @@ const DashComp = function() {
           <Route path="/dash" component={DefaultDash}/>
           <Route path="/dash/about" component={AboutUs}/>
           <Route path="/dash/profile" component={StudentProfile}/>
+          <Route path="/dash/tutorprofile" component={TutorProfile}/>
       </Router>
     </div>
   );
