@@ -4,6 +4,7 @@ import { setUserAction } from '../redux/userActions.js';
 import axios from 'axios';
 
 class Profile extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -16,14 +17,14 @@ class Profile extends React.Component {
             grade_level: 9,
             is_edit: false,
             button_text: 'Edit',
-        }
+        };
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
     }
 
     componentDidMount() {
-        var self = this;
+        const self = this;
         axios.get('/user')
             .then(function (response) {
                 if (response.data !== '') {
@@ -42,7 +43,7 @@ class Profile extends React.Component {
     }
 
     handleEdit(event) {
-        var editing = !this.state.is_edit;
+        let editing = !this.state.is_edit;
         this.setState({is_edit: editing});
 
         if (editing) {
@@ -148,13 +149,13 @@ const mapStateToProps = (state) => {
         user : state.user.username,
         password: state.user.password
     }
-}
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
         setUser : (user) => dispatch(setUserAction(user))
     }
-}
+};
 
 const DefaultProfile = connect(
     mapStateToProps,

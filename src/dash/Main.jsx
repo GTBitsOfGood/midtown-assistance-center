@@ -9,7 +9,7 @@ class Main extends React.Component {
     }
 
     componentDidMount() {
-        var self = this;
+        const self = this;
         axios.get('/user')
             .then(function (response) {
                 if (response.data !== '') {
