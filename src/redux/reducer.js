@@ -1,16 +1,17 @@
 import { combineReducers } from 'redux';
 
 export default function userReducer(state, action) {
+    let new_state = Object.assign({}, state);
+
     switch (action.type) {
+
       case 'UPDATE_IN_USER':
-          let new_state = {
-            user: {
-              username: action.payload._id,
-              password: action.payload.password
-            }
-          };
-          return Object.assign({}, state, new_state);
-      default:
-          return state;
+          let new_user = action.payload;
+          new_state.user = new_user;
+          break;
+
+
     }
+
+    return new_state;
 }

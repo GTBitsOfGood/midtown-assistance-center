@@ -6,10 +6,7 @@ import promise from 'redux-promise-middleware';
 import userReducer from './reducer.js';
 
 let store = createStore(userReducer, {
-    user: {
-        username: '',
-        password: ''
-    }
+    user: {}
 
 });
 
