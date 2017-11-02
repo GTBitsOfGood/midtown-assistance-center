@@ -1,9 +1,6 @@
-export const actions = ['user_action'];
-
-
-export function setUserAction (user) {
+export function updateUser (user) {
     return {
-        type: actions[0], 
+        type: 'UPDATE_IN_USER',
         payload: user
     };
 }

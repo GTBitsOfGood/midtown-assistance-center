@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../public/css/index.css';
 import { Nav, Navbar, NavItem, MenuItem, DropdownButton } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { setUserAction } from './redux/userActions.js';
+import { updateUser } from './redux/userActions.js';
 import axios from 'axios';
 
 export class homeMenuBar extends React.Component {
@@ -12,7 +12,7 @@ export class homeMenuBar extends React.Component {
     }
 
     componentDidMount() {
-        var self = this;
+        let self = this;
         axios.get('/user')
             .then(function (response) {
                 if (response.data !== '') {
@@ -92,7 +92,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser : (user) => dispatch(setUserAction(user))
+        setUser : (user) => dispatch(updateUser(user))
     };
 };
 
