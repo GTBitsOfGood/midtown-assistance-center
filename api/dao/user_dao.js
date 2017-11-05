@@ -173,6 +173,10 @@ module.exports = {
     },
 
     saveUser: function(user, callback) {
+      if (user.password === '*****') {
+        callback('The user password is masked! Not saving this to db');
+      }
+
       user.save(function (err, updatedUser) {
         if (err) {
           console.log('Error saving user');

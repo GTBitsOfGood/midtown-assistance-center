@@ -25,7 +25,9 @@ export class DashComp extends React.Component {
           console.log('Dashboard received user info from passport');
 
           // Modify some user properties
-          self.props.setUser(response.data);
+          let user_details = response.data;
+          user_details.password = '****';
+          self.props.setUser(user_details);
         } else {
           console.error('Dashboard received no user info');
         }

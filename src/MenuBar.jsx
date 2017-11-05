@@ -56,7 +56,7 @@ export class homeMenuBar extends React.Component {
                             <NavItem className={styles.navbartext}>About us</NavItem>
                         </Nav>
                         <Nav pullRight>
-                            <MenuItem onClick={() => this.logout()} className={styles.navbartext}>{this.props.user.username}</MenuItem>
+                            <MenuItem onClick={() => this.logout()} className={styles.navbartext}>{this.props.user._id}</MenuItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
