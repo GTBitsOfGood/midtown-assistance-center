@@ -77,7 +77,7 @@ class TutorSearchResult extends React.Component {
                                 </div>
                             </div>
                             <div className="request_hangout text-center">
-                                <h3 className="text-center"><strong>Request a Google Hangouts meeting with {this.props.data.name}</strong>
+                                <h3 className="text-center"><strong>Request a Google Hangouts meeting with {this.props.data.first_name}</strong>
                                 </h3>
                                 <button className="btn btn-lg btn-default mac_button" type="button">
                                     Click Here
