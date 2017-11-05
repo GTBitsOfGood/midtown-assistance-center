@@ -24,7 +24,7 @@ const DashComp = function() {
 
 ReactDOM.render(
     <Provider store={store}>
-        <DashComp/>
+        <DashComp></DashComp>
     </Provider>,
     document.getElementById('root')
 );
