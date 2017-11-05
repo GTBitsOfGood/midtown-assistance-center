@@ -1,6 +1,8 @@
 const Tutor = require('../../models/Tutor');
 const Student = require('../../models/Student');
 
+let config = require('config');
+
 module.exports = {
 
     checkIfUsernameIsTaken: function(username, callback) {
@@ -173,7 +175,7 @@ module.exports = {
     },
 
     saveUser: function(user, callback) {
-      if (user.password === '**hidden**') {
+      if (user.password === config.get('hidden_password')) {
         callback('The user password is masked! Not saving this to db');
       }
 
