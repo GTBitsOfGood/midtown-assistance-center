@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux';
-
-let config = require('config');
+import {client} from 'config'
 
 export default function userReducer(state, action) {
     console.log('user reducer called with', action);

@@ -1,7 +1,7 @@
 const Tutor = require('../../models/Tutor');
 const Student = require('../../models/Student');
 
-let config = require('config');
+import config from 'config'
 
 module.exports = {
 
