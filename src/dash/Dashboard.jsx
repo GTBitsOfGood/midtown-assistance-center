@@ -41,11 +41,11 @@ export class DashComp extends React.Component {
     return (
       <div className="animated fadeInDown">
         <HomeMenuBar homeordash='dash'/>
-        {/*<Router history={browserHistory}>*/}
-        {/*<Route path="/dash" component={DefaultDash}/>*/}
-        {/*<Route path="/dash/about" component={AboutUs}/>*/}
-        {/*<Route path="/dash/profile" component={DefaultProfile}/>*/}
-        {/*</Router>*/}
+          <Router history={browserHistory}>
+          <Route path="/dash" component={DefaultDash}/>
+          <Route path="/dash/about" component={AboutUs}/>
+          <Route path="/dash/profile" component={DefaultProfile}/>
+          </Router>
       </div>
     );
   }
