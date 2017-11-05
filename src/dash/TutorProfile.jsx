@@ -29,6 +29,7 @@ class Profile extends React.Component {
         this.handleBioChange = this.handleBioChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleAddSchedule = this.handleAddSchedule.bind(this);
+        this.handleRemoveSchedule = this.handleRemoveSchedule(this);
     }
 
     componentDidMount() {
@@ -65,7 +66,11 @@ class Profile extends React.Component {
     handleAddSchedule(event) {
         this.state.schedule.push({date: "monday", start: "00:00", end: "00:00"});
         console.log(this.state.schedule);
-        
+
+    }
+
+    handleRemoveSchedule(event) {
+        // TODO
     }
 
     handleBioChange(event) {
@@ -81,7 +86,7 @@ class Profile extends React.Component {
         const scheduleItems = this.state.schedule.map((d) =>
             <div className="time-item">
                 <TimePicker date={d.date} start={d.start} end={d.end}/>
-                <button className="btn btn-danger btn-sm">Remove</button>
+                <button className="btn btn-danger btn-sm" onClick={ this.handleRemoveSchedule }>Remove</button>
             </div>
         );
 
