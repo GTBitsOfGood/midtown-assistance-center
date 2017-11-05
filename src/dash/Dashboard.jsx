@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import HomeMenuBar from '../MenuBar.jsx';
-import DefaultDash from './StudentDash.jsx';
-import DefaultProfile from './Profile.jsx';
+import DefaultDash from './student_view/StudentDash.jsx';
+import DefaultProfile from './student_view/Profile.jsx';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 import AboutUs from '../home/AboutUs.jsx';
