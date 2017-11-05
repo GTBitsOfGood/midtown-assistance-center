@@ -94,7 +94,9 @@ class DefaultDash extends React.Component {
         super(props);
         this.state = {
             searchType:"online",
-            displayTutors: this.getDisplayTutors("online")
+            displayTutors: this.getDisplayTutors("online"),
+            searchTime:"ASAP",
+            searchSubject:null
         }
         this.handleSearchClicked = this.handleSearchClicked.bind(this);
         this.getDisplayTutors = this.getDisplayTutors.bind(this);
@@ -105,8 +107,9 @@ class DefaultDash extends React.Component {
     handleSearchClicked(subject, time) {
         this.setState({searchType:"searchResults"});
         this.setState({displayTutors: this.getDisplayTutors("searchResults", subject, time)});
+        this.setState({searchSubject:subject});
+        this.setState({searchTime:time});
         this.forceUpdate();
-        console.log(this.state.displayTutors);
     }
 
     getDisplayTutors(searchType, subject, time) {
@@ -135,7 +138,7 @@ class DefaultDash extends React.Component {
                 <div className="col-md-12 atlanta">
                     <DashSearchBar handleSearchClicked={this.handleSearchClicked}/>
                 </div>
-                <DefaultDashTutorList data={this.state.displayTutors} searchType={this.state.searchType}/>
+                <DefaultDashTutorList subject={this.state.searchSubject} time={this.state.searchTime} data={this.state.displayTutors} searchType={this.state.searchType}/>
             </div>
         );
     }
