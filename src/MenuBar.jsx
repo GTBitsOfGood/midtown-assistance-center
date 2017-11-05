@@ -55,10 +55,19 @@ export class homeMenuBar extends React.Component {
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav pullLeft>
-                            <NavItem className={styles.navbartext}>About us</NavItem>
+                            {window.location.pathname === '/dash/about' ?
+                            <MenuItem className={styles.navbartext} href="/dash">Dashboard</MenuItem>
+                            :
+                            <MenuItem className={styles.navbartext} href="/dash/about">About us</MenuItem>}
                         </Nav>
                         <Nav pullRight>
-                            <MenuItem onClick={() => this.logout()} className={styles.navbartext}>{this.props.user._id}</MenuItem>
+                            <span><img className="nav-prof-pic" src='/images/user.png'></img></span>
+                                <DropdownButton className="btn btn-sm dropdown-menu-button" title={this.props.user._id}>
+                                    <MenuItem href="#">Usage</MenuItem>
+                                    <MenuItem href="#">Edit Profile</MenuItem>
+                                    <MenuItem divider></MenuItem>
+                                    <MenuItem onClick={() => this.logout()}>Log Out</MenuItem>
+                                 </DropdownButton>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
