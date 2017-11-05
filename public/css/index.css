@@ -217,6 +217,12 @@ body {
 .form-group.row {
     margin: 5px;
 }
+
+/*time picker*/
+.time-pick {
+    margin: 0px 0px 0px 10px;
+}
+
 /*general*/
 .mac_button {
     border: 1px solid var(--black);

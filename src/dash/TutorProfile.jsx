@@ -3,7 +3,11 @@ import { connect } from 'react-redux';
 import { setUserAction } from '../redux/userActions.js';
 import axios from 'axios';
 
+import TimePicker from './TimePicker.jsx';
+
+
 class Profile extends React.Component {
+
     constructor(props) {
         super(props);
         this.state = {
@@ -15,7 +19,12 @@ class Profile extends React.Component {
             classroom: 'asdf1234',
             is_edit: false,
             button_text: 'Edit',
-        }
+            schedule: [
+                {date: "monday", start: "13:30", end: "15:00"},
+                {date: "wednesday", start: "11:00", end: "12:00"},
+                {date: "friday", start: "13:00", end: "15:00"}
+            ]
+        };
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -62,6 +71,8 @@ class Profile extends React.Component {
 
 
     render() {
+        const scheduleItems = this.state.schedule.map((d) => <TimePicker date={d.date} start={d.start} end={d.end}/>);
+
         return (
             <div className="container">
                 <br/>
@@ -114,6 +125,7 @@ class Profile extends React.Component {
                                             </div>
                                         </div>
                                     </div>
+                                    { scheduleItems }
                                     <button
                                         className="btn btn-primary"
                                         type="submit"
