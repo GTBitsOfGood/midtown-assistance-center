@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setUserAction } from '../redux/userActions.js';
+import { updateUser } from '../../redux/actions.js';
 import axios from 'axios';
 
 import TimePicker from './TimePicker.jsx';
@@ -169,17 +169,14 @@ class Profile extends React.Component {
 
 const mapStateToProps = (state) => {
     console.log(state);
-    return {
-        user : state.user.username,
-        password: state.user.password
-    }
-}
+    return state;
+};
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser : (user) => dispatch(setUserAction(user))
+        setUser : (user) => dispatch(updateUser(user))
     }
-}
+};
 
 const TutorProfile = connect(
     mapStateToProps,

@@ -22,7 +22,7 @@ class Profile extends React.Component {
     }
 
     handleBioChange(event) {
-        
+
     }
 
     handleEdit(event) {
