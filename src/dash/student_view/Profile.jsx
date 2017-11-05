@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateUser } from '../redux/actions.js';
+import { updateUser } from '../../redux/actions.js';
 
 class Profile extends React.Component {
 
@@ -13,12 +13,16 @@ class Profile extends React.Component {
 
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
-        this.handleEmailChange = this.handleEmailChange.bind(this);
+        // this.handleEmailChange = this.handleEmailChange.bind(this);
     }
 
     handleSave() {
         // TODO: update database with updated info
         alert("(Didn't) save updated info!");
+    }
+
+    handleBioChange(event) {
+        
     }
 
     handleEdit(event) {
@@ -81,7 +85,8 @@ class Profile extends React.Component {
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-calendar"></i>Join Date:
-                                                <p>{ this.props.user.join_date.toDateString() }</p>
+                                                <p>No date right now</p>
+                                                {/*<p>{ this.props.user.join_date.toDateString() }</p>*/}
                                             </div>
                                         </div>
                                         <div className="row">
@@ -90,7 +95,7 @@ class Profile extends React.Component {
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
-                                                    value={ this.probs.user.bio }
+                                                    value={ this.props.user.bio }
                                                     disabled={ !this.state.is_edit }/>
                                             </div>
                                         </div>
