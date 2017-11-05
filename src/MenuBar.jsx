@@ -2,8 +2,6 @@ import React from 'react';
 import styles from '../public/css/index.css';
 import { Nav, Navbar, NavItem, MenuItem, DropdownButton } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { updateUser } from './redux/actions.js';
-import axios from 'axios';
 
 export class homeMenuBar extends React.Component {
     constructor(props) {
@@ -11,28 +9,11 @@ export class homeMenuBar extends React.Component {
 
     }
 
-    componentDidMount() {
-        let self = this;
-        axios.get('/user')
-            .then(function (response) {
-                if (response.data !== '') {
-                    console.log('MENU BAR:' + response.data);
-
-                    // TODO remove user password
-                    self.props.setUser(response.data);
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
     logout() {
         axios.get('/logout').then(function(response) {
             console.log(response);
             if (response.data === true) {
                 document.location.href='/';
-
             }
         }).catch(function(error) {
             console.log(error);
@@ -75,7 +56,7 @@ export class homeMenuBar extends React.Component {
                             <NavItem className={styles.navbartext}>About us</NavItem>
                         </Nav>
                         <Nav pullRight>
-                            <MenuItem onClick={() => this.logout()} className={styles.navbartext}>{this.props.user}</MenuItem>
+                            <MenuItem onClick={() => this.logout()} className={styles.navbartext}>{this.props.user.username}</MenuItem>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
@@ -85,14 +66,11 @@ export class homeMenuBar extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return state;
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        setUser : (user) => dispatch(updateUser(user))
-    };
+    return {};
 };
 
 const HomeMenuBar = connect(

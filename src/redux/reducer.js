@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
 export default function userReducer(state, action) {
-    console.warn(action + ' called on user reducer');
+    console.log('user reducer called with', action);
     let new_state = Object.assign({}, state);
 
     switch (action.type) {

@@ -7,11 +7,10 @@ import userReducer from './reducer.js';
 
 let store = createStore(userReducer, {
     user: {}
-
 });
 
 store.subscribe(() => {
-    console.log('store changed', store.getState());
+    console.log('store changed: ', store.getState());
 });
 
 export default store;
