@@ -92,14 +92,50 @@ const tutors = [
 class DefaultDash extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+            searchType:"online",
+            displayTutors: this.getDisplayTutors("online")
+        }
+        this.handleSearchClicked = this.handleSearchClicked.bind(this);
+        this.getDisplayTutors = this.getDisplayTutors.bind(this);
+
     }
+
+
+    handleSearchClicked(subject, time) {
+        this.setState({searchType:"searchResults"});
+        this.setState({displayTutors: this.getDisplayTutors("searchResults", subject, time)});
+        this.forceUpdate();
+        console.log(this.state.displayTutors);
+    }
+
+    getDisplayTutors(searchType, subject, time) {
+        var newTutorsList;
+        if (searchType === "online") {
+            newTutorsList = tutors.filter((obj, num) => {
+                return obj.online;
+            });
+        } else {
+            alert(subject);
+            newTutorsList = tutors.filter((obj, num) => {
+                return obj.subjects.reduce((acc, curr) => {
+                    return curr.subject === subject ? acc + 1 : acc;
+                }, 0);
+            });
+        }
+
+        console.log(newTutorsList);
+        return newTutorsList;
+    }
+
     render() {
+
         return (
             <div>
                 <div className="col-md-12 atlanta">
-                    <DashSearchBar/>
+                    <DashSearchBar handleSearchClicked={this.handleSearchClicked}/>
                 </div>
-                <DefaultDashTutorList data={tutors} />
+                <DefaultDashTutorList data={this.state.displayTutors} searchType={this.state.searchType}/>
             </div>
         );
     }
