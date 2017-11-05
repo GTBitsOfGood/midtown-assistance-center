@@ -121,7 +121,7 @@ class DefaultDash extends React.Component {
         } else {
             newTutorsList = tutors.filter((obj, num) => {
                 return obj.subjects.reduce((acc, curr) => {
-                    return curr.subject === subject ? acc + 1 : acc;
+                    return curr.subject.toLowerCase() === subject.toLowerCase() ? acc + 1 : acc;
                 }, 0);
             });
         }
