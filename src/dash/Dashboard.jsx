@@ -23,11 +23,7 @@ export class DashComp extends React.Component {
       .then(function (response) {
         if (response.data !== '') {
           console.log('Dashboard received user info from passport');
-
-          // Modify some user properties
-          let user_details = response.data;
-          user_details.password = '****';
-          self.props.setUser(user_details);
+          self.props.setUser(response.data);
         } else {
           console.error('Dashboard received no user info');
         }

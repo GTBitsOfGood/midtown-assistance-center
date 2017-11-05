@@ -9,6 +9,10 @@ export default function userReducer(state, action) {
       case 'UPDATE_IN_USER':
           let new_user = action.payload;
           new_state.user = new_user;
+
+          // Hide password
+          new_state.user.password = '**hidden**';
+
           break;
 
 
