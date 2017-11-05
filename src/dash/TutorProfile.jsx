@@ -130,7 +130,12 @@ class Profile extends React.Component {
                                             </div>
                                         </div>
                                     </div>
-                                    { scheduleItems }
+                                    <div className="row">
+                                        <div className="col-xs-12">
+                                            <i className="glyphicon glyphicon-time"></i> Schedule:
+                                            { scheduleItems }
+                                        </div>
+                                    </div>
                                     <button
                                         className="btn btn-primary"
                                         type="submit"
