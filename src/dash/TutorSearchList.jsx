@@ -20,7 +20,10 @@ class DefaultDashTutorList extends React.Component {
         return (
             <div className="col-md-10 col-md-offset-1 tutor-list-wrapper">
                 <h3 className="text-uppercase tutors-header">
-                { this.props.searchType == "online" ? "Tutors Currently Online" : "Search Results for " + this.props.subject + " " + this.props.time}
+                { this.props.searchType == "online" ? "Tutors Currently Online" : "Search Results for "}
+                <span className='gold_text'>
+                { this.props.searchType == "online" ? "" : this.props.subject + " " + this.props.time }
+                </span>
                 </h3>
                  <div className="panel-group tutors-list" id="accordion">
                   {renData}

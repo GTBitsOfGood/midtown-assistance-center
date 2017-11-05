@@ -119,15 +119,12 @@ class DefaultDash extends React.Component {
                 return obj.online;
             });
         } else {
-            alert(subject);
             newTutorsList = tutors.filter((obj, num) => {
                 return obj.subjects.reduce((acc, curr) => {
                     return curr.subject === subject ? acc + 1 : acc;
                 }, 0);
             });
         }
-
-        console.log(newTutorsList);
         return newTutorsList;
     }
 
