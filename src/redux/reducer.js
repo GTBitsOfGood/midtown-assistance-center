@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import {client} from 'config'
+import config from 'config'
 
 export default function userReducer(state, action) {
     console.log('user reducer called with', action);
@@ -12,7 +12,7 @@ export default function userReducer(state, action) {
           new_state.user = new_user;
 
           // Hide password (even though our backend should already hide it)
-          new_state.user.password = config.get('hidden_password');
+          new_state.user.password = config.hidden_password;
 
           break;
     }
