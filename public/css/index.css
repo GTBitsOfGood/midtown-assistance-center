@@ -223,6 +223,11 @@ body {
     margin: 0px 0px 0px 10px;
 }
 
+.time-item {
+    margin: 10px 0 5px 0;
+}
+
+
 /*general*/
 .mac_button {
     border: 1px solid var(--black);

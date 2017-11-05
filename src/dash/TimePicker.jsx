@@ -21,7 +21,7 @@ class TimePicker extends React.Component {
 
     render() {
         return (
-            <div>
+            <span>
                 <select defaultValue={ this.props.date }>
                     <option value="sunday">Sunday</option>
                     <option value="monday">Monday</option>
@@ -39,7 +39,7 @@ class TimePicker extends React.Component {
                     <label>End Time: </label>
                     <input type="time" value={ this.state.end } onChange={ this.handleEndChange }/>
                 </span>
-            </div>
+            </span>
 
         )
     }

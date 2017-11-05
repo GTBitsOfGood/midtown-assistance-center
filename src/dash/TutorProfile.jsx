@@ -71,7 +71,12 @@ class Profile extends React.Component {
 
 
     render() {
-        const scheduleItems = this.state.schedule.map((d) => <TimePicker date={d.date} start={d.start} end={d.end}/>);
+        const scheduleItems = this.state.schedule.map((d) =>
+            <div className="time-item">
+                <TimePicker date={d.date} start={d.start} end={d.end}/>
+                <button className="btn btn-danger btn-sm">Remove</button>
+            </div>
+        );
 
         return (
             <div className="container">
