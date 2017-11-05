@@ -2,7 +2,7 @@ import React from 'react';
 import styles from '../public/css/index.css';
 import { Nav, Navbar, NavItem, MenuItem, DropdownButton } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { updateUser } from './redux/userActions.js';
+import { updateUser } from './redux/actions.js';
 import axios from 'axios';
 
 export class homeMenuBar extends React.Component {
@@ -84,10 +84,7 @@ export class homeMenuBar extends React.Component {
 
 const mapStateToProps = (state) => {
     console.log(state);
-    return {
-        user : state.user.username,
-        password: state.user.password
-    };
+    return state;
 };
 
 const mapDispatchToProps = (dispatch) => {
