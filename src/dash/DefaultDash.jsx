@@ -6,7 +6,7 @@ const tutors = [
     {
         first_name: 'Sruti',
         last_name: 'Guhathakurta',
-        subjects: [{subject:'Math', start_grade:6, end_grade:12},{subject:'Science', start_grade:5, end_grade:7},{subject:'Computers', start_grade:6, end_grade:12}],
+        subjects: [{subject:'Math', start_grade:6, end_grade:12},{subject:'Science', start_grade:5, end_grade:7},{subject:'Computer Science', start_grade:6, end_grade:12}],
         availability: {
             Monday: [{start_time:'2:00', end_time:'3:00'}],
             Tuesday: [{start_time:'6:00', end_time:'7:00'}],
@@ -85,6 +85,27 @@ const tutors = [
         class_standing: 'Junior',
         rating: 1,
         online:true,
+        gender: 'male'
+    },
+    {
+        first_name: 'John',
+        last_name: 'Doe',
+        subjects: [{subject:'Architecture', start_grade:7, end_grade:11},{subject:'Computer Science', start_grade:8, end_grade:9},{subject:'Biology', start_grade:8, end_grade:12}],
+        availability: {
+            Monday: [],
+            Tuesday: [],
+            Wednesday: [],
+            Thursday: [],
+            Friday: [{start_time:'12:00', end_time:'1:00'},{start_time:'2:00', end_time:'3:00'},{start_time:'4:00', end_time:'5:00'}],
+            Saturday: [],
+            Sunday: []
+        },
+        profile_picture: '/images/default_user_img.png',
+        bio: 'Hello, my name is John. Please ask me for help, I am smart.',
+        email: 'jdoe6@gatech.edu',
+        class_standing: 'Freshman',
+        rating: 2.5,
+        online:false,
         gender: 'male'
     }
 ];
