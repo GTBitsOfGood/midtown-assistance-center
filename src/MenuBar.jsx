@@ -2,6 +2,7 @@ import React from 'react';
 import styles from '../public/css/index.css';
 import { Nav, Navbar, NavItem, MenuItem, DropdownButton } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 export class homeMenuBar extends React.Component {
     constructor(props) {
@@ -10,6 +11,7 @@ export class homeMenuBar extends React.Component {
     }
 
     logout() {
+      console.warn('Logging out user');
         axios.get('/logout').then(function(response) {
             console.log(response);
             if (response.data === true) {
