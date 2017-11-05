@@ -28,6 +28,7 @@ class Profile extends React.Component {
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleAddSchedule = this.handleAddSchedule.bind(this);
     }
 
     componentDidMount() {
@@ -59,6 +60,12 @@ class Profile extends React.Component {
             this.setState({button_text: 'Edit'});
             this.handleSave();
         }
+    }
+
+    handleAddSchedule(event) {
+        this.state.schedule.push({date: "monday", start: "00:00", end: "00:00"});
+        console.log(this.state.schedule);
+        
     }
 
     handleBioChange(event) {
@@ -134,6 +141,9 @@ class Profile extends React.Component {
                                         <div className="col-xs-12">
                                             <i className="glyphicon glyphicon-time"></i> Schedule:
                                             { scheduleItems }
+                                            <button className="btn btn-success" onClick={ this.handleAddSchedule }>
+                                                Add Schedule
+                                            </button>
                                         </div>
                                     </div>
                                     <button
