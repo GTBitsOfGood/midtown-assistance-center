@@ -23,20 +23,6 @@ class Profile extends React.Component {
         this.handleEmailChange = this.handleEmailChange.bind(this);
     }
 
-    componentDidMount() {
-        const self = this;
-        axios.get('/user')
-            .then(function (response) {
-                if (response.data !== '') {
-                    console.log("MOUNT:", response.data);
-                    self.props.setUser(response.data);
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
     handleSave() {
         // TODO: update database with updated info
         alert("(Didn't) save updated info!");
@@ -145,10 +131,7 @@ class Profile extends React.Component {
 
 const mapStateToProps = (state) => {
     console.log(state);
-    return {
-        user : state.user.username,
-        password: state.user.password
-    }
+    return state;
 };
 
 const mapDispatchToProps = (dispatch) => {

@@ -16,7 +16,9 @@ export class homeMenuBar extends React.Component {
         axios.get('/user')
             .then(function (response) {
                 if (response.data !== '') {
-                    console.log(response.data);
+                    console.log('MENU BAR:' + response.data);
+
+                    // TODO remove user password
                     self.props.setUser(response.data);
                 }
             })
