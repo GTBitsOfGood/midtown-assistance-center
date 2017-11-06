@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 // import './Homepage.css';
 import styles from '../../../public/css/login_signup.css';
 import axios from 'axios';
-// import './mac.jpg'
 
 class Loginpage extends React.Component {
     constructor(props) {
