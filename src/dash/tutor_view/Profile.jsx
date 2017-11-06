@@ -59,6 +59,9 @@ class Profile extends React.Component {
 
     handleRemoveSchedule(event) {
         // TODO
+        // this.setState({people: this.state.people.filter(function(person) {
+        //     return person !== e.target.value
+        // })};
     }
 
     handleBioChange(event) {
@@ -71,10 +74,10 @@ class Profile extends React.Component {
 
 
     render() {
-        const scheduleItems = this.state.schedule.map((d) =>
+        const scheduleItems = this.state.schedule.map((d, index) =>
             <div className="time-item">
-                <TimePicker date={d.date} start={d.start} end={d.end} is_edit={ this.state.is_edit }/>
-                <button className="btn btn-danger btn-sm" onClick={ this.handleRemoveSchedule }>Remove</button>
+                <TimePicker key={index} date={d.date} start={d.start} end={d.end} is_edit={ this.state.is_edit }/>
+                <button value={index} className="btn btn-danger btn-sm" onClick={ this.handleRemoveSchedule }>Remove</button>
             </div>
         );
 
