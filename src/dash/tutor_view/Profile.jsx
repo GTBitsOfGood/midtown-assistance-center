@@ -32,20 +32,6 @@ class Profile extends React.Component {
         this.handleRemoveSchedule = this.handleRemoveSchedule(this);
     }
 
-    componentDidMount() {
-        var self = this;
-        axios.get('/user')
-            .then(function (response) {
-                if (response.data !== '') {
-                    console.log("MOUNT:", response.data);
-                    self.props.setUser(response.data);
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
     handleSave() {
         // TODO: update database with updated info
         alert("(Didn't) save updated info!");
@@ -64,9 +50,11 @@ class Profile extends React.Component {
     }
 
     handleAddSchedule(event) {
-        this.state.schedule.push({date: "monday", start: "00:00", end: "00:00"});
-        console.log(this.state.schedule);
-
+        if (this.state.is_edit) {
+            let temp = this.state.schedule;
+            temp.push({date: "monday", start: "00:00", end: "00:00"});
+            this.setState({schedule: temp});
+        }
     }
 
     handleRemoveSchedule(event) {
@@ -85,7 +73,7 @@ class Profile extends React.Component {
     render() {
         const scheduleItems = this.state.schedule.map((d) =>
             <div className="time-item">
-                <TimePicker date={d.date} start={d.start} end={d.end}/>
+                <TimePicker date={d.date} start={d.start} end={d.end} is_edit={ this.state.is_edit }/>
                 <button className="btn btn-danger btn-sm" onClick={ this.handleRemoveSchedule }>Remove</button>
             </div>
         );
@@ -105,7 +93,7 @@ class Profile extends React.Component {
                                     <small><cite title="Atlanta, USA">
                                         Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
                                     </cite></small>
-                                    <h3>{ this.props.user }</h3>
+                                    <h3>{ this.props.user._id }</h3>
                                     <div className="form-group">
                                         <div className="row">
                                             <div className="col-xs-12">
@@ -120,8 +108,8 @@ class Profile extends React.Component {
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-lock"></i>Password:
-                                                <p>{ this.props.password }</p>
+                                                <i className="glyphicon glyphicon-lock"/>Password:
+                                                <p>{ this.props.user.password }</p>
                                             </div>
                                         </div>
                                         <div className="row">

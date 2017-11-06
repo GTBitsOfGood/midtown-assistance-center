@@ -10,6 +10,7 @@ import {Router, Route, browserHistory} from 'react-router';
 import { updateUser } from '../redux/actions.js';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import TutorProfile from "./tutor_view/Profile.jsx";
 
 export class DashComp extends React.Component {
   constructor(props) {
@@ -41,6 +42,7 @@ export class DashComp extends React.Component {
           <Route path="/dash" component={DefaultDash}/>
           <Route path="/dash/about" component={AboutUs}/>
           <Route path="/dash/profile" component={DefaultProfile}/>
+          <Route path="/dash/tutorprofile" component={TutorProfile}/>
           </Router>
       </div>
     );

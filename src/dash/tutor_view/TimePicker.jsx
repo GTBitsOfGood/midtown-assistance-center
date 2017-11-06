@@ -22,7 +22,7 @@ class TimePicker extends React.Component {
     render() {
         return (
             <span>
-                <select defaultValue={ this.props.date }>
+                <select defaultValue={ this.props.date } disabled={ !this.props.is_edit }>
                     <option value="sunday">Sunday</option>
                     <option value="monday">Monday</option>
                     <option value="tuesday">Tuesday</option>
@@ -33,11 +33,11 @@ class TimePicker extends React.Component {
                 </select>
                 <span className="time-pick">
                     <label>Start Time: </label>
-                    <input type="time" value={ this.state.start } onChange={ this.handleStartChange }/>
+                    <input type="time" value={ this.state.start } onChange={ this.handleStartChange } disabled={ !this.props.is_edit }/>
                 </span>
                 <span className="time-pick">
                     <label>End Time: </label>
-                    <input type="time" value={ this.state.end } onChange={ this.handleEndChange }/>
+                    <input type="time" value={ this.state.end } onChange={ this.handleEndChange } disabled={ !this.props.is_edit }/>
                 </span>
             </span>
 
