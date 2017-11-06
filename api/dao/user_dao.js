@@ -167,8 +167,12 @@ module.exports = {
 
         tutors = tutors.filter(filterByOnline);
         tutors = tutors.filter(filterByApproved);
-        tutors = tutors.filter(filterBySubject);
-        tutors = tutors.filter(filterByAvailability);
+        if (subject) {
+            tutors = tutors.filter(filterBySubject);
+        }
+        if (availability) {
+            tutors = tutors.filter(filterByAvailability);
+        }
 
         callback(null, tutors);
       });

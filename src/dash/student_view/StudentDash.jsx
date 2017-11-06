@@ -2,7 +2,6 @@ import React from 'react';
 import DashSearchBar from './SearchBar.jsx';
 import DefaultDashTutorList from './TutorSearchList.jsx';
 
-
 const tutors = [
     {
         first_name: 'Sruti',
@@ -22,7 +21,7 @@ const tutors = [
         email: 'sruti@gatech.edu',
         class_standing: 'Senior',
         rating: 5,
-        online:false,
+        online: false,
         gender: 'female'
     },
     {
