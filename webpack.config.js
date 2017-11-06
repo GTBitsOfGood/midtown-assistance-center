@@ -1,3 +1,9 @@
+const config = require('config');
+const fs = require('fs');
+const path = require("path");
+
+fs.writeFileSync(path.resolve(__dirname, 'config/client.json'), JSON.stringify(config));
+
 module.exports = {
   entry: {
     entry1: './src/home/HomePage.jsx',
@@ -30,5 +36,10 @@ module.exports = {
         }
       }
     ]
+  },
+  resolve: {
+    alias: {
+      config: path.resolve(__dirname, 'config/client.json')
+    }
   }
 };

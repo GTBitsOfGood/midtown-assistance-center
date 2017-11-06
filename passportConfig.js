@@ -5,6 +5,7 @@ const app = express();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const data_access = require('./api/data_access');
+import config from 'config'
 
 app.use(require('cookie-parser')());
 
@@ -56,7 +57,12 @@ passport.deserializeUser(function(id, done) {
 });
 
 app.get('/user', (req, res) => {
-    res.send(req.user);
+    let user_details = req.user;
+
+    // Hide the password
+    user_details.password = config.hidden_password;
+
+    res.send(user_details);
 });
 
 app.get('/logout', (req, res) => {

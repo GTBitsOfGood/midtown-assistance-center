@@ -1,11 +1,21 @@
 import { combineReducers } from 'redux';
-import {actions} from './userActions.js';
+import config from 'config'
 
 export default function userReducer(state, action) {
+    console.log('user reducer called with', action);
+    let new_state = Object.assign({}, state);
+
     switch (action.type) {
-    case actions[0]:
-        return Object.assign({}, state, {user: {username: action.payload._id, password: action.payload.password}});
-    default:
-        return state;
+
+      case 'UPDATE_IN_USER':
+          let new_user = action.payload;
+          new_state.user = new_user;
+
+          // Hide password (even though our backend should already hide it)
+          new_state.user.password = config.hidden_password;
+
+          break;
     }
+
+    return new_state;
 }

@@ -20,10 +20,6 @@ class TutorSearchResult extends React.Component {
             halfStars:0,
             emptyStars:0,
         };
-
-
-
-
     }
 
 
@@ -31,14 +27,14 @@ class TutorSearchResult extends React.Component {
         this.state.halfStars = (this.props.data.rating - Math.floor(this.props.data.rating))/0.5;
         this.state.emptyStars = (5 - Math.ceil(this.props.data.rating));
         this.state.fullStars = Math.floor(this.props.data.rating);
-        var stars = [];
-        for (var x = 0; x < this.state.fullStars; x++) {
+        let stars = [];
+        for (let x = 0; x < this.state.fullStars; x++) {
             stars.push(<span><img className="star" src='/images/full-star.png' width="25" height="25"></img></span>);
         }
-        for (var y = 0; y < this.state.halfStars; y++) {
+        for (let y = 0; y < this.state.halfStars; y++) {
             stars.push(<span><img className="star" src='/images/half-star.png' width="25" height="25"></img></span>);
         }
-        for (var z = 0; z < this.state.emptyStars; z++) {
+        for (let z = 0; z < this.state.emptyStars; z++) {
             stars.push(<span><img className="star" src='/images/empty-star.png' width="25" height="25"></img></span>);
         }
         return (
@@ -77,7 +73,7 @@ class TutorSearchResult extends React.Component {
                                 </div>
                             </div>
                             <div className="request_hangout text-center">
-                                <h3 className="text-center"><strong>Request a Google Hangouts meeting with {this.props.data.name}</strong>
+                                <h3 className="text-center"><strong>Request a Google Hangouts meeting with {this.props.data.first_name}</strong>
                                 </h3>
                                 <button className="btn btn-lg btn-default mac_button" type="button">
                                     Click Here
