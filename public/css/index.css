@@ -26,6 +26,9 @@ body {
   margin-bottom: 0;
   border: 0;
   border-radius: 0 ! important;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0px 10px 0 rgba(0, 0, 0, 0.19);
+  z-index: 99;
+
 }
 
 .navbartext, .navbartext > a, .navbarheader {
@@ -215,6 +218,43 @@ body {
 .form-group.row {
     margin: 5px;
 }
+
+/*Admin Dash*/
+
+.tutor-dash-wrapper {
+    padding: 0;
+}
+.approve-tutors-panel {
+    background-color: var(--ltgray);
+    height: 100vh;
+    margin-left: 0;
+    overflow-y: scroll;
+    padding-top: 1%;
+    border-right: 1px double var(--gray);
+
+}
+
+.tutor-dash-header {
+    font-weight: 300;
+    color: var(--dkgray);
+}
+
+.approve-tutor-item {
+  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2), 0 0px 5px 0 rgba(0, 0, 0, 0.19);
+  padding: 0px 5px 15px 5px;
+  margin-bottom: 5%;
+  background-color: white;
+}
+
+.approve-tutors-list {
+    margin-top: 5%;
+}
+
+.approve-button, .reject-button {
+    border-radius: 0;
+    width: 30%;
+}
+
 /*general*/
 .mac_button {
     border: 1px solid var(--black);
@@ -239,5 +279,16 @@ body {
 .capitalize {
     text-transform: capitalize;
 }
+
+.mac_anchor {
+    color: var(--black);
+}
+
+.mac_anchor:hover {
+    color: var(--gold);
+    text-decoration: none;
+}
+
+
 
 
