@@ -1,5 +1,8 @@
 import React from 'react';
 import ApproveTutors from './ApproveTutors.jsx';
+import TutorStatistics from './TutorStatistics.jsx';
+import Members from './Members.jsx';
+
 
 const tutors = [
     {
@@ -21,7 +24,8 @@ const tutors = [
         class_standing: 'Senior',
         rating: 5,
         online: false,
-        gender: 'female'
+        gender: 'female',
+        approved:true
     },
     {
         first_name: 'Bob',
@@ -42,7 +46,8 @@ const tutors = [
         class_standing: 'Senior',
         rating: 3.5,
         online:true,
-        gender: 'male'
+        gender: 'male',
+        approved:true
     },
     {
         first_name: 'Alice',
@@ -63,7 +68,8 @@ const tutors = [
         class_standing: 'Sophomore',
         rating: 4,
         online:true,
-        gender:'female'
+        gender:'female',
+        approved:true
     },
     {
         first_name: 'Dan',
@@ -84,7 +90,8 @@ const tutors = [
         class_standing: 'Junior',
         rating: 1,
         online:true,
-        gender: 'male'
+        gender: 'male',
+        approved:true
     },
     {
         first_name: 'John',
@@ -105,15 +112,41 @@ const tutors = [
         class_standing: 'Freshman',
         rating: 2.5,
         online:false,
-        gender: 'male'
+        gender: 'male',
+        approved:true
     },
     {
-        first_name: 'John',
-        last_name: 'Doe',
-        email: 'jdoe6@gatech.edu',
+        first_name: 'Donald',
+        last_name: 'Trump',
+        email: 'dtrump1@gatech.edu',
         online:false,
-        gender: 'male'
-    }
+        gender: 'male',
+        approved:false
+    },
+    {
+        first_name: 'Barack',
+        last_name: 'Obama',
+        email: 'bobama6@gatech.edu',
+        online:false,
+        gender: 'male',
+        approved:false
+    },
+    {
+        first_name: 'Hillary',
+        last_name: 'Clinton',
+        email: 'hclinton3@gatech.edu',
+        online:true,
+        gender: 'female',
+        approved:false
+    },
+    {
+         first_name: 'Mitt',
+         last_name: 'Romney',
+         email: 'mromney3@gatech.edu',
+         online:false,
+         gender: 'male',
+         approved:false
+     }
 ];
 
 class DefaultAdminDash extends React.Component {
@@ -121,9 +154,13 @@ class DefaultAdminDash extends React.Component {
     super(props);
   }
   render() {
+    const notApprovedTutors = tutors.filter((obj) => {
+                                return !(obj.approved);
+                            });
     return (
     <div className="col-md-12 tutor-dash-wrapper">
-      <ApproveTutors data={tutors}></ApproveTutors>
+      <ApproveTutors data={notApprovedTutors}></ApproveTutors>
+      <TutorStatistics></TutorStatistics>
     </div>
     );
   }

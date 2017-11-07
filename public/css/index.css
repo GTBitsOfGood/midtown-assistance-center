@@ -7,6 +7,7 @@
     --purple: #160c28;
     --black: #000411;
     --blackhover: #222633;
+    --lighterblack: #383B47;
     --tutorBorderColor: var(--gray);
     --primaryLight: #EEEEEE;
 }
@@ -225,25 +226,27 @@ body {
     padding: 0;
 }
 .approve-tutors-panel {
-    background-color: var(--ltgray);
+    background-color: var(--blackhover);
     height: 100vh;
     margin-left: 0;
     overflow-y: scroll;
     padding-top: 1%;
     border-right: 1px double var(--gray);
+    padding: 1%;
 
 }
 
 .tutor-dash-header {
     font-weight: 300;
-    color: var(--dkgray);
+    color: var(--gray);
 }
 
 .approve-tutor-item {
-  box-shadow: 0 0 2px 0 rgba(0, 0, 0, 0.2), 0 0px 5px 0 rgba(0, 0, 0, 0.19);
+  box-shadow: 0 0 2px 0 var(--black), 0 0px 5px 0 var(--lighterblack);
   padding: 0px 5px 15px 5px;
-  margin-bottom: 5%;
-  background-color: white;
+  margin-bottom: 1%;
+  background-color: var(--lighterblack);
+  color: var(--ltgray);
 }
 
 .approve-tutors-list {
@@ -253,6 +256,12 @@ body {
 .approve-button, .reject-button {
     border-radius: 0;
     width: 30%;
+}
+
+.tutor-statistics {
+    padding-top: 1%;
+    /*border-bottom: 1px double var(--gray);
+    height: 50vh;*/
 }
 
 /*general*/
@@ -281,7 +290,7 @@ body {
 }
 
 .mac_anchor {
-    color: var(--black);
+    color: var(--ltgray);
 }
 
 .mac_anchor:hover {
