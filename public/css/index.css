@@ -330,6 +330,7 @@ body {
 .mac_button_group {
     color: var(--lighterblack);
     border-radius: 0;
+    margin-left: 5%;
 }
 .mac_button_group:hover {
     color: var(--gold);
