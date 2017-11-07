@@ -93,13 +93,11 @@ body {
 
 .search-btn {
     border-radius: 0;
-    border: 0;
     height: 100% ! important;
-    border-left: 1px solid var(--gray);
-    border-style: solid;
     -webkit-box-shadow: none ! important;
     -moz-box-shadow: none ! important;
     box-shadow: none ! important;
+    margin-left: 0px ! important;
 }
 
 .search-btn:hover {
@@ -108,11 +106,11 @@ body {
 }
 
 .search-select {
-    -webkit-border-radius: 0px;
+    -webkit-border-radius: 0px ! important;
     -moz-appearance: none;
-    -moz-border-radius: 0px;
+    -moz-border-radius: 0px ! important;
     appearance: none;
-    border-radius: 0px;
+    border-radius: 0px ! important;
 }
 
 @media screen and (max-width:800px) {
