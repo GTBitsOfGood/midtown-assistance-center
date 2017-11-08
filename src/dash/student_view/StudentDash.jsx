@@ -118,7 +118,7 @@ class DefaultDash extends React.Component {
             displayTutors: this.getDisplayTutors("online"),
             searchTime:"ASAP",
             searchSubject:null
-        }
+        };
         this.handleSearchClicked = this.handleSearchClicked.bind(this);
         this.getDisplayTutors = this.getDisplayTutors.bind(this);
 
@@ -134,7 +134,7 @@ class DefaultDash extends React.Component {
     }
 
     getDisplayTutors(searchType, subject, time) {
-        var newTutorsList;
+        let newTutorsList;
         if (searchType === "online") {
             newTutorsList = tutors.filter((obj, num) => {
                 return obj.online;
