@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/GTBitsOfGood/midtown-assistance-center#readme",
   "dependencies": {
+    "animate.css": "^3.5.2",
     "axios": "^0.16.2",
     "babel-cli": "^6.26.0",
     "body-parser": "^1.18.2",
@@ -63,6 +64,6 @@
     "image-loader": "0.0.1",
     "nodemon": "^1.12.1",
     "react-bootstrap": "^0.31.3",
-    "webpack": "^3.6.0"
+    "webpack": "^3.8.1"
   }
 }

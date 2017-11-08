@@ -15,12 +15,12 @@ class DashSearchBar extends React.Component {
                     <option value="week">This week</option>
                 </select>
                 <span className="input-group-btn">
-                    <button className="col-xs-12 btn btn-default btn-lg search-btn" type="button">
+                    <button style={{animationDelay: '2s'}} className="animated tada col-xs-12 btn btn-default btn-lg search-btn" type="button">
                         <i className="glyphicon glyphicon-search"></i>
                     </button>
                 </span>
             </div>
-        )
+        );
     }
 
 }

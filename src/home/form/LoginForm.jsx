@@ -54,7 +54,7 @@ class Loginpage extends React.Component {
 
     render() {
         return (
-            <div className="col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center login-form container">
+            <div className="animated fadeInRight col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center login-form container">
                 <h2 className="login-header">LOGIN</h2>
                 <form onSubmit={this.sendToServer}>
                     <div className="row col-xs-12">
@@ -79,7 +79,8 @@ class Loginpage extends React.Component {
                     </div>
                     <div className="row col-xs-12">
                         <input
-                            className="login-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
+                            style = {{animationDelay: '2s'}}
+                            className="animated bounce login-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
                             type="submit"
                             value="SUBMIT"/>
                     </div>

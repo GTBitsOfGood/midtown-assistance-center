@@ -49,45 +49,45 @@ class TutorSearchResult extends React.Component {
                             <img className="tutor-profile-pic img-circle" src={this.state.profile_picture} height="125" width="125"></img>
                         </div>
                         <div className="">
-                        <a data-toggle="collapse" className="tutor-name" data-parent="#accordion" href={'#collapse' + this.state.id}>
-                        <h2>
-                        {this.state.name + ' '}
-                        <span>
-                        <img src={this.state.online ? '/images/status-online.png' : '/images/status-offline.png'}></img>
-                        </span>
-                        &emsp;
-                        {stars}
-                        </h2>
-                        </a>
-                        <h4><strong>Subjects:</strong><span className="lighter-text"> {this.state.subjects.map((subject, num) => {return ' ' + subject.subject + '(' + subject.start_grade + '-' + subject.end_grade + ')' + ' ';})}</span></h4>
-                        <h4><strong>Availability:</strong><span className="lighter-text"> {Object.keys(this.state.availability).map((day, num) => {return (this.state.availability[day].length != 0 ? day + '- ' + this.state.availability[day].map((time, num) => {return time.start_time + '-' + time.end_time}) + ' ': '') })}</span></h4>
+                            <a data-toggle="collapse" className="tutor-name" data-parent="#accordion" href={'#collapse' + this.state.id}>
+                                <h2>
+                                    {this.state.name + ' '}
+                                    <span>
+                                        <img src={this.state.online ? '/images/status-online.png' : '/images/status-offline.png'}></img>
+                                    </span>
+                                    &emsp;
+                                    {stars}
+                                </h2>
+                            </a>
+                            <h4><strong>Subjects:</strong><span className="lighter-text"> {this.state.subjects.map((subject, num) => {return ' ' + subject.subject + '(' + subject.start_grade + '-' + subject.end_grade + ')' + ' ';})}</span></h4>
+                            <h4><strong>Availability:</strong><span className="lighter-text"> {Object.keys(this.state.availability).map((day, num) => {return (this.state.availability[day].length != 0 ? day + '- ' + this.state.availability[day].map((time, num) => {return time.start_time + '-' + time.end_time}) + ' ': '') })}</span></h4>
                         </div>
                     </div>
-                    <div id={"collapse" + this.state.id} className="panel-collapse collapse">
-                      <div className="panel-body tutor-panel-body">
-                      <div className="tutor_details container col-md-12">
-                      <div className="col-md-6">
-                      <h3><strong>Details</strong></h3>
-                      <h4><span><img className="small_img" src='/images/graduate-cap.png'></img></span><strong>{this.state.class_standing}</strong><span className="lighter-text"> at Georgia Tech</span></h4>
-                      <h4 className="capitalize"><span><img className="small_img" src={'/images/' + this.state.gender + '.png'}></img></span><strong>{this.state.gender}</strong></h4>
-                      </div>
-                      <div className="col-md-6">
-                      <h3><strong>Bio </strong></h3>
-                      <h4><span className="lighter-text">{this.state.bio}</span></h4>
-                      </div>
-                      </div>
-                      <div className="request_hangout text-center">
-                      <h3 className="text-center"><strong>Request a Google Hangouts meeting with {this.state.name}</strong>
-                      </h3>
-                      <button className="btn btn-lg btn-default mac_button" type="button">
-                      Click Here
-                      </button>
-                      </div>
-                      </div>
+                    <div id={'collapse' + this.state.id} className="panel-collapse collapse">
+                        <div className="panel-body tutor-panel-body">
+                            <div className="tutor_details container col-md-12">
+                                <div className="col-md-6">
+                                    <h3><strong>Details</strong></h3>
+                                    <h4><span><img className="small_img" src='/images/graduate-cap.png'></img></span><strong>{this.state.classStanding}</strong> at Georgia Tech</h4>
+                                    <h4><span><img className="small_img" src={'/images/' + this.state.gender + '.png'}></img></span>{this.state.gender}</h4>
+                                </div>
+                                <div className="col-md-6">
+                                    <h3><strong>Bio </strong></h3>
+                                    <h4>{this.state.bio}</h4>
+                                </div>
+                            </div>
+                            <div className="request_hangout text-center">
+                                <h3 className="text-center"><strong>Request a Google Hangouts meeting with {this.state.name}</strong>
+                                </h3>
+                                <button className="btn btn-lg btn-default mac_button" type="button">
+                                    Click Here
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                 </div>
+                </div>
             </div>
-        )
+        );
     }
 }
 
@@ -96,12 +96,12 @@ class DefaultDashTutorList extends React.Component {
         super(props);
         this.state = {
             data: this.props.data ? this.props.data : [],
-        }
+        };
     }
 
     render() {
         const renData = this.props.data.map((obj, num) => {
-            return obj.online ? <TutorSearchResult data={obj} id={num}/> : ''
+            return obj.online ? <TutorSearchResult data={obj} id={num}/> : '';
         });
 
         return (
@@ -110,9 +110,8 @@ class DefaultDashTutorList extends React.Component {
                  <div className="panel-group tutors-list" id="accordion">
                   {renData}
                  </div>
-
             </div>
-        )
+        );
     }
 
 }

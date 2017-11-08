@@ -24,7 +24,8 @@ class StudentSignUpForm extends React.Component {
             access_code: '',
             grade_level: 6,
             errorMessage: 'error-message-hide',
-            inputErrorMessage:'error-message-hide'
+            inputErrorMessage:'error-message-hide',
+            errorMessageContent: ''
         };
 
         // Bindings
@@ -141,13 +142,14 @@ class StudentSignUpForm extends React.Component {
             axios.post('/api/registerStudent', this.state)
                 .then(function (response) {
                     console.log(response);
-                    if (response.data) {
+                    if (response.data.success) {
                         document.location.href = '/home/login';
                         console.log("registration successful");
                     } else {
                         //Registration error
                         self.setState({errorMessage:'error-message'});
                         self.setState({inputErrorMessage:'error-message-hide'});
+                        self.setState({errorMessageContent: response.data.error_message});
                     }
 
                 })
@@ -246,7 +248,7 @@ class StudentSignUpForm extends React.Component {
                         onClick={this.handleSubmit}/>
                 </div>
                 <h5 className={'col-xs-12 ' + this.state.inputErrorMessage}>one or more fields invalid</h5>
-                <h5 className={'col-xs-12 ' + this.state.errorMessage}>this username already exists</h5>
+                <h5 className={'col-xs-12 ' + this.state.errorMessage}>{this.state.errorMessageContent}</h5>
                 <div className="row col-xs-12">
                     <h5 className="signup-dialogue">Already have an account? <a className="signup-anchor" href='/home/login'>Click here to log in!</a></h5>
                 </div>

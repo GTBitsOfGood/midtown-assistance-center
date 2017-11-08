@@ -2,7 +2,7 @@ import React from 'react';
 
 const AboutUs = () => {
     return (
-        <div>
+        <div className="animated fadeInDown">
 
             <section className="about">
                 <div className="container">

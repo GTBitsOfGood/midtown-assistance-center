@@ -10,7 +10,7 @@ import {Router, Route, browserHistory} from 'react-router';
 
 const DashComp = function() {
   return (
-    <div>
+    <div className="animated fadeInDown">
       <HomeMenuBar homeordash='dash'/>
       <Router history={browserHistory}>
           <Route path="/dash" component={DefaultDash}/>
@@ -24,7 +24,7 @@ const DashComp = function() {
 
 ReactDOM.render(
     <Provider store={store}>
-    <DashComp></DashComp>
+        <DashComp></DashComp>
     </Provider>,
     document.getElementById('root')
 );
