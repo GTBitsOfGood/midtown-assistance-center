@@ -21,6 +21,7 @@ class Profile extends React.Component {
 
     handleSave() {
         axios.patch('/api/profile/student', {
+                _id: this.props.user._id,
                 bio: this.state.bio
             })
             .then(function (response) {
@@ -33,7 +34,6 @@ class Profile extends React.Component {
             .catch(function (error) {
                 console.log(error);
             });
-        alert("(Didn't) save updated info!");
     }
 
     handleBioChange(event) {

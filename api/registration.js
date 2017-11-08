@@ -110,6 +110,23 @@ app.post('/registerStudent', (req, res) => {
 
 app.patch('/profile/student', (req, res) => {
     console.log(req.body);
+    user_dao.updateStudent(req.body, function(err, resultStudent) {
+        if (err) {
+            console.log(err);
+        }
+        if (!resultStudent) {
+            console.log(resultStudent);
+            res.send({
+                success: true,
+                error_message: null
+            })
+        } else {
+            res.json({
+                success: false,
+                error_message: "Update failed"
+            });
+        }
+    });
 });
 
 export default app;

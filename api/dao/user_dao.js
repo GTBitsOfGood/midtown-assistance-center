@@ -187,6 +187,23 @@ module.exports = {
 
         callback(null, updatedUser);
       });
+    },
+
+    updateStudent: function(user, callback) {
+        console.log(user.body);
+        Student.update(
+            {_id: user._id},
+            { $set: {
+                bio: user.bio
+            }},
+            function(err, rawResponse) {
+                if (err) {
+                    console.error('Error updating student:', err);
+                    callback(err);
+                } else {
+                    callback(null, rawResponse);
+                }
+            });
     }
 
 };
