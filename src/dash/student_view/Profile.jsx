@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 import { updateUser } from '../../redux/actions.js';
 
 class Profile extends React.Component {
@@ -8,7 +9,9 @@ class Profile extends React.Component {
         super(props);
         this.state = {
             is_edit: false,
+            is_changed: false,
             button_text: 'Edit',
+            bio: "hardcoded bio"
         };
 
         this.handleEdit = this.handleEdit.bind(this);
@@ -17,12 +20,25 @@ class Profile extends React.Component {
     }
 
     handleSave() {
-        // TODO: update database with updated info
+        axios.patch('/profile', {
+                bio: this.state.bio
+            })
+            .then(function (response) {
+                if (response === '') {
+                    console.log(response.data);
+                } else {
+                    alert("Saved info!");
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
         alert("(Didn't) save updated info!");
     }
 
     handleBioChange(event) {
-
+        this.setState({is_changed: true});
+        this.setState({bio: event.target.value});
     }
 
     handleEdit(event) {
@@ -33,7 +49,10 @@ class Profile extends React.Component {
             this.setState({button_text: 'Save'});
         } else {
             this.setState({button_text: 'Edit'});
-            this.handleSave();
+            if (this.state.is_changed) {
+                this.handleSave();
+                this.setState({is_changed: false});
+            }
         }
     }
 
@@ -57,11 +76,7 @@ class Profile extends React.Component {
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-envelope"></i> Email:
-                                                <textarea
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={ this.props.user.email }
-                                                    disabled={ !this.state.is_edit }/>
+                                                <p>{ this.props.user.email }</p>
                                             </div>
                                         </div>
                                         <div className="row">
@@ -95,7 +110,8 @@ class Profile extends React.Component {
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
-                                                    value={ this.props.user.bio }
+                                                    value={ this.state.bio }
+                                                    onChange={ this.handleBioChange }
                                                     disabled={ !this.state.is_edit }/>
                                             </div>
                                         </div>
