@@ -2,7 +2,6 @@ import React from 'react';
 import styles from '../public/css/index.css';
 import { Nav, Navbar, NavItem, MenuItem, DropdownButton } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import { setUserAction } from './redux/userActions.js';
 import axios from 'axios';
 
 export class homeMenuBar extends React.Component {
@@ -11,26 +10,12 @@ export class homeMenuBar extends React.Component {
 
     }
 
-    componentDidMount() {
-        var self = this;
-        axios.get('/user')
-            .then(function (response) {
-                if (response.data !== '') {
-                    console.log(response.data);
-                    self.props.setUser(response.data);
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
     logout() {
+      console.warn('Logging out user');
         axios.get('/logout').then(function(response) {
             console.log(response);
             if (response.data === true) {
                 document.location.href='/';
-
             }
         }).catch(function(error) {
             console.log(error);
@@ -70,10 +55,19 @@ export class homeMenuBar extends React.Component {
                     </Navbar.Header>
                     <Navbar.Collapse>
                         <Nav pullLeft>
-                            <NavItem className={styles.navbartext}>About us</NavItem>
+                            {window.location.pathname === '/dash/about' ?
+                            <MenuItem className={styles.navbartext} href="/dash">Dashboard</MenuItem>
+                            :
+                            <MenuItem className={styles.navbartext} href="/dash/about">About us</MenuItem>}
                         </Nav>
                         <Nav pullRight>
-                            <MenuItem onClick={() => this.logout()} className={styles.navbartext}>{this.props.user}</MenuItem>
+                            <span><img className="nav-prof-pic" src='/images/user.png'></img></span>
+                                <DropdownButton className="btn btn-sm dropdown-menu-button" title={this.props.user._id}>
+                                    <MenuItem href="#">Usage</MenuItem>
+                                    <MenuItem href="#">Edit Profile</MenuItem>
+                                    <MenuItem divider></MenuItem>
+                                    <MenuItem onClick={() => this.logout()}>Log Out</MenuItem>
+                                 </DropdownButton>
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
@@ -83,17 +77,11 @@ export class homeMenuBar extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
-    return {
-        user : state.user.username,
-        password: state.user.password
-    };
+    return state;
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {
-        setUser : (user) => dispatch(setUserAction(user))
-    };
+    return {};
 };
 
 const HomeMenuBar = connect(

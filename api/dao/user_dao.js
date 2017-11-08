@@ -1,6 +1,8 @@
 const Tutor = require('../../models/Tutor');
 const Student = require('../../models/Student');
 
+import config from 'config'
+
 module.exports = {
 
     checkIfUsernameIsTaken: function(username, callback) {
@@ -165,14 +167,22 @@ module.exports = {
 
         tutors = tutors.filter(filterByOnline);
         tutors = tutors.filter(filterByApproved);
-        tutors = tutors.filter(filterBySubject);
-        tutors = tutors.filter(filterByAvailability);
+        if (subject) {
+            tutors = tutors.filter(filterBySubject);
+        }
+        if (availability) {
+            tutors = tutors.filter(filterByAvailability);
+        }
 
         callback(null, tutors);
       });
     },
 
     saveUser: function(user, callback) {
+      if (user.password === config.get('hidden_password')) {
+        callback('The user password is masked! Not saving this to db');
+      }
+
       user.save(function (err, updatedUser) {
         if (err) {
           console.log('Error saving user');
