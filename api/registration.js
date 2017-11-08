@@ -107,4 +107,9 @@ app.post('/registerStudent', (req, res) => {
         }
     });
 });
+
+app.patch('/profile/student', (req, res) => {
+    console.log(req.body);
+});
+
 export default app;

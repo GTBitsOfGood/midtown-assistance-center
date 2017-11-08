@@ -20,7 +20,7 @@ class Profile extends React.Component {
     }
 
     handleSave() {
-        axios.patch('/profile', {
+        axios.patch('/api/profile/student', {
                 bio: this.state.bio
             })
             .then(function (response) {
