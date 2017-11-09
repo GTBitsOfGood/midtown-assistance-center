@@ -1,0 +1,59 @@
+/*body {
+  background: linear-gradient(35deg, #ffcccc, #ccffff);
+  background: linear-gradient(90deg, lightblue, lightpink);
+  width: 95vw;
+  height: 95vh;
+  border: 3px white solid;
+  margin: 1.2em auto;
+  padding: 0px;
+}*/
+
+.wrap {
+    height: 100%;
+    background-color: lightgreen;
+}
+.header {
+    height: 10%;
+    background-color: lightpink;
+}
+.inputbox {
+    height: 80%;
+    background-color: lightblue;
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+}
+.formarea {
+    text-align: center;
+    margin: 0 auto;
+    height: 55%;
+    width: 30%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center; 
+    flex-direction: column;
+    margin-bottom: 3em;
+    border-radius: 5%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.25);
+}
+.footer {
+    height: 10%;
+    background-color: lightgrey;
+}
+#fs {
+    width: 70%;
+}
+input {
+    padding: 1em;
+    padding-right: 2em;
+    padding-left: 2em;
+    border-radius: 5%;
+    margin:.45em;
+}
+button {
+    
+}
+
+

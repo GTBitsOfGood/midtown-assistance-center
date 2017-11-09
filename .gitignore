@@ -57,3 +57,6 @@ typings/
 # dotenv environment variables file
 .env
 
+/.idea/
+/public/js/*.bundle.js
+/config/client.json
