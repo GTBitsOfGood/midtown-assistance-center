@@ -14,7 +14,6 @@ import axios from 'axios';
 export class DashComp extends React.Component {
   constructor(props) {
     super(props);
-
   }
 
   componentDidMount() {

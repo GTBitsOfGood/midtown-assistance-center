@@ -1,4 +1,4 @@
-export default function student_view(state = {}, action) {
+export default function change_tutors(state = {}, action) {
   let new_state = Object.assign({}, state);
 
   switch (action.type) {

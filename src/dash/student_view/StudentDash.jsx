@@ -1,6 +1,8 @@
 import React from 'react';
 import DashSearchBar from './SearchBar.jsx';
 import DefaultDashTutorList from './TutorSearchList.jsx';
+import { changeOnlineTutors } from '../../redux/actions/student_view_actions';
+import { connect } from 'react-redux';
 
 const tutors = [
     {
@@ -110,7 +112,7 @@ const tutors = [
     }
 ];
 
-class DefaultDash extends React.Component {
+class StudentDashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -118,12 +120,16 @@ class DefaultDash extends React.Component {
             displayTutors: this.getDisplayTutors("online"),
             searchTime:"ASAP",
             searchSubject:null
-        }
+        };
         this.handleSearchClicked = this.handleSearchClicked.bind(this);
         this.getDisplayTutors = this.getDisplayTutors.bind(this);
 
     }
 
+    componentDidMount() {
+      let self = this;
+      self.props.changeTutors(tutors);
+    }
 
     handleSearchClicked(subject, time) {
         this.setState({searchType:"searchResults"});
@@ -134,7 +140,7 @@ class DefaultDash extends React.Component {
     }
 
     getDisplayTutors(searchType, subject, time) {
-        var newTutorsList;
+        let newTutorsList;
         if (searchType === "online") {
             newTutorsList = tutors.filter((obj, num) => {
                 return obj.online;
@@ -162,4 +168,19 @@ class DefaultDash extends React.Component {
     }
 }
 
-export default DefaultDash;
+const mapStateToProps = (state) => {
+  return state;
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeTutors : (user) => dispatch(changeOnlineTutors(tutors))
+  };
+};
+
+const StudentDash = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(StudentDashboard);
+
+export default StudentDash;
