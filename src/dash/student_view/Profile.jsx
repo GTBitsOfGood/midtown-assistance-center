@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateUser } from '../../redux/actions.js';
+import { updateUser } from '../../redux/actions/user_actions.js';
 
 class Profile extends React.Component {
 
