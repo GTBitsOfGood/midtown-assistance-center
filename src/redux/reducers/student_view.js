@@ -3,7 +3,7 @@ export default function change_tutors(state = {}, action) {
 
   switch (action.type) {
     case 'CHANGE_ONLINE_TUTORS':
-      new_state.online_tutors = action.payload;
+      new_state.filtered_tutors = action.payload;
       break;
   }
 

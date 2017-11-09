@@ -7,7 +7,7 @@ let initialState = {
   user: {},
   student_view: {
     // TODO tutoring session state
-    online_tutors: []
+    filtered_tutors: []
   },
   tutor_view: {
     // TODO tutoring session state
