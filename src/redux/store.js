@@ -1,11 +1,9 @@
 import { applyMiddleware, createStore } from 'redux';
 
 import logger from 'redux-logger';
-import promise from 'redux-promise-middleware';
+import root from './reducer';
 
-import userReducer from './reducer.js';
-
-let store = createStore(userReducer, {
+let initialState = {
   user: {},
   student_view: {
     // TODO tutoring session state
@@ -18,10 +16,12 @@ let store = createStore(userReducer, {
     // TODO stats
     new_tutors: []
   }
-});
+};
 
-store.subscribe(() => {
-    console.log('store changed: ', store.getState());
-});
+let store = createStore(
+  root,
+  initialState,
+  applyMiddleware(logger)
+);
 
 export default store;
