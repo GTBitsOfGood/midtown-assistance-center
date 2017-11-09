@@ -11,6 +11,7 @@ class Loginpage extends React.Component {
             username: '',
             password: '',
             errorMessage: 'error-message-hide',
+            loginTime: ''
         };
 
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
@@ -32,9 +33,9 @@ class Loginpage extends React.Component {
     }
 
     sendToServer(e) {
-        console.log('LoginForm is submitting the DATA MAN');
         e.preventDefault();
         var self = this;
+        this.setState({logInTime:Date.now()});
         axios.post('/login', this.state)
             .then(function (response) {
                 if (response.data !== '') {
