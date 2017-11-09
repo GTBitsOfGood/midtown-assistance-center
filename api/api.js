@@ -1,28 +1,39 @@
 import express from 'express';
-import user_dao from './dao/user_dao';
+import data_access from './data_access'
 import Tutor from '../models/Tutor';
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send({blank: 'blank'});
+app.get('/onlineTutors', (req, res) => {
+    console.log(req.body);
+
+    function onTutorsFound(err, tutors) {
+      if (err) {
+        console.error(err);
+        return res.send([]);
+      }
+
+      return res.send(tutors);
+    }
+
+    data_access.users.getAllAvailableTutors(req.body.subject, req.body.availability, onTutorsFound);
 });
 
 app.post('/registerTutor', (req, res) => {
     //Add this information to the database
     console.log(req.body);
-    user_dao.checkIfUsernameIsTaken(req.body.username, function(err, resultUsername){
+    data_access.users.checkIfUsernameIsTaken(req.body.username, function(err, resultUsername){
         if (err) {
             console.log(err);
         }
         if (!resultUsername) {
             console.log(resultUsername);
-            user_dao.checkIfEmailIsTaken(req.body.email, function(err, resultEmail){
+            data_access.users.checkIfEmailIsTaken(req.body.email, function(err, resultEmail){
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log(resultEmail)
+                    console.log(resultEmail);
                     if (!resultEmail) {
-                        user_dao.createTutor({
+                        data_access.users.createTutor({
                             first_name: req.body.firstName,
                             last_name: req.body.lastName,
                             email: req.body.email,
@@ -60,19 +71,19 @@ app.post('/registerTutor', (req, res) => {
 app.post('/registerStudent', (req, res) => {
     //Add this information to the database
     console.log(req.body);
-    user_dao.checkIfUsernameIsTaken(req.body.username, function(err, resultUsername){
+    data_access.users.checkIfUsernameIsTaken(req.body.username, function(err, resultUsername){
         if (err) {
             console.log(err);
         }
         if (!resultUsername) {
             console.log(resultUsername);
-            user_dao.checkIfEmailIsTaken(req.body.email, function(err, resultEmail){
+            data_access.users.checkIfEmailIsTaken(req.body.email, function(err, resultEmail){
                 if (err) {
                     console.log(err);
                 } else {
                     console.log(resultEmail);
                     if (!resultEmail) {
-                        user_dao.createStudent({
+                        data_access.users.createStudent({
                             first_name: req.body.firstName,
                             last_name: req.body.lastName,
                             email: req.body.email,
