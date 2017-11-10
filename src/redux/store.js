@@ -5,14 +5,17 @@ import root from './reducer';
 
 let initialState = {
   user: {},
-  student_view: {
+  studentView: {
     // TODO tutoring session state
-    filtered_tutors: []
+    filteredTutors: [],
+    searchType: 'online',
+    searchSubject: '',
+    searchTime: ''
   },
-  tutor_view: {
+  tutorView: {
     // TODO tutoring session state
   },
-  admin_view: {
+  adminView: {
     // TODO stats
     new_tutors: []
   }

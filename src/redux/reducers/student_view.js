@@ -3,7 +3,11 @@ export default function change_tutors(state = {}, action) {
 
   switch (action.type) {
     case 'CHANGE_ONLINE_TUTORS':
-      new_state.filtered_tutors = action.payload;
+      new_state.filteredTutors = action.payload;
+      break;
+
+    case 'ON_SEARCH':
+      new_state = Object.assign(new_state, action.payload);
       break;
   }
 

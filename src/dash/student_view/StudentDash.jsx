@@ -1,6 +1,6 @@
 import React from 'react';
 import DashSearchBar from './SearchBar.jsx';
-import DefaultDashTutorList from './TutorSearchList.jsx';
+import TutorSearchList from './TutorSearchList.jsx';
 import {changeTutorsAction, onSearchAction} from '../../redux/actions/student_view_actions';
 import { connect } from 'react-redux';
 
@@ -115,41 +115,36 @@ const tutors = [
 class StudentDashboard extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            searchType:"online",
-            displayTutors: this.getDisplayTutors("online"),
-            searchTime:"ASAP",
-            searchSubject:null
-        };
         this.handleSearchClicked = this.handleSearchClicked.bind(this);
-        this.getDisplayTutors = this.getDisplayTutors.bind(this);
-
     }
 
     componentDidMount() {
-      this.props.changeTutors(tutors);
+        this.handleSearchClicked(undefined, undefined);
     }
 
     handleSearchClicked(subject, time) {
+        // FIXME replace with call to our backend to get all online tutors
+        this.props.changeTutors(tutors);
+
         this.props.onSearch("searchResults", subject, time);
         this.forceUpdate();
     }
 
-    getDisplayTutors(searchType, subject, time) {
-        let newTutorsList;
-        if (searchType === "online") {
-            newTutorsList = tutors.filter((obj, num) => {
-                return obj.online;
-            });
-        } else {
-            newTutorsList = tutors.filter((obj, num) => {
-                return obj.subjects.reduce((acc, curr) => {
-                    return curr.subject.toLowerCase() === subject.toLowerCase() ? acc + 1 : acc;
-                }, 0);
-            });
-        }
-        return newTutorsList;
-    }
+    // getDisplayTutors(searchType, subject, time) {
+    //     let newTutorsList;
+    //     if (searchType === "online") {
+    //         newTutorsList = tutors.filter((obj, num) => {
+    //             return obj.online;
+    //         });
+    //     } else {
+    //         newTutorsList = tutors.filter((obj, num) => {
+    //             return obj.subjects.reduce((acc, curr) => {
+    //                 return curr.subject.toLowerCase() === subject.toLowerCase() ? acc + 1 : acc;
+    //             }, 0);
+    //         });
+    //     }
+    //     return newTutorsList;
+    // }
 
     render() {
         return (
@@ -157,7 +152,7 @@ class StudentDashboard extends React.Component {
                 <div className="col-md-12 atlanta">
                     <DashSearchBar handleSearchClicked={this.handleSearchClicked}/>
                 </div>
-                <DefaultDashTutorList/>
+                <TutorSearchList/>
             </div>
         );
     }
