@@ -7,6 +7,7 @@
     --purple: #160c28;
     --black: #000411;
     --blackhover: #222633;
+    --lighterblack: #383B47;
     --tutorBorderColor: var(--gray);
     --primaryLight: #EEEEEE;
 }
@@ -26,6 +27,9 @@ body {
   margin-bottom: 0;
   border: 0;
   border-radius: 0 ! important;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0px 10px 0 rgba(0, 0, 0, 0.19);
+  z-index: 99;
+
 }
 
 .navbartext, .navbartext > a, .navbarheader {
@@ -215,6 +219,80 @@ body {
 .form-group.row {
     margin: 5px;
 }
+
+/*Admin Dash*/
+
+.tutor-dash-wrapper {
+    padding: 0;
+}
+.approve-tutors-panel {
+    background-color: var(--blackhover);
+    height: 92.5vh;
+    margin-left: 0;
+    overflow-y: scroll;
+    padding-top: 1%;
+    border-right: 1px double var(--gray);
+    padding: 1%;
+    color: var(--gray);
+
+}
+
+.tutor-dash-header {
+    font-weight: 300;
+}
+
+.approve-tutor-item {
+  box-shadow: 0 0 2px 0 var(--black), 0 0px 5px 0 var(--lighterblack);
+  padding: 0px 5px 15px 5px;
+  margin-bottom: 1%;
+  background-color: var(--lighterblack);
+  color: var(--ltgray);
+}
+
+.approve-tutors-list {
+    margin-top: 5%;
+}
+
+.approve-button, .reject-button {
+    border-radius: 0;
+    width: 30%;
+}
+
+.usage-chart {
+    margin-top: 5%;
+}
+
+.legend {
+    margin-top: 5%;
+}
+.tutor-statistics {
+    padding-top: 1%;
+    height: 92.5vh;
+    color: var(--blackhover);
+    /*border-bottom: 1px double var(--gray);
+    height: 50vh;*/
+}
+
+.student-box {
+    background-color: var(--blackhover);
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.tutor-box {
+    background-color: var(--gold);
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.student-value, .tutor-value {
+    display: inline-block;
+}
+
 /*general*/
 .mac_button {
     border: 1px solid var(--black);
@@ -239,5 +317,25 @@ body {
 .capitalize {
     text-transform: capitalize;
 }
+
+.mac_anchor {
+    color: var(--ltgray);
+}
+
+.mac_anchor:hover {
+    color: var(--gold);
+    text-decoration: none;
+}
+
+.mac_button_group {
+    color: var(--lighterblack);
+    border-radius: 0;
+    margin-left: 5%;
+}
+.mac_button_group:hover {
+    color: var(--gold);
+}
+
+
 
 
