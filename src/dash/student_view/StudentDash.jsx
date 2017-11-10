@@ -117,53 +117,38 @@ class StudentDashboard extends React.Component {
     constructor(props) {
         super(props);
         this.handleSearchClicked = this.handleSearchClicked.bind(this);
+        this.updateTutors = this.updateTutors.bind(this);
     }
 
     componentDidMount() {
-        // FIXME replace with call to our backend to get all online tutors
-        this.props.changeTutors(tutors);
-
-        this.props.onSearch("online", undefined, undefined);
+        this.updateTutors("online", undefined, undefined);
         this.forceUpdate();
     }
 
     handleSearchClicked(subject, time) {
-        // FIXME replace with call to our backend to get all online tutors
-        this.props.changeTutors(tutors);
-
-        this.props.onSearch("searchResults", subject, time);
+        this.updateTutors("searchResults", subject, time);
         this.forceUpdate();
     }
 
-    getDisplayTutors(searchType, subject, time) {
-        if (searchType === "online") {
-            let self = this;
-            return axios.get('/api/onlineTutors')
-                .then(function (response) {
-                    if (response.data !== '') {
-                        self.setState({displayTutors:response.data});
-                    } else {
-                        console.log(response.data);
-                    }
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
-        } else {
-            let self = this;
-            let data = {subject:subject, availability:time};
-            axios.get('/api/onlineTutors', {params:data})
-                .then(function (response) {
-                    if (response.data !== '') {
-                        self.setState({displayTutors:response.data});
-                    } else {
-                        console.log(response.data);
-                    }
-                })
-                .catch(function (error) {
-                    console.log(error);
-                });
+    updateTutors(searchType, subject, time) {
+        let self = this;
+        let data = {};
+        if (searchType !== "online") {
+          data = {subject: subject, availability: time};
         }
+
+        axios.get('/api/onlineTutors', {params: data})
+          .then(function (response) {
+            if (response.data !== '') {
+              self.props.changeTutors(response.data);
+              self.props.changeSearchDisplay(searchType, subject, time);
+            } else {
+              console.log(response.data);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     }
 
     render() {
@@ -185,7 +170,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     changeTutors: (tutors) => dispatch(changeTutorsAction(tutors)),
-    onSearch: (search_type, search_subject, search_time) => dispatch(onSearchAction(search_type, search_subject, search_time))
+    changeSearchDisplay: (search_type, search_subject, search_time) => dispatch(onSearchAction(search_type, search_subject, search_time))
   };
 };
 
