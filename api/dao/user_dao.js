@@ -138,14 +138,14 @@ module.exports = {
       }
 
       function filterByApproved(tutor) {
-        return tutor.status === 'approved';
+        return tutor.approved;
       }
 
       function filterBySubject(tutor) {
         for (let i = 0; i < tutor.subjects.length; i++) {
           let subject_json = tutor.subjects[i];
 
-          if (subject_json.subject === subject) {
+          if (subject_json.subject.toLowerCase() === subject.toLowerCase()) {
             // TODO match grade levels
             return true;
           }
@@ -164,8 +164,9 @@ module.exports = {
           console.log('Error getting all online tutors');
           callback(err);
         }
-
-        tutors = tutors.filter(filterByOnline);
+        if (!subject && !availability) {
+            tutors = tutors.filter(filterByOnline);
+        }
         tutors = tutors.filter(filterByApproved);
         if (subject) {
             tutors = tutors.filter(filterBySubject);
