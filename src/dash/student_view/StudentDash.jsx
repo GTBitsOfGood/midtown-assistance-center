@@ -119,7 +119,11 @@ class StudentDashboard extends React.Component {
     }
 
     componentDidMount() {
-        this.handleSearchClicked(undefined, undefined);
+        // FIXME replace with call to our backend to get all online tutors
+        this.props.changeTutors(tutors);
+
+        this.props.onSearch("online", undefined, undefined);
+        this.forceUpdate();
     }
 
     handleSearchClicked(subject, time) {

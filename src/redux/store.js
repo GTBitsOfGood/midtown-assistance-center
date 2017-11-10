@@ -9,8 +9,8 @@ let initialState = {
     // TODO tutoring session state
     filteredTutors: [],
     searchType: 'online',
-    searchSubject: '',
-    searchTime: ''
+    searchSubject: undefined,
+    searchTime: undefined
   },
   tutorView: {
     // TODO tutoring session state

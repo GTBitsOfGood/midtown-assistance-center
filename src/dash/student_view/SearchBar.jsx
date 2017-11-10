@@ -4,8 +4,8 @@ class DashSearchBar extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            time: "ASAP",
-            subject: null
+            time: 'ASAP',
+            subject: undefined
         };
         this.handleTimeChange = this.handleTimeChange.bind(this);
         this.handleSubjectChange = this.handleSubjectChange.bind(this);
