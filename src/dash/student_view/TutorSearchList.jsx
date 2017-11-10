@@ -8,8 +8,6 @@ class TutorList extends React.Component {
     }
 
     render() {
-
-
         const renData = this.props.studentView.filteredTutors.length > 0 ? this.props.studentView.filteredTutors.map((obj, num) => {
             return <TutorSearchResult data={obj} id={num}/>;
         }) : <h4>No Results Found</h4>;
