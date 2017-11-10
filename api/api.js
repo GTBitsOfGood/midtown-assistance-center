@@ -4,18 +4,16 @@ import Tutor from '../models/Tutor';
 const app = express();
 
 app.get('/onlineTutors', (req, res) => {
-    console.log(req.body);
-
+    console.log(req.query);
     function onTutorsFound(err, tutors) {
       if (err) {
         console.error(err);
         return res.send([]);
       }
-
       return res.send(tutors);
     }
 
-    data_access.users.getAllAvailableTutors(req.body.subject, req.body.availability, onTutorsFound);
+    data_access.users.getAllAvailableTutors(req.query.subject, req.query.availability, onTutorsFound);
 });
 
 app.post('/registerTutor', (req, res) => {

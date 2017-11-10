@@ -26,7 +26,7 @@ class DashSearchBar extends React.Component {
                 <select onChange={this.handleTimeChange} className="col-xs-12 col-sm-2 col-md-3 input input-lg search-select search-input">
                     <option value="ASAP">ASAP</option>
                     <option value="today">Sometime today</option>
-                    <option value="week">This week</option>
+                    <option value="this week">This week</option>
                 </select>
                 <span className="input-group-btn">
                     <button onClick={() => this.props.handleSearchClicked(this.state.subject, this.state.time)} style={{animationDelay: '2s'}} className="animated tada col-xs-12 btn btn-default btn-lg search-btn" type="button">

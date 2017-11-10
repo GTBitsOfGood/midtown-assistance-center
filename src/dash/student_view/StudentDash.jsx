@@ -3,6 +3,7 @@ import DashSearchBar from './SearchBar.jsx';
 import TutorSearchList from './TutorSearchList.jsx';
 import {changeTutorsAction, onSearchAction} from '../../redux/actions/student_view_actions';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 const tutors = [
     {
@@ -134,21 +135,36 @@ class StudentDashboard extends React.Component {
         this.forceUpdate();
     }
 
-    // getDisplayTutors(searchType, subject, time) {
-    //     let newTutorsList;
-    //     if (searchType === "online") {
-    //         newTutorsList = tutors.filter((obj, num) => {
-    //             return obj.online;
-    //         });
-    //     } else {
-    //         newTutorsList = tutors.filter((obj, num) => {
-    //             return obj.subjects.reduce((acc, curr) => {
-    //                 return curr.subject.toLowerCase() === subject.toLowerCase() ? acc + 1 : acc;
-    //             }, 0);
-    //         });
-    //     }
-    //     return newTutorsList;
-    // }
+    getDisplayTutors(searchType, subject, time) {
+        if (searchType === "online") {
+            let self = this;
+            return axios.get('/api/onlineTutors')
+                .then(function (response) {
+                    if (response.data !== '') {
+                        self.setState({displayTutors:response.data});
+                    } else {
+                        console.log(response.data);
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        } else {
+            let self = this;
+            let data = {subject:subject, availability:time};
+            axios.get('/api/onlineTutors', {params:data})
+                .then(function (response) {
+                    if (response.data !== '') {
+                        self.setState({displayTutors:response.data});
+                    } else {
+                        console.log(response.data);
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
+        }
+    }
 
     render() {
         return (
