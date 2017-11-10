@@ -133,19 +133,25 @@ module.exports = {
      * TODO: No grade level checking for subject
      */
     getAllAvailableTutors: function(subject, availability, callback) {
+
+      let todayDate = new Date();
+      let today = todayDate.getDay();
+      const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      let dayName = days[today];
+
       function filterByOnline(tutor) {
         return tutor.online;
       }
 
       function filterByApproved(tutor) {
-        return tutor.status === 'approved';
+        return tutor.approved;
       }
 
       function filterBySubject(tutor) {
         for (let i = 0; i < tutor.subjects.length; i++) {
           let subject_json = tutor.subjects[i];
 
-          if (subject_json.subject === subject) {
+          if (subject_json.subject.toLowerCase() === subject.toLowerCase()) {
             // TODO match grade levels
             return true;
           }
@@ -155,7 +161,11 @@ module.exports = {
       }
 
       function filterByAvailability(tutor) {
-        // TODO
+        if (availability === 'ASAP') {
+            return tutor.online;
+        } else if (availability === 'today') {
+            return tutor.availability[dayName].length > 0 || tutor.online;
+        }
         return true;
       }
 
@@ -164,8 +174,9 @@ module.exports = {
           console.log('Error getting all online tutors');
           callback(err);
         }
-
-        tutors = tutors.filter(filterByOnline);
+        if (!subject && !availability) {
+            tutors = tutors.filter(filterByOnline);
+        }
         tutors = tutors.filter(filterByApproved);
         if (subject) {
             tutors = tutors.filter(filterBySubject);

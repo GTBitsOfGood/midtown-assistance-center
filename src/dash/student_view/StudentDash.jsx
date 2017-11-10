@@ -1,6 +1,7 @@
 import React from 'react';
 import DashSearchBar from './SearchBar.jsx';
 import DefaultDashTutorList from './TutorSearchList.jsx';
+import axios from 'axios';
 
 const tutors = [
     {
@@ -115,38 +116,52 @@ class DefaultDash extends React.Component {
         super(props);
         this.state = {
             searchType:"online",
-            displayTutors: this.getDisplayTutors("online"),
+            displayTutors: [],
             searchTime:"ASAP",
             searchSubject:null
-        }
+        };
         this.handleSearchClicked = this.handleSearchClicked.bind(this);
         this.getDisplayTutors = this.getDisplayTutors.bind(this);
+        this.getDisplayTutors("online");
 
     }
 
 
     handleSearchClicked(subject, time) {
-        this.setState({searchType:"searchResults"});
-        this.setState({displayTutors: this.getDisplayTutors("searchResults", subject, time)});
-        this.setState({searchSubject:subject});
-        this.setState({searchTime:time});
+        this.setState({searchType:"searchResults", searchSubject:subject, searchTime:time});
+        this.getDisplayTutors("searchResults", subject, time);
         this.forceUpdate();
     }
 
     getDisplayTutors(searchType, subject, time) {
-        var newTutorsList;
         if (searchType === "online") {
-            newTutorsList = tutors.filter((obj, num) => {
-                return obj.online;
-            });
+            var self = this;
+            return axios.get('/api/onlineTutors')
+                .then(function (response) {
+                    if (response.data !== '') {
+                        self.setState({displayTutors:response.data});
+                    } else {
+                        console.log(response.data);
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         } else {
-            newTutorsList = tutors.filter((obj, num) => {
-                return obj.subjects.reduce((acc, curr) => {
-                    return curr.subject.toLowerCase() === subject.toLowerCase() ? acc + 1 : acc;
-                }, 0);
-            });
+            var self = this;
+            let data = {subject:subject, availability:time};
+            axios.get('/api/onlineTutors', {params:data})
+                .then(function (response) {
+                    if (response.data !== '') {
+                        self.setState({displayTutors:response.data});
+                    } else {
+                        console.log(response.data);
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
-        return newTutorsList;
     }
 
     render() {
@@ -156,7 +171,7 @@ class DefaultDash extends React.Component {
                 <div className="col-md-12 atlanta">
                     <DashSearchBar handleSearchClicked={this.handleSearchClicked}/>
                 </div>
-                <DefaultDashTutorList subject={this.state.searchSubject} time={this.state.searchTime} data={this.state.displayTutors} searchType={this.state.searchType}/>
+                <DefaultDashTutorList subject={this.state.searchSubject} time={this.state.searchTime} data={this.state.displayTutors ? this.state.displayTutors : []} searchType={this.state.searchType}/>
             </div>
         );
     }
