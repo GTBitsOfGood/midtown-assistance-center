@@ -29,7 +29,7 @@ class DashSearchBar extends React.Component {
                     <option value="this week">This week</option>
                 </select>
                 <span className="input-group-btn">
-                    <button onClick={this.state.subject != null ? () => this.props.handleSearchClicked(this.state.subject, this.state.time) : ''} style={{animationDelay: '2s'}} className="animated tada col-xs-12 btn btn-default btn-lg search-btn" type="button">
+                    <button onClick={ () => this.props.handleSearchClicked(this.state.subject, this.state.time) } style={{animationDelay: '2s'}} className="animated tada col-xs-12 btn btn-default btn-lg search-btn" type="button">
                         <i className="glyphicon glyphicon-search"></i>
                     </button>
                 </span>
