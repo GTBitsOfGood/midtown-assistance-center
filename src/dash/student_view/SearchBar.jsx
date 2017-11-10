@@ -6,7 +6,7 @@ class DashSearchBar extends React.Component {
         this.state = {
             time: "ASAP",
             subject: null
-        }
+        };
         this.handleTimeChange = this.handleTimeChange.bind(this);
         this.handleSubjectChange = this.handleSubjectChange.bind(this);
     }
