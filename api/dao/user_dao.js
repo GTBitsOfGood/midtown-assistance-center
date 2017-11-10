@@ -155,7 +155,16 @@ module.exports = {
       }
 
       function filterByAvailability(tutor) {
-        // TODO
+        if (availability === 'ASAP') {
+            return tutor.online;
+        } else if (availability === 'today') {
+            let todayDate = new Date();
+            let today = todayDate.getDay();
+            let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+            let dayName = days[today];
+
+            return tutor.availability[dayName].length > 0 || tutor.online;
+        }
         return true;
       }
 

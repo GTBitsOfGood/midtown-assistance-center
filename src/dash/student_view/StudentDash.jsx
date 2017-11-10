@@ -135,7 +135,6 @@ class DefaultDash extends React.Component {
 
     getDisplayTutors(searchType, subject, time) {
         let newTutorsList;
-        console.log("here");
         if (searchType === "online") {
             var self = this;
             return axios.get('/api/onlineTutors')
@@ -151,25 +150,20 @@ class DefaultDash extends React.Component {
                     console.log(error);
                 });
         } else {
-                console.log("searchResults");
-                var self = this;
-                let data = {subject:subject, availability:time};
-
-                axios.get('/api/onlineTutors', {params:data})
-                    .then(function (response) {
-                        if (response.data !== '') {
-                            newTutorsList = response.data;
-                            self.setState({displayTutors:newTutorsList});
-                        } else {
-                            console.log(response.data);
-                        }
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                        return [];
-                    });
-
-
+            var self = this;
+            let data = {subject:subject, availability:time};
+            axios.get('/api/onlineTutors', {params:data})
+                .then(function (response) {
+                    if (response.data !== '') {
+                        newTutorsList = response.data;
+                        self.setState({displayTutors:newTutorsList});
+                    } else {
+                        console.log(response.data);
+                    }
+                })
+                .catch(function (error) {
+                    console.log(error);
+                });
         }
     }
 
