@@ -1,9 +1,8 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
-class DefaultDash extends React.Component {
-  constructor(props) {
-    super(props);
-  }
+class TutorDash extends React.Component {
+
   render() {
     return (
       <div>
@@ -13,4 +12,18 @@ class DefaultDash extends React.Component {
   }
 }
 
-export default DefaultDash;
+const mapStateToProps = (state) => {
+  // Since we never use the redux state here
+  return {};
+};
+
+const mapDispatchToProps = (dispatch) => {
+  return {}
+};
+
+const TutorDashboard = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TutorDash);
+
+export default TutorDashboard;

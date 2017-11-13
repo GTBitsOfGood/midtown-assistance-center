@@ -17,11 +17,13 @@ class Profile extends React.Component {
     }
 
     handleSave() {
-        // TODO: update database with updated info
+        // TODO: update database (and redux) with updated info
         alert("(Didn't) save updated info!");
     }
 
     handleEdit(event) {
+        // FIXME try to combine set state calls
+
         let editing = !this.state.is_edit;
         this.setState({is_edit: editing});
 
@@ -45,7 +47,7 @@ class Profile extends React.Component {
                                     <img src="../../images/default_user_img.png" alt="" className="img-rounded img-responsive" />
                                 </div>
                                 <div className="col-sm-6 col-md-8">
-                                    <h1>{ this.props.user._id }</h1>
+                                    <h1>{ this.props._id }</h1>
                                     <small><cite title="Atlanta, USA">
                                         Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
                                     </cite></small>
@@ -56,32 +58,32 @@ class Profile extends React.Component {
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
-                                                    value={ this.props.user.email }
+                                                    value={ this.props.email }
                                                     disabled={ !this.state.is_edit }/>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-lock"></i>Password:
-                                                <p>{ this.props.user.password }</p>
+                                                <p>{ this.props.password }</p>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-globe"></i>Grade Level:
-                                                <p>{ this.props.user.grade_level }</p>
+                                                <p>{ this.props.grade_level }</p>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-apple"></i>Classroom:
-                                                <p>{ this.props.user.classroom }</p>
+                                                <p>{ this.props.classroom }</p>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-calendar"></i>Join Date:
-                                                <p>{ this.props.user.join_date.toDateString() }</p>
+                                                <p>{ this.props.join_date.toDateString() }</p>
                                             </div>
                                         </div>
                                         <div className="row">
@@ -112,8 +114,7 @@ class Profile extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
-    return state;
+    return state.user;
 };
 
 const mapDispatchToProps = (dispatch) => {

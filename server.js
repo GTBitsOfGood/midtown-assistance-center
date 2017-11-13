@@ -1,8 +1,8 @@
 import express from 'express';
-import mongoose from 'mongoose';
-const server = express();
 import ApiRouter from './api/api.js';
 import passportRoutes from './passportConfig';
+
+const server = express();
 
 const bodyParser = require('body-parser');
 server.use(express.static('public'));

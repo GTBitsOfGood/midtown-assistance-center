@@ -13,9 +13,6 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 export class DashComp extends React.Component {
-  constructor(props) {
-    super(props);
-  }
 
   componentDidMount() {
     let self = this;
@@ -51,7 +48,8 @@ export class DashComp extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return state;
+  // Since we never use the redux state here
+  return {};
 };
 
 const mapDispatchToProps = (dispatch) => {

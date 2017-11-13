@@ -14,12 +14,10 @@ class StudentDashboard extends React.Component {
 
     componentDidMount() {
         this.updateTutors("online", undefined, undefined);
-        this.forceUpdate();
     }
 
     handleSearchClicked(subject, time) {
         this.updateTutors("searchResults", subject, time);
-        this.forceUpdate();
     }
 
     updateTutors(searchType, subject, time) {
@@ -31,7 +29,7 @@ class StudentDashboard extends React.Component {
 
         axios.get('/api/onlineTutors', {params: data})
           .then(function (response) {
-            if (response.data !== '') {
+            if (response.data) {
               self.props.changeTutors(response.data);
               self.props.changeSearchDisplay(searchType, subject, time);
             } else {
@@ -55,16 +53,17 @@ class StudentDashboard extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-  return state;
-};
+function mapStateToProps (state) {
+  // Note we don't use the redux state in this component
+  return {};
+}
 
-const mapDispatchToProps = (dispatch) => {
+function mapDispatchToProps (dispatch) {
   return {
     changeTutors: (tutors) => dispatch(changeTutorsAction(tutors)),
     changeSearchDisplay: (search_type, search_subject, search_time) => dispatch(onSearchAction(search_type, search_subject, search_time))
   };
-};
+}
 
 const StudentDash = connect(
   mapStateToProps,
