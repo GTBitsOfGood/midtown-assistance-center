@@ -1,4 +1,12 @@
-export default function change_tutors(state = {}, action) {
+let initial_state = {
+  // TODO tutoring session state
+  filteredTutors: [],
+  searchType: 'online',
+  searchSubject: undefined,
+  searchTime: undefined
+};
+
+export default function change_tutors(state = initial_state, action) {
   let new_state = Object.assign({}, state);
 
   switch (action.type) {

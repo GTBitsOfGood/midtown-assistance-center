@@ -1,6 +1,8 @@
 import config from 'config';
 
-export default function change_user(state = {}, action) {
+let initial_state = {};
+
+export default function change_user(state = initial_state, action) {
   let new_state = Object.assign({}, state);
 
   switch (action.type) {

@@ -27,6 +27,8 @@ export class DashComp extends React.Component {
         } else {
           console.error('Dashboard received no user info');
         }
+
+
       })
       .catch(function (error) {
         console.error(error);

@@ -1,12 +1,14 @@
 import { combineReducers } from 'redux'
 import user from './reducers/user'
 import studentView from './reducers/student_view'
+import tutorView from './reducers/tutor_view'
+import adminView from './reducers/admin_view'
 
 const root = combineReducers({
   user,
   studentView,
-  tutorView: (state = {}) => state,
-  adminView: (state = {}) => state
+  tutorView,
+  adminView
 });
 
 export default root;
