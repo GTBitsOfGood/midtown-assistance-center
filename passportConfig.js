@@ -68,6 +68,17 @@ app.get('/user', (req, res) => {
 
 app.get('/logout', (req, res) => {
     req.logout();
+
+    var session_obj = {type: 'Logout', _id: req.body.username, time: new Date()};
+
+    session_dao.createSession(session_obj, function (err, session_instance) {
+        if(err) {
+            console.log(err);
+        }
+        console.log('Logout Session Sucessfully Created.(passportConfig.js -> 77)');
+        console.log(session_instance);
+    });
+
     res.send(true);
 });
 
@@ -96,9 +107,8 @@ app.post('/login', function(req, res, next){
                     console.log(err);
                 }
                 console.log('Login Session Sucessfully Created.(passportConfig.js -> 98)');
+                console.log(session_instance);
             });
-
-
 
 
             return res.send(user);
