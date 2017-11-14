@@ -6,7 +6,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const data_access = require('./api/data_access');
 import config from 'config';
-import user_dao from './dao/session_dao';
+import session_dao from './api/dao/session_dao';
 
 app.use(require('cookie-parser')());
 
