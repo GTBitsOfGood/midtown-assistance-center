@@ -2,7 +2,6 @@ const Session = require('../../models/Session');
 
 module.exports = {
 
-
     createSession: function(session, callback) {
         Session.create(session, function (err, session_instance) {
             if (err) {
@@ -14,7 +13,7 @@ module.exports = {
         });
     },
 
-    getAllSessionsViaUsername: function(username, callback) {
+    getSessionsViaUsername: function(username, callback) {
         // Look for tutors with the same username
         Session.find({_id: username}, function (err, docs) {
             if (err) {
@@ -43,12 +42,11 @@ module.exports = {
         });
     },
 
-
     getSessionsViaTime: function(time, callback) {
         // Look for tutors with the same username
         Session.find({time: time}, function (err, docs) {
             if (err) {
-                console.error('Error checking if any sessions exist with this username:', err);
+                console.error('Error checking if any sessions exist with this Time:', err);
                 callback(err);
 
             } else if(docs && docs.length > 0){
@@ -58,5 +56,20 @@ module.exports = {
             }
         });
     },
+
+    getAllSessionsInDB: function(callback) {
+        // Look for tutors with the same username
+        Session.find({}, function (err, docs) {
+            if (err) {
+                console.error('Error checking if any sessions exist in the DataBase:', err);
+                callback(err);
+            } else if(docs && docs.length > 0){
+                callback(null, docs);
+            } else {
+                callback(null, null);
+            }
+        });
+    },
+
 
 };
