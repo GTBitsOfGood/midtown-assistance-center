@@ -16,10 +16,6 @@ let schema = new Schema({
     transcript: {type: String, default: ''},
     rating: {type: Number, default: 0},
     num_ratings: {type: Number, default: 0},
-    inSystemTime: {
-        loginDates: [Date],
-        logoutDates: [Date]
-    },
     subjects: {type:
       [
           {

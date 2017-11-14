@@ -12,10 +12,6 @@ let schema = new Schema({
     profile_picture: {type: String, default: ''},
     classroom: {type: String, required: true},
     grade_level: {type: Number, required: true},
-    inSystemTime: {
-        loginDates: [Date],
-        logoutDates: [Date]
-    },
 });
 
 schema.virtual('username').get(function() {
