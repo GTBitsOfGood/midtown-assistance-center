@@ -20,14 +20,19 @@ class TutorSearchResult extends React.Component {
         };
     }
 
+    componentDidMount() {
+      this.updateRating();
+    }
+
+    updateRating() {
+      this.setState({
+        halfStars: (this.props.data.rating - Math.floor(this.props.data.rating))/0.5,
+        emptyStars: (5 - Math.ceil(this.props.data.rating)),
+        fullStars: Math.floor(this.props.data.rating)
+      });
+    }
 
     render() {
-        this.setState({
-          halfStars: (this.props.data.rating - Math.floor(this.props.data.rating))/0.5,
-          emptyStars: (5 - Math.ceil(this.props.data.rating)),
-          fullStars: Math.floor(this.props.data.rating)
-        });
-
         let stars = [];
         for (let x = 0; x < this.state.fullStars; x++) {
             stars.push(<span><img className="star" src='/images/full-star.png' width="25" height="25"></img></span>);
