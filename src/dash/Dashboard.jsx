@@ -8,15 +8,11 @@ import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 import AboutUs from '../home/AboutUs.jsx';
 import {Router, Route, browserHistory} from 'react-router';
-import { updateUser } from '../redux/actions.js';
+import { updateUser } from '../redux/actions/user_actions.js';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
 export class DashComp extends React.Component {
-  constructor(props) {
-    super(props);
-
-  }
 
   componentDidMount() {
     let self = this;
@@ -28,6 +24,8 @@ export class DashComp extends React.Component {
         } else {
           console.error('Dashboard received no user info');
         }
+
+
       })
       .catch(function (error) {
         console.error(error);
@@ -50,7 +48,8 @@ export class DashComp extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return state;
+  // Since we never use the redux state here
+  return {};
 };
 
 const mapDispatchToProps = (dispatch) => {

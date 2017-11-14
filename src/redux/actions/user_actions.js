@@ -1,6 +1,8 @@
+import * as types from './types/user_types'
+
 export function updateUser (user) {
     return {
-        type: 'UPDATE_IN_USER',
+        type: types.updateUser,
         payload: user
     };
 }
