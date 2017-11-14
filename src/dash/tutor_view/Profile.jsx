@@ -59,6 +59,7 @@ class Profile extends React.Component {
 
     handleRemoveSchedule(event) {
         // TODO
+        console.log(event.value());
         // this.setState({people: this.state.people.filter(function(person) {
         //     return person !== e.target.value
         // })};
@@ -71,7 +72,6 @@ class Profile extends React.Component {
     handleEmailChange(event) {
         this.setState({email: event.target.value});
     }
-
 
     render() {
         const scheduleItems = this.state.schedule.map((d, index) =>

@@ -11,12 +11,11 @@ class Profile extends React.Component {
             is_edit: false,
             is_changed: false,
             button_text: 'Edit',
-            bio: "hardcoded bio"
+            // bio: null
         };
-
+        this.setState({ bio: this.props.user.bio });
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
-        // this.handleEmailChange = this.handleEmailChange.bind(this);
     }
 
     handleSave() {
@@ -29,6 +28,7 @@ class Profile extends React.Component {
                     console.log(response.data);
                 } else {
                     alert("Saved info!");
+                    this.setState({bio: this.props.user.bio });
                 }
             })
             .catch(function (error) {
@@ -57,6 +57,7 @@ class Profile extends React.Component {
     }
 
     render() {
+        // this.setState({ bio: this.props.user.bio });
         return (
             <div className="container">
                 <br/>
@@ -100,8 +101,8 @@ class Profile extends React.Component {
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-calendar"></i>Join Date:
-                                                <p>No date right now</p>
-                                                {/*<p>{ this.props.user.join_date.toDateString() }</p>*/}
+                                                {/*<p>No date right now</p>*/}
+                                                <p>{ this.props.user.join_date }</p>
                                             </div>
                                         </div>
                                         <div className="row">
@@ -133,7 +134,8 @@ class Profile extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
+    console.log("STATE:", state);
+    // console.log("!!!!", this.props.user.bio);
     return state;
 };
 
