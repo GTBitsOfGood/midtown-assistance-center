@@ -5,7 +5,8 @@ const app = express();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const data_access = require('./api/data_access');
-import config from 'config'
+import config from 'config';
+import user_dao from './dao/session_dao';
 
 app.use(require('cookie-parser')());
 
@@ -87,7 +88,81 @@ app.post('/login', function(req, res, next){
             if (err) {
                 return next(err);
             }
+            //TO DO: create session here and add it to the database
+
+            var session_obj = {type: 'Login', _id: req.body.username, time: new Date()};
+            session_dao.createSession(session_obj, function (err, session_instance) {
+                if(err) {
+                    console.log(err);
+                }
+                console.log('Login Session Sucessfully Created.(passportConfig.js -> 98)');
+            });
+
+
+
+
             return res.send(user);
+            // createSession: function(session, callback) {
+            //     Session.create(session, function (err, session_instance) {
+            //         if (err) {
+            //             console.error('Error creating a new session:', err);
+            //             callback(err);
+            //         } else {
+            //             callback(null, session_instance);
+            //         }
+            //     });
+            // },
+
+
+            /*
+            user_dao.checkIfUsernameIsTaken(req.body.username, function(err, resultUsername){
+                if (err) {
+                    console.log(err);
+                }
+                if (!resultUsername) {
+                    console.log(resultUsername);
+                    user_dao.checkIfEmailIsTaken(req.body.email, function(err, resultEmail){
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            console.log(resultEmail);
+                            if (!resultEmail) {
+                                user_dao.createStudent({
+                                    first_name: req.body.firstName,
+                                    last_name: req.body.lastName,
+                                    email: req.body.email,
+                                    _id: req.body.username,
+                                    password: req.body.password,
+                                    join_date: Date.now(),
+                                    classroom: req.body.access_code,
+                                    grade_level: req.body.grade_level
+                                }, function(err, user_instance){
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        res.send({
+                                            success: true,
+                                            error_message: null,
+                                        });
+                                    }
+                                });
+                            } else {
+                                res.json({
+                                    success: false,
+                                    error_message: 'Email already exists'
+                                });
+                            }
+                        }
+                    });
+                } else {
+                    res.json({
+                        success: false,
+                        error_message: 'Username already exists'
+                    });
+                }
+            });
+            */
+
         });
 
     })(req, res, next);
