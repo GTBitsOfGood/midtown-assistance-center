@@ -3,7 +3,9 @@ import * as types from './types/student_view_types'
 export function changeTutorsAction(tutors) {
   return {
     type: types.updateOnlineTutors,
-    payload: tutors
+    payload: {
+      filteredTutors: tutors
+    }
   };
 }
 

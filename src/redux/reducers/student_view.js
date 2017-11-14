@@ -13,7 +13,7 @@ export default function change_tutors(state = initial_state, action) {
 
   switch (action.type) {
     case types.updateOnlineTutors:
-      new_state.filteredTutors = action.payload;
+      new_state.filteredTutors = action.payload.filteredTutors;
       break;
 
     case types.onSearchClicked:
