@@ -20,7 +20,7 @@ module.exports = {
             if (err) {
                 console.error('Error checking if any sessions exist with this username:', err);
                 callback(err);
-            } else if (docs != null && docs.length > 0) {
+            } else if (docs && docs.length > 0) {
                 callback(null, docs);
             } else {
                 callback(null, null);
@@ -35,14 +35,13 @@ module.exports = {
                 console.error('Error checking if any sessions exist with this username:', err);
                 callback(err);
 
-            } else if (docs != null && docs.length > 0) {
+            } else if (docs && docs.length > 0) {
                 callback(null, docs[0]); //idk if doc[0] is first or last added session...lol
             } else {
                 callback(null, null);
             }
         });
     },
-
 
 
     getSessionsViaTime: function(time, callback) {
@@ -52,7 +51,7 @@ module.exports = {
                 console.error('Error checking if any sessions exist with this username:', err);
                 callback(err);
 
-            } else if(docs != null && docs.length > 0){
+            } else if(docs && docs.length > 0){
                 callback(null, docs);
             } else {
                 callback(null, null);
