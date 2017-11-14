@@ -4,6 +4,7 @@ import HomeMenuBar from '../MenuBar.jsx';
 import DefaultDash from './student_view/StudentDash.jsx';
 import DefaultAdminDash from './admin_view/AdminDash.jsx';
 import DefaultProfile from './student_view/Profile.jsx';
+import TutorDash from './tutor_view/TutorDash.jsx';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 import AboutUs from '../home/AboutUs.jsx';
@@ -41,6 +42,7 @@ export class DashComp extends React.Component {
           <Route path="/dash/about" component={AboutUs}/>
           <Route path="/dash/profile" component={DefaultProfile}/>
           <Route path="/dash/admin" component={DefaultAdminDash}/>
+          <Route path="/dash/tutor" component={TutorDash}/>
           </Router>
       </div>
     );
