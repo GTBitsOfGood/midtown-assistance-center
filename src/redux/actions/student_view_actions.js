@@ -1,13 +1,15 @@
+import * as types from './types/student_view_types'
+
 export function changeTutorsAction(tutors) {
   return {
-    type: 'CHANGE_ONLINE_TUTORS',
+    type: types.updateOnlineTutors,
     payload: tutors
   };
 }
 
 export function onSearchAction(search_type, search_subject, search_time) {
   return {
-    type: 'ON_SEARCH',
+    type: types.onSearchClicked,
     payload: {
       searchType: search_type,
       searchSubject: search_subject,

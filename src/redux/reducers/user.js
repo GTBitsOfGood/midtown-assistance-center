@@ -1,4 +1,5 @@
 import config from 'config';
+import * as types from '../actions/types/user_types'
 
 let initial_state = {};
 
@@ -6,7 +7,7 @@ export default function change_user(state = initial_state, action) {
   let new_state = Object.assign({}, state);
 
   switch (action.type) {
-    case 'UPDATE_IN_USER':
+    case types.updateUser:
       let new_user = action.payload;
       new_state = new_user;
 
