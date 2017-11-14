@@ -69,7 +69,7 @@ app.get('/user', (req, res) => {
 app.get('/logout', (req, res) => {
     req.logout();
 
-    var session_obj = {type: 'Logout', _id: req.body.username, time: new Date()};
+    var session_obj = {type: 'Logout', _id: req.body.username, time: new Date().now()};
 
     session_dao.createSession(session_obj, function (err, session_instance) {
         if(err) {
@@ -101,7 +101,7 @@ app.post('/login', function(req, res, next){
             }
             //TO DO: create session here and add it to the database
 
-            var session_obj = {type: 'Login', _id: req.body.username, time: new Date()};
+            var session_obj = {type: 'Login', _id: req.body.username, time: new Date().now};
             session_dao.createSession(session_obj, function (err, session_instance) {
                 if(err) {
                     console.log(err);
