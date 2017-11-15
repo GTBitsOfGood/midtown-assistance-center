@@ -5,9 +5,14 @@ class TutorDash extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1> Hello Tutor </h1>
+    <div>
+      <div className="col-md-6">
+        <h2>Profile</h2>
       </div>
+      <div className="col-md-6">
+        <h2>Calendar</h2>
+      </div>
+    </div>
     );
   }
 }
