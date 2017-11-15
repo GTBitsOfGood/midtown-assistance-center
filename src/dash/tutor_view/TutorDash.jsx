@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import TutorProfile from './Profile.jsx';
 
 class TutorDash extends React.Component {
 
@@ -8,6 +9,7 @@ class TutorDash extends React.Component {
     <div>
       <div className="col-md-6">
         <h2>Profile</h2>
+        <TutorProfile/>
       </div>
       <div className="col-md-6">
         <h2>Calendar</h2>
