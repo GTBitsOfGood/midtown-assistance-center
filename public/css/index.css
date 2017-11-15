@@ -310,6 +310,10 @@ body {
     color: var(--gold);
 }
 
+.gray_text {
+    color: var(--dkgray);
+}
+
 .lighter-text {
     font-weight:300;
 }
