@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
-import { updateUser } from '../../redux/actions.js';
+import { updateUser } from '../../redux/actions/user_actions.js';
 
 class Profile extends React.Component {
 
@@ -9,39 +8,22 @@ class Profile extends React.Component {
         super(props);
         this.state = {
             is_edit: false,
-            is_changed: false,
             button_text: 'Edit',
-            // bio: null
         };
-        this.setState({ bio: this.props.user.bio });
+
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
+        this.handleEmailChange = this.handleEmailChange.bind(this);
     }
 
     handleSave() {
-        axios.patch('/api/profile/student', {
-                _id: this.props.user._id,
-                bio: this.state.bio
-            })
-            .then(function (response) {
-                if (response === '') {
-                    console.log(response.data);
-                } else {
-                    alert("Saved info!");
-                    this.setState({bio: this.props.user.bio });
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    }
-
-    handleBioChange(event) {
-        this.setState({is_changed: true});
-        this.setState({bio: event.target.value});
+        // TODO: update database (and redux) with updated info
+        alert("(Didn't) save updated info!");
     }
 
     handleEdit(event) {
+        // FIXME try to combine set state calls
+
         let editing = !this.state.is_edit;
         this.setState({is_edit: editing});
 
@@ -49,15 +31,11 @@ class Profile extends React.Component {
             this.setState({button_text: 'Save'});
         } else {
             this.setState({button_text: 'Edit'});
-            if (this.state.is_changed) {
-                this.handleSave();
-                this.setState({is_changed: false});
-            }
+            this.handleSave();
         }
     }
 
     render() {
-        // this.setState({ bio: this.props.user.bio });
         return (
             <div className="container">
                 <br/>
@@ -69,7 +47,7 @@ class Profile extends React.Component {
                                     <img src="../../images/default_user_img.png" alt="" className="img-rounded img-responsive" />
                                 </div>
                                 <div className="col-sm-6 col-md-8">
-                                    <h1>{ this.props.user._id }</h1>
+                                    <h1>{ this.props._id }</h1>
                                     <small><cite title="Atlanta, USA">
                                         Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
                                     </cite></small>
@@ -77,32 +55,35 @@ class Profile extends React.Component {
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-envelope"></i> Email:
-                                                <p>{ this.props.user.email }</p>
+                                                <textarea
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={ this.props.email }
+                                                    disabled={ !this.state.is_edit }/>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-lock"></i>Password:
-                                                <p>{ this.props.user.password }</p>
+                                                <p>{ this.props.password }</p>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-globe"></i>Grade Level:
-                                                <p>{ this.props.user.grade_level }</p>
+                                                <p>{ this.props.grade_level }</p>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-apple"></i>Classroom:
-                                                <p>{ this.props.user.classroom }</p>
+                                                <p>{ this.props.classroom }</p>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-calendar"></i>Join Date:
-                                                {/*<p>No date right now</p>*/}
-                                                <p>{ this.props.user.join_date }</p>
+                                                <p>{ this.props.join_date.toDateString() }</p>
                                             </div>
                                         </div>
                                         <div className="row">
@@ -111,8 +92,7 @@ class Profile extends React.Component {
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
-                                                    value={ this.state.bio }
-                                                    onChange={ this.handleBioChange }
+                                                    value={ this.probs.user.bio }
                                                     disabled={ !this.state.is_edit }/>
                                             </div>
                                         </div>
@@ -134,9 +114,7 @@ class Profile extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log("STATE:", state);
-    // console.log("!!!!", this.props.user.bio);
-    return state;
+    return state.user;
 };
 
 const mapDispatchToProps = (dispatch) => {

@@ -1,16 +1,11 @@
 import { applyMiddleware, createStore } from 'redux';
 
 import logger from 'redux-logger';
-import promise from 'redux-promise-middleware';
+import root from './reducer';
 
-import userReducer from './reducer.js';
-
-let store = createStore(userReducer, {
-    user: {}
-});
-
-store.subscribe(() => {
-    console.log('store changed: ', store.getState());
-});
+let store = createStore(
+  root,
+  applyMiddleware(logger)
+);
 
 export default store;

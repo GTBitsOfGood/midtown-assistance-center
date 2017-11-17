@@ -101,7 +101,8 @@ let schema = new Schema({
         },
     }},
     gender: {type:String, required: true},
-    online: {type:Boolean, required: true}
+    online: {type:Boolean, required: true},
+    approved: {type:Boolean, required:true}
 
 });
 

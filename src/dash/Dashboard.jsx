@@ -2,21 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import HomeMenuBar from '../MenuBar.jsx';
 import DefaultDash from './student_view/StudentDash.jsx';
+import DefaultAdminDash from './admin_view/AdminDash.jsx';
 import DefaultProfile from './student_view/Profile.jsx';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 import AboutUs from '../home/AboutUs.jsx';
 import {Router, Route, browserHistory} from 'react-router';
-import { updateUser } from '../redux/actions.js';
+import { updateUser } from '../redux/actions/user_actions.js';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import TutorProfile from "./tutor_view/Profile.jsx";
 
 export class DashComp extends React.Component {
-  constructor(props) {
-    super(props);
-
-  }
 
   componentDidMount() {
     let self = this;
@@ -28,6 +24,8 @@ export class DashComp extends React.Component {
         } else {
           console.error('Dashboard received no user info');
         }
+
+
       })
       .catch(function (error) {
         console.error(error);
@@ -42,7 +40,7 @@ export class DashComp extends React.Component {
           <Route path="/dash" component={DefaultDash}/>
           <Route path="/dash/about" component={AboutUs}/>
           <Route path="/dash/profile" component={DefaultProfile}/>
-          <Route path="/dash/tutorprofile" component={TutorProfile}/>
+          <Route path="/dash/admin" component={DefaultAdminDash}/>
           </Router>
       </div>
     );
@@ -50,7 +48,8 @@ export class DashComp extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return state;
+  // Since we never use the redux state here
+  return {};
 };
 
 const mapDispatchToProps = (dispatch) => {

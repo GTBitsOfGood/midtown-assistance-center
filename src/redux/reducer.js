@@ -1,21 +1,14 @@
-import { combineReducers } from 'redux';
-import config from 'config'
+import { combineReducers } from 'redux'
+import user from './reducers/user'
+import studentView from './reducers/student_view'
+import tutorView from './reducers/tutor_view'
+import adminView from './reducers/admin_view'
 
-export default function userReducer(state, action) {
-    console.log('user reducer called with', action);
-    let new_state = Object.assign({}, state);
+const root = combineReducers({
+  user,
+  studentView,
+  tutorView,
+  adminView
+});
 
-    switch (action.type) {
-
-      case 'UPDATE_IN_USER':
-          let new_user = action.payload;
-          new_state.user = new_user;
-
-          // Hide password (even though our backend should already hide it)
-          new_state.user.password = config.hidden_password;
-
-          break;
-    }
-
-    return new_state;
-}
+export default root;

@@ -7,6 +7,7 @@
     --purple: #160c28;
     --black: #000411;
     --blackhover: #222633;
+    --lighterblack: #383B47;
     --tutorBorderColor: var(--gray);
     --primaryLight: #EEEEEE;
 }
@@ -26,6 +27,9 @@ body {
   margin-bottom: 0;
   border: 0;
   border-radius: 0 ! important;
+  box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0px 10px 0 rgba(0, 0, 0, 0.19);
+  z-index: 99;
+
 }
 
 .navbartext, .navbartext > a, .navbarheader {
@@ -93,13 +97,11 @@ body {
 
 .search-btn {
     border-radius: 0;
-    border: 0;
     height: 100% ! important;
-    border-left: 1px solid var(--gray);
-    border-style: solid;
     -webkit-box-shadow: none ! important;
     -moz-box-shadow: none ! important;
     box-shadow: none ! important;
+    margin-left: 0px ! important;
 }
 
 .search-btn:hover {
@@ -108,11 +110,11 @@ body {
 }
 
 .search-select {
-    -webkit-border-radius: 0px;
+    -webkit-border-radius: 0px ! important;
     -moz-appearance: none;
-    -moz-border-radius: 0px;
+    -moz-border-radius: 0px ! important;
     appearance: none;
-    border-radius: 0px;
+    border-radius: 0px ! important;
 }
 
 @media screen and (max-width:800px) {
@@ -218,15 +220,78 @@ body {
     margin: 5px;
 }
 
-/*time picker*/
-.time-pick {
-    margin: 0px 0px 0px 10px;
+/*Admin Dash*/
+
+.tutor-dash-wrapper {
+    padding: 0;
+}
+.approve-tutors-panel {
+    background-color: var(--blackhover);
+    height: 92.5vh;
+    margin-left: 0;
+    overflow-y: scroll;
+    padding-top: 1%;
+    border-right: 1px double var(--gray);
+    padding: 1%;
+    color: var(--gray);
+
 }
 
-.time-item {
-    margin: 10px 0 5px 0;
+.tutor-dash-header {
+    font-weight: 300;
 }
 
+.approve-tutor-item {
+  box-shadow: 0 0 2px 0 var(--black), 0 0px 5px 0 var(--lighterblack);
+  padding: 0px 5px 15px 5px;
+  margin-bottom: 1%;
+  background-color: var(--lighterblack);
+  color: var(--ltgray);
+}
+
+.approve-tutors-list {
+    margin-top: 5%;
+}
+
+.approve-button, .reject-button {
+    border-radius: 0;
+    width: 30%;
+}
+
+.usage-chart {
+    margin-top: 5%;
+}
+
+.legend {
+    margin-top: 5%;
+}
+.tutor-statistics {
+    padding-top: 1%;
+    height: 92.5vh;
+    color: var(--blackhover);
+    /*border-bottom: 1px double var(--gray);
+    height: 50vh;*/
+}
+
+.student-box {
+    background-color: var(--blackhover);
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.tutor-box {
+    background-color: var(--gold);
+    height: 10px;
+    width: 10px;
+    display: inline-block;
+    margin-right: 5px;
+}
+
+.student-value, .tutor-value {
+    display: inline-block;
+}
 
 /*general*/
 .mac_button {
@@ -252,5 +317,25 @@ body {
 .capitalize {
     text-transform: capitalize;
 }
+
+.mac_anchor {
+    color: var(--ltgray);
+}
+
+.mac_anchor:hover {
+    color: var(--gold);
+    text-decoration: none;
+}
+
+.mac_button_group {
+    color: var(--lighterblack);
+    border-radius: 0;
+    margin-left: 5%;
+}
+.mac_button_group:hover {
+    color: var(--gold);
+}
+
+
 
 
