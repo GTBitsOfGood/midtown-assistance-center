@@ -18,13 +18,10 @@ export class DashComp extends React.Component {
     axios.get('/user')
       .then(function (response) {
         if (response.data !== '') {
-          console.log('Dashboard received user info from passport');
           self.props.setUser(response.data);
         } else {
           console.error('Dashboard received no user info');
         }
-
-
       })
       .catch(function (error) {
         console.error(error);
@@ -35,11 +32,11 @@ export class DashComp extends React.Component {
     return (
       <div className="animated fadeInDown">
         <HomeMenuBar homeordash='dash'/>
-          <Router history={browserHistory}>
+        <Router history={browserHistory}>
           <Route path="/dash" component={StudentDash}/>
           <Route path="/dash/about" component={AboutUs}/>
           <Route path="/dash/profile" component={StudentProfile}/>
-          </Router>
+        </Router>
       </div>
     );
   }

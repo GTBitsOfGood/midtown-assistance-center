@@ -64,7 +64,7 @@ export class homeMenuBar extends React.Component {
                             <span><img className="nav-prof-pic" src='/images/user.png'></img></span>
                                 <DropdownButton className="btn btn-sm dropdown-menu-button" title={this.props.user._id}>
                                     <MenuItem href="#">Usage</MenuItem>
-                                    <MenuItem href="#">Edit Profile</MenuItem>
+                                    <MenuItem href="/dash/profile">Edit Profile</MenuItem>
                                     <MenuItem divider></MenuItem>
                                     <MenuItem onClick={() => this.logout()}>Log Out</MenuItem>
                                  </DropdownButton>
