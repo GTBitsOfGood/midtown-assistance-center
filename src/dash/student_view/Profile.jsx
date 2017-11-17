@@ -10,8 +10,9 @@ class Profile extends React.Component {
       this.state = {
         is_edit: false,
         button_text: 'Edit',
-        email: this.props.email,
-        bio: this.props.bio
+        email: undefined,
+        bio: undefined,
+        isFirst: true
       };
 
       this.handleSave = this.handleSave.bind(this);
@@ -58,6 +59,13 @@ class Profile extends React.Component {
               Loading!
             </h1>
           )
+        }
+
+        if (this.state.isFirst) {
+          // FIXME don't call setState here, we don't need the component to re-render!!
+          this.state.email = this.props.email;
+          this.state.bio = this.props.bio;
+          this.state.isFirst = false;
         }
 
         return (

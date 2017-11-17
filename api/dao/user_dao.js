@@ -189,12 +189,13 @@ module.exports = {
       });
     },
 
-    saveUser: function(user, callback) {
-      if (user.password === config.get('hidden_password')) {
+    saveStudent: function(student, callback) {
+      if (student.password === config.get('hidden_password')) {
         callback('The user password is masked! Not saving this to db');
       }
 
-      user.save(function (err, updatedUser) {
+      console.log('updating student');
+      Student.findByIdAndUpdate(student._id, { $set: student}, { new: true }, function (err, updatedUser) {
         if (err) {
           console.log('Error saving user');
           return callback(err);
@@ -202,23 +203,6 @@ module.exports = {
 
         callback(null, updatedUser);
       });
-    },
-
-    updateStudent: function(user, callback) {
-        console.log(user.body);
-        Student.update(
-            {_id: user._id},
-            { $set: {
-                bio: user.bio
-            }},
-            function(err, rawResponse) {
-                if (err) {
-                    console.error('Error updating student:', err);
-                    callback(err);
-                } else {
-                    callback(null, rawResponse);
-                }
-            });
     }
 
 };

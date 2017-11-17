@@ -11,19 +11,19 @@ export default function change_user(state = initial_state, action) {
     case types.updateUser:
       new_state = action.payload;
 
-      // Hide password (even though our backend should already hide it)
-      new_state.password = config.hidden_password;
+      // FIXME Hide password (even though our backend should already hide it)
+      // new_state.password = config.hidden_password;
       break;
 
     case types.saveUserToDb:
       // FIXME should use thunks for this :/
       new_state = action.payload;
 
-      // Hide password (even though our backend should already hide it)
-      new_state.password = config.hidden_password;
+      // FIXME Hide password (even though our backend should already hide it)
+      // new_state.password = config.hidden_password;
 
       // Make save call
-      axios.post('/saveUser', new_state)
+      axios.patch('/api/student', new_state)
         .then(function (response) {
           if (response.data !== '') {
             // Do nothing

@@ -1,6 +1,5 @@
 import express from 'express';
 import data_access from './data_access'
-import Tutor from '../models/Tutor';
 const app = express();
 
 app.get('/onlineTutors', (req, res) => {
@@ -117,9 +116,9 @@ app.post('/registerStudent', (req, res) => {
     });
 });
 
-app.patch('/profile/student', (req, res) => {
+app.patch('/student', (req, res) => {
     console.log(req.body);
-    user_dao.updateStudent(req.body, function(err, resultStudent) {
+    data_access.users.saveStudent(req.body, function(err, resultStudent) {
         if (err) {
             console.log(err);
         }
