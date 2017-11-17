@@ -1,23 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { updateUser } from '../../redux/actions/user_actions.js';
+import {saveUser} from "../../redux/actions/user_actions";
 
 class Profile extends React.Component {
 
     constructor(props) {
-        super(props);
-        this.state = {
-            is_edit: false,
-            button_text: 'Edit',
-        };
+      super(props);
+      this.state = {
+        is_edit: false,
+        button_text: 'Edit',
+        email: this.props.email,
+        bio: this.props.bio
+      };
 
-        this.handleSave = this.handleSave.bind(this);
-        this.handleEdit = this.handleEdit.bind(this);
+      this.handleSave = this.handleSave.bind(this);
+      this.handleEdit = this.handleEdit.bind(this);
+      this.handleEmailChange = this.handleEmailChange.bind(this);
+      this.handleBioChange = this.handleBioChange.bind(this);
     }
 
     handleSave(event) {
-        // TODO: update database (and redux) with updated info
-        alert("(Didn't) save updated info!");
+      // TODO field validation + better checking of what changed
+
+      let new_user = Object.assign({}, this.props);
+      new_user.email = this.state.email;
+      new_user.bio = this.state.bio;
+      this.props.saveUser(new_user);
     }
 
     handleEdit(event) {
@@ -32,6 +41,14 @@ class Profile extends React.Component {
             this.setState({button_text: 'Edit'});
             this.handleSave();
         }
+    }
+
+    handleEmailChange(event) {
+      this.setState({email: event.target.value});
+    }
+
+    handleBioChange(event) {
+      this.setState({bio: event.target.value});
     }
 
     render() {
@@ -65,8 +82,9 @@ class Profile extends React.Component {
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
-                                                    value={ this.props.email }
-                                                    disabled={ !this.state.is_edit }/>
+                                                    disabled={ !this.state.is_edit }
+                                                    onChange={ this.handleEmailChange }
+                                                    defaultValue={this.props.email}/>
                                             </div>
                                         </div>
                                         <div className="row">
@@ -99,8 +117,9 @@ class Profile extends React.Component {
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
-                                                    value={ this.props.bio }
-                                                    disabled={ !this.state.is_edit }/>
+                                                    disabled={ !this.state.is_edit }
+                                                    onChange={ this.handleBioChange }
+                                                    defaultValue={this.props.bio}/>
                                             </div>
                                         </div>
                                     </div>
@@ -125,7 +144,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser : (user) => dispatch(updateUser(user))
+        saveUser : (user) => dispatch(saveUser(user))
     }
 };
 
