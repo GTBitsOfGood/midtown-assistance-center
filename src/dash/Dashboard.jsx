@@ -15,6 +15,30 @@ import { updateUser } from '../redux/actions/user_actions.js';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
+const studentRoutes = (
+  <Route path="/dash">
+    <Route path="/" component={StudentDash}/>
+    <Route path="/about" component={AboutUs}/>
+    <Route path="/profile" component={StudentProfile}/>
+  </Route>
+);
+
+const tutorRoutes = (
+  <Route path="/dash">
+    <Route path="/" component={TutorDash}/>
+    <Route path="/about" component={AboutUs}/>
+    <Route path="/profile" component={TutorProfile}/>
+  </Route>
+);
+
+const adminRoutes = (
+  <Route path="/dash">
+    <Route path="/" component={AdminDash}/>
+    <Route path="/about" component={AboutUs}/>
+    <Route path="/profile" component={AdminProfile}/>
+  </Route>
+);
+
 class DashComp extends React.Component {
 
   componentDidMount() {
@@ -32,45 +56,6 @@ class DashComp extends React.Component {
       });
   }
 
-  static renderStudent() {
-    return (
-      <div className="animated fadeInDown">
-        <HomeMenuBar homeordash='dash'/>
-        <Router history={browserHistory}>
-          <Route path="/dash" component={StudentDash}/>
-          <Route path="/dash/about" component={AboutUs}/>
-          <Route path="/dash/profile" component={StudentProfile}/>
-        </Router>
-      </div>
-    );
-  }
-
-  static renderTutor() {
-    return (
-      <div className="animated fadeInDown">
-        <HomeMenuBar homeordash='dash'/>
-        <Router history={browserHistory}>
-          <Route path="/dash" component={TutorDash}/>
-          <Route path="/dash/about" component={AboutUs}/>
-          <Route path="/dash/profile" component={TutorProfile}/>
-        </Router>
-      </div>
-    );
-  }
-
-  static renderAdmin() {
-    return (
-      <div className="animated fadeInDown">
-        <HomeMenuBar homeordash='dash'/>
-        <Router history={browserHistory}>
-          <Route path="/dash" component={AdminDash}/>
-          <Route path="/dash/about" component={AboutUs}/>
-          <Route path="/dash/profile" component={AdminProfile}/>
-        </Router>
-      </div>
-    );
-  }
-
   render() {
     if (this.props.user === undefined) {
       return (
@@ -80,17 +65,27 @@ class DashComp extends React.Component {
       )
     }
 
-    let userMessage;
     // FIXME we should introduce a user type variable
+    let routes;
     if (this.props.user.grade_level !== undefined) {
-      userMessage = DashComp.renderStudent();
+      routes = studentRoutes;
+      console.log('Student logged in');
     } else if (this.props.user.approved !== undefined) {
-      userMessage = DashComp.renderTutor();
+      routes = tutorRoutes;
+      console.log('Tutor logged in');
     } else {
-      userMessage = DashComp.renderAdmin();
+      routes = adminRoutes;
+      console.log('Admin logged in');
     }
 
-    return userMessage;
+    return (
+      <div className="animated fadeInDown">
+        <HomeMenuBar homeordash='dash'/>
+        <Router history={browserHistory}>
+          {routes}
+        </Router>
+      </div>
+    );
   }
 }
 
