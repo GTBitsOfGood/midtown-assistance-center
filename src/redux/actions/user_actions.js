@@ -1,15 +1,29 @@
 import * as types from './types/user_types'
 
-export function updateUser (user) {
+export function fetchUser (user) {
   return {
-      type: types.updateUser,
+      type: types.fetchUserFromDb,
       payload: user
   };
 }
 
-export function saveUser (user) {
+export function saveStudent (user) {
   return {
-    type: types.saveUserToDb,
+    type: types.saveStudentToDb,
+    payload: user
+  };
+}
+
+export function saveTutor (user) {
+  return {
+    type: types.saveTutorToDb,
+    payload: user
+  };
+}
+
+export function saveAdmin (user) {
+  return {
+    type: types.saveAdminToDb,
     payload: user
   };
 }

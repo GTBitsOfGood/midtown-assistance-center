@@ -11,7 +11,7 @@ import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 import AboutUs from '../home/AboutUs.jsx';
 import {Router, Route, browserHistory} from 'react-router';
-import { updateUser } from '../redux/actions/user_actions.js';
+import { fetchUser } from '../redux/actions/user_actions.js';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
@@ -96,7 +96,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setUser : (user) => dispatch(updateUser(user))
+    setUser : (user) => dispatch(fetchUser(user))
   };
 };
 

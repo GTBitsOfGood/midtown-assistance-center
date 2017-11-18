@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import {saveUser} from "../../redux/actions/user_actions";
+import {saveTutor} from "../../redux/actions/user_actions";
 
 import TimePicker from './TimePicker.jsx';
 
@@ -164,7 +164,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      saveUser : (user) => dispatch(saveUser(user))
+      saveTutor : (user) => dispatch(saveTutor(user))
     }
 };
 

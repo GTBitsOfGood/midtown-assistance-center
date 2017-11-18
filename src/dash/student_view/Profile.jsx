@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {saveUser} from "../../redux/actions/user_actions";
+import {saveStudent} from "../../redux/actions/user_actions";
 
 class StudentProfile extends React.Component {
 
@@ -143,7 +143,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        saveUser : (user) => dispatch(saveUser(user))
+        saveUser : (user) => dispatch(saveStudent(user))
     }
 };
 

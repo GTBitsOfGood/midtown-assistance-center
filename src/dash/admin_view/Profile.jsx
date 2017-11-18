@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {saveUser} from "../../redux/actions/user_actions";
+import {saveAdmin} from "../../redux/actions/user_actions";
 
 class Profile extends React.Component {
 
@@ -17,7 +17,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveUser : (user) => dispatch(saveUser(user))
+    saveAdmin : (user) => dispatch(saveAdmin(user))
   }
 };
 

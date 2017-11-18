@@ -8,14 +8,14 @@ export default function change_user(state = initial_state, action) {
   let new_state = Object.assign({}, state);
 
   switch (action.type) {
-    case types.updateUser:
+    case types.fetchUserFromDb:
       new_state = action.payload;
 
       // FIXME Hide password (even though our backend should already hide it)
       // new_state.password = config.hidden_password;
       break;
 
-    case types.saveUserToDb:
+    case types.saveStudentToDb:
       // FIXME should use thunks for this :/
       new_state = action.payload;
 
