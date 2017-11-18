@@ -57,7 +57,7 @@ class DashComp extends React.Component {
   }
 
   render() {
-    if (this.props.user._id === undefined) {
+    if (this.props._id === undefined) {
       return (
         <h1>
           Loading!
@@ -67,10 +67,10 @@ class DashComp extends React.Component {
 
     // FIXME we should introduce a user type variable
     let routes;
-    if (this.props.user.grade_level !== undefined) {
+    if (this.props.grade_level !== undefined) {
       routes = studentRoutes;
       console.log('Student logged in');
-    } else if (this.props.user.approved !== undefined) {
+    } else if (this.props.approved !== undefined) {
       routes = tutorRoutes;
       console.log('Tutor logged in');
     } else {
@@ -91,7 +91,7 @@ class DashComp extends React.Component {
 
 const mapStateToProps = (state) => {
   // Since we never use the redux state here
-  return state;
+  return state.user;
 };
 
 const mapDispatchToProps = (dispatch) => {

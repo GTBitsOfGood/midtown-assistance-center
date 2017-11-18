@@ -12,7 +12,7 @@ class StudentDashboard extends React.Component {
         this.updateTutors = this.updateTutors.bind(this);
     }
 
-    componentDidMount() {
+    componentWillMount() {
         this.updateTutors("online", undefined, undefined);
     }
 
