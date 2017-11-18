@@ -3,10 +3,10 @@ import ReactDOM from 'react-dom';
 import HomeMenuBar from '../MenuBar.jsx';
 import StudentDash from './student_view/StudentDash.jsx';
 import StudentProfile from './student_view/Profile.jsx';
-import TutorDash from './tutor_view/TutorDash';
-import TutorProfile from './tutor_view/Profile';
-import AdminDash from './admin_view/AdminDash';
-import AdminProfile from './admin_view/Profile';
+import TutorDash from './tutor_view/TutorDash.jsx';
+import TutorProfile from './tutor_view/Profile.jsx';
+import AdminDash from './admin_view/AdminDash.jsx';
+import AdminProfile from './admin_view/Profile.jsx';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 import AboutUs from '../home/AboutUs.jsx';
@@ -15,7 +15,7 @@ import { updateUser } from '../redux/actions/user_actions.js';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
-export class DashComp extends React.Component {
+class DashComp extends React.Component {
 
   componentDidMount() {
     let self = this;
@@ -72,7 +72,7 @@ export class DashComp extends React.Component {
   }
 
   render() {
-    if (this.props.user._id === undefined) {
+    if (this.props.user === undefined) {
       return (
         <h1>
           Loading!
@@ -81,9 +81,10 @@ export class DashComp extends React.Component {
     }
 
     let userMessage;
-    if (this.props.user.grade_level) {
+    // FIXME we should introduce a user type variable
+    if (this.props.user.grade_level !== undefined) {
       userMessage = DashComp.renderStudent();
-    } else if (this.props.user.approved) {
+    } else if (this.props.user.approved !== undefined) {
       userMessage = DashComp.renderTutor();
     } else {
       userMessage = DashComp.renderAdmin();
@@ -95,7 +96,7 @@ export class DashComp extends React.Component {
 
 const mapStateToProps = (state) => {
   // Since we never use the redux state here
-  return {};
+  return state;
 };
 
 const mapDispatchToProps = (dispatch) => {

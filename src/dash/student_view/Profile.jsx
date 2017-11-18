@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import {saveUser} from "../../redux/actions/user_actions";
 
-class Profile extends React.Component {
+class StudentProfile extends React.Component {
 
     constructor(props) {
       super(props);
@@ -150,4 +150,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Profile);
+)(StudentProfile);
