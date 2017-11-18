@@ -16,26 +16,26 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 const studentRoutes = (
-  <Route path="/dash">
-    <Route path="/" component={StudentDash}/>
-    <Route path="/about" component={AboutUs}/>
-    <Route path="/profile" component={StudentProfile}/>
+  <Route path="/">
+    <Route path="/dash" component={StudentDash}/>
+    <Route path="/dash/about" component={AboutUs}/>
+    <Route path="/dash/profile" component={StudentProfile}/>
   </Route>
 );
 
 const tutorRoutes = (
-  <Route path="/dash">
-    <Route path="/" component={TutorDash}/>
-    <Route path="/about" component={AboutUs}/>
-    <Route path="/profile" component={TutorProfile}/>
+  <Route path="/">
+    <Route path="/dash" component={TutorDash}/>
+    <Route path="/dash/about" component={AboutUs}/>
+    <Route path="/dash/profile" component={TutorProfile}/>
   </Route>
 );
 
 const adminRoutes = (
-  <Route path="/dash">
-    <Route path="/" component={AdminDash}/>
-    <Route path="/about" component={AboutUs}/>
-    <Route path="/profile" component={AdminProfile}/>
+  <Route path="/">
+    <Route path="/dash/" component={AdminDash}/>
+    <Route path="/dash/about" component={AboutUs}/>
+    <Route path="/dash/profile" component={AdminProfile}/>
   </Route>
 );
 
@@ -57,7 +57,7 @@ class DashComp extends React.Component {
   }
 
   render() {
-    if (this.props.user === undefined) {
+    if (this.props.user._id === undefined) {
       return (
         <h1>
           Loading!
