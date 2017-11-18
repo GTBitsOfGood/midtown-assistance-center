@@ -191,17 +191,33 @@ module.exports = {
 
     saveStudent: function(student, callback) {
       if (student.password === config.get('hidden_password')) {
-        callback('The user password is masked! Not saving this to db');
+        callback('The student password is masked! Not saving this to db');
       }
 
       console.log('updating student');
-      Student.findByIdAndUpdate(student._id, { $set: student}, { new: true }, function (err, updatedUser) {
+      Student.findByIdAndUpdate(student._id, { $set: student}, { new: true }, function (err, updatedStudent) {
         if (err) {
-          console.log('Error saving user');
+          console.log('Error saving student');
           return callback(err);
         }
 
-        callback(null, updatedUser);
+        callback(null, updatedStudent);
+      });
+    },
+
+    saveTutor: function(tutor, callback) {
+      if (tutor.password === config.get('hidden_password')) {
+        callback('The tutor password is masked! Not saving this to db');
+      }
+
+      console.log('updating tutor');
+      Tutor.findByIdAndUpdate(tutor._id, { $set: tutor}, { new: true }, function (err, updatedTutor) {
+        if (err) {
+          console.log('Error saving tutor');
+          return callback(err);
+        }
+
+        callback(null, updatedTutor);
       });
     }
 

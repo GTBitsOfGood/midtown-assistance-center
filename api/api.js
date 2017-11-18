@@ -124,7 +124,7 @@ app.patch('/student', (req, res) => {
         }
         if (!resultStudent) {
             console.log(resultStudent);
-            res.send({
+            res.json({
                 success: true,
                 error_message: null
             })
@@ -135,6 +135,35 @@ app.patch('/student', (req, res) => {
             });
         }
     });
+});
+
+app.patch('/tutor', (req, res) => {
+  console.log(req.body);
+  data_access.users.saveTutor(req.body, function(err, resultStudent) {
+    if (err) {
+      console.log(err);
+    }
+    if (!resultStudent) {
+      console.log(resultStudent);
+      res.json({
+        success: true,
+        error_message: null
+      })
+    } else {
+      res.json({
+        success: false,
+        error_message: "Update failed"
+      });
+    }
+  });
+});
+
+app.patch('/admin', (req, res) => {
+  console.log(req.body);
+  res.json({
+    success: false,
+    error_message: "Update failed because admin dao does not exist yet"
+  });
 });
 
 export default app;
