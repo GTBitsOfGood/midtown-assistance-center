@@ -117,49 +117,40 @@ app.post('/registerStudent', (req, res) => {
 });
 
 app.patch('/student', (req, res) => {
-    console.log(req.body);
     data_access.users.saveStudent(req.body, function(err, resultStudent) {
         if (err) {
-            console.log(err);
+          console.error(err);
+          return res.json({
+              success: false,
+              error_message: "Update failed"
+          });
         }
-        if (!resultStudent) {
-            console.log(resultStudent);
-            res.json({
-                success: true,
-                error_message: null
-            })
-        } else {
-            res.json({
-                success: false,
-                error_message: "Update failed"
-            });
-        }
+
+        res.json({
+          success: true,
+          error_message: null
+        })
     });
 });
 
 app.patch('/tutor', (req, res) => {
-  console.log(req.body);
   data_access.users.saveTutor(req.body, function(err, resultStudent) {
     if (err) {
-      console.log(err);
-    }
-    if (!resultStudent) {
-      console.log(resultStudent);
-      res.json({
-        success: true,
-        error_message: null
-      })
-    } else {
-      res.json({
+      console.error(err);
+      return res.json({
         success: false,
         error_message: "Update failed"
       });
     }
+
+    res.json({
+      success: true,
+      error_message: null
+    })
   });
 });
 
 app.patch('/admin', (req, res) => {
-  console.log(req.body);
   res.json({
     success: false,
     error_message: "Update failed because admin dao does not exist yet"
