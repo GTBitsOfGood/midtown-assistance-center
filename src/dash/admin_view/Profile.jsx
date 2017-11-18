@@ -1,27 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import {saveUser} from "../../redux/actions/user_actions";
 
-class TutorDash extends React.Component {
+class Profile extends React.Component {
 
   render() {
     return (
-      <div>
-        <h1> Hello Tutor </h1>
-      </div>
+      <h1>TODO Admin Profile</h1>
     );
   }
 }
 
 const mapStateToProps = (state) => {
-  // Since we never use the redux state here
-  return {};
+  return state.user;
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    saveUser : (user) => dispatch(saveUser(user))
+  }
 };
 
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(TutorDash);
+)(Profile);

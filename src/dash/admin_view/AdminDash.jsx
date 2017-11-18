@@ -3,7 +3,6 @@ import ApproveTutors from './ApproveTutors.jsx';
 import TutorStatistics from './TutorStatistics.jsx';
 import Members from './Members.jsx';
 
-
 const tutors = [
     {
         first_name: 'Sruti',
@@ -165,4 +164,5 @@ class DefaultAdminDash extends React.Component {
     );
   }
 }
+
 export default DefaultAdminDash;

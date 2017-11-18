@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateUser } from '../../redux/actions.js';
 import axios from 'axios';
+import {saveUser} from "../../redux/actions/user_actions";
 
 import TimePicker from './TimePicker.jsx';
 
@@ -159,19 +159,16 @@ class Profile extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
-    return state;
+    return state.user;
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser : (user) => dispatch(updateUser(user))
+      saveUser : (user) => dispatch(saveUser(user))
     }
 };
 
-const TutorProfile = connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(Profile);
-
-export default TutorProfile;

@@ -1,6 +1,5 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateUser } from '../../redux/actions/user_actions.js';
 import {saveUser} from "../../redux/actions/user_actions";
 
 class Profile extends React.Component {
@@ -53,14 +52,6 @@ class Profile extends React.Component {
     }
 
     render() {
-        if (this.props._id === undefined) {
-          return (
-            <h1>
-              Loading!
-            </h1>
-          )
-        }
-
         if (this.state.isFirst) {
           // FIXME don't call setState here, we don't need the component to re-render!!
           this.state.email = this.props.email;
@@ -156,9 +147,7 @@ const mapDispatchToProps = (dispatch) => {
     }
 };
 
-const StudentProfile = connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(Profile);
-
-export default StudentProfile;

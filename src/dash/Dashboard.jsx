@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import HomeMenuBar from '../MenuBar.jsx';
 import StudentDash from './student_view/StudentDash.jsx';
 import StudentProfile from './student_view/Profile.jsx';
+import TutorDash from './tutor_view/TutorDash';
+import TutorProfile from './tutor_view/Profile';
+import AdminDash from './admin_view/AdminDash';
+import AdminProfile from './admin_view/Profile';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 import AboutUs from '../home/AboutUs.jsx';
@@ -28,7 +32,7 @@ export class DashComp extends React.Component {
       });
   }
 
-  render() {
+  static renderStudent() {
     return (
       <div className="animated fadeInDown">
         <HomeMenuBar homeordash='dash'/>
@@ -39,6 +43,53 @@ export class DashComp extends React.Component {
         </Router>
       </div>
     );
+  }
+
+  static renderTutor() {
+    return (
+      <div className="animated fadeInDown">
+        <HomeMenuBar homeordash='dash'/>
+        <Router history={browserHistory}>
+          <Route path="/dash" component={TutorDash}/>
+          <Route path="/dash/about" component={AboutUs}/>
+          <Route path="/dash/profile" component={TutorProfile}/>
+        </Router>
+      </div>
+    );
+  }
+
+  static renderAdmin() {
+    return (
+      <div className="animated fadeInDown">
+        <HomeMenuBar homeordash='dash'/>
+        <Router history={browserHistory}>
+          <Route path="/dash" component={AdminDash}/>
+          <Route path="/dash/about" component={AboutUs}/>
+          <Route path="/dash/profile" component={AdminProfile}/>
+        </Router>
+      </div>
+    );
+  }
+
+  render() {
+    if (this.props.user._id === undefined) {
+      return (
+        <h1>
+          Loading!
+        </h1>
+      )
+    }
+
+    let userMessage;
+    if (this.props.user.grade_level) {
+      userMessage = DashComp.renderStudent();
+    } else if (this.props.user.approved) {
+      userMessage = DashComp.renderTutor();
+    } else {
+      userMessage = DashComp.renderAdmin();
+    }
+
+    return userMessage;
   }
 }
 
