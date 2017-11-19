@@ -23,7 +23,7 @@ class StudentProfile extends React.Component {
     handleSave() {
       // TODO field validation + better checking of what changed
 
-      let new_user = Object.assign({}, this.props);
+      let new_user = Object.assign({}, this.props.user);
       new_user.email = this.state.email;
       new_user.bio = this.state.bio;
       this.props.saveUser(new_user);
@@ -54,8 +54,8 @@ class StudentProfile extends React.Component {
     render() {
         if (this.state.isFirst) {
           // FIXME don't call setState here, we don't need the component to re-render!!
-          this.state.email = this.props.email;
-          this.state.bio = this.props.bio;
+          this.state.email = this.props.user.email;
+          this.state.bio = this.props.user.bio;
           this.state.isFirst = false;
         }
 
@@ -70,7 +70,7 @@ class StudentProfile extends React.Component {
                                     <img src="../../images/default_user_img.png" alt="" className="img-rounded img-responsive" />
                                 </div>
                                 <div className="col-sm-6 col-md-8">
-                                    <h1>{ this.props._id }</h1>
+                                    <h1>{ this.props.user._id }</h1>
                                     <small><cite title="Atlanta, USA">
                                         Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
                                     </cite></small>
@@ -83,31 +83,31 @@ class StudentProfile extends React.Component {
                                                     className="form-control"
                                                     disabled={ !this.state.is_edit }
                                                     onChange={ this.handleEmailChange }
-                                                    defaultValue={this.props.email}/>
+                                                    defaultValue={this.props.user.email}/>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-lock"></i>Password:
-                                                <p>{ this.props.password }</p>
+                                                <p>{ this.props.user.password }</p>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-globe"></i>Grade Level:
-                                                <p>{ this.props.grade_level }</p>
+                                                <p>{ this.props.user.grade_level }</p>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-apple"></i>Classroom:
-                                                <p>{ this.props.classroom }</p>
+                                                <p>{ this.props.user.classroom }</p>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-calendar"></i>Join Date:
-                                                <p>{ this.props.join_date }</p>
+                                                <p>{ this.props.user.join_date }</p>
                                             </div>
                                         </div>
                                         <div className="row">
@@ -118,7 +118,7 @@ class StudentProfile extends React.Component {
                                                     className="form-control"
                                                     disabled={ !this.state.is_edit }
                                                     onChange={ this.handleBioChange }
-                                                    defaultValue={this.props.bio}/>
+                                                    defaultValue={this.props.user.bio}/>
                                             </div>
                                         </div>
                                     </div>
@@ -138,7 +138,9 @@ class StudentProfile extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return state.user;
+  return {
+    user: state.user
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {

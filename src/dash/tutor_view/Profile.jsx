@@ -11,11 +11,11 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            bio: this.props.bio,
-            email: this.props.email,
+            bio: this.props.user.bio,
+            email: this.props.user.email,
             is_edit: false,
             button_text: 'Edit',
-            availability: this.props.availability
+            availability: this.props.user.availability
         };
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
@@ -91,11 +91,11 @@ class Profile extends React.Component {
                                     <img src="../../images/default_user_img.png" alt="" className="img-rounded img-responsive" />
                                 </div>
                                 <div className="col-sm-6 col-md-8">
-                                    <h1>{ this.props.first_name + " " + this.props.last_name }</h1>
+                                    <h1>{ this.props.user.first_name + " " + this.props.user.last_name }</h1>
                                     <small><cite title="Atlanta, USA">
                                         Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
                                     </cite></small>
-                                    <h3>{ this.props._id }</h3>
+                                    <h3>{ this.props.user._id }</h3>
                                     <div className="form-group">
                                         <div className="row">
                                             <div className="col-xs-12">
@@ -111,7 +111,7 @@ class Profile extends React.Component {
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-calendar"></i>Join Date:
-                                                <p>{ this.props.join_date }</p>
+                                                <p>{ this.props.user.join_date }</p>
                                             </div>
                                         </div>
                                         <div className="row">
@@ -152,7 +152,9 @@ class Profile extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return state.user;
+    return {
+      user: state.user,
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {

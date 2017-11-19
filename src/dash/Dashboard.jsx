@@ -90,7 +90,6 @@ class DashComp extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  // Since we never use the redux state here
   return {
     user: state.user
   };
