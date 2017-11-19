@@ -12,12 +12,14 @@ class Profile extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-  return state.user;
+  return {
+    user: state.user
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    saveAdmin : (user) => dispatch(saveAdmin(user))
+    saveAdmin: (user) => dispatch(saveAdmin(user))
   }
 };
 
