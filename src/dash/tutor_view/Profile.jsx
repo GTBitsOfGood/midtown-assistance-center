@@ -21,8 +21,8 @@ class Profile extends React.Component {
         this.handleBioChange = this.handleBioChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleAddSchedule = this.handleAddSchedule.bind(this);
-        this.handleRemoveSchedule = this.handleRemoveSchedule(this);
-        this.handleSave = this.handleSave(this);
+        this.handleRemoveSchedule = this.handleRemoveSchedule.bind(this);
+        this.handleSave = this.handleSave.bind(this);
     }
 
     handleSave() {
@@ -36,7 +36,7 @@ class Profile extends React.Component {
     }
 
     handleEdit() {
-        var editing = !this.state.is_edit;
+        let editing = !this.state.is_edit;
         this.setState({is_edit: editing});
 
         if (editing) {
