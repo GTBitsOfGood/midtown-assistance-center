@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 
 const AboutUs = () => {
     return (
@@ -45,7 +46,7 @@ const AboutUs = () => {
                         <div className="col-xs-4">
                             <h3>Website</h3>
                             <hr/>
-                            <a href="http://www.midtownassistancectr.org/">Midtown Assistance Center</a>
+                            <Link to="http://www.midtownassistancectr.org/">Midtown Assistance Center</Link>
                         </div>
                         <div className="col-xs-4">
                             <h3>Phone:</h3>

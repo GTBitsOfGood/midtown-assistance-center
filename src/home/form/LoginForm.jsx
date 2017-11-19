@@ -1,8 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-// import './Homepage.css';
-import styles from '../../../public/css/login_signup.css';
+import { Link } from 'react-router-dom'
 import axios from 'axios';
+import styles from '../../../public/css/login_signup.css';
 
 class Loginpage extends React.Component {
     constructor(props) {
@@ -85,7 +84,7 @@ class Loginpage extends React.Component {
                     </div>
                     <h5 className={'col-xs-12 ' + this.state.errorMessage}>username or password incorrect</h5>
                     <div className="row col-xs-12">
-                        <a className="login-anchor" href="#">Forgot your password?</a>
+                        <Link className="login-anchor" to="#">Forgot your password?</Link>
                     </div>
                 </form>
             </div>
