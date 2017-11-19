@@ -1,8 +1,9 @@
 import React from 'react';
-import styles from '../../public/css/index.css';
-import { Nav, Navbar, NavItem, MenuItem, DropdownButton } from 'react-bootstrap';
+import { Nav, Navbar, MenuItem, DropdownButton } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom'
 import axios from 'axios';
+import styles from '../../public/css/index.css';
 
 export class MenuBar extends React.Component {
     constructor(props) {
@@ -28,7 +29,7 @@ export class MenuBar extends React.Component {
         <Navbar collapseOnSelect className={styles.navigationbar}>
           <Navbar.Header>
             <Navbar.Brand className={styles.navbarheader}>
-              <a href="#">Midtown Assistance Center</a>
+              <Link to="#">Midtown Assistance Center</Link>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>

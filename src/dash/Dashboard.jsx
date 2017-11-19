@@ -10,33 +10,33 @@ import AdminProfile from './admin_view/Profile.jsx';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 import AboutUs from '../AboutUs.jsx';
-import {Router, Route, browserHistory} from 'react-router';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { fetchUser } from '../redux/actions/user_actions.js';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
 const studentRoutes = (
-  <Route path="/">
-    <Route path="/dash" component={StudentDash}/>
-    <Route path="/dash/about" component={AboutUs}/>
-    <Route path="/dash/profile" component={StudentProfile}/>
-  </Route>
+  <div>
+    <Route exact path="/dash" component={StudentDash}/>
+    <Route exact path="/dash/about" component={AboutUs}/>
+    <Route exact path="/dash/profile" component={StudentProfile}/>
+  </div>
 );
 
 const tutorRoutes = (
-  <Route path="/">
-    <Route path="/dash" component={TutorDash}/>
-    <Route path="/dash/about" component={AboutUs}/>
-    <Route path="/dash/profile" component={TutorProfile}/>
-  </Route>
+  <div>
+    <Route exact path="/dash" component={TutorDash}/>
+    <Route exact path="/dash/about" component={AboutUs}/>
+    <Route exact path="/dash/profile" component={TutorProfile}/>
+  </div>
 );
 
 const adminRoutes = (
-  <Route path="/">
-    <Route path="/dash/" component={AdminDash}/>
-    <Route path="/dash/about" component={AboutUs}/>
-    <Route path="/dash/profile" component={AdminProfile}/>
-  </Route>
+  <div>
+    <Route exact path="/dash/" component={AdminDash}/>
+    <Route exact path="/dash/about" component={AboutUs}/>
+    <Route exact path="/dash/profile" component={AdminProfile}/>
+  </div>
 );
 
 class DashComp extends React.Component {
@@ -80,10 +80,14 @@ class DashComp extends React.Component {
 
     return (
       <div className="animated fadeInDown">
-        <DashMenuBar/>
-        <Router history={browserHistory}>
-          {routes}
-        </Router>
+        <BrowserRouter>
+          <div>
+            <Route path="/dash/*" component={DashMenuBar}/>
+            <Switch>
+              {routes}
+            </Switch>
+          </div>
+        </BrowserRouter>
       </div>
     );
   }
