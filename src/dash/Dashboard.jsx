@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import HomeMenuBar from '../MenuBar.jsx';
+import DashMenuBar from './DashMenuBar.jsx';
 import StudentDash from './student_view/StudentDash.jsx';
 import StudentProfile from './student_view/Profile.jsx';
 import TutorDash from './tutor_view/TutorDash.jsx';
@@ -9,7 +9,7 @@ import AdminDash from './admin_view/AdminDash.jsx';
 import AdminProfile from './admin_view/Profile.jsx';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
-import AboutUs from '../home/AboutUs.jsx';
+import AboutUs from '../AboutUs.jsx';
 import {Router, Route, browserHistory} from 'react-router';
 import { fetchUser } from '../redux/actions/user_actions.js';
 import { connect } from 'react-redux';
@@ -57,7 +57,7 @@ class DashComp extends React.Component {
   }
 
   render() {
-    if (this.props._id === undefined) {
+    if (this.props.user._id === undefined) {
       return (
         <h1>
           Loading!
@@ -67,10 +67,10 @@ class DashComp extends React.Component {
 
     // FIXME we should introduce a user type variable
     let routes;
-    if (this.props.grade_level !== undefined) {
+    if (this.props.user.grade_level !== undefined) {
       routes = studentRoutes;
       console.log('Student logged in');
-    } else if (this.props.approved !== undefined) {
+    } else if (this.props.user.approved !== undefined) {
       routes = tutorRoutes;
       console.log('Tutor logged in');
     } else {
@@ -80,7 +80,7 @@ class DashComp extends React.Component {
 
     return (
       <div className="animated fadeInDown">
-        <HomeMenuBar homeordash='dash'/>
+        <DashMenuBar/>
         <Router history={browserHistory}>
           {routes}
         </Router>
@@ -91,7 +91,9 @@ class DashComp extends React.Component {
 
 const mapStateToProps = (state) => {
   // Since we never use the redux state here
-  return state.user;
+  return {
+    user: state.user
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
