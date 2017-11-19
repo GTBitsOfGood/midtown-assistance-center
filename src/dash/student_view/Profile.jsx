@@ -20,7 +20,7 @@ class StudentProfile extends React.Component {
       this.handleBioChange = this.handleBioChange.bind(this);
     }
 
-    handleSave(event) {
+    handleSave() {
       // TODO field validation + better checking of what changed
 
       let new_user = Object.assign({}, this.props);

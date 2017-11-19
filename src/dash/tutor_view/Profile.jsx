@@ -11,33 +11,31 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            first_name: 'Sam',
-            last_name: 'Tutor',
-            email: 'asdf@email.com',
-            join_date: new Date(),
-            bio: 'Currently this is hardcoded json. The username and password are from the user. Still need to make responsive',
-            classroom: 'asdf1234',
+            bio: this.props.bio,
+            email: this.props.email,
             is_edit: false,
             button_text: 'Edit',
-            schedule: [
-                {date: "monday", start: "13:30", end: "15:00"},
-                {date: "wednesday", start: "11:00", end: "12:00"},
-                {date: "friday", start: "13:00", end: "15:00"}
-            ]
+            availability: this.props.availability
         };
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleAddSchedule = this.handleAddSchedule.bind(this);
         this.handleRemoveSchedule = this.handleRemoveSchedule(this);
+        this.handleSave = this.handleSave(this);
     }
 
     handleSave() {
-        // TODO: update database with updated info
-        alert("(Didn't) save updated info!");
+      // TODO field validation + better checking of what changed
+
+      let new_user = Object.assign({}, this.props);
+      new_user.email = this.state.email;
+      new_user.bio = this.state.bio;
+      new_user.availability = this.state.availability;
+      this.props.saveUser(new_user);
     }
 
-    handleEdit(event) {
+    handleEdit() {
         var editing = !this.state.is_edit;
         this.setState({is_edit: editing});
 
@@ -49,17 +47,18 @@ class Profile extends React.Component {
         }
     }
 
-    handleAddSchedule(event) {
-        if (this.state.is_edit) {
-            let temp = this.state.schedule;
-            temp.push({date: "monday", start: "00:00", end: "00:00"});
-            this.setState({schedule: temp});
-        }
+    handleAddSchedule() {
+        // TODO
+        // if (this.state.is_edit) {
+        //     let temp = this.state.availability;
+        //     temp.append({date: "monday", start: "00:00", end: "00:00"});
+        //     this.setState({availability: temp});
+        // }
     }
 
     handleRemoveSchedule(event) {
         // TODO
-        console.log(event.value());
+        console.log(event);
         // this.setState({people: this.state.people.filter(function(person) {
         //     return person !== e.target.value
         // })};
@@ -74,7 +73,7 @@ class Profile extends React.Component {
     }
 
     render() {
-        const scheduleItems = this.state.schedule.map((d, index) =>
+        const availabilityItems = Object.keys(this.state.availability).map((d, index) =>
             <div className="time-item">
                 <TimePicker key={index} date={d.date} start={d.start} end={d.end} is_edit={ this.state.is_edit }/>
                 <button value={index} className="btn btn-danger btn-sm" onClick={ this.handleRemoveSchedule }>Remove</button>
@@ -92,11 +91,11 @@ class Profile extends React.Component {
                                     <img src="../../images/default_user_img.png" alt="" className="img-rounded img-responsive" />
                                 </div>
                                 <div className="col-sm-6 col-md-8">
-                                    <h1>{ this.state.first_name + " " + this.state.last_name }</h1>
+                                    <h1>{ this.props.first_name + " " + this.props.last_name }</h1>
                                     <small><cite title="Atlanta, USA">
                                         Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
                                     </cite></small>
-                                    <h3>{ this.props.user._id }</h3>
+                                    <h3>{ this.props._id }</h3>
                                     <div className="form-group">
                                         <div className="row">
                                             <div className="col-xs-12">
@@ -111,14 +110,8 @@ class Profile extends React.Component {
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-lock"/>Password:
-                                                <p>{ this.props.user.password }</p>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-calendar"></i>Join Date:
-                                                <p>{ this.state.join_date.toDateString() }</p>
+                                                <p>{ this.props.join_date }</p>
                                             </div>
                                         </div>
                                         <div className="row">
@@ -136,7 +129,7 @@ class Profile extends React.Component {
                                     <div className="row">
                                         <div className="col-xs-12">
                                             <i className="glyphicon glyphicon-time"></i> Schedule:
-                                            { scheduleItems }
+                                            { availabilityItems }
                                             <button className="btn btn-success" onClick={ this.handleAddSchedule }>
                                                 Add Schedule
                                             </button>
@@ -164,7 +157,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      saveTutor : (user) => dispatch(saveTutor(user))
+      saveUser : (user) => dispatch(saveTutor(user))
     }
 };
 
