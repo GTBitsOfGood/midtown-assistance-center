@@ -14,6 +14,8 @@ import {BrowserRouter, Route, Switch} from 'react-router-dom';
 import { fetchUser } from '../redux/actions/user_actions.js';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import {GridLoader} from 'halogen';
+import styles from '../../public/css/index.css';
 
 const studentRoutes = (
   <div>
@@ -59,9 +61,7 @@ class DashComp extends React.Component {
   render() {
     if (this.props.user._id === undefined) {
       return (
-        <h1>
-          Loading!
-        </h1>
+        <GridLoader className={styles.loading} color="#EEB211" size="150px"/>
       )
     }
 
