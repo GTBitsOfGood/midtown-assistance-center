@@ -335,9 +335,11 @@ body {
 .mac_button_group:hover {
     color: var(--gold);
 }
+
 .loading {
-    margin-left: 25%;
-    width: 50%;
+    position: relative;
+    float: left;
+    left: 50%;
+    transform: translateX(-50%);
     margin-top: 50px;
-    padding: 10px;
 }

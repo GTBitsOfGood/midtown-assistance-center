@@ -61,7 +61,9 @@ class DashComp extends React.Component {
   render() {
     if (this.props.user._id === undefined) {
       return (
-        <GridLoader className={styles.loading} color="#EEB211" size="150px"/>
+        <div className={styles.loading}>
+          <GridLoader  color="#EEB211" size="150px"/>
+        </div>
       )
     }
 

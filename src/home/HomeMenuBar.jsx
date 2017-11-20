@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom'
 import { Nav, Navbar, MenuItem } from 'react-bootstrap';
+import { LinkContainer } from 'react-router-bootstrap';
 import axios from 'axios';
 import styles from '../../public/css/index.css';
 
@@ -28,17 +29,23 @@ export default class HomeMenuBar extends React.Component {
       <Navbar collapseOnSelect className={styles.navigationbar}>
         <Navbar.Header>
           <Navbar.Brand className={styles.navbarheader}>
-            <Link to="#">Midtown Assistance Center</Link>
+            <Link to="/home/about">Midtown Assistance Center</Link>
           </Navbar.Brand>
           <Navbar.Toggle />
         </Navbar.Header>
         <Navbar.Collapse>
           <Nav pullLeft>
-            <MenuItem href="/home/about" className={styles.navbartext}>About Us</MenuItem>
+            <LinkContainer to="/home/about">
+              <MenuItem className={styles.navbartext}>About Us</MenuItem>
+            </LinkContainer>
           </Nav>
           <Nav pullRight>
-            <MenuItem href="/home/login" className={styles.navbartext}>Sign In</MenuItem>
-            <MenuItem href="/home/signUp" className={styles.navbartext}>Sign Up</MenuItem>
+            <LinkContainer to="/home/login">
+              <MenuItem className={styles.navbartext}>Sign In</MenuItem>
+            </LinkContainer>
+            <LinkContainer to="/home/signup">
+              <MenuItem className={styles.navbartext}>Sign Up</MenuItem>
+            </LinkContainer>
           </Nav>
         </Navbar.Collapse>
       </Navbar>

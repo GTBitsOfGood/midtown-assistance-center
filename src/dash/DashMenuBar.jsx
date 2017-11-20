@@ -2,6 +2,7 @@ import React from 'react';
 import { Nav, Navbar, MenuItem, DropdownButton } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
+import { LinkContainer } from 'react-router-bootstrap';
 import axios from 'axios';
 import styles from '../../public/css/index.css';
 
@@ -29,23 +30,39 @@ export class MenuBar extends React.Component {
         <Navbar collapseOnSelect className={styles.navigationbar}>
           <Navbar.Header>
             <Navbar.Brand className={styles.navbarheader}>
-              <Link to="#">Midtown Assistance Center</Link>
+              <Link to="/dash">Midtown Assistance Center</Link>
             </Navbar.Brand>
             <Navbar.Toggle />
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav pullLeft>
               {window.location.pathname === '/dash/about' ?
-                <MenuItem className={styles.navbartext} href="/dash">Dashboard</MenuItem>
+                <LinkContainer to="/dash">
+                  <MenuItem className={styles.navbartext}>Dashboard</MenuItem>
+                </LinkContainer>
                 :
-                <MenuItem className={styles.navbartext} href="/dash/about">About us</MenuItem>}
+                <LinkContainer to="/dash/about">
+                  <MenuItem className={styles.navbartext}>About us</MenuItem>
+                </LinkContainer>
+              }
             </Nav>
             <Nav pullRight>
               <span><img className="nav-prof-pic" src='/images/user.png'></img></span>
               <DropdownButton className="btn btn-sm dropdown-menu-button" title={this.props.user._id}>
-                <MenuItem href="#">Usage</MenuItem>
-                <MenuItem href="/dash/profile">Edit Profile</MenuItem>
-                <MenuItem divider></MenuItem>
+                <LinkContainer to="#">
+                  <MenuItem>Usage</MenuItem>
+                </LinkContainer>
+                {
+                  window.location.pathname === '/dash/profile' ?
+                    <LinkContainer to="/dash">
+                      <MenuItem>Dashboard</MenuItem>
+                    </LinkContainer>
+                    :
+                    <LinkContainer to="/dash/profile">
+                      <MenuItem>Edit Profile</MenuItem>
+                    </LinkContainer>
+                }
+                <MenuItem divider/>
                 <MenuItem onClick={() => this.logout()}>Log Out</MenuItem>
               </DropdownButton>
             </Nav>
