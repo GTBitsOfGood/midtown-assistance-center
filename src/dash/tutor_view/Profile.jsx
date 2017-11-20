@@ -1,37 +1,41 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import {saveStudent} from "../../redux/actions/user_actions";
+import axios from 'axios';
+import {saveTutor} from "../../redux/actions/user_actions";
 
-class StudentProfile extends React.Component {
+import TimePicker from './TimePicker.jsx';
+
+
+class Profile extends React.Component {
 
     constructor(props) {
-      super(props);
-      this.state = {
-        is_edit: false,
-        button_text: 'Edit',
-        email: undefined,
-        bio: undefined,
-        isFirst: true
-      };
-
-      this.handleSave = this.handleSave.bind(this);
-      this.handleEdit = this.handleEdit.bind(this);
-      this.handleEmailChange = this.handleEmailChange.bind(this);
-      this.handleBioChange = this.handleBioChange.bind(this);
+        super(props);
+        this.state = {
+            bio: this.props.user.bio,
+            email: this.props.user.email,
+            is_edit: false,
+            button_text: 'Edit',
+            availability: this.props.user.availability
+        };
+        this.handleEdit = this.handleEdit.bind(this);
+        this.handleBioChange = this.handleBioChange.bind(this);
+        this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleAddSchedule = this.handleAddSchedule.bind(this);
+        this.handleRemoveSchedule = this.handleRemoveSchedule.bind(this);
+        this.handleSave = this.handleSave.bind(this);
     }
 
     handleSave() {
       // TODO field validation + better checking of what changed
 
-      let new_user = Object.assign({}, this.props.user);
+      let new_user = Object.assign({}, this.props);
       new_user.email = this.state.email;
       new_user.bio = this.state.bio;
+      new_user.availability = this.state.availability;
       this.props.saveUser(new_user);
     }
 
-    handleEdit(event) {
-        // FIXME try to combine set state calls
-
+    handleEdit() {
         let editing = !this.state.is_edit;
         this.setState({is_edit: editing});
 
@@ -43,21 +47,38 @@ class StudentProfile extends React.Component {
         }
     }
 
-    handleEmailChange(event) {
-      this.setState({email: event.target.value});
+    handleAddSchedule() {
+        // TODO
+        // if (this.state.is_edit) {
+        //     let temp = this.state.availability;
+        //     temp.append({date: "monday", start: "00:00", end: "00:00"});
+        //     this.setState({availability: temp});
+        // }
+    }
+
+    handleRemoveSchedule(event) {
+        // TODO
+        console.log(event);
+        // this.setState({people: this.state.people.filter(function(person) {
+        //     return person !== e.target.value
+        // })};
     }
 
     handleBioChange(event) {
-      this.setState({bio: event.target.value});
+        this.setState({bio: event.target.value});
+    }
+
+    handleEmailChange(event) {
+        this.setState({email: event.target.value});
     }
 
     render() {
-        if (this.state.isFirst) {
-          // FIXME don't call setState here, we don't need the component to re-render!!
-          this.state.email = this.props.user.email;
-          this.state.bio = this.props.user.bio;
-          this.state.isFirst = false;
-        }
+        const availabilityItems = Object.keys(this.state.availability).map((d, index) =>
+            <div className="time-item">
+                <TimePicker key={index} date={d.date} start={d.start} end={d.end} is_edit={ this.state.is_edit }/>
+                <button value={index} className="btn btn-danger btn-sm" onClick={ this.handleRemoveSchedule }>Remove</button>
+            </div>
+        );
 
         return (
             <div className="container">
@@ -70,10 +91,11 @@ class StudentProfile extends React.Component {
                                     <img src="../../images/default_user_img.png" alt="" className="img-rounded img-responsive" />
                                 </div>
                                 <div className="col-sm-6 col-md-8">
-                                    <h1>{ this.props.user._id }</h1>
+                                    <h1>{ this.props.user.first_name + " " + this.props.user.last_name }</h1>
                                     <small><cite title="Atlanta, USA">
                                         Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
                                     </cite></small>
+                                    <h3>{ this.props.user._id }</h3>
                                     <div className="form-group">
                                         <div className="row">
                                             <div className="col-xs-12">
@@ -81,27 +103,9 @@ class StudentProfile extends React.Component {
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
-                                                    disabled={ !this.state.is_edit }
+                                                    value={ this.state.email }
                                                     onChange={ this.handleEmailChange }
-                                                    defaultValue={this.props.user.email}/>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-lock"></i>Password:
-                                                <p>{ this.props.user.password }</p>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-globe"></i>Grade Level:
-                                                <p>{ this.props.user.grade_level }</p>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-apple"></i>Classroom:
-                                                <p>{ this.props.user.classroom }</p>
+                                                    disabled={ !this.state.is_edit }/>
                                             </div>
                                         </div>
                                         <div className="row">
@@ -116,10 +120,19 @@ class StudentProfile extends React.Component {
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
-                                                    disabled={ !this.state.is_edit }
+                                                    value={ this.state.bio }
                                                     onChange={ this.handleBioChange }
-                                                    defaultValue={this.props.user.bio}/>
+                                                    disabled={ !this.state.is_edit }/>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-xs-12">
+                                            <i className="glyphicon glyphicon-time"></i> Schedule:
+                                            { availabilityItems }
+                                            <button className="btn btn-success" onClick={ this.handleAddSchedule }>
+                                                Add Schedule
+                                            </button>
                                         </div>
                                     </div>
                                     <button
@@ -133,23 +146,24 @@ class StudentProfile extends React.Component {
                     </div>
                 </div>
             </div>
+
         );
     }
 }
 
 const mapStateToProps = (state) => {
-  return {
-    user: state.user
-  };
+    return {
+      user: state.user,
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        saveUser : (user) => dispatch(saveStudent(user))
+      saveUser : (user) => dispatch(saveTutor(user))
     }
 };
 
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(StudentProfile);
+)(Profile);

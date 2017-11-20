@@ -1,4 +1,5 @@
 import React from 'react';
+import {Link} from 'react-router-dom'
 
 const AboutUs = () => {
     return (
@@ -7,7 +8,7 @@ const AboutUs = () => {
             <section className="about">
                 <div className="container">
                     <div className="ro">
-                        <img src="../../images/mac.jpg" alt="mac-logo" className="center-block"/>
+                        <img src="images/mac.jpg" alt="mac-logo" className="center-block"/>
                         <div className="col-xs-8 col-xs-offset-2">
                             <hr/>
                             <h1 className="text-center">MAC Tutoring</h1>
@@ -45,7 +46,7 @@ const AboutUs = () => {
                         <div className="col-xs-4">
                             <h3>Website</h3>
                             <hr/>
-                            <a href="http://www.midtownassistancectr.org/">Midtown Assistance Center</a>
+                            <Link to="http://www.midtownassistancectr.org/">Midtown Assistance Center</Link>
                         </div>
                         <div className="col-xs-4">
                             <h3>Phone:</h3>

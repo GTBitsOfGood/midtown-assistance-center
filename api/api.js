@@ -1,6 +1,5 @@
 import express from 'express';
 import data_access from './data_access'
-import Tutor from '../models/Tutor';
 const app = express();
 
 app.get('/onlineTutors', (req, res) => {
@@ -116,4 +115,46 @@ app.post('/registerStudent', (req, res) => {
         }
     });
 });
+
+app.patch('/student', (req, res) => {
+    data_access.users.saveStudent(req.body, function(err, resultStudent) {
+        if (err) {
+          console.error(err);
+          return res.json({
+              success: false,
+              error_message: "Update failed"
+          });
+        }
+
+        res.json({
+          success: true,
+          error_message: null
+        })
+    });
+});
+
+app.patch('/tutor', (req, res) => {
+  data_access.users.saveTutor(req.body, function(err, resultStudent) {
+    if (err) {
+      console.error(err);
+      return res.json({
+        success: false,
+        error_message: "Update failed"
+      });
+    }
+
+    res.json({
+      success: true,
+      error_message: null
+    })
+  });
+});
+
+app.patch('/admin', (req, res) => {
+  res.json({
+    success: false,
+    error_message: "Update failed because admin dao does not exist yet"
+  });
+});
+
 export default app;
