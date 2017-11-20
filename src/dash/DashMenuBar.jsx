@@ -3,6 +3,7 @@ import { Nav, Navbar, MenuItem, DropdownButton } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom'
 import { LinkContainer } from 'react-router-bootstrap';
+import { saveTutor } from '../redux/actions/user_actions.js';
 import axios from 'axios';
 import styles from '../../public/css/index.css';
 
@@ -13,7 +14,12 @@ export class MenuBar extends React.Component {
     }
 
     logout() {
-      console.warn('Logging out user');
+        console.warn('Logging out user');
+        let new_tutor = Object.assign({}, this.props.user);
+        new_tutor.online = false;
+        this.props.setTutorOffline(new_tutor);
+
+        // FIXME this should happen after we set the offline status
         axios.get('/logout').then(function(response) {
             console.log(response);
             if (response.data === true) {
@@ -81,7 +87,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+  return {
+    setTutorOffline: (tutor) => dispatch(saveTutor(tutor))
+  };
 };
 
 export default connect(

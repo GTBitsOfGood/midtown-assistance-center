@@ -11,7 +11,7 @@ import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 import AboutUs from '../AboutUs.jsx';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
-import { fetchUser } from '../redux/actions/user_actions.js';
+import { fetchUser, saveTutor } from '../redux/actions/user_actions.js';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import {GridLoader} from 'halogen';
@@ -41,6 +41,19 @@ const adminRoutes = (
   </div>
 );
 
+const loading = (
+  <div className="animated fadeInDown">
+    <BrowserRouter>
+      <div>
+        <Route path="/dash" component={DashMenuBar}/>
+        <div className={styles.loading}>
+          <GridLoader  color="#EEB211" size="150px"/>
+        </div>
+      </div>
+    </BrowserRouter>
+  </div>
+);
+
 class DashComp extends React.Component {
 
   componentDidMount() {
@@ -48,7 +61,7 @@ class DashComp extends React.Component {
     axios.get('/user')
       .then(function (response) {
         if (response.data !== '') {
-          self.props.setUser(response.data);
+          self.props.storeUser(response.data);
         } else {
           console.error('Dashboard received no user info');
         }
@@ -60,24 +73,28 @@ class DashComp extends React.Component {
 
   render() {
     if (this.props.user._id === undefined) {
-      return (
-        <div className={styles.loading}>
-          <GridLoader  color="#EEB211" size="150px"/>
-        </div>
-      )
+      return loading;
     }
 
     // FIXME we should introduce a user type variable
     let routes;
     if (this.props.user.grade_level !== undefined) {
-      routes = studentRoutes;
       console.log('Student logged in');
+      routes = studentRoutes;
     } else if (this.props.user.approved !== undefined) {
-      routes = tutorRoutes;
       console.log('Tutor logged in');
+      routes = tutorRoutes;
+
+      if (!this.props.user.online) {
+        let new_tutor = Object.assign({}, this.props.user);
+        new_tutor.online = true;
+        this.props.setTutorOnline(new_tutor);
+
+        return loading;
+      }
     } else {
-      routes = adminRoutes;
       console.log('Admin logged in');
+      routes = adminRoutes;
     }
 
     return (
@@ -103,7 +120,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setUser : (user) => dispatch(fetchUser(user))
+    storeUser: (user) => dispatch(fetchUser(user)),
+    setTutorOnline: (tutor) => dispatch(saveTutor(tutor))
   };
 };
 
