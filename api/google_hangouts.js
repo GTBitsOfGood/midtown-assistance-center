@@ -42,7 +42,7 @@ jwtClient.authorize(function(err, tokens){
 	// });
 
 	var event = {
-	  'summary': 'Google I/O 2015',
+	  'summary': 'test',
 	  'location': '800 Howard St., San Francisco, CA 94103',
 	  'description': 'A chance to hear more about Google\'s developer products.',
 	  'start': {
@@ -55,31 +55,31 @@ jwtClient.authorize(function(err, tokens){
 	  }
 	};
 
-	// calendar.events.insert({
-	// 	auth: jwtClient,
-	// 	calendarId: "6v8snee6ahian410ujvu7nc8f4@group.calendar.google.com",
-	// 	resource: event
-	// }, function(error, res){
-	// 	if (error) {
-	// 		console.log(error);
-	// 	} else {
-	// 		console.log(res);
+	calendar.events.insert({
+		auth: jwtClient,
+		calendarId: "mac@nareddy.com",
+		resource: event
+	}, function(error, res){
+		if (error) {
+			console.log(error);
+		} else {
+			console.log(res);
 
 
-	// 	}
-	// });
+		}
+	});
 
-	calendar.events.get({
-				auth: jwtClient,
-				calendarId: "mac@nareddy.com",
-				eventId: "431eitccdib9ec9pb5oeqgagaq"
-			}, function(error, res){
-				if (error) {
-					console.log(error);
-				} else {
-					console.log(res);
-				}
-			});
+	// calendar.events.get({
+	// 			auth: jwtClient,
+	// 			calendarId: "mac@nareddy.com",
+	// 			eventId: "431eitccdib9ec9pb5oeqgagaq"
+	// 		}, function(error, res){
+	// 			if (error) {
+	// 				console.log(error);
+	// 			} else {
+	// 				console.log(res);
+	// 			}
+	// 		});
 
 	// calendar.events.list({
 	//     auth: jwtClient,
