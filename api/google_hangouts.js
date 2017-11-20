@@ -15,19 +15,75 @@ jwtClient.authorize(function(err, tokens){
 		return;
 	}
 
-	calendar.calendarList.list({
-		auth: jwtClient
-	}, function(err, res){
-		if (err) {
-			console.log(err);
-		} else {
-			console.log(res);
-		}
-	});
+	
+
+	// calendar.calendars.insert({
+	// 	auth: jwtClient,
+	// 	resource: {
+	// 		"summary": "Tutor1",
+	// 		"timeZone": "America/New_York"
+	// 	}
+	// }, function(error, res){
+	// 	if (error) {
+	// 		console.log(error);
+	// 	} else {
+	// 		console.log(res);
+	// 		calendar.calendarList.list({
+	// 			auth: jwtClient
+	// 		}, function(err, res){
+	// 			if (err) {
+	// 				console.log(err);
+	// 			} else {
+	// 				console.log(res);
+	// 			}
+	// 		});
+			
+	// 	}
+	// });
+
+	var event = {
+	  'summary': 'Google I/O 2015',
+	  'location': '800 Howard St., San Francisco, CA 94103',
+	  'description': 'A chance to hear more about Google\'s developer products.',
+	  'start': {
+	    'dateTime': '2018-05-28T09:00:00-07:00',
+	    'timeZone': 'America/New_York'
+	  },
+	  'end': {
+	    'dateTime': '2018-05-28T17:00:00-07:00',
+	    'timeZone': 'America/New_York'
+	  }
+	};
+
+	// calendar.events.insert({
+	// 	auth: jwtClient,
+	// 	calendarId: "6v8snee6ahian410ujvu7nc8f4@group.calendar.google.com",
+	// 	resource: event
+	// }, function(error, res){
+	// 	if (error) {
+	// 		console.log(error);
+	// 	} else {
+	// 		console.log(res);
+
+
+	// 	}
+	// });
+
+	calendar.events.get({
+				auth: jwtClient,
+				calendarId: "mac@nareddy.com",
+				eventId: "431eitccdib9ec9pb5oeqgagaq"
+			}, function(error, res){
+				if (error) {
+					console.log(error);
+				} else {
+					console.log(res);
+				}
+			});
 
 	// calendar.events.list({
 	//     auth: jwtClient,
-	//     calendarId: 'primary',
+	//     calendarId: 'mac@nareddy.com',
 	//     timeMin: (new Date()).toISOString(),
 	//     maxResults: 10,
 	//     singleEvents: true,
@@ -37,16 +93,6 @@ jwtClient.authorize(function(err, tokens){
 	//       console.log('The API returned an error: ' + err);
 	//       return;
 	//     }
-	//     var events = response.items;
-	//     if (events.length == 0) {
-	//       console.log('No upcoming events found.');
-	//     } else {
-	//       console.log('Upcoming 10 events:');
-	//       for (var i = 0; i < events.length; i++) {
-	//         var event = events[i];
-	//         var start = event.start.dateTime || event.start.date;
-	//         console.log('%s - %s', start, event.summary);
-	//       }
-	//     }
+	//     console.log(response);
 	//  });
 });
