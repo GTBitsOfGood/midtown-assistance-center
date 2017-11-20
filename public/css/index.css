@@ -293,6 +293,41 @@ body {
     display: inline-block;
 }
 
+/*tutor dash*/
+
+.upcoming-events-list {
+    background-color: var(--primaryLight);
+}
+
+.tutor-events-header {
+    margin-bottom: 3%;
+}
+
+.tutorUpcomingEvent {
+    height: 64px;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0px 10px 0 rgba(0, 0, 0, 0.19);
+    width: 500px;
+    margin: 0 auto 10px auto;
+    background-color: white;
+}
+
+.upcoming-event-desc {
+    display: inline-block;
+}
+
+.google-link {
+    float: right;
+    display: inline-block;
+}
+
+.google-calendar {
+    width: 500px;
+    margin: auto;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0px 10px 0 rgba(0, 0, 0, 0.19);
+    height: 400px;
+    background-color: white;
+}
+
 /*general*/
 .mac_button {
     border: 1px solid var(--black);
