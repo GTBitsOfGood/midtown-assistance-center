@@ -17,17 +17,8 @@ export class MenuBar extends React.Component {
         console.warn('Logging out user');
         let new_tutor = Object.assign({}, this.props.user);
         new_tutor.online = false;
+        new_tutor.logging_out = true;
         this.props.setTutorOffline(new_tutor);
-
-        // FIXME this should happen after we set the offline status
-        axios.get('/logout').then(function(response) {
-            console.log(response);
-            if (response.data === true) {
-                document.location.href='/';
-            }
-        }).catch(function(error) {
-            console.log(error);
-        });
     }
 
 
@@ -80,9 +71,7 @@ export class MenuBar extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-      user: {
-        _id: state.user._id,
-      }
+      user: state.user
     };
 };
 

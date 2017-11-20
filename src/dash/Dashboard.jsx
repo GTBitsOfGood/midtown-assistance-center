@@ -76,6 +76,17 @@ class DashComp extends React.Component {
       return loading;
     }
 
+    if (this.props.user.logging_out) {
+      axios.get('/logout').then(function(response) {
+        if (response.data) {
+          document.location.href='/';
+        }
+      }).catch(function(error) {
+        console.log(error);
+      });
+      return loading;
+    }
+
     // FIXME we should introduce a user type variable
     let routes;
     if (this.props.user.grade_level !== undefined) {
@@ -85,7 +96,7 @@ class DashComp extends React.Component {
       console.log('Tutor logged in');
       routes = tutorRoutes;
 
-      if (!this.props.user.online) {
+      if (!this.props.user.online && !this.props.user.logging_out) {
         let new_tutor = Object.assign({}, this.props.user);
         new_tutor.online = true;
         this.props.setTutorOnline(new_tutor);
