@@ -12,7 +12,7 @@ const HomeComp = function() {
         <div>
             <BrowserRouter>
               <div>
-                <Route path="/home/*" component={HomeMenuBar}/>
+                <Route path="/home" component={HomeMenuBar}/>
                 <Switch>
                   <Route exact path="/home/about" component={AboutUs}/>
                   <Route exact path="/home/login" component={LoginPage}/>

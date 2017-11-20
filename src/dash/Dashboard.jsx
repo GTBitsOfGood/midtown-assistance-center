@@ -82,7 +82,7 @@ class DashComp extends React.Component {
       <div className="animated fadeInDown">
         <BrowserRouter>
           <div>
-            <Route path="/dash/*" component={DashMenuBar}/>
+            <Route path="/dash" component={DashMenuBar}/>
             <Switch>
               {routes}
             </Switch>
