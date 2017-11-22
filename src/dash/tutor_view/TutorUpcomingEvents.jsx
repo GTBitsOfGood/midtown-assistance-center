@@ -15,12 +15,13 @@ class TutorUpcomingEvents extends React.Component {
     let renEvents = []
     let events;
     while (count < 3) {
+        console.log(dayName);
         events = this.props.availability[dayName]
         for (event in events) {
             renEvents.push(<TutorUpcomingEvent dayName={dayName} today={dayName == days[today] ? true : false} startTime={events[event].start_time} endTime={events[event].end_time}/>);
             count++;
         }
-        day++;
+        day = (day + 1)%7;
         dayName = days[day];
     }
     return (
