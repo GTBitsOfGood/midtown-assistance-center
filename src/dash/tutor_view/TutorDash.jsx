@@ -9,7 +9,7 @@ const tutor = {
       availability: {
           Monday: [{start_time:'14:00', end_time:'15:00'}],
           Tuesday: [{start_time:'18:00', end_time:'19:00'}],
-          Wednesday: [],
+          Wednesday: [{start_time:'17:00', end_time:'18:00'}, {start_time:'13:00', end_time:'14:00'}],
           Thursday: [{start_time:'16:00', end_time:'17:00'}],
           Friday: [],
           Saturday: [],
