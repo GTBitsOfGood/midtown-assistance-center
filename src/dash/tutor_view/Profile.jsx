@@ -92,7 +92,7 @@ class Profile extends React.Component {
                                     <img src="../../images/default_user_img.png" alt="" className="img-rounded img-responsive" />
                                 </div>
                                 <div className="col-sm-6 col-md-8">
-                                    <h1>{ this.state.first_name + " " + this.state.last_name }</h1>
+                                    <h1>{ this.props.user.first_name + " " + this.props.user.last_name }</h1>
                                     <small><cite title="Atlanta, USA">
                                         Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
                                     </cite></small>
@@ -104,7 +104,7 @@ class Profile extends React.Component {
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
-                                                    value={ this.state.email }
+                                                    value={ this.props.user.email }
                                                     onChange={ this.handleEmailChange }
                                                     disabled={ !this.state.is_edit }/>
                                             </div>
@@ -118,7 +118,7 @@ class Profile extends React.Component {
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-calendar"></i>Join Date:
-                                                <p>{ this.state.join_date.toDateString() }</p>
+                                                <p>{ (new Date(this.props.user.join_date)).toDateString() }</p>
                                             </div>
                                         </div>
                                         <div className="row">

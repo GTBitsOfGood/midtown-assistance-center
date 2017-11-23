@@ -43,6 +43,7 @@ class UpcomingEvents extends React.Component {
         //     dayName = days[day];
         // }
     }
+    // sort by day of the week then start time
     renEvents.sort(function(a, b) {
         if (a.props.dayName === b.props.dayName) {
             return a.props.startTime.localeCompare(b.props.startTime);
@@ -68,19 +69,21 @@ class UpcomingEvents extends React.Component {
 
     return (
     <div className="row">
-        <div className="text-center col">
-            <h2 className="lighter-text text-uppercase tutor-events-header">Upcoming Sessions</h2>
-            {renEvents}
-        </div>
-        <div className="statistics col">
-            <h2 className="lighter-text text-uppercase tutor-events-header text-center">Statistics</h2>
-            <div className="col">
-                Rating: { stars }
+        <div className="col">
+            <div className="text-center row">
+                <h2 className="lighter-text text-uppercase tutor-events-header">Upcoming Sessions</h2>
+                {renEvents}
             </div>
-            <div className="col">
-                Number of ratings: { this.props.user.num_ratings }
-            </div>
+            <div className="statistics row">
+                <h2 className="lighter-text text-uppercase tutor-events-header text-center">Statistics</h2>
+                <div className="col">
+                    Rating: { stars }
+                </div>
+                <div className="col">
+                    Number of ratings: { this.props.user.num_ratings }
+                </div>
 
+            </div>
         </div>
     </div>
     );
