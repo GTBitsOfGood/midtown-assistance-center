@@ -30,12 +30,12 @@ class TutorDash extends React.Component {
   render() {
     return (
     <div>
-      <div className="col-md-6">
-        <h2>Profile</h2>
+      <div className="col-md-6 text-center">
+        <h2 className="lighter-text text-uppercase tutor-events-header">Profile</h2>
         <TutorProfile/>
       </div>
       <div className="col-md-6 upcoming-events-list">
-        <TutorUpcomingEvents availability={tutor.availability}/>
+        <TutorUpcomingEvents/>
       </div>
     </div>
     );
@@ -44,11 +44,14 @@ class TutorDash extends React.Component {
 
 const mapStateToProps = (state) => {
   // Since we never use the redux state here
-  return {};
+  console.log(state);
+  return state;
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {}
+  return {
+    setUser : (user) => dispatch(updateUser(user))
+  }
 };
 
 const TutorDashboard = connect(

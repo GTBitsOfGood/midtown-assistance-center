@@ -49,6 +49,7 @@ class Profile extends React.Component {
     }
 
     handleAddSchedule(event) {
+        // FIXME: the schedule is hardcoded in state, not from redux
         if (this.state.is_edit) {
             let temp = this.state.schedule;
             temp.push({date: "monday", start: "00:00", end: "00:00"});
@@ -57,7 +58,7 @@ class Profile extends React.Component {
     }
 
     handleRemoveSchedule(event) {
-        // TODO
+        // TODO: doesn't work
         // console.log(event.value());
         // this.setState({people: this.state.people.filter(function(person) {
         //     return person !== e.target.value
