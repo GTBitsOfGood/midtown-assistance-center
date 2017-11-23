@@ -51,11 +51,35 @@ class UpcomingEvents extends React.Component {
     });
     renEvents = renEvents.slice(0, NUM_OF_EVENTS);
 
+    let stars = [];
+    let halfStars = (this.props.user.rating - Math.floor(this.props.user.rating))/0.5;
+    let emptyStars = (5 - Math.ceil(this.props.user.rating));
+    let fullStars = Math.floor(this.props.user.rating);
+
+    for (let x = 0; x < fullStars; x++) {
+        stars.push(<span><img className="star" src='/images/full-star.png' width="25" height="25"></img></span>);
+    }
+    for (let y = 0; y < halfStars; y++) {
+        stars.push(<span><img className="star" src='/images/half-star.png' width="25" height="25"></img></span>);
+    }
+    for (let z = 0; z < emptyStars; z++) {
+        stars.push(<span><img className="star" src='/images/empty-star.png' width="25" height="25"></img></span>);
+    }
+
     return (
-    <div className="text-center">
-        <h2 className="lighter-text text-uppercase tutor-events-header">Upcoming Sessions</h2>
-        {renEvents}
-        <div className="google-calendar">
+    <div className="row">
+        <div className="text-center col">
+            <h2 className="lighter-text text-uppercase tutor-events-header">Upcoming Sessions</h2>
+            {renEvents}
+        </div>
+        <div className="statistics col">
+            <h2 className="lighter-text text-uppercase tutor-events-header text-center">Statistics</h2>
+            <div className="col">
+                Rating: { stars }
+            </div>
+            <div className="col">
+                Number of ratings: { this.props.user.num_ratings }
+            </div>
 
         </div>
     </div>
