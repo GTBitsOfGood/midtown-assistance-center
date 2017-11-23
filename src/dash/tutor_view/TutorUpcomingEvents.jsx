@@ -24,10 +24,8 @@ class UpcomingEvents extends React.Component {
     if (this.props.user.availability) {
         for (day in this.props.user.availability) {
             events = this.props.user.availability[day];
-            console.log(events);
             if (events) {
                 for (event in events) {
-                    console.log("!@#$!@#$!@#$", event, events[event]);
                     renEvents.push(<TutorUpcomingEvent dayName={day} today={dayName == day} startTime={events[event].start_time} endTime={events[event].end_time} />);
                 }
             }
