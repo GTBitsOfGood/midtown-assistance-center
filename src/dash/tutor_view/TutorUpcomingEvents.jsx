@@ -3,6 +3,8 @@ import TutorUpcomingEvent from './TutorUpcomingEvent.jsx';
 import { connect } from 'react-redux';
 import { updateUser } from '../../redux/actions/user_actions.js';
 
+const NUM_OF_EVENTS = 5;
+
 class UpcomingEvents extends React.Component {
 
   constructor(props) {
@@ -10,7 +12,6 @@ class UpcomingEvents extends React.Component {
   }
 
   render() {
-    console.log("!!!!!!", this.props.user.availability);
     let todayDate = new Date();
     let today = todayDate.getDay();
     let todayHours = todayDate.getHours() + ":" + todayDate.getMinutes();
@@ -21,19 +22,33 @@ class UpcomingEvents extends React.Component {
     let renEvents = [];
     let events = [];
     if (this.props.user.availability) {
-        while (count < 3) {
-            console.log(dayName, this.props.availability);
-            events = this.props.user.availability[dayName];
-            for (event in events) {
-                if (!((day == today) && (todayHours > events[event].end_time))) {
-                    renEvents.push(<TutorUpcomingEvent dayName={dayName} today={dayName == days[today] ? true : false} startTime={events[event].start_time} endTime={events[event].end_time}/>);
-                    count++;
+        for (day in this.props.user.availability) {
+            events = this.props.user.availability[day];
+            console.log(events);
+            if (events) {
+                for (event in events) {
+                    console.log("!@#$!@#$!@#$", event, events[event]);
+                    renEvents.push(<TutorUpcomingEvent dayName={day} today={dayName == day} startTime={events[event].start_time} endTime={events[event].end_time} />);
                 }
             }
-            day = (day + 1)%7;
-            dayName = days[day];
         }
+        // while (count < NUM_OF_EVENTS) {
+        //     events = this.props.user.availability[dayName];
+        //     console.log("!!!!!!!!!", count, events);
+        //     for (event in events) {
+        //         if (!((day == today) && (todayHours > events[event].end_time))) {
+        //             renEvents.push(<TutorUpcomingEvent dayName={dayName} today={dayName == days[today] ? true : false} startTime={events[event].start_time} endTime={events[event].end_time}/>);
+        //             count++;
+        //         }
+        //     }
+        //     day = (day + 1)%7;
+        //     dayName = days[day];
+        // }
     }
+    // renEvents.sort(function(a, b) {
+    //
+    // });
+    renEvents = renEvents.slice(0, NUM_OF_EVENTS);
 
     return (
     <div className="text-center">
