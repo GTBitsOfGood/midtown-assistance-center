@@ -8,10 +8,10 @@ const tutor = {
       last_name: 'Guhathakurta',
       subjects: [{subject:'Math', start_grade:6, end_grade:12},{subject:'Science', start_grade:5, end_grade:7},{subject:'Computers', start_grade:6, end_grade:12}],
       availability: {
-          Monday: [{start_time:'2:00', end_time:'3:00'}],
-          Tuesday: [{start_time:'6:00', end_time:'7:00'}],
-          Wednesday: [],
-          Thursday: [{start_time:'4:00', end_time:'5:00'}],
+          Monday: [{start_time:'14:00', end_time:'15:00'}],
+          Tuesday: [{start_time:'18:00', end_time:'19:00'}],
+          Wednesday: [{start_time:'17:00', end_time:'18:00'}, {start_time:'13:00', end_time:'14:00'}],
+          Thursday: [{start_time:'16:00', end_time:'17:00'}],
           Friday: [],
           Saturday: [],
           Sunday: []
