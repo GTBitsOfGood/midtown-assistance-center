@@ -44,7 +44,6 @@ class UpcomingEvents extends React.Component {
         // }
     }
     renEvents.sort(function(a, b) {
-        console.log("!@#$!@#$", a.props.dayName);
         if (a.props.dayName === b.props.dayName) {
             return a.props.startTime.localeCompare(b.props.startTime);
         }
