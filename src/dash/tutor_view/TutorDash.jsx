@@ -31,11 +31,10 @@ class TutorDash extends React.Component {
     return (
     <div>
       <div className="col-md-6 text-center">
-        <h2 className="lighter-text text-uppercase tutor-events-header">Profile</h2>
         <TutorProfile/>
       </div>
       <div className="col-md-6 upcoming-events-list">
-        <TutorUpcomingEvents availability={tutor.availability}/>
+        <TutorUpcomingEvents/>
       </div>
     </div>
     );

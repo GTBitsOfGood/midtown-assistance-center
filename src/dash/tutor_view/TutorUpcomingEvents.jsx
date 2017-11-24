@@ -32,10 +32,10 @@ class UpcomingEvents extends React.Component {
                    renEvents.push(<TutorUpcomingEvent dayName={dayName} today={dayName == days[today] ? true : false} startTime={events[event].start_time} endTime={events[event].end_time}/>);
                      count++;
                  }
-             }
-             day = (day + 1)%7;
-             dayName = days[day];
-             totalCount++;
+            }
+            day = (day + 1)%7;
+            dayName = days[day];
+            totalCount++;
         }
     }
     // sort by day of the week then start time
