@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../../../public/css/login_signup.css';
 
@@ -35,9 +35,9 @@ class Loginpage extends React.Component {
         let self = this;
 
         let userDetails = {
-          username: this.state.username,
-          password: this.state.password,
-          logInTime:Date.now()
+            username: this.state.username,
+            password: this.state.password,
+            logInTime:Date.now()
         };
 
         axios.post('/login', userDetails)
