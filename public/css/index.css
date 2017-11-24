@@ -297,6 +297,7 @@ body {
 
 .upcoming-events-list {
     background-color: var(--primaryLight);
+    padding-bottom: 5%;
 }
 
 .tutor-events-header {
@@ -324,7 +325,7 @@ body {
     width: 500px;
     margin: auto;
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0px 10px 0 rgba(0, 0, 0, 0.19);
-    height: 400px;
+    padding: 3%;
     background-color: white;
 }
 
