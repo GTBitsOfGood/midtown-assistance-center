@@ -69,7 +69,7 @@ app.get('/user', (req, res) => {
 app.get('/logout', (req, res) => {
     req.logout();
 
-    let session_obj = {type: 'Logout', _id: req.body.username, time: new Date().now()};
+    let session_obj = {type: 'Logout', username: req.body.username, time: new Date().now()};
     session_dao.createSession(session_obj, function (err, session_instance) {
         if(err) {
             console.log(err);
@@ -98,7 +98,7 @@ app.post('/login', function(req, res, next){
                 return next(err);
             }
 
-            let session_obj = {type: 'Login', _id: req.body.username, time: new Date().now};
+            let session_obj = {type: 'Login', username: req.body.username, time: new Date().now};
             session_dao.createSession(session_obj, function (err, session_instance) {
                 if(err) {
                     console.log(err);

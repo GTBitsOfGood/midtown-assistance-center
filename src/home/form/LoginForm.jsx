@@ -10,8 +10,7 @@ class Loginpage extends React.Component {
         this.state = {
             username: '',
             password: '',
-            errorMessage: 'error-message-hide',
-            loginTime: ''
+            errorMessage: 'error-message-hide'
         };
 
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
@@ -34,9 +33,15 @@ class Loginpage extends React.Component {
 
     sendToServer(e) {
         e.preventDefault();
-        var self = this;
-        this.setState({logInTime:Date.now()});
-        axios.post('/login', this.state)
+        let self = this;
+
+        let userDetails = {
+          username: this.state.username,
+          password: this.state.password,
+          logInTime:Date.now()
+        };
+
+        axios.post('/login', userDetails)
             .then(function (response) {
                 if (response.data !== '') {
                     document.location.href = '/dash';

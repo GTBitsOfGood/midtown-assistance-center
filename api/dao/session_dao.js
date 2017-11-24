@@ -14,7 +14,7 @@ module.exports = {
     },
 
     getSessionsViaUsername: function(username, callback) {
-        Session.find({_id: username}, function (err, docs) {
+        Session.find({username: username}, function (err, docs) {
             if (err) {
                 console.error('Error checking if any sessions exist with this username:', err);
                 callback(err);
@@ -26,20 +26,7 @@ module.exports = {
         });
     },
 
-    getRecentSessionViaUsername: function(username, callback) {
-        Session.find({_id: username}, function (err, docs) {
-            if (err) {
-                console.error('Error checking if any sessions exist with this username:', err);
-                callback(err);
-
-            } else if (docs && docs.length > 0) {
-                callback(null, docs[0]); //idk if doc[0] is first or last added session...lol
-            } else {
-                callback(null, null);
-            }
-        });
-    },
-
+    // FIXME this function isn't useful, it should take in a time range not a specific time
     getSessionsViaTime: function(time, callback) {
         Session.find({time: time}, function (err, docs) {
             if (err) {
