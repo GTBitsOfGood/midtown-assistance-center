@@ -14,7 +14,6 @@ module.exports = {
     },
 
     getSessionsViaUsername: function(username, callback) {
-        // Look for tutors with the same username
         Session.find({_id: username}, function (err, docs) {
             if (err) {
                 console.error('Error checking if any sessions exist with this username:', err);
@@ -28,7 +27,6 @@ module.exports = {
     },
 
     getRecentSessionViaUsername: function(username, callback) {
-        // Look for tutors with the same username
         Session.find({_id: username}, function (err, docs) {
             if (err) {
                 console.error('Error checking if any sessions exist with this username:', err);
@@ -43,7 +41,6 @@ module.exports = {
     },
 
     getSessionsViaTime: function(time, callback) {
-        // Look for tutors with the same username
         Session.find({time: time}, function (err, docs) {
             if (err) {
                 console.error('Error checking if any sessions exist with this Time:', err);
@@ -58,7 +55,6 @@ module.exports = {
     },
 
     getAllSessionsInDB: function(callback) {
-        // Look for tutors with the same username
         Session.find({}, function (err, docs) {
             if (err) {
                 console.error('Error checking if any sessions exist in the DataBase:', err);
