@@ -26,8 +26,12 @@ module.exports = {
             return session.time < endTime;
         }
 
-        function compareTimesDesc(sessionA, sessionB) {
+        function compareTimesDescending(sessionA, sessionB) {
             return sessionA.time < sessionB.time;
+        }
+
+        function compareTimesAscending(sessionA, sessionB) {
+            return sessionA.time > sessionB.time;
         }
 
         Session.find({}, function (err, docs) {
@@ -55,7 +59,11 @@ module.exports = {
             sessions.length = Math.min(sessions.length, limit);
 
             if (sortByTime) {
-                sessions.sort(compareTimesDesc);
+                if(sortByTime > 0) {
+                    sessions.sort(compareTimesAscending());
+                } else {
+                    sessions.sort(compareTimesDescending);
+                }
             }
 
             callback(null, sessions);
