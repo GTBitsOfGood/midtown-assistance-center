@@ -1,28 +1,36 @@
 import express from 'express';
-import user_dao from './dao/user_dao';
-import Tutor from '../models/Tutor';
+import data_access from './data_access'
 const app = express();
 
-app.get('/', (req, res) => {
-    res.send({blank: 'blank'});
+app.get('/onlineTutors', (req, res) => {
+    console.log(req.query);
+    function onTutorsFound(err, tutors) {
+      if (err) {
+        console.error(err);
+        return res.send([]);
+      }
+      return res.send(tutors);
+    }
+
+    data_access.users.getAllAvailableTutors(req.query.subject, req.query.availability, onTutorsFound);
 });
 
 app.post('/registerTutor', (req, res) => {
     //Add this information to the database
     console.log(req.body);
-    user_dao.checkIfUsernameIsTaken(req.body.username, function(err, resultUsername){
+    data_access.users.checkIfUsernameIsTaken(req.body.username, function(err, resultUsername){
         if (err) {
             console.log(err);
         }
         if (!resultUsername) {
             console.log(resultUsername);
-            user_dao.checkIfEmailIsTaken(req.body.email, function(err, resultEmail){
+            data_access.users.checkIfEmailIsTaken(req.body.email, function(err, resultEmail){
                 if (err) {
                     console.log(err);
                 } else {
                     console.log(resultEmail);
                     if (!resultEmail) {
-                        user_dao.createTutor({
+                        data_access.users.createTutor({
                             first_name: req.body.firstName,
                             last_name: req.body.lastName,
                             email: req.body.email,
@@ -60,19 +68,19 @@ app.post('/registerTutor', (req, res) => {
 app.post('/registerStudent', (req, res) => {
     //Add this information to the database
     console.log(req.body);
-    user_dao.checkIfUsernameIsTaken(req.body.username, function(err, resultUsername){
+    data_access.users.checkIfUsernameIsTaken(req.body.username, function(err, resultUsername){
         if (err) {
             console.log(err);
         }
         if (!resultUsername) {
             console.log(resultUsername);
-            user_dao.checkIfEmailIsTaken(req.body.email, function(err, resultEmail){
+            data_access.users.checkIfEmailIsTaken(req.body.email, function(err, resultEmail){
                 if (err) {
                     console.log(err);
                 } else {
                     console.log(resultEmail);
                     if (!resultEmail) {
-                        user_dao.createStudent({
+                        data_access.users.createStudent({
                             first_name: req.body.firstName,
                             last_name: req.body.lastName,
                             email: req.body.email,
@@ -107,4 +115,46 @@ app.post('/registerStudent', (req, res) => {
         }
     });
 });
+
+app.patch('/student', (req, res) => {
+    data_access.users.saveStudent(req.body, function(err, resultStudent) {
+        if (err) {
+          console.error(err);
+          return res.json({
+              success: false,
+              error_message: "Update failed"
+          });
+        }
+
+        res.json({
+          success: true,
+          error_message: null
+        })
+    });
+});
+
+app.patch('/tutor', (req, res) => {
+  data_access.users.saveTutor(req.body, function(err, resultStudent) {
+    if (err) {
+      console.error(err);
+      return res.json({
+        success: false,
+        error_message: "Update failed"
+      });
+    }
+
+    res.json({
+      success: true,
+      error_message: null
+    })
+  });
+});
+
+app.patch('/admin', (req, res) => {
+  res.json({
+    success: false,
+    error_message: "Update failed because admin dao does not exist yet"
+  });
+});
+
 export default app;

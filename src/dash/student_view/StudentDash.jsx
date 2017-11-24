@@ -1,165 +1,73 @@
 import React from 'react';
 import DashSearchBar from './SearchBar.jsx';
-import DefaultDashTutorList from './TutorSearchList.jsx';
+import TutorSearchList from './TutorSearchList.jsx';
+import {changeTutorsAction, onSearchAction} from '../../redux/actions/student_view_actions';
+import { connect } from 'react-redux';
+import axios from 'axios';
 
-const tutors = [
-    {
-        first_name: 'Sruti',
-        last_name: 'Guhathakurta',
-        subjects: [{subject:'Math', start_grade:6, end_grade:12},{subject:'Science', start_grade:5, end_grade:7},{subject:'Computer Science', start_grade:6, end_grade:12}],
-        availability: {
-            Monday: [{start_time:'2:00', end_time:'3:00'}],
-            Tuesday: [{start_time:'6:00', end_time:'7:00'}],
-            Wednesday: [],
-            Thursday: [{start_time:'4:00', end_time:'5:00'}],
-            Friday: [],
-            Saturday: [],
-            Sunday: []
-        },
-        profile_picture: '/images/default_user_img.png',
-        bio: 'Hello, my name is Sruti.',
-        email: 'sruti@gatech.edu',
-        class_standing: 'Senior',
-        rating: 5,
-        online: false,
-        gender: 'female'
-    },
-    {
-        first_name: 'Bob',
-        last_name: 'Smith',
-        subjects: [{subject:'English', start_grade:10, end_grade:12},{subject:'Science', start_grade:5, end_grade:8},{subject:'History', start_grade:8, end_grade:12}],
-        availability: {
-            Monday: [{start_time:'2:00', end_time:'3:00'}],
-            Tuesday: [],
-            Wednesday: [{start_time:'6:00', end_time:'7:00'}],
-            Thursday: [{start_time:'4:00', end_time:'5:00'}],
-            Friday: [],
-            Saturday: [],
-            Sunday: []
-        },
-        profile_picture: '/images/default_user_img.png',
-        bio: 'Hello, my name is Bob. I like to teach English, Science, and History. My interests are karate and underwater basket weaving. If you have any questions, please send me an email at bsmith@gatech.edu.',
-        email: 'bsmith3@gatech.edu',
-        class_standing: 'Senior',
-        rating: 3.5,
-        online:true,
-        gender: 'male'
-    },
-    {
-        first_name: 'Alice',
-        last_name: 'Smith',
-        subjects: [{subject:'Math', start_grade:9, end_grade:11},{subject:'Science', start_grade:6, end_grade:12},{subject:'History', start_grade:9, end_grade:12}],
-        availability: {
-            Monday: [{start_time:'2:00', end_time:'3:00'}],
-            Tuesday: [],
-            Wednesday: [{start_time:'3:00', end_time:'4:00'}, {start_time:'5:00', end_time:'6:00'}],
-            Thursday: [],
-            Friday: [{start_time:'4:00', end_time:'5:00'}],
-            Saturday: [],
-            Sunday: []
-        },
-        profile_picture: '/images/default_user_img.png',
-        bio: 'Hello, my name is Alice. I like teaching Math, Science, and History. If you have any questions, please send me an email at asmith3@gatech.edu.',
-        email: 'asmith3@gatech.edu',
-        class_standing: 'Sophomore',
-        rating: 4,
-        online:true,
-        gender:'female'
-    },
-    {
-        first_name: 'Dan',
-        last_name: 'Jones',
-        subjects: [{subject:'Politics', start_grade:6, end_grade:12},{subject:'Art', start_grade:5, end_grade:7},{subject:'Philosophy', start_grade:6, end_grade:12}],
-        availability: {
-            Monday: [{start_time:'2:00', end_time:'3:00'}],
-            Tuesday: [],
-            Wednesday: [],
-            Thursday: [],
-            Friday: [{start_time:'2:00', end_time:'3:00'},{start_time:'4:00', end_time:'5:00'}],
-            Saturday: [],
-            Sunday: []
-        },
-        profile_picture: '/images/default_user_img.png',
-        bio: 'Hello, my name is Dan.',
-        email: 'djones3@gatech.edu',
-        class_standing: 'Junior',
-        rating: 1,
-        online:true,
-        gender: 'male'
-    },
-    {
-        first_name: 'John',
-        last_name: 'Doe',
-        subjects: [{subject:'Architecture', start_grade:7, end_grade:11},{subject:'Computer Science', start_grade:8, end_grade:9},{subject:'Biology', start_grade:8, end_grade:12}],
-        availability: {
-            Monday: [],
-            Tuesday: [],
-            Wednesday: [],
-            Thursday: [],
-            Friday: [{start_time:'12:00', end_time:'1:00'},{start_time:'2:00', end_time:'3:00'},{start_time:'4:00', end_time:'5:00'}],
-            Saturday: [],
-            Sunday: []
-        },
-        profile_picture: '/images/default_user_img.png',
-        bio: 'Hello, my name is John. Please ask me for help, I am smart.',
-        email: 'jdoe6@gatech.edu',
-        class_standing: 'Freshman',
-        rating: 2.5,
-        online:false,
-        gender: 'male'
-    }
-];
-
-class DefaultDash extends React.Component {
+class StudentDashboard extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            searchType:"online",
-            displayTutors: this.getDisplayTutors("online"),
-            searchTime:"ASAP",
-            searchSubject:null
-        }
         this.handleSearchClicked = this.handleSearchClicked.bind(this);
-        this.getDisplayTutors = this.getDisplayTutors.bind(this);
-
+        this.updateTutors = this.updateTutors.bind(this);
     }
 
+    componentWillMount() {
+        this.updateTutors("online", undefined, undefined);
+    }
 
     handleSearchClicked(subject, time) {
-        this.setState({searchType:"searchResults"});
-        this.setState({displayTutors: this.getDisplayTutors("searchResults", subject, time)});
-        this.setState({searchSubject:subject});
-        this.setState({searchTime:time});
-        this.forceUpdate();
+        this.updateTutors("searchResults", subject, time);
     }
 
-    getDisplayTutors(searchType, subject, time) {
-        var newTutorsList;
-        if (searchType === "online") {
-            newTutorsList = tutors.filter((obj, num) => {
-                return obj.online;
-            });
-        } else {
-            newTutorsList = tutors.filter((obj, num) => {
-                return obj.subjects.reduce((acc, curr) => {
-                    return curr.subject.toLowerCase() === subject.toLowerCase() ? acc + 1 : acc;
-                }, 0);
-            });
+    updateTutors(searchType, subject, time) {
+        let self = this;
+        let data = {};
+        if (searchType !== "online") {
+          data = {subject: subject, availability: time};
         }
-        return newTutorsList;
+
+        axios.get('/api/onlineTutors', {params: data})
+          .then(function (response) {
+            if (response.data) {
+              self.props.changeTutors(response.data);
+              self.props.changeSearchDisplay(searchType, subject, time);
+            } else {
+              console.log(response.data);
+            }
+          })
+          .catch(function (error) {
+            console.log(error);
+          });
     }
 
     render() {
-
         return (
             <div>
                 <div className="col-md-12 atlanta">
                     <DashSearchBar handleSearchClicked={this.handleSearchClicked}/>
                 </div>
-                <DefaultDashTutorList subject={this.state.searchSubject} time={this.state.searchTime} data={this.state.displayTutors} searchType={this.state.searchType}/>
+                <TutorSearchList/>
             </div>
         );
     }
 }
 
-export default DefaultDash;
+function mapStateToProps (state) {
+  // Note we don't use the redux state in this component
+  return {};
+}
+
+function mapDispatchToProps (dispatch) {
+  return {
+    changeTutors: (tutors) => dispatch(changeTutorsAction(tutors)),
+    changeSearchDisplay: (search_type, search_subject, search_time) => dispatch(onSearchAction(search_type, search_subject, search_time))
+  };
+}
+
+const StudentDash = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(StudentDashboard);
+
+export default StudentDash;

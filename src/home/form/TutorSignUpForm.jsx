@@ -1,9 +1,10 @@
 import React from 'react';
 import axios from 'axios';
 import {HelpBlock} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 import styles from '../../../public/css/login_signup.css';
 
-class SignupTutor extends React.Component {
+class SignUpTutor extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -138,7 +139,7 @@ class SignupTutor extends React.Component {
             this.setState({inputErrorMessage:'error-message'});
             this.setState({errorMessage:'error-message-hide'});
         } else {
-            var self = this;
+            let self = this;
             axios.post('/api/registerTutor', this.state)
                 .then(function (response) {
                     console.log(response);
@@ -238,11 +239,11 @@ class SignupTutor extends React.Component {
                 <h5 className={'col-xs-12 ' + this.state.inputErrorMessage}>one or more fields invalid</h5>
                 <h5 className={'col-xs-12 ' + this.state.errorMessage}>{this.state.errorMessageContent}</h5>
                 <div className="row col-xs-12">
-                    <h5 className="signup-dialogue">Already have an account? <a className="signup-anchor" href='/home/login'>Click here to log in!</a></h5>
+                    <h5 className="signup-dialogue">Already have an account? <Link className="signup-anchor" to='/home/login'>Click here to log in!</Link></h5>
                 </div>
 
             </form>
         );
     }
 }
-export default SignupTutor;
+export default SignUpTutor;

@@ -60,8 +60,8 @@ passport.deserializeUser(function(id, done) {
 app.get('/user', (req, res) => {
     let user_details = req.user;
 
-    // Hide the password
-    user_details.password = config.hidden_password;
+    // FIXME Hide the password
+    // user_details.password = config.hidden_password;
 
     res.send(user_details);
 });
