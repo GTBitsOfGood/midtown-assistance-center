@@ -13,7 +13,7 @@ module.exports = {
         });
     },
 
-    getFilteredSessions(username, startTime, endTime, limit, callback) {
+    getFilteredSessions(username, startTime, endTime, limit, sortByTime, callback) {
       function filterByUsername(session) {
         return session.username === username;
       }
@@ -24,6 +24,10 @@ module.exports = {
 
       function filterBeforeEndTime(session) {
         return session.time < endTime;
+      }
+
+      function compareTimesDesc(sessionA, sessionB) {
+        return sessionA.time < sessionB.time;
       }
 
       Session.find({}, function (err, docs) {
@@ -45,6 +49,10 @@ module.exports = {
         }
 
         sessions.length = Math.min(sessions.length, limit);
+
+        if (sortByTime) {
+          sessions.sort(compareTimesDesc)
+        }
 
         callback(null, sessions);
       });
