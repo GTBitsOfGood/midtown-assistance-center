@@ -67,31 +67,35 @@ class UpcomingEvents extends React.Component {
         <div className="col">
             <div className="text-center row">
                 <h2 className="lighter-text text-uppercase tutor-events-header">Upcoming Sessions</h2>
-                {renEvents}
+                <div className="col-xs-12">
+                    {renEvents}
+                </div>
             </div>
             <h2 className="lighter-text text-uppercase tutor-events-header text-center">Statistics</h2>
             <div className="statistics row">
-                <div className="col-md-6">
-                    <div className="col">
-                        <h4><span className="lighter-text">Rating:</span> { stars }</h4>
-                    </div>
-                    <div className="col">
-                        <h4><span className="lighter-text">Number of ratings:</span><strong> { this.props.user.num_ratings }</strong></h4>
-                    </div>
-                </div>
-                <div className="col-md-6">
+                <div className="col-xs-12">
                     <div className="col-md-6">
-                        <PieChart
-                            size={80}
-                            innerHoleSize={40}
-                            data={[
-                              { key: 'A', value: 97, color: '#EEB211' },
-                              { key: 'B', value: 3, color: '#aeb7b3' },
-                            ]}
-                          />
+                        <div className="col">
+                            <h4><span className="lighter-text">Rating:</span> { stars }</h4>
+                        </div>
+                        <div className="col">
+                            <h4><span className="lighter-text">Number of ratings:</span><strong> { this.props.user.num_ratings }</strong></h4>
+                        </div>
                     </div>
                     <div className="col-md-6">
-                        <h5 className="lighter-text"><strong>97%</strong> of office hours attended</h5>
+                        <div className="col-md-6">
+                            <PieChart
+                                size={80}
+                                innerHoleSize={40}
+                                data={[
+                                    { key: 'A', value: 97, color: '#EEB211' },
+                                    { key: 'B', value: 3, color: '#aeb7b3' },
+                                ]}
+                            />
+                        </div>
+                        <div className="col-md-6">
+                            <h5 className="lighter-text"><strong>97%</strong> of office hours attended</h5>
+                        </div>
                     </div>
                 </div>
             </div>

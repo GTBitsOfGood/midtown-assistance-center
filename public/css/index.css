@@ -293,7 +293,16 @@ body {
     display: inline-block;
 }
 
+.time-item {
+    margin-bottom: 3%;
+}
+
 /*tutor dash*/
+
+.tutor-dash {
+    background-color: var(--primaryLight);
+    padding-bottom: 5%;
+}
 
 .upcoming-events-list {
     background-color: var(--primaryLight);
@@ -307,7 +316,7 @@ body {
 .tutorUpcomingEvent {
     height: 64px;
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0px 10px 0 rgba(0, 0, 0, 0.19);
-    width: 500px;
+    /*width: 500px;*/
     margin: 0 auto 10px auto;
     background-color: white;
 }
@@ -322,10 +331,10 @@ body {
 }
 
 .statistics {
-    width: 500px;
+    /*width: 500px;*/
     margin: auto;
     box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0px 10px 0 rgba(0, 0, 0, 0.19);
-    padding: 3%;
+    /*padding: 3%;*/
     background-color: white;
 }
 

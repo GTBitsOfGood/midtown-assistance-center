@@ -77,16 +77,21 @@ class Profile extends React.Component {
         const scheduleItems = this.state.schedule.map((d, index) =>
             <div className="time-item">
                 <TimePicker key={index} date={d.date} start={d.start} end={d.end} is_edit={ this.state.is_edit }/>
-                <button value={index} className="btn btn-danger btn-sm" onClick={ this.handleRemoveSchedule }>Remove</button>
+                <button value={index}
+                        className="btn btn-danger btn-sm"
+                        onClick={ this.handleRemoveSchedule }
+                        disabled={ !this.state.is_edit }>Remove</button>
             </div>
         );
 
         return (
-            <div className="container col-md-12">
-                <br/>
-                <div className="row">
-                    <div className="col-xs-12 col-sm-offset-1 col-sm-10">
-                        <div className="well well-sm">
+            <div className="row tutor-dash">
+                <div className="col">
+                    <div className="text-center row">
+                        <h2 className="lighter-text text-uppercase tutor-events-header">Profile</h2>
+                    </div>
+                    <div className="row">
+                        <div className="col-xs-12 col-sm-offset-1 col-sm-10">
                             <div className="row">
                                 <div className="col-sm-6 col-md-4">
                                     <img src="../../images/default_user_img.png" alt="" className="img-rounded img-responsive" />
@@ -137,7 +142,10 @@ class Profile extends React.Component {
                                         <div className="col-xs-12">
                                             <i className="glyphicon glyphicon-time"></i> Schedule:
                                             { scheduleItems }
-                                            <button className="btn btn-success" onClick={ this.handleAddSchedule }>
+                                            <button
+                                                className="btn btn-success"
+                                                onClick={ this.handleAddSchedule }
+                                                disabled={ !this.state.is_edit }>
                                                 Add Schedule
                                             </button>
                                         </div>

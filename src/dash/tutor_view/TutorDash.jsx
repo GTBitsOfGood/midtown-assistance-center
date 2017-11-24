@@ -29,11 +29,11 @@ class TutorDash extends React.Component {
 
   render() {
     return (
-    <div>
-      <div className="col-md-6 text-center">
+    <div className="tutor-dash">
+      <div className="col-md-7">
         <TutorProfile/>
       </div>
-      <div className="col-md-6 upcoming-events-list">
+      <div className="col-md-5 upcoming-events-list">
         <TutorUpcomingEvents/>
       </div>
     </div>
