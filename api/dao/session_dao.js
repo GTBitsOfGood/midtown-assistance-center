@@ -54,5 +54,7 @@ module.exports = {
         });
     },
 
-
+    getSessions(username, startTime, endTime, number, callback) {
+      // TODO
+    }
 };
