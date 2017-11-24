@@ -35,7 +35,7 @@ class TutorDash extends React.Component {
         <TutorProfile/>
       </div>
       <div className="col-md-6 upcoming-events-list">
-        <TutorUpcomingEvents/>
+        <TutorUpcomingEvents availability={tutor.availability}/>
       </div>
     </div>
     );

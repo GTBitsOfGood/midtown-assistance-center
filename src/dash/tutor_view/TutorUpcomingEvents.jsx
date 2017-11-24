@@ -3,7 +3,7 @@ import TutorUpcomingEvent from './TutorUpcomingEvent.jsx';
 import { connect } from 'react-redux';
 import { updateUser } from '../../redux/actions/user_actions.js';
 
-const NUM_OF_EVENTS = 5;
+const NUM_OF_EVENTS = 3;
 
 class UpcomingEvents extends React.Component {
 
@@ -19,29 +19,23 @@ class UpcomingEvents extends React.Component {
     let dayName = days[today];
     let count = 0;
     let day = today;
+    let totalCount = 0;
     let renEvents = [];
     let events = [];
     if (this.props.user.availability) {
-        for (day in this.props.user.availability) {
-            events = this.props.user.availability[day];
-            if (events) {
-                for (event in events) {
-                    renEvents.push(<TutorUpcomingEvent dayName={day} today={dayName == day} startTime={events[event].start_time} endTime={events[event].end_time} />);
-                }
-            }
+        while (count < NUM_OF_EVENTS && totalCount < 7) {
+            events = this.props.user.availability[dayName];
+            console.log("!!!!!!!!!", count, events);
+            for (event in events) {
+                if (!((day == today) && (todayHours > events[event].end_time))) {
+                   renEvents.push(<TutorUpcomingEvent dayName={dayName} today={dayName == days[today] ? true : false} startTime={events[event].start_time} endTime={events[event].end_time}/>);
+                     count++;
+                 }
+             }
+             day = (day + 1)%7;
+             dayName = days[day];
+             totalCount++;
         }
-        // while (count < NUM_OF_EVENTS) {
-        //     events = this.props.user.availability[dayName];
-        //     console.log("!!!!!!!!!", count, events);
-        //     for (event in events) {
-        //         if (!((day == today) && (todayHours > events[event].end_time))) {
-        //             renEvents.push(<TutorUpcomingEvent dayName={dayName} today={dayName == days[today] ? true : false} startTime={events[event].start_time} endTime={events[event].end_time}/>);
-        //             count++;
-        //         }
-        //     }
-        //     day = (day + 1)%7;
-        //     dayName = days[day];
-        // }
     }
     // sort by day of the week then start time
     renEvents.sort(function(a, b) {
@@ -74,8 +68,8 @@ class UpcomingEvents extends React.Component {
                 <h2 className="lighter-text text-uppercase tutor-events-header">Upcoming Sessions</h2>
                 {renEvents}
             </div>
+            <h2 className="lighter-text text-uppercase tutor-events-header text-center">Statistics</h2>
             <div className="statistics row">
-                <h2 className="lighter-text text-uppercase tutor-events-header text-center">Statistics</h2>
                 <div className="col">
                     Rating: { stars }
                 </div>
