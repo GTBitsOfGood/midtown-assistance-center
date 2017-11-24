@@ -48,6 +48,10 @@ module.exports = {
                 sessions = sessions.filter(filterBeforeEndTime);
             }
 
+            if(!limit) {
+                limit = 100;
+            }
+
             sessions.length = Math.min(sessions.length, limit);
 
             if (sortByTime) {

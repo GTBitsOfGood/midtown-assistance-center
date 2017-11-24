@@ -37,9 +37,8 @@ class Loginpage extends React.Component {
         let userDetails = {
             username: this.state.username,
             password: this.state.password,
-            logInTime:Date.now()
+            logInTime: Date.now()
         };
-
         axios.post('/login', userDetails)
             .then(function (response) {
                 if (response.data !== '') {
