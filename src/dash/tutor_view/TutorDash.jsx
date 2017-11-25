@@ -29,7 +29,7 @@ class TutorDash extends React.Component {
 
   render() {
     return (
-    <div className="tutor-dash">
+    <div className="tutor-dash container col-xs-12">
       <div className="col-md-7">
         <TutorProfile/>
       </div>

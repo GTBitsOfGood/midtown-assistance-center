@@ -300,13 +300,15 @@ body {
 /*tutor dash*/
 
 .tutor-dash {
-    background-color: var(--primaryLight);
+    background-color: var(--primaryLight) ! important;
     padding-bottom: 5%;
+    margin: 0;
 }
 
 .upcoming-events-list {
     background-color: var(--primaryLight);
     padding-bottom: 5%;
+    padding-right: 3%;
 }
 
 .tutor-events-header {
