@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+
 import DashMenuBar from './DashMenuBar.jsx';
 import StudentDash from './student_view/StudentDash.jsx';
 import StudentProfile from './student_view/Profile.jsx';
@@ -77,7 +78,9 @@ class DashComp extends React.Component {
     }
 
     if (this.props.user.logging_out) {
+      console.log("LOGGING OUT");
       axios.get('/logout').then(function(response) {
+        console.log(response.data);
         if (response.data) {
           document.location.href='/';
         }
