@@ -99,7 +99,7 @@ app.post('/login', function(req, res, next){
                 return next(err);
             }
 
-            let session_obj = {type: 'Login', username: req.body.username, time: new Date().now};
+            let session_obj = {type: 'Login', username: req.body.username, time: Date.now()};
             session_dao.createSession(session_obj, function (err, session_instance) {
                 if(err) {
                     console.log(err);
