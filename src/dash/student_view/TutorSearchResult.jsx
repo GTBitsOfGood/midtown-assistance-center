@@ -79,7 +79,7 @@ class TutorSearchResult extends React.Component {
                                 <h3 className="text-center"><strong>Request a Google Hangouts meeting with {this.props.data.first_name}</strong>
                                 </h3>
                                 <button className="btn btn-lg btn-default mac_button" type="button" disabled={!this.props.data.hangoutsLink} onClick={this.onHangoutsButton}>
-                                    Click Here
+                                  {this.props.data.hangoutsLink? 'Click Here To Access' : 'Session Not Active'}
                                 </button>
                             </div>
                         </div>
