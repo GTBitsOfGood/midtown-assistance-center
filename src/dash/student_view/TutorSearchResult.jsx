@@ -4,20 +4,13 @@ class TutorSearchResult extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: this.props.data.first_name ? this.props.data.first_name : 'NoName',
-            availability: this.props.data.availability ? this.props.data.availability : '',
-            profile_picture: this.props.data.profile_picture ? this.props.data.profile_picture : '',
-            bio: this.props.data.bio ? this.props.data.bio : '',
-            online: this.props.data.online ? this.props.data.online : '',
-            subjects: this.props.data.subjects ? this.props.data.subjects : '',
-            class_standing: this.props.data.class_standing ? this.props.data.class_standing : '',
-            rating: this.props.data.rating ? this.props.data.rating : '',
-            gender: this.props.data.gender ? this.props.data.gender : '',
-            id: this.props.id ? this.props.id : '',
             fullStars:0,
             halfStars:0,
             emptyStars:0,
         };
+
+        this.updateRating = this.updateRating.bind(this);
+        this.onHangoutsButton = this.onHangoutsButton.bind(this);
     }
 
     componentDidMount() {
@@ -30,6 +23,10 @@ class TutorSearchResult extends React.Component {
         emptyStars: (5 - Math.ceil(this.props.data.rating)),
         fullStars: Math.floor(this.props.data.rating)
       });
+    }
+
+    onHangoutsButton(e) {
+      window.open('' + this.props.data.hangoutsLink);
     }
 
     render() {
@@ -81,7 +78,7 @@ class TutorSearchResult extends React.Component {
                             <div className="request_hangout text-center">
                                 <h3 className="text-center"><strong>Request a Google Hangouts meeting with {this.props.data.first_name}</strong>
                                 </h3>
-                                <button className="btn btn-lg btn-default mac_button" type="button">
+                                <button className="btn btn-lg btn-default mac_button" type="button" disabled={!this.props.data.hangoutsLink} onClick={this.onHangoutsButton}>
                                     Click Here
                                 </button>
                             </div>
@@ -93,4 +90,3 @@ class TutorSearchResult extends React.Component {
     }
 }
 export default TutorSearchResult;
-
