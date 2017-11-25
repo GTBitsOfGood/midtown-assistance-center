@@ -82,7 +82,7 @@ class UpcomingEvents extends React.Component {
                             <h4><span className="lighter-text">Number of ratings:</span><strong> { this.props.user.num_ratings }</strong></h4>
                         </div>
                     </div>
-                    <div className="col-md-6">
+                    <div className="col-md-6 col-xs-12">
                         <div className="col-md-6">
                             <PieChart
                                 size={80}
