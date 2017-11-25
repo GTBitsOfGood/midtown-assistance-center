@@ -27,8 +27,8 @@ class UpcomingEvents extends React.Component {
         while (count < NUM_OF_EVENTS && totalCount < 7) {
             events = this.props.user.availability[dayName];
             for (event in events) {
-                if (!((day == today) && (todayHours > events[event].end_time))) {
-                   renEvents.push(<TutorUpcomingEvent dayName={dayName} today={dayName == days[today] ? true : false} startTime={events[event].start_time} endTime={events[event].end_time}/>);
+                if (!((day === today) && (todayHours > events[event].end_time))) {
+                   renEvents.push(<TutorUpcomingEvent dayName={dayName} today={ dayName === days[today] } startTime={events[event].start_time} endTime={events[event].end_time}/>);
                      count++;
                  }
             }
