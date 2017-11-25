@@ -13,7 +13,7 @@ class UpcomingEvents extends React.Component {
     }
 
     render() {
-        let todayDate = new Date();
+        let todayDate = Date.now();
         let today = todayDate.getDay();
         let todayHours = todayDate.getHours() + ':' + todayDate.getMinutes();
         const days = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
