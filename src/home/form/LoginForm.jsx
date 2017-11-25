@@ -1,8 +1,7 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
-// import './Homepage.css';
-import styles from '../../../public/css/login_signup.css';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
+import styles from '../../../public/css/login_signup.css';
 
 class Loginpage extends React.Component {
     constructor(props) {
@@ -10,7 +9,7 @@ class Loginpage extends React.Component {
         this.state = {
             username: '',
             password: '',
-            errorMessage: 'error-message-hide',
+            errorMessage: 'error-message-hide'
         };
 
         this.handleUsernameChange = this.handleUsernameChange.bind(this);
@@ -32,10 +31,15 @@ class Loginpage extends React.Component {
     }
 
     sendToServer(e) {
-        console.log('LoginForm is submitting the DATA MAN');
         e.preventDefault();
-        var self = this;
-        axios.post('/login', this.state)
+        let self = this;
+
+        let userDetails = {
+            username: this.state.username,
+            password: this.state.password,
+            logInTime: Date.now()
+        };
+        axios.post('/login', userDetails)
             .then(function (response) {
                 if (response.data !== '') {
                     document.location.href = '/dash';
@@ -85,7 +89,7 @@ class Loginpage extends React.Component {
                     </div>
                     <h5 className={'col-xs-12 ' + this.state.errorMessage}>username or password incorrect</h5>
                     <div className="row col-xs-12">
-                        <a className="login-anchor" href="#">Forgot your password?</a>
+                        <Link className="login-anchor" to="#">Forgot your password?</Link>
                     </div>
                 </form>
             </div>

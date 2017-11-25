@@ -9,6 +9,7 @@ class TimePicker extends React.Component {
         };
         this.handleStartChange = this.handleStartChange.bind(this);
         this.handleEndChange = this.handleEndChange.bind(this);
+        console.log("!@#$!@#$", this.props.key, this.props);
     }
 
     handleStartChange(event) {

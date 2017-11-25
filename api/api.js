@@ -1,16 +1,15 @@
 import express from 'express';
-import data_access from './data_access'
-import Tutor from '../models/Tutor';
+import data_access from './data_access';
 const app = express();
 
 app.get('/onlineTutors', (req, res) => {
     console.log(req.query);
     function onTutorsFound(err, tutors) {
-      if (err) {
-        console.error(err);
-        return res.send([]);
-      }
-      return res.send(tutors);
+        if (err) {
+            console.error(err);
+            return res.send([]);
+        }
+        return res.send(tutors);
     }
 
     data_access.users.getAllAvailableTutors(req.query.subject, req.query.availability, onTutorsFound);
@@ -40,19 +39,19 @@ app.post('/registerTutor', (req, res) => {
                             join_date: Date.now(),
                             status: 'in review'
                         }, function(err, user_instance){
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    res.send({
-                                        success: true,
-                                        error_message: null
-                                    });
-                                }
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                res.send({
+                                    success: true,
+                                    error_message: null
+                                });
+                            }
                         });
                     } else {
                         res.send({
                             success: false,
-                            error_message: "Email already exists"
+                            error_message: 'Email already exists'
                         });
                     }
                 }
@@ -60,7 +59,7 @@ app.post('/registerTutor', (req, res) => {
         } else {
             res.send({
                 success: false,
-                error_message: "Username already exists"
+                error_message: 'Username already exists'
             });
         }
     });
@@ -91,19 +90,19 @@ app.post('/registerStudent', (req, res) => {
                             classroom: req.body.access_code,
                             grade_level: req.body.grade_level
                         }, function(err, user_instance){
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    res.send({
-                                        success: true,
-                                        error_message: null,
-                                    });
-                                }
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                res.send({
+                                    success: true,
+                                    error_message: null,
+                                });
+                            }
                         });
                     } else {
                         res.json({
                             success: false,
-                            error_message: "Email already exists"
+                            error_message: 'Email already exists'
                         });
                     }
                 }
@@ -111,9 +110,51 @@ app.post('/registerStudent', (req, res) => {
         } else {
             res.json({
                 success: false,
-                error_message: "Username already exists"
+                error_message: 'Username already exists'
             });
         }
     });
 });
+
+app.patch('/student', (req, res) => {
+    data_access.users.saveStudent(req.body, function(err, resultStudent) {
+        if (err) {
+            console.error(err);
+            return res.json({
+                success: false,
+                error_message: 'Update failed'
+            });
+        }
+
+        res.json({
+            success: true,
+            error_message: null
+        });
+    });
+});
+
+app.patch('/tutor', (req, res) => {
+    data_access.users.saveTutor(req.body, function(err, resultStudent) {
+        if (err) {
+            console.error(err);
+            return res.json({
+                success: false,
+                error_message: 'Update failed'
+            });
+        }
+
+        res.json({
+            success: true,
+            error_message: null
+        });
+    });
+});
+
+app.patch('/admin', (req, res) => {
+    res.json({
+        success: false,
+        error_message: 'Update failed because admin dao does not exist yet'
+    });
+});
+
 export default app;

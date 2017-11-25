@@ -1,7 +1,7 @@
 const Tutor = require('../../models/Tutor');
 const Student = require('../../models/Student');
 
-import config from 'config'
+import config from 'config';
 
 module.exports = {
 
@@ -128,10 +128,6 @@ module.exports = {
       });
     },
 
-    /**
-     * TODO: Availability is not used currently
-     * TODO: No grade level checking for subject
-     */
     getAllAvailableTutors: function(subject, availability, callback) {
 
       let todayDate = new Date();
@@ -161,6 +157,7 @@ module.exports = {
       }
 
       function filterByAvailability(tutor) {
+        // FIXME we should probably do this based on datetime
         if (availability === 'ASAP') {
             return tutor.online;
         } else if (availability === 'today') {
@@ -189,18 +186,35 @@ module.exports = {
       });
     },
 
-    saveUser: function(user, callback) {
-      if (user.password === config.get('hidden_password')) {
-        callback('The user password is masked! Not saving this to db');
+    saveStudent: function(student, callback) {
+      if (student.password === config.get('hidden_password')) {
+        callback('The student password is masked! Not saving this to db');
       }
 
-      user.save(function (err, updatedUser) {
+      console.log('updating student');
+      Student.findByIdAndUpdate(student._id, { $set: student}, { new: true }, function (err, updatedStudent) {
         if (err) {
-          console.log('Error saving user');
+          console.log('Error saving student');
           return callback(err);
         }
 
-        callback(null, updatedUser);
+        callback(null, updatedStudent);
+      });
+    },
+
+    saveTutor: function(tutor, callback) {
+      if (tutor.password === config.get('hidden_password')) {
+        callback('The tutor password is masked! Not saving this to db');
+      }
+
+      console.log('updating tutor');
+      Tutor.findByIdAndUpdate(tutor._id, { $set: tutor}, { new: true }, function (err, updatedTutor) {
+        if (err) {
+          console.log('Error saving tutor');
+          return callback(err);
+        }
+
+        callback(null, updatedTutor);
       });
     }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateUser } from '../../redux/actions/user_actions.js';
-import axios from 'axios';
+
+import {saveTutor} from "../../redux/actions/user_actions";
 
 import TimePicker from './TimePicker.jsx';
 
@@ -10,34 +10,34 @@ class Profile extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            first_name: 'Sam',
-            last_name: 'Tutor',
-            email: 'asdf@email.com',
-            join_date: new Date(),
-            bio: 'Currently this is hardcoded json. The username and password are from the user. Still need to make responsive',
-            classroom: 'asdf1234',
+            bio: this.props.user.bio,
+            email: this.props.user.email,
             is_edit: false,
             button_text: 'Edit',
-            schedule: [
-                {date: "monday", start: "13:30", end: "15:00"},
-                {date: "wednesday", start: "11:00", end: "12:00"},
-                {date: "friday", start: "13:00", end: "15:00"}
-            ]
+            availability: this.props.user.availability
         };
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleAddSchedule = this.handleAddSchedule.bind(this);
-        this.handleRemoveSchedule = this.handleRemoveSchedule(this);
+        this.handleRemoveSchedule = this.handleRemoveSchedule.bind(this);
+        this.handleSave = this.handleSave.bind(this);
     }
 
     handleSave() {
-        // TODO: update database with updated info
-        alert("(Didn't) save updated info!");
+      // TODO field validation + better checking of what changed
+
+      let new_user = Object.assign({}, this.props);
+      new_user.email = this.state.email;
+      new_user.bio = this.state.bio;
+      new_user.availability = this.state.availability;
+      this.props.saveUser(new_user);
     }
 
-    handleEdit(event) {
-        var editing = !this.state.is_edit;
+    handleEdit() {
+        console.log("!!!!!!!", JSON.stringify(this.state.availability));
+
+        let editing = !this.state.is_edit;
         this.setState({is_edit: editing});
 
         if (editing) {
@@ -48,18 +48,18 @@ class Profile extends React.Component {
         }
     }
 
-    handleAddSchedule(event) {
-        // FIXME: the schedule is hardcoded in state, not from redux
-        if (this.state.is_edit) {
-            let temp = this.state.schedule;
-            temp.push({date: "monday", start: "00:00", end: "00:00"});
-            this.setState({schedule: temp});
-        }
+    handleAddSchedule() {
+        // TODO
+        // if (this.state.is_edit) {
+        //     let temp = this.state.availability;
+        //     temp.append({date: "monday", start: "00:00", end: "00:00"});
+        //     this.setState({availability: temp});
+        // }
     }
 
     handleRemoveSchedule(event) {
-        // TODO: doesn't work
-        // console.log(event.value());
+        // TODO
+        // console.log(event);
         // this.setState({people: this.state.people.filter(function(person) {
         //     return person !== e.target.value
         // })};
@@ -74,13 +74,19 @@ class Profile extends React.Component {
     }
 
     render() {
-        const scheduleItems = this.state.schedule.map((d, index) =>
+        const availabilityItems = Object.keys(this.state.availability).map((key, index) =>
             <div className="time-item">
-                <TimePicker key={index} date={d.date} start={d.start} end={d.end} is_edit={ this.state.is_edit }/>
-                <button value={index}
-                        className="btn btn-danger btn-sm"
-                        onClick={ this.handleRemoveSchedule }
-                        disabled={ !this.state.is_edit }>Remove</button>
+                <TimePicker
+                    key={index}
+                    date={this.state.availability}
+                    start={this.state.availability[key].start}
+                    end={this.state.availability[key].end}
+                    is_edit={ this.state.is_edit }/>
+                <button
+                    value={index}
+                    className="btn btn-danger btn-sm"
+                    onClick={ this.handleRemoveSchedule }
+                    disabled={ !this.state.is_edit }>Remove</button>
             </div>
         );
 
@@ -109,21 +115,15 @@ class Profile extends React.Component {
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
-                                                    value={ this.props.user.email }
+                                                    value={ this.state.email }
                                                     onChange={ this.handleEmailChange }
                                                     disabled={ !this.state.is_edit }/>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-lock"/>Password:
-                                                <p>{ this.props.user.password }</p>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-calendar"></i>Join Date:
-                                                <p>{ (new Date(this.props.user.join_date)).toDateString() }</p>
+                                                <p>{ this.props.user.join_date }</p>
                                             </div>
                                         </div>
                                         <div className="row">
@@ -141,12 +141,12 @@ class Profile extends React.Component {
                                     <div className="row">
                                         <div className="col-xs-12">
                                             <i className="glyphicon glyphicon-time"></i> Schedule:
-                                            { scheduleItems }
+                                            { availabilityItems }
                                             <button
                                                 className="btn btn-success"
                                                 onClick={ this.handleAddSchedule }
                                                 disabled={ !this.state.is_edit }>
-                                                Add Schedule
+                                                Add a time
                                             </button>
                                         </div>
                                     </div>
@@ -161,25 +161,23 @@ class Profile extends React.Component {
                     </div>
                 </div>
             </div>
-
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
-    return state;
+    return {
+      user: state.user,
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser : (user) => dispatch(updateUser(user))
+      saveUser : (user) => dispatch(saveTutor(user))
     }
 };
 
-const TutorProfile = connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
 )(Profile);
-
-export default TutorProfile;

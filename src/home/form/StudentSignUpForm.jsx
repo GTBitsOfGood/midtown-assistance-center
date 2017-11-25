@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {HelpBlock } from 'react-bootstrap';
-import styles from '../../../public/css/login_signup.css';
+import {HelpBlock} from 'react-bootstrap';
+import {Link} from 'react-router-dom';
 import axios from 'axios';
-
+import styles from '../../../public/css/login_signup.css';
 
 class StudentSignUpForm extends React.Component {
     constructor(props) {
@@ -250,7 +250,7 @@ class StudentSignUpForm extends React.Component {
                 <h5 className={'col-xs-12 ' + this.state.inputErrorMessage}>one or more fields invalid</h5>
                 <h5 className={'col-xs-12 ' + this.state.errorMessage}>{this.state.errorMessageContent}</h5>
                 <div className="row col-xs-12">
-                    <h5 className="signup-dialogue">Already have an account? <a className="signup-anchor" href='/home/login'>Click here to log in!</a></h5>
+                    <h5 className="signup-dialogue">Already have an account? <Link className="signup-anchor" to='/home/login'>Click here to log in!</Link></h5>
                 </div>
 
             </form>

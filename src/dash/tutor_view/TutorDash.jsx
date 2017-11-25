@@ -31,9 +31,7 @@ const mapDispatchToProps = (dispatch) => {
   }
 };
 
-const TutorDashboard = connect(
+export default connect(
   mapStateToProps,
   mapDispatchToProps
 )(TutorDash);
-
-export default TutorDashboard;

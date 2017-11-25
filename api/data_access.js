@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const access_codes = require('./dao/access_code_dao');
 const users = require('./dao/user_dao');
+const session = require('./dao/session_dao');
 
 // Set up default mongoose connection
 const mongoDB = process.env.DB_CONNECTION_STRING;
@@ -17,5 +18,6 @@ db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 module.exports = {
     users,
     access_codes,
+    session,
     mongoDB
 };

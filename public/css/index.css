@@ -393,6 +393,10 @@ body {
     color: var(--gold);
 }
 
-
-
-
+.loading {
+    position: relative;
+    float: left;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 50px;
+}

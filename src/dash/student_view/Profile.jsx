@@ -1,24 +1,32 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateUser } from '../../redux/actions/user_actions.js';
+import {saveStudent} from "../../redux/actions/user_actions";
 
-class Profile extends React.Component {
+class StudentProfile extends React.Component {
 
     constructor(props) {
-        super(props);
-        this.state = {
-            is_edit: false,
-            button_text: 'Edit',
-        };
+      super(props);
+      this.state = {
+        is_edit: false,
+        button_text: 'Edit',
+        email: undefined,
+        bio: undefined,
+        isFirst: true
+      };
 
-        this.handleEdit = this.handleEdit.bind(this);
-        this.handleBioChange = this.handleBioChange.bind(this);
-        this.handleEmailChange = this.handleEmailChange.bind(this);
+      this.handleSave = this.handleSave.bind(this);
+      this.handleEdit = this.handleEdit.bind(this);
+      this.handleEmailChange = this.handleEmailChange.bind(this);
+      this.handleBioChange = this.handleBioChange.bind(this);
     }
 
     handleSave() {
-        // TODO: update database (and redux) with updated info
-        alert("(Didn't) save updated info!");
+      // TODO field validation + better checking of what changed
+
+      let new_user = Object.assign({}, this.props.user);
+      new_user.email = this.state.email;
+      new_user.bio = this.state.bio;
+      this.props.saveUser(new_user);
     }
 
     handleEdit(event) {
@@ -35,7 +43,22 @@ class Profile extends React.Component {
         }
     }
 
+    handleEmailChange(event) {
+      this.setState({email: event.target.value});
+    }
+
+    handleBioChange(event) {
+      this.setState({bio: event.target.value});
+    }
+
     render() {
+        if (this.state.isFirst) {
+          // FIXME don't call setState here, we don't need the component to re-render!!
+          this.state.email = this.props.user.email;
+          this.state.bio = this.props.user.bio;
+          this.state.isFirst = false;
+        }
+
         return (
             <div className="container">
                 <br/>
@@ -47,7 +70,7 @@ class Profile extends React.Component {
                                     <img src="../../images/default_user_img.png" alt="" className="img-rounded img-responsive" />
                                 </div>
                                 <div className="col-sm-6 col-md-8">
-                                    <h1>{ this.props._id }</h1>
+                                    <h1>{ this.props.user._id }</h1>
                                     <small><cite title="Atlanta, USA">
                                         Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
                                     </cite></small>
@@ -58,32 +81,33 @@ class Profile extends React.Component {
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
-                                                    value={ this.props.email }
-                                                    disabled={ !this.state.is_edit }/>
+                                                    disabled={ !this.state.is_edit }
+                                                    onChange={ this.handleEmailChange }
+                                                    defaultValue={this.props.user.email}/>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-lock"></i>Password:
-                                                <p>{ this.props.password }</p>
+                                                <p>{ this.props.user.password }</p>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-globe"></i>Grade Level:
-                                                <p>{ this.props.grade_level }</p>
+                                                <p>{ this.props.user.grade_level }</p>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-apple"></i>Classroom:
-                                                <p>{ this.props.classroom }</p>
+                                                <p>{ this.props.user.classroom }</p>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-calendar"></i>Join Date:
-                                                <p>{ this.props.join_date.toDateString() }</p>
+                                                <p>{ this.props.user.join_date }</p>
                                             </div>
                                         </div>
                                         <div className="row">
@@ -92,8 +116,9 @@ class Profile extends React.Component {
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
-                                                    value={ this.probs.user.bio }
-                                                    disabled={ !this.state.is_edit }/>
+                                                    disabled={ !this.state.is_edit }
+                                                    onChange={ this.handleBioChange }
+                                                    defaultValue={this.props.user.bio}/>
                                             </div>
                                         </div>
                                     </div>
@@ -108,24 +133,23 @@ class Profile extends React.Component {
                     </div>
                 </div>
             </div>
-
         );
     }
 }
 
 const mapStateToProps = (state) => {
-    return state.user;
+  return {
+    user: state.user
+  };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser : (user) => dispatch(updateUser(user))
+        saveUser : (user) => dispatch(saveStudent(user))
     }
 };
 
-const DefaultProfile = connect(
+export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(Profile);
-
-export default DefaultProfile;
+)(StudentProfile);

@@ -2,9 +2,12 @@ import express from 'express';
 import ApiRouter from './api/api.js';
 import passportRoutes from './passportConfig';
 
+let bodyParser = require('body-parser');
+let Raven = require('raven');
+Raven.config('https://c552aa8ccf2c40cdb2050093dfcd3e8e:734ce4f24fd54361bcc2943b47c28149@sentry.io/243818').install();
+
 const server = express();
 
-const bodyParser = require('body-parser');
 server.use(express.static('public'));
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
