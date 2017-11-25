@@ -27,24 +27,21 @@ class UpcomingEvents extends React.Component {
         while (count < NUM_OF_EVENTS && totalCount < 7) {
             events = this.props.user.availability[dayName];
             for (event in events) {
-                if (!((day === today) && (todayHours > events[event].end_time))) {
-                   renEvents.push(<TutorUpcomingEvent dayName={dayName} today={ dayName === days[today] } startTime={events[event].start_time} endTime={events[event].end_time}/>);
-                     count++;
-                 }
+              renEvents.push(<TutorUpcomingEvent dayName={dayName} today={ dayName === days[today] } startTime={events[event].start_time} endTime={events[event].end_time}/>);
+              count++;
             }
             day = (day + 1)%7;
             dayName = days[day];
             totalCount++;
         }
     }
-    // sort by day of the week then start time
-    renEvents.sort(function(a, b) {
-        if (a.props.dayName === b.props.dayName) {
-            return a.props.startTime.localeCompare(b.props.startTime);
-        }
-        return days.indexOf(a.props.dayName) - days.indexOf(b.props.dayName);
-    });
-    renEvents = renEvents.slice(0, NUM_OF_EVENTS);
+    // FIXME sort by day of the week then start time
+    // renEvents.sort(function(a, b) {
+    //     if (a.props.dayName === b.props.dayName) {
+    //         return a.props.startTime.localeCompare(b.props.startTime);
+    //     }
+    //     return days.indexOf(a.props.dayName) - days.indexOf(b.props.dayName);
+    // });
 
     let stars = [];
     let halfStars = (this.props.user.rating - Math.floor(this.props.user.rating))/0.5;
