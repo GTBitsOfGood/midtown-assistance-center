@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {saveTutor} from "../../redux/actions/user_actions";
+import {saveTutor} from '../../redux/actions/user_actions';
 
 import TimePicker from './TimePicker.jsx';
 
@@ -25,13 +25,13 @@ class Profile extends React.Component {
     }
 
     handleSave() {
-      // TODO field validation + better checking of what changed
+        // TODO field validation + better checking of what changed
 
-      let new_user = Object.assign({}, this.props.user);
-      new_user.email = this.state.email;
-      new_user.bio = this.state.bio;
-      new_user.availability = this.state.availability;
-      this.props.saveUser(new_user);
+        let new_user = Object.assign({}, this.props.user);
+        new_user.email = this.state.email;
+        new_user.bio = this.state.bio;
+        new_user.availability = this.state.availability;
+        this.props.saveUser(new_user);
     }
 
     handleEdit() {
@@ -50,7 +50,7 @@ class Profile extends React.Component {
         // default new schedule is Monday
         if (this.state.is_edit) {
             let temp = this.state.availability;
-            temp["Monday"].push({start_time: "00:00", end_time: "00:00"});
+            temp['Monday'].push({start_time: '00:00', end_time: '00:00'});
             this.setState({availability: temp});
         }
     }
@@ -106,10 +106,10 @@ class Profile extends React.Component {
                         <div className="col-xs-12 col-sm-offset-1 col-sm-10">
                             <div className="row">
                                 <div className="col-sm-6 col-md-4">
-                                    <img src="../../images/default_user_img.png" alt="" className="img-rounded img-responsive" />
+                                    <img src="../../images/default_user_img.png" alt="user-pic" className="img-rounded img-responsive" />
                                 </div>
                                 <div className="col-sm-6 col-md-8">
-                                    <h1>{ this.props.user.first_name + " " + this.props.user.last_name }</h1>
+                                    <h1>{ this.props.user.first_name + ' ' + this.props.user.last_name }</h1>
                                     <small><cite title="Atlanta, USA">
                                         Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
                                     </cite></small>
@@ -159,7 +159,7 @@ class Profile extends React.Component {
                                     <button
                                         className="btn btn-primary"
                                         type="submit"
-                                        style={{float: "right", margin: "5px"}}
+                                        style={{float: 'right', margin: '5px'}}
                                         onClick={ this.handleEdit }>{ this.state.button_text }</button>
                                 </div>
                             </div>
@@ -173,14 +173,14 @@ class Profile extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-      user: state.user,
+        user: state.user,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      saveUser : (user) => dispatch(saveTutor(user))
-    }
+        saveUser : (user) => dispatch(saveTutor(user))
+    };
 };
 
 export default connect(
