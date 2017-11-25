@@ -1,7 +1,7 @@
 const Tutor = require('../../models/Tutor');
 const Student = require('../../models/Student');
 
-import config from 'config'
+import config from 'config';
 
 module.exports = {
 
@@ -128,10 +128,6 @@ module.exports = {
       });
     },
 
-    /**
-     * TODO: Availability is not used currently
-     * TODO: No grade level checking for subject
-     */
     getAllAvailableTutors: function(subject, availability, callback) {
 
       let todayDate = new Date();
@@ -161,6 +157,7 @@ module.exports = {
       }
 
       function filterByAvailability(tutor) {
+        // FIXME we should probably do this based on datetime
         if (availability === 'ASAP') {
             return tutor.online;
         } else if (availability === 'today') {

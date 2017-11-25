@@ -5,7 +5,8 @@ const app = express();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const data_access = require('./api/data_access');
-import config from 'config'
+import config from 'config';
+import session_dao from './api/dao/session_dao';
 
 app.use(require('cookie-parser')());
 
@@ -67,6 +68,17 @@ app.get('/user', (req, res) => {
 
 app.get('/logout', (req, res) => {
     req.logout();
+
+    let session_obj = {type: 'Logout', username: req.body.username, time: Date.now()};
+    session_dao.createSession(session_obj, function (err, session_instance) {
+        if(err) {
+            console.log("ERR");
+            console.log(err);
+        }
+        console.log('Logout session successfully created');
+        console.log(session_instance);
+    });
+
     res.send(true);
 });
 
@@ -83,13 +95,21 @@ app.post('/login', function(req, res, next){
         }
 
         req.logIn(user, function(err) {
-
             if (err) {
                 return next(err);
             }
+
+            let session_obj = {type: 'Login', username: req.body.username, time: new Date().now};
+            session_dao.createSession(session_obj, function (err, session_instance) {
+                if(err) {
+                    console.log(err);
+                }
+                console.log('Login session successfully created');
+                console.log(session_instance);
+            });
+
             return res.send(user);
         });
-
     })(req, res, next);
 });
 

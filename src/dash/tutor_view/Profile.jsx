@@ -1,10 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import axios from 'axios';
+
 import {saveTutor} from "../../redux/actions/user_actions";
 
 import TimePicker from './TimePicker.jsx';
-
 
 class Profile extends React.Component {
 
@@ -28,7 +27,7 @@ class Profile extends React.Component {
     handleSave() {
       // TODO field validation + better checking of what changed
 
-      let new_user = Object.assign({}, this.props);
+      let new_user = Object.assign({}, this.props.user);
       new_user.email = this.state.email;
       new_user.bio = this.state.bio;
       new_user.availability = this.state.availability;
@@ -48,17 +47,17 @@ class Profile extends React.Component {
     }
 
     handleAddSchedule() {
-        // TODO
-        // if (this.state.is_edit) {
-        //     let temp = this.state.availability;
-        //     temp.append({date: "monday", start: "00:00", end: "00:00"});
-        //     this.setState({availability: temp});
-        // }
+        // default new schedule is Monday
+        if (this.state.is_edit) {
+            let temp = this.state.availability;
+            temp["Monday"].push({start_time: "00:00", end_time: "00:00"});
+            this.setState({availability: temp});
+        }
     }
 
     handleRemoveSchedule(event) {
         // TODO
-        console.log(event);
+        // console.log(event);
         // this.setState({people: this.state.people.filter(function(person) {
         //     return person !== e.target.value
         // })};
@@ -73,19 +72,36 @@ class Profile extends React.Component {
     }
 
     render() {
-        const availabilityItems = Object.keys(this.state.availability).map((d, index) =>
-            <div className="time-item">
-                <TimePicker key={index} date={d.date} start={d.start} end={d.end} is_edit={ this.state.is_edit }/>
-                <button value={index} className="btn btn-danger btn-sm" onClick={ this.handleRemoveSchedule }>Remove</button>
-            </div>
-        );
+        let availabilityItems = [];
+        Object.keys(this.state.availability).map((date, index) => {
+            let item = this.state.availability[date];
+            for (event in this.state.availability[date]) {
+                availabilityItems.push(
+                    <div className="time-item">
+                        <TimePicker
+                            key={index}
+                            date={ date }
+                            start={ item[event].start_time }
+                            end={ item[event].end_time }
+                            is_edit={ this.state.is_edit }/>
+                        <button
+                            value={index}
+                            className="btn btn-danger btn-sm"
+                            onClick={ this.handleRemoveSchedule }
+                            disabled={ !this.state.is_edit }>Remove</button>
+                    </div>
+                );
+            }
+        });
 
         return (
-            <div className="container">
-                <br/>
-                <div className="row">
-                    <div className="col-xs-12 col-sm-offset-1 col-sm-10">
-                        <div className="well well-sm">
+            <div className="row tutor-dash">
+                <div className="col">
+                    <div className="text-center row">
+                        <h2 className="lighter-text text-uppercase tutor-events-header">Profile</h2>
+                    </div>
+                    <div className="row">
+                        <div className="col-xs-12 col-sm-offset-1 col-sm-10">
                             <div className="row">
                                 <div className="col-sm-6 col-md-4">
                                     <img src="../../images/default_user_img.png" alt="" className="img-rounded img-responsive" />
@@ -111,7 +127,7 @@ class Profile extends React.Component {
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-calendar"></i>Join Date:
-                                                <p>{ this.props.user.join_date }</p>
+                                                <p>{ (new Date(this.props.user.join_date)).toDateString() }</p>
                                             </div>
                                         </div>
                                         <div className="row">
@@ -130,8 +146,11 @@ class Profile extends React.Component {
                                         <div className="col-xs-12">
                                             <i className="glyphicon glyphicon-time"></i> Schedule:
                                             { availabilityItems }
-                                            <button className="btn btn-success" onClick={ this.handleAddSchedule }>
-                                                Add Schedule
+                                            <button
+                                                className="btn btn-success"
+                                                onClick={ this.handleAddSchedule }
+                                                disabled={ !this.state.is_edit }>
+                                                Add a time
                                             </button>
                                         </div>
                                     </div>
@@ -146,7 +165,6 @@ class Profile extends React.Component {
                     </div>
                 </div>
             </div>
-
         );
     }
 }

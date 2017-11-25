@@ -293,6 +293,59 @@ body {
     display: inline-block;
 }
 
+.time-item {
+    margin-bottom: 3%;
+}
+
+/*tutor dash*/
+
+.tutor-dash {
+    background-color: var(--primaryLight) ! important;
+    padding-bottom: 5%;
+    margin: 0;
+}
+
+.upcoming-events-list {
+    background-color: var(--primaryLight);
+    padding-bottom: 5%;
+    padding-right: 3%;
+}
+
+.tutor-events-header {
+    margin-bottom: 3%;
+}
+
+.tutorUpcomingEvent {
+    height: 64px;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0px 10px 0 rgba(0, 0, 0, 0.19);
+    /*width: 500px;*/
+    margin: 0 auto 10px auto;
+    background-color: white;
+}
+
+@media screen and (max-width:1100px) {
+    .tutorUpcomingEventContent h3 {
+        font-size: 1.5em;
+    }
+}
+
+.upcoming-event-desc {
+    display: inline-block;
+}
+
+.google-link {
+    float: right;
+    display: inline-block;
+}
+
+.statistics {
+    /*width: 500px;*/
+    margin: auto;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0px 10px 0 rgba(0, 0, 0, 0.19);
+    padding: 3%;
+    background-color: white;
+}
+
 /*general*/
 .mac_button {
     border: 1px solid var(--black);
@@ -308,6 +361,10 @@ body {
 
 .gold_text {
     color: var(--gold);
+}
+
+.gray_text {
+    color: var(--dkgray);
 }
 
 .lighter-text {
