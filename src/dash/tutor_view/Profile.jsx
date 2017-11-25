@@ -35,8 +35,6 @@ class Profile extends React.Component {
     }
 
     handleEdit() {
-        console.log("!!!!!!!", JSON.stringify(this.state.availability));
-
         let editing = !this.state.is_edit;
         this.setState({is_edit: editing});
 
@@ -49,12 +47,12 @@ class Profile extends React.Component {
     }
 
     handleAddSchedule() {
-        // TODO
-        // if (this.state.is_edit) {
-        //     let temp = this.state.availability;
-        //     temp.append({date: "monday", start: "00:00", end: "00:00"});
-        //     this.setState({availability: temp});
-        // }
+        // default new schedule is Monday
+        if (this.state.is_edit) {
+            let temp = this.state.availability;
+            temp["Monday"].push({start_time: "00:00", end_time: "00:00"});
+            this.setState({availability: temp});
+        }
     }
 
     handleRemoveSchedule(event) {
@@ -74,21 +72,27 @@ class Profile extends React.Component {
     }
 
     render() {
-        const availabilityItems = Object.keys(this.state.availability).map((key, index) =>
-            <div className="time-item">
-                <TimePicker
-                    key={index}
-                    date={this.state.availability}
-                    start={this.state.availability[key].start}
-                    end={this.state.availability[key].end}
-                    is_edit={ this.state.is_edit }/>
-                <button
-                    value={index}
-                    className="btn btn-danger btn-sm"
-                    onClick={ this.handleRemoveSchedule }
-                    disabled={ !this.state.is_edit }>Remove</button>
-            </div>
-        );
+        let availabilityItems = [];
+        Object.keys(this.state.availability).map((date, index) => {
+            let item = this.state.availability[date];
+            for (event in this.state.availability[date]) {
+                availabilityItems.push(
+                    <div className="time-item">
+                        <TimePicker
+                            key={index}
+                            date={ date }
+                            start={ item[event].start_time }
+                            end={ item[event].end_time }
+                            is_edit={ this.state.is_edit }/>
+                        <button
+                            value={index}
+                            className="btn btn-danger btn-sm"
+                            onClick={ this.handleRemoveSchedule }
+                            disabled={ !this.state.is_edit }>Remove</button>
+                    </div>
+                );
+            }
+        });
 
         return (
             <div className="row tutor-dash">

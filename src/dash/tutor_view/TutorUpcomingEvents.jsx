@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { updateUser } from '../../redux/actions/user_actions.js';
 import {PieChart} from 'react-easy-chart';
 
-const NUM_OF_EVENTS = 3;
+const NUM_OF_EVENTS = 5;
 
 class UpcomingEvents extends React.Component {
 
@@ -26,7 +26,6 @@ class UpcomingEvents extends React.Component {
     if (this.props.user.availability) {
         while (count < NUM_OF_EVENTS && totalCount < 7) {
             events = this.props.user.availability[dayName];
-            console.log("!!!!!!!!!", count, events);
             for (event in events) {
                 if (!((day == today) && (todayHours > events[event].end_time))) {
                    renEvents.push(<TutorUpcomingEvent dayName={dayName} today={dayName == days[today] ? true : false} startTime={events[event].start_time} endTime={events[event].end_time}/>);
