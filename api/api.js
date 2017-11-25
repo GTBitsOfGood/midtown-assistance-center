@@ -44,6 +44,7 @@ app.post('/registerTutor', (req, res) => {
                                 } else {
                                     res.send({
                                         success: true,
+                                        id: req.body.username,
                                         error_message: null
                                     });
                                 }
