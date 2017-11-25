@@ -127,7 +127,7 @@ class Profile extends React.Component {
                                         <div className="row">
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-calendar"></i>Join Date:
-                                                <p>{ this.props.user.join_date }</p>
+                                                <p>{ (new Date(this.props.user.join_date)).toDateString() }</p>
                                             </div>
                                         </div>
                                         <div className="row">
