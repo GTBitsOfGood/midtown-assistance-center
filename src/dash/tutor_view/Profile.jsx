@@ -55,12 +55,16 @@ class Profile extends React.Component {
         }
     }
 
-    handleRemoveSchedule(event) {
-        // TODO
-        // console.log(event);
-        // this.setState({people: this.state.people.filter(function(person) {
-        //     return person !== e.target.value
-        // })};
+    handleRemoveSchedule(date, start_time, end_time) {
+        let availabilityRemove = this.state.availability;
+        for (var slot in availabilityRemove[date]) {
+            if (availabilityRemove[date][slot]["start_time"] == start_time && availabilityRemove[date][slot]["end_time"] == end_time) {
+                availabilityRemove[date].splice(slot, 1);
+            }
+        }
+        console.log(availabilityRemove);
+        console.log(this.state.availability);
+        this.setState({availability:availabilityRemove});
     }
 
     handleBioChange(event) {
@@ -70,6 +74,8 @@ class Profile extends React.Component {
     handleEmailChange(event) {
         this.setState({email: event.target.value});
     }
+
+
 
     render() {
         let availabilityItems = [];
@@ -83,12 +89,8 @@ class Profile extends React.Component {
                             date={ date }
                             start={ item[event].start_time }
                             end={ item[event].end_time }
-                            is_edit={ this.state.is_edit }/>
-                        <button
-                            value={index}
-                            className="btn btn-danger btn-sm"
-                            onClick={ this.handleRemoveSchedule }
-                            disabled={ !this.state.is_edit }>Remove</button>
+                            is_edit={ this.state.is_edit }
+                            handleRemoveSchedule = {this.handleRemoveSchedule}/>
                     </div>
                 );
             }

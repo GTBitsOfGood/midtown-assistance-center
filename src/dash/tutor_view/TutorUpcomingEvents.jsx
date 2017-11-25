@@ -42,7 +42,6 @@ class UpcomingEvents extends React.Component {
         if (a.props.dayName === b.props.dayName) {
             return a.props.startTime.localeCompare(b.props.startTime);
         }
-        return days.indexOf(a.props.dayName) - days.indexOf(b.props.dayName);
     });
     renEvents = renEvents.slice(0, NUM_OF_EVENTS);
 
