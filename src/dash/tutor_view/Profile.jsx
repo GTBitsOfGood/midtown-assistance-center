@@ -104,7 +104,7 @@ class Profile extends React.Component {
                         <div className="col-xs-12 col-sm-offset-1 col-sm-10">
                             <div className="row">
                                 <div className="col-sm-6 col-md-4">
-                                    <img src="../../images/default_user_img.png" alt="" className="img-rounded img-responsive" />
+                                    <img src="../../images/default_user_img.png" alt="user-pic" className="img-rounded img-responsive" />
                                 </div>
                                 <div className="col-sm-6 col-md-8">
                                     <h1>{ this.props.user.first_name + ' ' + this.props.user.last_name }</h1>
