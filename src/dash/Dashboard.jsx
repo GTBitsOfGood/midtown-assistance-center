@@ -78,7 +78,9 @@ class DashComp extends React.Component {
     }
 
     if (this.props.user.logging_out) {
+      console.log("LOGGING OUT");
       axios.get('/logout').then(function(response) {
+        console.log(response.data);
         if (response.data) {
           document.location.href='/';
         }

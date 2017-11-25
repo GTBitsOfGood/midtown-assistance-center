@@ -6,7 +6,7 @@ module.exports = {
         Session.create(session, function (err, session_instance) {
             if (err) {
                 console.error('Error creating a new session:', err);
-                return callback(err);
+                return callback(err, null);
             }
 
             return callback(null, session_instance);
