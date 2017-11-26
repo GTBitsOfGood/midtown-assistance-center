@@ -42,6 +42,10 @@ app.post('/registerTutor', (req, res) => {
                         }, function(err, user_instance){
                             if (err) {
                                 console.log(err);
+                                res.send({
+                                    success: false,
+                                    error_message: 'Unknown error'
+                                });
                             } else {
                                 res.send({
                                     success: true,

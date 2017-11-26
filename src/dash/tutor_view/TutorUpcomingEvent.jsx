@@ -11,13 +11,20 @@ class TutorUpcomingEvent extends React.Component {
     handleAccessHangoutLink() {
         let requestBody = {
             tutorId: this.props.tutorId,
+            calId: this.props.calId,
             startTime: this.props.startTime,
-            endTime: this.props.endTime
+            endTime: this.props.endTime,
+            email: this.props.email
         };
 
         axios.post('/calendar/createEvent', requestBody)
                     .then(function(response){
                         console.log(response);
+                        if (response.data.success) {
+                            window.open(response.data.link, "_blank");
+                        } else {
+                            console.log(response.data.error);
+                        }
                     })
                     .catch(function(err) {
                         console.log(err);
