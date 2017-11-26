@@ -152,7 +152,6 @@ class SignUpTutor extends React.Component {
         } else {
             console.log("I AM HERE THEN");
             let self = this;
-            // Don't call set-state, want this to happen synchronously
             this.setState({disabledSubmit: true});
 
             axios.post('/api/registerTutor', this.state)
@@ -162,9 +161,9 @@ class SignUpTutor extends React.Component {
                     if (response.data.success) {
                         axios.post('/calendar/createNewCalendar', {id: self.state.username})
                             .then(function(response){
-                                document.location.href = '/home/login';
-                                console.log("registration successful");
                                 self.setState({disabledSubmit: false});
+                                console.log("registration successful");
+                                document.location.href = '/home/login';
                             })
                             .catch(function(error){
                                 console.log(error);
