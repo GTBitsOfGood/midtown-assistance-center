@@ -102,7 +102,7 @@ class Profile extends React.Component {
                     <div className="text-center row">
                         <h2 className="lighter-text text-uppercase tutor-events-header">Profile</h2>
                     </div>
-                    <div className="row">
+                    <div className="row profile-wrapper">
                         <div className="col-xs-12 col-sm-offset-1 col-sm-10">
                             <div className="row">
                                 <div className="col-sm-6 col-md-4">

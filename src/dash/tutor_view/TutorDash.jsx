@@ -8,10 +8,10 @@ class TutorDash extends React.Component {
     render() {
         return (
             <div className="tutor-dash container col-xs-12">
-                <div className="col-md-7">
+                <div className="col-md-6">
                     <TutorProfile/>
                 </div>
-                <div className="col-md-5 upcoming-events-list">
+                <div className="col-md-6 upcoming-events-list">
                     <TutorUpcomingEvents/>
                 </div>
             </div>
