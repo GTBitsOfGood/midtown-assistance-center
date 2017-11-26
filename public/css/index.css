@@ -1,3 +1,5 @@
+@import url(//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css);
+
 :root {
     /*--gold: #d4af37;*/
     --gold: #EEB211;
@@ -192,8 +194,6 @@ body {
     font-weight: 400;
 }
 
-
-
 .tutor_details {
     margin-bottom: 3%;
 }
@@ -218,6 +218,29 @@ body {
 
 .form-group.row {
     margin: 5px;
+}
+
+.rating-span {
+    margin-top: 2%;
+    margin-bottom: 6%;
+}
+
+.rate-session-header {
+    color: var(--dkgray);
+    margin-bottom: 0;
+}
+
+.feedback-text {
+    width: 90%;
+}
+
+.review-modal {
+    border-radius: 0;
+    border-top: 2px solid var(--gold);
+}
+
+.review-modal-footer {
+    text-align: center ! important;
 }
 
 /*Admin Dash*/
@@ -368,6 +391,19 @@ body {
     background-color: inherit;
 }
 
+.mac_button_inverse {
+    border: 1px solid var(--black);
+    color: var(--black);
+    background-color: var(--gold);
+    margin-left: 1%;
+}
+
+.mac_button_inverse:hover {
+    border: 1px solid var(--primaryLight);
+    color: var(--primaryLight);
+    background-color: var(--gold);
+}
+
 .gold_text {
     color: var(--gold);
 }
@@ -409,3 +445,12 @@ body {
     transform: translateX(-50%);
     margin-top: 50px;
 }
+
+.modal-backdrop.in {
+    display: none ! important;
+}
+
+.modal-backdrop {
+    display: none ! important;
+}
+
