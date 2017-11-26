@@ -68,7 +68,7 @@ class TutorModal extends React.Component {
         const modalBody = "#ModalBody_" + this.props.firstName;
         return (
         <div>
-            <div className="modal" id={"Modal_" + this.props.firstName} tabindex="-1" role="dialog" aria-labelledby={"#Modal_" + this.props.firstName + "Label"} aria-hidden="true" autofocus>
+            <div className="modal" id={"Modal_" + this.props.firstName} tabindex="1000" role="dialog" aria-labelledby={"#Modal_" + this.props.firstName + "Label"} aria-hidden="true" autofocus>
               <div className="modal-dialog" role="document">
                 <div className="modal-content review-modal">
                   <div className="modal-header text-center">

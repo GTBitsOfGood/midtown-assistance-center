@@ -237,6 +237,7 @@ body {
 .review-modal {
     border-radius: 0;
     border-top: 2px solid var(--gold);
+    z-index: 9999;
 }
 
 .review-modal-footer {
