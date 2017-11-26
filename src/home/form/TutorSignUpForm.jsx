@@ -24,7 +24,16 @@ class SignUpTutor extends React.Component {
             confirmEmailValidation: 'input-success',
             errorMessage: 'error-message-hide',
             inputErrorMessage:'error-message-hide',
-            errorMessageContent: ''
+            errorMessageContent: '',
+            availability: {
+                Monday: [],
+                Tuesday: [],
+                Wednesday: [],
+                Thursday: [],
+                Friday: [],
+                Saturday: [],
+                Sunday: []
+            }
         };
 
         this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -136,13 +145,16 @@ class SignUpTutor extends React.Component {
             this.state.confirmPasswordValidation === 'input-error' ||
             this.state.emailValidation === 'input-error' ||
             this.state.confirmEmailValidation === 'input-error') {
+            console.log("YO FUCK");
             this.setState({inputErrorMessage:'error-message'});
             this.setState({errorMessage:'error-message-hide'});
         } else {
+            console.log("I AM HERE THEN");
             let self = this;
             axios.post('/api/registerTutor', this.state)
                 .then(function (response) {
                     console.log(response);
+                    console.log(self.state.username);
                     if (response.data.success) {
                         axios.post('/calendar/createNewCalendar', {id: self.state.username})
                             .then(function(response){

@@ -37,7 +37,8 @@ app.post('/registerTutor', (req, res) => {
                             _id: req.body.username,
                             password: req.body.password,
                             join_date: Date.now(),
-                            status: 'in review'
+                            status: true,
+                            availability: req.body.availability
                         }, function(err, user_instance){
                             if (err) {
                                 console.log(err);

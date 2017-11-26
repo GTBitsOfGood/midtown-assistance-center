@@ -5,7 +5,7 @@ var moment = require('moment');
 
 
 app.post('/createNewCalendar', function(req, res){
-	let tutorId = req.body.tutorId;
+	let tutorId = req.body.id;
 	google.auth.refreshAccessToken(function(err, token) {
       if (err) {
         console.log('hello');
@@ -42,21 +42,23 @@ app.post('/createNewCalendar', function(req, res){
 
 app.post('/createEvent', function(req, res){
 	let tutorId = req.body.tutorId;
-	let day = req.body.eventDay;
-	let eventDateTimeStart = req.body.eventDayTimeStart;
-	let eventDateTimeEnd = req.body.eventDayTimeEnd;
-	let startDate = moment(eventDateTimeStart);
-	let endDate = moment(eventDayTimeEnd);
-	let currDate = moment();
-	startDate.year(currDate.year());
-	startDate.month(currDate.month());
-	startDate.date(currDate.date());
+	let startTime = req.body.startTime;
+	let endTime = req.body.endTime;
+	let currDateStart = moment();
+	currDateStart.Hour(startTime.split(":")[0]);
+	currDateStart.Minute(startTime.split(":")[1]);
 
-	endDate.year(currDate.year());
-	endDate.month(currDate.month());
-	endDate.date(currDate.date());
-	let startDateString = startDate.format("YYYY-MM-DDTHH:mm:ss");
-	let endDateString = endDate.format("YYYY-MM-DDTHH:mm:ss");
+	let currDateEnd = moment();
+	currDateEnd.Hour(endTime.split(":")[0]);
+	currDateEnd.Minute(endTime.split(":")[1]);
+
+	console.log(currDateStart);
+
+	console.log(currDateEnd);
+	res.send("DUMMY");
+
+	// let startDateString = startDate.format("YYYY-MM-DDTHH:mm:ss");
+	// let endDateString = endDate.format("YYYY-MM-DDTHH:mm:ss");
 
 	//TODO: make db call to get calendarId using tutorId
 	//TODO: add googlehangouts link to the tutor in the db to show that they are in session

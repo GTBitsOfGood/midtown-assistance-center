@@ -18,6 +18,7 @@ class UpcomingEvents extends React.Component {
     let todayHours = todayDate.getHours() + ":" + todayDate.getMinutes();
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     let dayName = days[today];
+    console.log("Todays day is " + dayName);
     let count = 0;
     let day = today;
     let totalCount = 0;
@@ -27,10 +28,11 @@ class UpcomingEvents extends React.Component {
         while (count < NUM_OF_EVENTS && totalCount < 7) {
             events = this.props.user.availability[dayName];
             for (event in events) {
-                if (!((day === today) && (todayHours > events[event].end_time))) {
-                   renEvents.push(<TutorUpcomingEvent dayName={dayName} today={ dayName === days[today] } startTime={events[event].start_time} endTime={events[event].end_time}/>);
-                     count++;
-                 }
+                //if (!((day === today) && (todayHours > events[event].end_time))) {
+                    console.log(dayName, events[event]);
+                    renEvents.push(<TutorUpcomingEvent tutorId={this.props.user._id} dayName={dayName} today={ dayName === days[today] } startTime={events[event].start_time} endTime={events[event].end_time}/>);
+                    count++;
+                 //}
             }
             day = (day + 1)%7;
             dayName = days[day];
@@ -38,14 +40,15 @@ class UpcomingEvents extends React.Component {
         }
     }
     // sort by day of the week then start time
-    renEvents.sort(function(a, b) {
-        if (a.props.dayName === b.props.dayName) {
-            return a.props.startTime.localeCompare(b.props.startTime);
-        }
-        return days.indexOf(a.props.dayName) - days.indexOf(b.props.dayName);
-    });
+    // renEvents.sort(function(a, b) {
+    //     if (a.props.dayName === b.props.dayName) {
+    //         return a.props.startTime.localeCompare(b.props.startTime);
+    //     }
+    //     return days.indexOf(a.props.dayName) - days.indexOf(b.props.dayName);
+    // });
     renEvents = renEvents.slice(0, NUM_OF_EVENTS);
 
+    //The second half that we dont worry about yet.
     let stars = [];
     let halfStars = (this.props.user.rating - Math.floor(this.props.user.rating))/0.5;
     let emptyStars = (5 - Math.ceil(this.props.user.rating));
@@ -105,7 +108,6 @@ class UpcomingEvents extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return state;
 };
 
