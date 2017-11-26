@@ -33,7 +33,8 @@ class SignUpTutor extends React.Component {
                 Friday: [],
                 Saturday: [],
                 Sunday: []
-            }
+            },
+            disabledSubmit: false
         };
 
         this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -151,6 +152,9 @@ class SignUpTutor extends React.Component {
         } else {
             console.log("I AM HERE THEN");
             let self = this;
+            // Don't call set-state, want this to happen synchronously
+            this.setState({disabledSubmit: true});
+
             axios.post('/api/registerTutor', this.state)
                 .then(function (response) {
                     console.log(response);
@@ -160,9 +164,11 @@ class SignUpTutor extends React.Component {
                             .then(function(response){
                                 document.location.href = '/home/login';
                                 console.log("registration successful");
+                                self.setState({disabledSubmit: false});
                             })
                             .catch(function(error){
                                 console.log(error);
+                                self.setState({disabledSubmit: false});
                             });
                         
                     } else {
@@ -170,7 +176,7 @@ class SignUpTutor extends React.Component {
                         self.setState({errorMessage:'error-message'});
                         self.setState({inputErrorMessage:'error-message-hide'});
                         self.setState({errorMessageContent: response.data.error_message});
-
+                        self.setState({disabledSubmit: false});
                     }
 
                 })
@@ -178,6 +184,7 @@ class SignUpTutor extends React.Component {
                     console.log(error);
                     self.setState({errorMessage:'error-message'});
                     self.setState({inputErrorMessage:'error-message-hide'});
+                    self.setState({disabledSubmit: false});
                 });
         }
     }
@@ -253,6 +260,7 @@ class SignUpTutor extends React.Component {
                         className="signup-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
                         type="submit"
                         value="SUBMIT"
+                        disabled={this.state.disabledSubmit}
                         onClick={this.handleSubmit}/>
                 </div>
                 <h5 className={'col-xs-12 ' + this.state.inputErrorMessage}>one or more fields invalid</h5>
