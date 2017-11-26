@@ -133,12 +133,38 @@ app.post('/createEvent', function(req, res){
         });
         return;
       }
-      res.json({
-          success: true,
-          link: response.hangoutLink,
-          error: null
-      });
+      
       console.log(response.hangoutLink);
+      // code to update the tutor db with the hangout link for the tutor
+      data_access.users.getUser(tutorId, function(err, tutor) {
+        if (err) {
+          return res.send({
+            success: false,
+            payload: null,
+            error: error
+          });
+        }
+
+        // Update the tutor with the hangout link that was just created for him
+        tutor.hangoutsLink = response.hangoutLink;
+
+        data_access.users.saveTutor(tutor, function(err, updatedTutor) {
+          if (err) {
+            return res.send({
+              success: false,
+              payload: null,
+              error: error
+            });
+          }
+
+          res.json({
+            success: true,
+            link: response.hangoutLink,
+            error: null
+          });
+        });
+
+      });
     });
 
 
