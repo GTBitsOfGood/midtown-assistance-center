@@ -69,6 +69,7 @@ class TutorModal extends React.Component {
         if (this.state.rating == 0) {
             this.setState({error_message:'show'});
         } else {
+            //TODO: update the tutor's rating on submit
             this.setState({error_message:'hide'});
             $(".modal").modal('hide');
         }

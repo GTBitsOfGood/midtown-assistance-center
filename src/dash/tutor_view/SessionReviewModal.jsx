@@ -69,6 +69,7 @@ class SessionModal extends React.Component {
         if (this.state.rating == 0) {
             this.setState({error_message:'show'});
         } else {
+            //TODO: somehow store the tutor's review/rating
             this.setState({error_message:'hide'});
             $(".modal").modal('hide');
         }
