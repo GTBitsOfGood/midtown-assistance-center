@@ -96,7 +96,8 @@ let schema = new Schema({
     gender: {type:String, required: false},
     online: {type:Boolean, required: false},
     approved: {type:Boolean, default: true}
-
+    calendarId: {type: String, required: false},
+    hangoutsLink: {type: String, required: false}
 });
 
 schema.virtual('username').get(function() {

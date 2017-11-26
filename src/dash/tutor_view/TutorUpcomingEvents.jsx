@@ -28,18 +28,16 @@ class UpcomingEvents extends React.Component {
         while (count < NUM_OF_EVENTS && totalCount < 7) {
             events = this.props.user.availability[dayName];
             for (event in events) {
-                //if (!((day === today) && (todayHours > events[event].end_time))) {
-                    console.log(dayName, events[event]);
-                    renEvents.push(<TutorUpcomingEvent tutorId={this.props.user._id} dayName={dayName} today={ dayName === days[today] } startTime={events[event].start_time} endTime={events[event].end_time}/>);
-                    count++;
-                 //}
+                renEvents.push(<TutorUpcomingEvent dayName={dayName} today={ dayName === days[today] } startTime={events[event].start_time} endTime={events[event].end_time}/>);
+                count++;
             }
             day = (day + 1)%7;
             dayName = days[day];
             totalCount++;
         }
     }
-    // sort by day of the week then start time
+
+    // FIXME sort by day of the week then start time
     // renEvents.sort(function(a, b) {
     //     if (a.props.dayName === b.props.dayName) {
     //         return a.props.startTime.localeCompare(b.props.startTime);
