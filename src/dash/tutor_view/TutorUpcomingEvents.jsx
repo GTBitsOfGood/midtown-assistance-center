@@ -64,12 +64,12 @@ class UpcomingEvents extends React.Component {
             <div className="row">
                 <div className="col">
                     <div className="text-center row">
-                        <h2 className="lighter-text text-uppercase tutor-events-header">Upcoming Sessions</h2>
+                        <h3 className="lighter-text text-uppercase tutor-events-header">Upcoming Sessions</h3>
                         <div className="col-xs-12">
                             {renEvents}
                         </div>
                     </div>
-                    <h2 className="lighter-text text-uppercase tutor-events-header text-center">Statistics</h2>
+                    <h3 className="lighter-text text-uppercase tutor-events-header text-center">Statistics</h3>
                     <div className="statistics row">
                         <div className="col-xs-12">
                             <div className="col-md-6">
