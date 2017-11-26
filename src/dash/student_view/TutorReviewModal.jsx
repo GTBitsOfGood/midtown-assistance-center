@@ -11,11 +11,13 @@ class TutorModal extends React.Component {
             fourth_star:false,
             fifth_star:false,
             rating: 0,
-            satisfaction: ''
+            satisfaction: '',
+            error_message:'hide'
         }
         this.changeStar = this.changeStar.bind(this);
         this.setRating = this.setRating.bind(this);
         this.changeStarOut = this.changeStarOut.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     changeStar(number) {
@@ -63,6 +65,15 @@ class TutorModal extends React.Component {
         }
     }
 
+    handleSubmit() {
+        if (this.state.rating == 0) {
+            this.setState({error_message:'show'});
+        } else {
+            this.setState({error_message:'hide'});
+            $(".modal").modal('hide');
+        }
+    }
+
     render() {
         const modalName = "#Modal_" + this.props.firstName;
         const modalBody = "#ModalBody_" + this.props.firstName;
@@ -77,6 +88,7 @@ class TutorModal extends React.Component {
                   <div className="modal-body text-center">
                     <div id={"ModalBody_" + this.props.firstName}>
                         <h2>How was your tutoring session with {this.props.firstName}?</h2>
+                        <h5 className={'text-uppercase modal-error-' + this.state.error_message}>Rating must be nonzero</h5>
                         <span onMouseOver = {() => this.changeStar(1)} onMouseOut = {this.changeStarOut} onClick={() => this.setRating(1)}><img className="star" src={this.state.first_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"></img></span>
                         <span onMouseOver = {() => this.changeStar(2)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(2)}><img className="star" src={this.state.second_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"></img></span>
                         <span onMouseOver = {() => this.changeStar(3)} onMouseOut = {() => this.changeStarOut()}  onClick={() => this.setRating(3)}><img className="star" src={this.state.third_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"></img></span>
@@ -89,7 +101,7 @@ class TutorModal extends React.Component {
                   </div>
                   <div className="review-modal-footer modal-footer">
                     <button type="button" className="btn btn-default mac_button" data-dismiss="modal">Cancel</button>
-                    <button type="button" className="btn btn-default mac_button_inverse">Submit</button>
+                    <button type="button" onClick={this.handleSubmit} className="btn btn-default mac_button_inverse">Submit</button>
                   </div>
                 </div>
               </div>

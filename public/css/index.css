@@ -12,6 +12,7 @@
     --lighterblack: #383B47;
     --tutorBorderColor: var(--gray);
     --primaryLight: #EEEEEE;
+    --error_red: #D8000C;
 }
 
 body {
@@ -453,5 +454,14 @@ body {
 
 .modal-backdrop {
     display: none ! important;
+}
+
+.modal-error-hide {
+    display: none;
+}
+
+.modal-error-show {
+    display: block;
+    color: var(--error_red);
 }
 
