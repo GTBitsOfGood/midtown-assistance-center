@@ -16,14 +16,17 @@ class TimePicker extends React.Component {
     }
 
     handleStartChange(event) {
+        this.props.handleEditStart(this.state.date, event.target.value, this.state.end);
         this.setState({start: event.target.value });
     }
 
     handleEndChange(event) {
+        this.props.handleEditEnd(this.state.date, this.state.start, event.target.value);
         this.setState({end: event.target.value });
     }
 
     handleDateChange(event) {
+        this.props.handleEditDate(this.state.date, event.target.value, this.state.start, this.state.end);
         this.setState({date: event.target.value});
     }
 
@@ -34,7 +37,7 @@ class TimePicker extends React.Component {
 
     render() {
         const renData = <span>
-            <select defaultValue={ this.props.date } disabled={ !this.props.is_edit }>
+            <select defaultValue={ this.props.date } onChange={ this.handleDateChange } disabled={ !this.props.is_edit }>
                 <option value="Sunday">Sunday</option>
                 <option value="Monday">Monday</option>
                 <option value="Tuesday">Tuesday</option>

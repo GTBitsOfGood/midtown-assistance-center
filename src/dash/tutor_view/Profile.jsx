@@ -19,6 +19,9 @@ class Profile extends React.Component {
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleEditStart = this.handleEditStart.bind(this);
+        this.handleEditEnd = this.handleEditEnd.bind(this);
+        this.handleEditDate = this.handleEditDate.bind(this);
         this.handleAddSchedule = this.handleAddSchedule.bind(this);
         this.handleRemoveSchedule = this.handleRemoveSchedule.bind(this);
         this.handleSave = this.handleSave.bind(this);
@@ -26,7 +29,6 @@ class Profile extends React.Component {
 
     handleSave() {
         // TODO field validation + better checking of what changed
-
         let new_user = Object.assign({}, this.props.user);
         new_user.email = this.state.email;
         new_user.bio = this.state.bio;
@@ -46,6 +48,38 @@ class Profile extends React.Component {
         }
     }
 
+    handleEditStart(date, start_time, end_time) {
+        let temp = this.state.availability;
+        for (let slot in temp[date]) {
+            if (temp[date][slot]["end_time"] === end_time) {
+                temp[date][slot]["start_time"] = start_time;
+            }
+        }
+        this.setState({availability: temp});
+    }
+
+    handleEditEnd(date, start_time, end_time) {
+        let temp = this.state.availability;
+        for (let slot in temp[date]) {
+            if (temp[date][slot]["start_time"] === start_time) {
+                temp[date][slot]["end_time"] = end_time;
+            }
+        }
+        this.setState({availability: temp});
+    }
+
+    handleEditDate(prev_date, date, start_time, end_time) {
+        let temp = this.state.availability;
+        for (let slot in temp[prev_date]) {
+            if (temp[prev_date][slot]["start_time"] === start_time && temp[prev_date][slot]["end_time"] === end_time) {
+                temp[prev_date].splice(slot, 1);
+                break;
+            }
+        }
+        temp[date].push({start_time: start_time, end_time: end_time});
+        this.setState({availability: temp});
+    }
+
     handleAddSchedule() {
         // default new schedule is Monday
         if (this.state.is_edit) {
@@ -58,12 +92,11 @@ class Profile extends React.Component {
     handleRemoveSchedule(date, start_time, end_time) {
         let availabilityRemove = this.state.availability;
         for (var slot in availabilityRemove[date]) {
-            if (availabilityRemove[date][slot]["start_time"] == start_time && availabilityRemove[date][slot]["end_time"] == end_time) {
+            if (availabilityRemove[date][slot]["start_time"] === start_time && availabilityRemove[date][slot]["end_time"] === end_time) {
                 availabilityRemove[date].splice(slot, 1);
+                break;
             }
         }
-        console.log(availabilityRemove);
-        console.log(this.state.availability);
         this.setState({availability:availabilityRemove});
     }
 
@@ -90,7 +123,10 @@ class Profile extends React.Component {
                             start={ item[event].start_time }
                             end={ item[event].end_time }
                             is_edit={ this.state.is_edit }
-                            handleRemoveSchedule = {this.handleRemoveSchedule}/>
+                            handleRemoveSchedule = {this.handleRemoveSchedule}
+                            handleEditStart = {this.handleEditStart}
+                            handleEditEnd = {this.handleEditEnd}
+                            handleEditDate = {this.handleEditDate}/>
                     </div>
                 );
             }
