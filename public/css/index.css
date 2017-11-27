@@ -1,3 +1,5 @@
+@charset "utf-8";
+
 :root {
     /*--gold: #d4af37;*/
     --gold: #EEB211;
@@ -10,6 +12,7 @@
     --lighterblack: #383B47;
     --tutorBorderColor: var(--gray);
     --primaryLight: #EEEEEE;
+    --error_red: #D8000C;
 }
 
 body {
@@ -19,11 +22,10 @@ body {
 
 }
 
-/* Navigation */
+/*======================================== Navigation ========================================*/
+
 .navigationbar {
-  /*background-color: #EEB211 ! important;*/
   background-color: var(--gold);
-  /*background-color:var(--black);*/
   margin-bottom: 0;
   border: 0;
   border-radius: 0 ! important;
@@ -34,12 +36,10 @@ body {
 
 .navbartext, .navbartext > a, .navbarheader {
     color: var(--black) ! important;
-    /*color: var(--gold) ! important;*/
 }
 
 .navbartext:hover, .navbartext > a:hover, .navbarheader:hover {
    color: var(--dkgray) ! important;
-   /*color: var(--ltgray) ! important;*/
 }
 
 .navbarheader {
@@ -51,39 +51,30 @@ body {
 }
 
 .dropdown-menu-button {
-    /*background-color: #EEB211;*/
     background-color: var(--gold);
-    /*background-color: var(--black);*/
     border: 0;
     margin-top: 10px;
     font-size: 1em;
     color: var(--black);
-    /*color: var(--gold);*/
 }
 
 .dropdown-menu-button:hover {
-    /*background-color: #EEB211;*/
     background-color: var(--gold);
     color: var(--dkgray);
-    /*background-color: var(--black);
-    color: var(--ltgray);*/
 }
 
 .open>.dropdown-menu-button {
-    /*background: #EEB211 ! important;*/
     background-color: var(--gold) ! important;
-    /*background-color: var(--black) ! important;
-    color: var(--ltgray);*/
     border: 0;
 }
 
-/*Dash*/
+/*======================================== Student Dash ========================================*/
+
 .search-items {
     border: 1px solid var(--gray);
     padding: 0;
     margin-top: 50px;
     margin-bottom: 50px;
-
 }
 
 .search-input {
@@ -151,15 +142,12 @@ body {
     -moz-border-radius: 0 !important;
     border-radius: 0 !important;
     border: 0 ! important;
-
-
 }
 
 .tutors-list {
     border-top: 1px solid var(--tutorBorderColor) ! important;
     border-right: 1px solid var(--tutorBorderColor) ! important;
     border-left: 1px solid var(--tutorBorderColor) ! important;
-
 }
 
 .tutor-panel-heading {
@@ -169,7 +157,6 @@ body {
     border-radius: 0 !important;
     padding: 1%;
     border-bottom: 1px solid var(--tutorBorderColor) ! important;
-    /*background-color: var(--ltgray) ! important;*/
 }
 
 .tutor-panel-body {
@@ -192,8 +179,6 @@ body {
     font-weight: 400;
 }
 
-
-
 .tutor_details {
     margin-bottom: 3%;
 }
@@ -206,6 +191,7 @@ body {
     margin-right: 2%;
     margin-bottom: 1%;
 }
+
 .atlanta {
     background: url("/images/atlanta.png");
     margin-top: 0;
@@ -220,11 +206,36 @@ body {
     margin: 5px;
 }
 
-/*Admin Dash*/
+.rating-span {
+    margin-top: 2%;
+    margin-bottom: 6%;
+}
+
+.rate-session-header {
+    color: var(--dkgray);
+    margin-bottom: 0;
+}
+
+.feedback-text {
+    width: 90%;
+}
+
+.review-modal {
+    border-radius: 0;
+    border-top: 2px solid var(--gold);
+    z-index: 9999;
+}
+
+.review-modal-footer {
+    text-align: center ! important;
+}
+
+/*======================================== Admin Dash ========================================*/
 
 .tutor-dash-wrapper {
     padding: 0;
 }
+
 .approve-tutors-panel {
     background-color: var(--blackhover);
     height: 92.5vh;
@@ -234,7 +245,6 @@ body {
     border-right: 1px double var(--gray);
     padding: 1%;
     color: var(--gray);
-
 }
 
 .tutor-dash-header {
@@ -265,6 +275,7 @@ body {
 .legend {
     margin-top: 5%;
 }
+
 .tutor-statistics {
     padding-top: 1%;
     height: 92.5vh;
@@ -297,7 +308,7 @@ body {
     margin-bottom: 3%;
 }
 
-/*tutor dash*/
+/*======================================== Tutor Dash ========================================*/
 
 .tutor-dash {
     background-color: var(--primaryLight) ! important;
@@ -346,7 +357,15 @@ body {
     background-color: white;
 }
 
-/*general*/
+.profile-wrapper {
+    background-color: white;
+    box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0px 10px 0 rgba(0, 0, 0, 0.19);
+    padding: 10px 0 10px 0;
+    margin: 0 10px 0 3px;
+}
+
+/*======================================== General ========================================*/
+
 .mac_button {
     border: 1px solid var(--black);
     color: var(--black);
@@ -357,6 +376,19 @@ body {
     border: 1px solid var(--gold);
     color: var(--gold);
     background-color: inherit;
+}
+
+.mac_button_inverse {
+    border: 1px solid var(--black);
+    color: var(--black);
+    background-color: var(--gold);
+    margin-left: 1%;
+}
+
+.mac_button_inverse:hover {
+    border: 1px solid var(--primaryLight);
+    color: var(--primaryLight);
+    background-color: var(--gold);
 }
 
 .gold_text {
@@ -389,6 +421,7 @@ body {
     border-radius: 0;
     margin-left: 5%;
 }
+
 .mac_button_group:hover {
     color: var(--gold);
 }
@@ -400,3 +433,21 @@ body {
     transform: translateX(-50%);
     margin-top: 50px;
 }
+
+.modal-backdrop.in {
+    display: none ! important;
+}
+
+.modal-backdrop {
+    display: none ! important;
+}
+
+.modal-error-hide {
+    display: none;
+}
+
+.modal-error-show {
+    display: block;
+    color: var(--error_red);
+}
+

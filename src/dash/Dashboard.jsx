@@ -19,129 +19,129 @@ import {GridLoader} from 'halogen';
 import styles from '../../public/css/index.css';
 
 const studentRoutes = (
-  <div>
-    <Route exact path="/dash" component={StudentDash}/>
-    <Route exact path="/dash/about" component={AboutUs}/>
-    <Route exact path="/dash/profile" component={StudentProfile}/>
-  </div>
+    <div>
+        <Route exact path="/dash" component={StudentDash}/>
+        <Route exact path="/dash/about" component={AboutUs}/>
+        <Route exact path="/dash/profile" component={StudentProfile}/>
+    </div>
 );
 
 const tutorRoutes = (
-  <div>
-    <Route exact path="/dash" component={TutorDash}/>
-    <Route exact path="/dash/about" component={AboutUs}/>
-    <Route exact path="/dash/profile" component={TutorProfile}/>
-  </div>
+    <div>
+        <Route exact path="/dash" component={TutorDash}/>
+        <Route exact path="/dash/about" component={AboutUs}/>
+        <Route exact path="/dash/profile" component={TutorProfile}/>
+    </div>
 );
 
 const adminRoutes = (
-  <div>
-    <Route exact path="/dash/" component={AdminDash}/>
-    <Route exact path="/dash/about" component={AboutUs}/>
-    <Route exact path="/dash/profile" component={AdminProfile}/>
-  </div>
+    <div>
+        <Route exact path="/dash/" component={AdminDash}/>
+        <Route exact path="/dash/about" component={AboutUs}/>
+        <Route exact path="/dash/profile" component={AdminProfile}/>
+    </div>
 );
 
 const loading = (
-  <div className="animated fadeInDown">
-    <BrowserRouter>
-      <div>
-        <Route path="/dash" component={DashMenuBar}/>
-        <div className={styles.loading}>
-          <GridLoader  color="#EEB211" size="150px"/>
-        </div>
-      </div>
-    </BrowserRouter>
-  </div>
+    <div className="animated fadeInDown">
+        <BrowserRouter>
+            <div>
+                <Route path="/dash" component={DashMenuBar}/>
+                <div className={styles.loading}>
+                    <GridLoader  color="#EEB211" size="150px"/>
+                </div>
+            </div>
+        </BrowserRouter>
+    </div>
 );
 
 class DashComp extends React.Component {
 
-  componentDidMount() {
-    let self = this;
-    axios.get('/user')
-      .then(function (response) {
-        if (response.data !== '') {
-          self.props.storeUser(response.data);
+    componentDidMount() {
+        let self = this;
+        axios.get('/user')
+            .then(function (response) {
+                if (response.data !== '') {
+                    self.props.storeUser(response.data);
+                } else {
+                    console.error('Dashboard received no user info');
+                }
+            })
+            .catch(function (error) {
+                console.error(error);
+            });
+    }
+
+    render() {
+        if (this.props.user._id === undefined) {
+            return loading;
+        }
+
+        if (this.props.user.logging_out) {
+            console.log('LOGGING OUT');
+            axios.get('/logout').then(function(response) {
+                console.log(response.data);
+                if (response.data) {
+                    document.location.href='/';
+                }
+            }).catch(function(error) {
+                console.log(error);
+            });
+            return loading;
+        }
+
+        // FIXME we should introduce a user type variable
+        let routes;
+        if (this.props.user.grade_level !== undefined) {
+            console.log('Student logged in');
+            routes = studentRoutes;
+        } else if (this.props.user.approved !== undefined) {
+            console.log('Tutor logged in');
+            routes = tutorRoutes;
+
+            if (!this.props.user.online && !this.props.user.logging_out) {
+                let new_tutor = Object.assign({}, this.props.user);
+                new_tutor.online = true;
+                this.props.setTutorOnline(new_tutor);
+
+                return loading;
+            }
         } else {
-          console.error('Dashboard received no user info');
+            console.log('Admin logged in');
+            routes = adminRoutes;
         }
-      })
-      .catch(function (error) {
-        console.error(error);
-      });
-  }
 
-  render() {
-    if (this.props.user._id === undefined) {
-      return loading;
+        return (
+            <div className="animated fadeInDown">
+                <BrowserRouter>
+                    <div>
+                        <Route path="/dash" component={DashMenuBar}/>
+                        <Switch>
+                            {routes}
+                        </Switch>
+                    </div>
+                </BrowserRouter>
+            </div>
+        );
     }
-
-    if (this.props.user.logging_out) {
-      console.log("LOGGING OUT");
-      axios.get('/logout').then(function(response) {
-        console.log(response.data);
-        if (response.data) {
-          document.location.href='/';
-        }
-      }).catch(function(error) {
-        console.log(error);
-      });
-      return loading;
-    }
-
-    // FIXME we should introduce a user type variable
-    let routes;
-    if (this.props.user.grade_level !== undefined) {
-      console.log('Student logged in');
-      routes = studentRoutes;
-    } else if (this.props.user.approved !== undefined) {
-      console.log('Tutor logged in');
-      routes = tutorRoutes;
-
-      if (!this.props.user.online && !this.props.user.logging_out) {
-        let new_tutor = Object.assign({}, this.props.user);
-        new_tutor.online = true;
-        this.props.setTutorOnline(new_tutor);
-
-        return loading;
-      }
-    } else {
-      console.log('Admin logged in');
-      routes = adminRoutes;
-    }
-
-    return (
-      <div className="animated fadeInDown">
-        <BrowserRouter>
-          <div>
-            <Route path="/dash" component={DashMenuBar}/>
-            <Switch>
-              {routes}
-            </Switch>
-          </div>
-        </BrowserRouter>
-      </div>
-    );
-  }
 }
 
 const mapStateToProps = (state) => {
-  return {
-    user: state.user
-  };
+    return {
+        user: state.user
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
-  return {
-    storeUser: (user) => dispatch(fetchUser(user)),
-    setTutorOnline: (tutor) => dispatch(saveTutor(tutor))
-  };
+    return {
+        storeUser: (user) => dispatch(fetchUser(user)),
+        setTutorOnline: (tutor) => dispatch(saveTutor(tutor))
+    };
 };
 
 const DashComponent = connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(DashComp);
 
 ReactDOM.render(

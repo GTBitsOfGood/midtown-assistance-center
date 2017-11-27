@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import {saveTutor} from "../../redux/actions/user_actions";
+import {saveTutor} from '../../redux/actions/user_actions';
 
 import TimePicker from './TimePicker.jsx';
 
@@ -19,19 +19,21 @@ class Profile extends React.Component {
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleEditStart = this.handleEditStart.bind(this);
+        this.handleEditEnd = this.handleEditEnd.bind(this);
+        this.handleEditDate = this.handleEditDate.bind(this);
         this.handleAddSchedule = this.handleAddSchedule.bind(this);
         this.handleRemoveSchedule = this.handleRemoveSchedule.bind(this);
         this.handleSave = this.handleSave.bind(this);
     }
 
     handleSave() {
-      // TODO field validation + better checking of what changed
-
-      let new_user = Object.assign({}, this.props.user);
-      new_user.email = this.state.email;
-      new_user.bio = this.state.bio;
-      new_user.availability = this.state.availability;
-      this.props.saveUser(new_user);
+        // TODO field validation + better checking of what changed
+        let new_user = Object.assign({}, this.props.user);
+        new_user.email = this.state.email;
+        new_user.bio = this.state.bio;
+        new_user.availability = this.state.availability;
+        this.props.saveUser(new_user);
     }
 
     handleEdit() {
@@ -46,21 +48,56 @@ class Profile extends React.Component {
         }
     }
 
+    handleEditStart(date, start_time, end_time) {
+        let temp = this.state.availability;
+        for (let slot in temp[date]) {
+            if (temp[date][slot]["end_time"] === end_time) {
+                temp[date][slot]["start_time"] = start_time;
+            }
+        }
+        this.setState({availability: temp});
+    }
+
+    handleEditEnd(date, start_time, end_time) {
+        let temp = this.state.availability;
+        for (let slot in temp[date]) {
+            if (temp[date][slot]["start_time"] === start_time) {
+                temp[date][slot]["end_time"] = end_time;
+            }
+        }
+        this.setState({availability: temp});
+    }
+
+    handleEditDate(prev_date, date, start_time, end_time) {
+        let temp = this.state.availability;
+        for (let slot in temp[prev_date]) {
+            if (temp[prev_date][slot]["start_time"] === start_time && temp[prev_date][slot]["end_time"] === end_time) {
+                temp[prev_date].splice(slot, 1);
+                break;
+            }
+        }
+        temp[date].push({start_time: start_time, end_time: end_time});
+        this.setState({availability: temp});
+    }
+
     handleAddSchedule() {
         // default new schedule is Monday
         if (this.state.is_edit) {
             let temp = this.state.availability;
-            temp["Monday"].push({start_time: "00:00", end_time: "00:00"});
+            temp['Monday'].push({start_time: '00:00', end_time: '00:00'});
             this.setState({availability: temp});
         }
     }
 
-    handleRemoveSchedule(event) {
-        // TODO
-        // console.log(event);
-        // this.setState({people: this.state.people.filter(function(person) {
-        //     return person !== e.target.value
-        // })};
+    handleRemoveSchedule(date, start_time, end_time) {
+        let availabilityRemove = this.state.availability;
+        for (let slot in availabilityRemove[date]) {
+            if (availabilityRemove[date][slot]["start_time"] === start_time && availabilityRemove[date][slot]["end_time"] === end_time) {
+                availabilityRemove[date].splice(slot, 1);
+                break;
+            }
+        }
+        this.setState({availability:availabilityRemove});
     }
 
     handleBioChange(event) {
@@ -70,6 +107,8 @@ class Profile extends React.Component {
     handleEmailChange(event) {
         this.setState({email: event.target.value});
     }
+
+
 
     render() {
         let availabilityItems = [];
@@ -83,12 +122,11 @@ class Profile extends React.Component {
                             date={ date }
                             start={ item[event].start_time }
                             end={ item[event].end_time }
-                            is_edit={ this.state.is_edit }/>
-                        <button
-                            value={index}
-                            className="btn btn-danger btn-sm"
-                            onClick={ this.handleRemoveSchedule }
-                            disabled={ !this.state.is_edit }>Remove</button>
+                            is_edit={ this.state.is_edit }
+                            handleRemoveSchedule = {this.handleRemoveSchedule}
+                            handleEditStart = {this.handleEditStart}
+                            handleEditEnd = {this.handleEditEnd}
+                            handleEditDate = {this.handleEditDate}/>
                     </div>
                 );
             }
@@ -98,16 +136,16 @@ class Profile extends React.Component {
             <div className="row tutor-dash">
                 <div className="col">
                     <div className="text-center row">
-                        <h2 className="lighter-text text-uppercase tutor-events-header">Profile</h2>
+                        <h3 className="lighter-text text-uppercase tutor-events-header">Profile</h3>
                     </div>
-                    <div className="row">
+                    <div className="row profile-wrapper">
                         <div className="col-xs-12 col-sm-offset-1 col-sm-10">
                             <div className="row">
                                 <div className="col-sm-6 col-md-4">
-                                    <img src="../../images/default_user_img.png" alt="" className="img-rounded img-responsive" />
+                                    <img src="../../images/default_user_img.png" alt="user-pic" className="img-rounded img-responsive" />
                                 </div>
                                 <div className="col-sm-6 col-md-8">
-                                    <h1>{ this.props.user.first_name + " " + this.props.user.last_name }</h1>
+                                    <h1>{ this.props.user.first_name + ' ' + this.props.user.last_name }</h1>
                                     <small><cite title="Atlanta, USA">
                                         Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
                                     </cite></small>
@@ -157,7 +195,7 @@ class Profile extends React.Component {
                                     <button
                                         className="btn btn-primary"
                                         type="submit"
-                                        style={{float: "right", margin: "5px"}}
+                                        style={{float: 'right', margin: '5px'}}
                                         onClick={ this.handleEdit }>{ this.state.button_text }</button>
                                 </div>
                             </div>
@@ -171,14 +209,14 @@ class Profile extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-      user: state.user,
+        user: state.user,
     };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-      saveUser : (user) => dispatch(saveTutor(user))
-    }
+        saveUser : (user) => dispatch(saveTutor(user))
+    };
 };
 
 export default connect(

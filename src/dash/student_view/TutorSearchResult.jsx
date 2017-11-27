@@ -1,4 +1,5 @@
 import React from 'react';
+import TutorReviewModal from './TutorReviewModal.jsx';
 
 class TutorSearchResult extends React.Component {
     constructor(props) {
@@ -62,7 +63,7 @@ class TutorSearchResult extends React.Component {
                                 </h2>
                             </a>
                             <h4><strong>Subjects:</strong><span className="lighter-text"> {this.props.data.subjects.map((subject, num) => {return ' ' + subject.subject + '(' + subject.start_grade + '-' + subject.end_grade + ')' + ' ';})}</span></h4>
-                            <h4><strong>Availability:</strong><span className="lighter-text"> {Object.keys(this.props.data.availability).map((day, num) => {return (this.props.data.availability[day].length != 0 ? day + '- ' + this.props.data.availability[day].map((time, num) => {return time.start_time + '-' + time.end_time}) + ' ': '') })}</span></h4>
+                            <h4><strong>Availability:</strong><span className="lighter-text"> {Object.keys(this.props.data.availability).map((day, num) => {return (this.props.data.availability[day].length != 0 ? day + '- ' + this.props.data.availability[day].map((time, num) => {return ((time.start_time.split(':')[0])%12 + ':' + time.start_time.split(':')[1] + ((time.start_time.split(':'))[0] >= 12 ? ' PM' : ' AM') + '-' + (time.end_time.split(':')[0])%12 + ':' + time.end_time.split(':')[1] + ((time.end_time.split(':'))[0] >= 12 ? ' PM' : ' AM'))}) + ' ': '') })}</span></h4>
                         </div>
                     </div>
                     <div id={'collapse' + this.props.id} className="panel-collapse collapse">
@@ -81,14 +82,16 @@ class TutorSearchResult extends React.Component {
                             <div className="request_hangout text-center">
                                 <h3 className="text-center"><strong>Request a Google Hangouts meeting with {this.props.data.first_name}</strong>
                                 </h3>
-                                <button className="btn btn-lg btn-default mac_button" type="button">
+                                <button className="btn btn-lg btn-default mac_button" type="button" data-toggle="modal" data-target={"#Modal_" + this.props.data.first_name}>
                                     Click Here
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
+                <TutorReviewModal firstName={this.props.data.first_name}/>
             </div>
+
         );
     }
 }

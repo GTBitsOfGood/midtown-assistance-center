@@ -1,5 +1,5 @@
 import React from 'react';
-import {Link} from 'react-router-dom'
+import {Link} from 'react-router-dom';
 
 const AboutUs = () => {
     return (
@@ -8,7 +8,7 @@ const AboutUs = () => {
             <section className="about">
                 <div className="container">
                     <div className="ro">
-                        <img src="images/mac.jpg" alt="mac-logo" className="center-block"/>
+                        <img src="../../images/mac.jpg" alt="mac-change-logo" className="center-block"/>
                         <div className="col-xs-8 col-xs-offset-2">
                             <hr/>
                             <h1 className="text-center">MAC Tutoring</h1>
