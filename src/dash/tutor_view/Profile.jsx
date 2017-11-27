@@ -69,7 +69,6 @@ class Profile extends React.Component {
     }
 
     handleEditDate(prev_date, date, start_time, end_time) {
-        console.log(this.state.availability);
         let temp = this.state.availability;
         for (let slot in temp[prev_date]) {
             if (temp[prev_date][slot]["start_time"] === start_time && temp[prev_date][slot]["end_time"] === end_time) {
@@ -79,8 +78,6 @@ class Profile extends React.Component {
             }
         }
         temp[date].push({start_time: start_time, end_time: end_time});
-        console.log(temp);
-        console.log(this.state.availability);
         this.setState({availability: temp});
     }
 
