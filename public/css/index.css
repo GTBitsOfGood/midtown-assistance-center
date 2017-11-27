@@ -230,6 +230,15 @@ body {
     text-align: center ! important;
 }
 
+.clear-search {
+    display: inline-block;
+    color: var(--gray);
+}
+
+.clear-search:hover {
+    color: var(--gold);
+}
+
 /*======================================== Admin Dash ========================================*/
 
 .tutor-dash-wrapper {
