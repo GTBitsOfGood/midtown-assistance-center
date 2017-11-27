@@ -72,7 +72,6 @@ class Profile extends React.Component {
         let temp = this.state.availability;
         for (let slot in temp[prev_date]) {
             if (temp[prev_date][slot]["start_time"] === start_time && temp[prev_date][slot]["end_time"] === end_time) {
-                console.log("!!!", slot, prev_date, temp[prev_date]);
                 temp[prev_date].splice(slot, 1);
                 break;
             }
