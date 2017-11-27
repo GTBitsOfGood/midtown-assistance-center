@@ -69,14 +69,18 @@ class Profile extends React.Component {
     }
 
     handleEditDate(prev_date, date, start_time, end_time) {
+        console.log(this.state.availability);
         let temp = this.state.availability;
         for (let slot in temp[prev_date]) {
             if (temp[prev_date][slot]["start_time"] === start_time && temp[prev_date][slot]["end_time"] === end_time) {
+                console.log("!!!", slot, prev_date, temp[prev_date]);
                 temp[prev_date].splice(slot, 1);
                 break;
             }
         }
         temp[date].push({start_time: start_time, end_time: end_time});
+        console.log(temp);
+        console.log(this.state.availability);
         this.setState({availability: temp});
     }
 
@@ -91,7 +95,7 @@ class Profile extends React.Component {
 
     handleRemoveSchedule(date, start_time, end_time) {
         let availabilityRemove = this.state.availability;
-        for (var slot in availabilityRemove[date]) {
+        for (let slot in availabilityRemove[date]) {
             if (availabilityRemove[date][slot]["start_time"] === start_time && availabilityRemove[date][slot]["end_time"] === end_time) {
                 availabilityRemove[date].splice(slot, 1);
                 break;

@@ -26,6 +26,7 @@ class TimePicker extends React.Component {
     }
 
     handleDateChange(event) {
+        console.log("!@#$", this.state.date, this.state.start, this.state.end);
         this.props.handleEditDate(this.state.date, event.target.value, this.state.start, this.state.end);
         this.setState({date: event.target.value});
     }
