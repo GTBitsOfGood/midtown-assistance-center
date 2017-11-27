@@ -133,10 +133,10 @@ class Profile extends React.Component {
         });
 
         return (
-            <div className="row tutor-dash">
+            <div className="row tutor-dash animated fadeInLeft">
                 <div className="col">
                     <div className="text-center row">
-                        <h3 className="lighter-text text-uppercase tutor-events-header">Profile</h3>
+                        <h3 className="lighter-text text-uppercase tutor-events-header">  Profile</h3>
                     </div>
                     <div className="row profile-wrapper">
                         <div className="col-xs-12 col-sm-offset-1 col-sm-10">
@@ -153,7 +153,7 @@ class Profile extends React.Component {
                                     <div className="form-group">
                                         <div className="row">
                                             <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-envelope"></i> Email:
+                                                <i className="glyphicon glyphicon-envelope"></i>Email:
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
