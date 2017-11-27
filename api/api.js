@@ -17,7 +17,6 @@ app.get('/onlineTutors', (req, res) => {
 
 app.post('/registerTutor', (req, res) => {
     //Add this information to the database
-    console.log(req.body);
     data_access.users.checkIfUsernameIsTaken(req.body.username, function(err, resultUsername){
         if (err) {
             console.log(err);

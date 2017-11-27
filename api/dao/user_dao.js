@@ -94,7 +94,6 @@ module.exports = {
 
     getUser: function(username, callback) {
       // Look for tutors with the same username
-      console.log("USR IN USER_DAO", username);
       Tutor.find({_id: username}, function (err, docs) {
         if (err) {
           console.error('Error checking if username is taken:', err);
@@ -102,7 +101,7 @@ module.exports = {
 
         } else if (docs.length === 1) {
           // Found a tutor with the same username
-          console.log("DOCTOR DO ME A LITTLE ", docs[0]);
+
           callback(null, docs[0]);
         } else if (docs.length > 1) {
           console.error('Multiple tutors with username', username);

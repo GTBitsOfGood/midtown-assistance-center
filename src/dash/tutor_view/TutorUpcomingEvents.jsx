@@ -18,7 +18,6 @@ class UpcomingEvents extends React.Component {
     let todayHours = todayDate.getHours() + ":" + todayDate.getMinutes();
     const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
     let dayName = days[today];
-    console.log("Todays day is " + dayName);
     let count = 0;
     let day = today;
     let totalCount = 0;
@@ -112,7 +111,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setUser : (user) => dispatch(updateUser(user))
-    }
+    };
 };
 
 const TutorUpcomingEvents = connect(

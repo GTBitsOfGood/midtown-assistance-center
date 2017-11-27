@@ -6,70 +6,76 @@ import data_access from './data_access';
 
 app.post('/createNewCalendar', function(req, res){
 	let tutorId = req.body.id;
-  console.log('Tutor id: ' + tutorId);
 	google.auth.refreshAccessToken(function(err, token) {
-    if (err) {
-      console.log('hello');
-      console.log('Error while trying to retrieve access token', err);
-      return;
-    }
-    google.auth.credentials = token;
-    google.calendar.calendars.insert({
-      auth: google.auth,
-      resource: {
-        summary: tutorId + "_cal",
-        timeZone: "America/New_York"
-      }
-    }, function(error, response) {
-      if (error) {
-        return res.send({
-          success: false,
-          payload: null,
-          error: error
-        });
-      }
-
-      let calId = response.id;
-
-      // code to update the tutor db with the calendar for the tutor
-      data_access.users.getUser(tutorId, function(err, tutor) {
-        if (err) {
-          return res.send({
-            success: false,
-            payload: null,
-            error: error
-          });
-        }
-
-        // Update the tutor with the calendar id that was just created for him
-        tutor.calendarId = calId;
-
-        data_access.users.saveTutor(tutor, function(err, updatedTutor) {
-          if (err) {
-            return res.send({
-              success: false,
-              payload: null,
-              error: error
+      if (err) {
+            res.send({
+                success: false,
+                payload: null,
+                error: err
             });
-          }
+            console.log('Error while trying to retrieve access token', err);
+            return;
+        }
+        google.auth.credentials = token;
+        google.calendar.calendars.insert({
+            auth: google.auth,
+            resource: {
+                summary: tutorId + '_cal',
+                timeZone: 'America/New_York'
+            }
+        }, function(error, response) {
+            if (error) {
+                res.send({
+                    success: false,
+                    payload: null,
+                    error: error
+                });
+                return;
+            }
 
-          res.send({
-            success: true,
-            payload: updatedTutor
-          });
+            let calId = response.id;
+
+            // code to update the tutor db with the calendar for the tutor
+            data_access.users.getUser(tutorId, function(err, tutor) {
+                if (err) {
+                    res.send({
+                        success: false,
+                        payload: null,
+                        error: error
+                    });
+                    return;
+                }
+
+                // Update the tutor with the calendar id that was just created for him
+                tutor.calendarId = calId;
+
+                data_access.users.saveTutor(tutor, function(err, updatedTutor) {
+                    if (err) {
+                        res.send({
+                            success: false,
+                            payload: null,
+                            error: error
+                        });
+                        return;
+                    }
+
+                    res.send({
+                        success: true,
+                        payload: updatedTutor
+                    });
+                });
+
+            });
         });
-
-      });
     });
-	});
 });
 
 app.post('/createEvent', function(req, res){
 	let tutorId = req.body.tutorId;
-  let calId = req.body.calId;
+    let calId = req.body.calId;
 	let startTime = req.body.startTime;
 	let endTime = req.body.endTime;
-  let tutorEmail = req.body.email;
+    let tutorEmail = req.body.email;
 
 	let currDateStart = moment();
 	currDateStart.hour(startTime.split(":")[0]);
@@ -85,13 +91,8 @@ app.post('/createEvent', function(req, res){
 	let startDateString = currDateStart.format("YYYY-MM-DDTHH:mm:ss");
 	let endDateString = currDateEnd.format("YYYY-MM-DDTHH:mm:ss");
 
-  console.log(startDateString);
-
-  console.log(endDateString);
-
   google.auth.refreshAccessToken(function(err, token) {
     if (err) {
-      console.log('hello');
       console.log('Error while trying to retrieve access token', err);
       res.json({
           success: false,
@@ -125,7 +126,6 @@ app.post('/createEvent', function(req, res){
         }
     }}, function(err, response){
       if (err) {
-        console.log(err);
         res.json({
           success: false,
           link: false,
@@ -134,15 +134,15 @@ app.post('/createEvent', function(req, res){
         return;
       }
       
-      console.log(response.hangoutLink);
       // code to update the tutor db with the hangout link for the tutor
       data_access.users.getUser(tutorId, function(err, tutor) {
         if (err) {
-          return res.send({
+          res.send({
             success: false,
             payload: null,
             error: error
           });
+          return;
         }
 
         // Update the tutor with the hangout link that was just created for him
@@ -150,11 +150,12 @@ app.post('/createEvent', function(req, res){
 
         data_access.users.saveTutor(tutor, function(err, updatedTutor) {
           if (err) {
-            return res.send({
+            res.send({
               success: false,
               payload: null,
               error: error
             });
+            return;
           }
 
           res.json({
