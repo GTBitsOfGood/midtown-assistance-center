@@ -55,7 +55,7 @@ class TutorSearchResult extends React.Component {
                             <a data-toggle="collapse" className="tutor-name" data-parent="#accordion" href={'#collapse' + this.props.id}>
                                 <h2>
                                     {this.props.data.first_name + ' ' + this.props.data.last_name}
-                                    <span>
+                                    <span className="online-img">
                                         <img src={this.props.data.online ? '/images/status-online.png' : '/images/status-offline.png'}></img>
                                     </span>
                                     &emsp;
