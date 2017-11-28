@@ -5,6 +5,8 @@ import {saveTutor} from '../../redux/actions/user_actions';
 
 import TimePicker from './TimePicker.jsx';
 
+import SubjectPicker from './SubjectPicker.jsx';
+
 const DAYS_OF_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 class Profile extends React.Component {
@@ -20,7 +22,8 @@ class Profile extends React.Component {
             is_edit: false,
             button_text: 'Edit',
             availability: this.props.user.availability,
-            availabilityList: list
+            availabilityList: list,
+            subjects:this.props.user.subjects
         };
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
@@ -28,7 +31,12 @@ class Profile extends React.Component {
         this.handleEditStart = this.handleEditStart.bind(this);
         this.handleEditEnd = this.handleEditEnd.bind(this);
         this.handleEditDate = this.handleEditDate.bind(this);
+        this.handleEditStartGrade = this.handleEditStartGrade.bind(this);
+        this.handleEditEndGrade = this.handleEditEndGrade.bind(this);
+        this.handleEditSubject = this.handleEditSubject.bind(this);
         this.handleAddSchedule = this.handleAddSchedule.bind(this);
+        this.handleAddSubject = this.handleAddSubject.bind(this);
+        this.handleRemoveSubject = this.handleRemoveSubject.bind(this);
         this.handleRemoveSchedule = this.handleRemoveSchedule.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.unflatten = this.unflatten.bind(this);
@@ -77,6 +85,7 @@ class Profile extends React.Component {
         let new_user = Object.assign({}, this.props.user);
         new_user.email = this.state.email;
         new_user.bio = this.state.bio;
+        new_user.subjects = this.state.subjects;
         new_user.availability = this.unflatten();
         this.setState({availabilityList: this.initAvailabilityList(new_user.availability)});
         this.props.saveUser(new_user);
@@ -100,17 +109,11 @@ class Profile extends React.Component {
         this.setState({availabilityList: temp});
     }
 
-
-    // handleEditStart(date, start_time, end_time, prev_start) {
-    //     let temp = this.state.availability;
-    //     for (let slot in temp[date]) {
-    //         if (temp[date][slot]["start_time"] === prev_start && temp[date][slot]["end_time"] === end_time) {
-    //             temp[date][slot]["start_time"] = start_time;
-    //             break;
-    //         }
-    //     }
-    //     this.setState({availability: temp});
-    // }
+    handleEditStartGrade(index, start) {
+        let temp = this.state.subjects;
+        temp[index].start_grade = start;
+        this.setState({subjects: temp});
+    }
 
     handleEditEnd(index, end) {
         let temp = this.state.availabilityList;
@@ -118,15 +121,11 @@ class Profile extends React.Component {
         this.setState({availabilityList: temp});
     }
 
-    // handleEditEnd(date, start_time, end_time, prev_end) {
-    //     let temp = this.state.availability;
-    //     for (let slot in temp[date]) {
-    //         if (temp[date][slot]["start_time"] === start_time && temp[date][slot]["end_time"] === prev_end) {
-    //             temp[date][slot]["end_time"] = end_time;
-    //         }
-    //     }
-    //     this.setState({availability: temp});
-    // }
+    handleEditEndGrade(index, end) {
+        let temp = this.state.subjects;
+        temp[index].end_grade = end;
+        this.setState({subjects: temp});
+    }
 
     handleEditDate(index, date) {
         let temp = this.state.availabilityList;
@@ -134,17 +133,11 @@ class Profile extends React.Component {
         this.setState({availabilityList: temp});
     }
 
-    // handleEditDate(prev_date, date, start_time, end_time) {
-    //     let temp = this.state.availability;
-    //     for (let slot in temp[prev_date]) {
-    //         if (temp[prev_date][slot]["start_time"] === start_time && temp[prev_date][slot]["end_time"] === end_time) {
-    //             temp[prev_date].splice(slot, 1);
-    //             break;
-    //         }
-    //     }
-    //     temp[date].push({start_time: start_time, end_time: end_time});
-    //     this.setState({availability: temp});
-    // }
+    handleEditSubject(index, subject) {
+        let temp = this.state.subjects;
+        temp[index].subject = subject;
+        this.setState({subjects: temp});
+    }
 
     handleAddSchedule() {
         // default new schedule is Monday
@@ -159,22 +152,30 @@ class Profile extends React.Component {
         }
     }
 
+    handleAddSubject() {
+        // default new schedule is Monday
+        if (this.state.is_edit) {
+            let temp = this.state.subjects;
+            temp.push({
+                subject: "Enter Subject",
+                start: "6",
+                end: "12"
+            });
+            this.setState({subjects: temp});
+        }
+    }
+
     handleRemoveSchedule(index) {
         let temp = this.state.availabilityList;
         temp.splice(index, 1);
         this.setState({availabilityList: temp});
     }
 
-    // handleRemoveSchedule(date, start_time, end_time) {
-    //     let availabilityRemove = this.state.availability;
-    //     for (let slot in availabilityRemove[date]) {
-    //         if (availabilityRemove[date][slot]["start_time"] === start_time && availabilityRemove[date][slot]["end_time"] === end_time) {
-    //             availabilityRemove[date].splice(slot, 1);
-    //             break;
-    //         }
-    //     }
-    //     this.setState({availability:availabilityRemove});
-    // }
+    handleRemoveSubject(index) {
+        let temp = this.state.subjects;
+        temp.splice(index, 1);
+        this.setState({subjects: temp});
+    }
 
     handleBioChange(event) {
         this.setState({bio: event.target.value});
@@ -186,6 +187,7 @@ class Profile extends React.Component {
 
     render() {
         let availabilityItems = [];
+        let subjectItems = [];
         for (event in this.state.availabilityList) {
             availabilityItems.push(
                 <div className="time-item">
@@ -202,25 +204,22 @@ class Profile extends React.Component {
                 </div>
             );
         }
-        // Object.keys(this.state.availability).map((date, index) => {
-        //     let item = this.state.availability[date];
-        //     for (event in this.state.availability[date]) {
-        //         availabilityItems.push(
-        //             <div className="time-item">
-        //                 <TimePicker
-        //                     key={index}
-        //                     date={ date }
-        //                     start={ item[event].start_time }
-        //                     end={ item[event].end_time }
-        //                     is_edit={ this.state.is_edit }
-        //                     handleRemoveSchedule = {this.handleRemoveSchedule}
-        //                     handleEditStart = {this.handleEditStart}
-        //                     handleEditEnd = {this.handleEditEnd}
-        //                     handleEditDate = {this.handleEditDate}/>
-        //             </div>
-        //         );
-        //     }
-        // });
+        for (event in this.state.subjects) {
+                subjectItems.push(
+                    <div className="time-item">
+                        <SubjectPicker
+                            index={event}
+                            subject={ this.state.subjects[event].subject }
+                            start={ this.state.subjects[event].start_grade }
+                            end={ this.state.subjects[event].end_grade }
+                            is_edit={ this.state.is_edit }
+                            handleRemoveSubject = {this.handleRemoveSubject}
+                            handleEditStart = {this.handleEditStartGrade}
+                            handleEditEnd = {this.handleEditEndGrade}
+                            handleEditSubject = {this.handleEditSubject}/>
+                    </div>
+                );
+            }
 
 
         return (
@@ -241,6 +240,8 @@ class Profile extends React.Component {
                                         Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
                                     </cite></small>
                                     <h3>{ this.props.user._id }</h3>
+                                    </div>
+                                    <div className="col-sm-12">
                                     <div className="form-group">
                                         <div className="row">
                                             <div className="col-xs-12">
@@ -269,6 +270,18 @@ class Profile extends React.Component {
                                                     onChange={ this.handleBioChange }
                                                     disabled={ !this.state.is_edit }/>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-xs-12">
+                                            <i className="glyphicon glyphicon-apple"></i> Subjects:
+                                            { subjectItems }
+                                            <button
+                                                className="btn btn-success"
+                                                onClick={ this.handleAddSubject }
+                                                disabled={ !this.state.is_edit }>
+                                                Add a Subject
+                                            </button>
                                         </div>
                                     </div>
                                     <div className="row">
