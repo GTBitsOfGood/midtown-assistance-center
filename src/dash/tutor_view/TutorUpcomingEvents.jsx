@@ -61,7 +61,7 @@ class UpcomingEvents extends React.Component {
         }
 
         return (
-            <div className="row">
+            <div className="row animated fadeInRight">
                 <div className="col">
                     <div className="text-center row">
                         <h3 className="lighter-text text-uppercase tutor-events-header">Upcoming Sessions</h3>

@@ -31,7 +31,6 @@ body {
   border-radius: 0 ! important;
   box-shadow: 0 0 4px 0 rgba(0, 0, 0, 0.2), 0 0px 10px 0 rgba(0, 0, 0, 0.19);
   z-index: 99;
-
 }
 
 .navbartext, .navbartext > a, .navbarheader {
@@ -171,7 +170,7 @@ body {
 
 .tutors-list {
     margin-top: 2%;
-    margin-bottom: 0;
+    margin-bottom: 2%;
 }
 
 .tutors-header {
@@ -228,6 +227,19 @@ body {
 
 .review-modal-footer {
     text-align: center ! important;
+}
+
+.clear-search {
+    display: inline-block;
+    color: var(--gray);
+}
+
+.clear-search:hover {
+    color: var(--gold);
+}
+
+.online-img {
+    margin-left: 0.5%;
 }
 
 /*======================================== Admin Dash ========================================*/

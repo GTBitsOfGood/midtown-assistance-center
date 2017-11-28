@@ -46,7 +46,7 @@ const AboutUs = () => {
                         <div className="col-xs-4">
                             <h3>Website</h3>
                             <hr/>
-                            <Link to="http://www.midtownassistancectr.org/">Midtown Assistance Center</Link>
+                            <a href="http://www.midtownassistancectr.org"> Midtown Assistance Center</a>
                         </div>
                         <div className="col-xs-4">
                             <h3>Phone:</h3>
