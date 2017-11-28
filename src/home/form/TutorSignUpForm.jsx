@@ -24,7 +24,17 @@ class SignUpTutor extends React.Component {
             confirmEmailValidation: 'input-success',
             errorMessage: 'error-message-hide',
             inputErrorMessage:'error-message-hide',
-            errorMessageContent: ''
+            errorMessageContent: '',
+            availability: {
+                Monday: [],
+                Tuesday: [],
+                Wednesday: [],
+                Thursday: [],
+                Friday: [],
+                Saturday: [],
+                Sunday: []
+            },
+            disabledSubmit: false
         };
 
         this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
@@ -136,22 +146,36 @@ class SignUpTutor extends React.Component {
             this.state.confirmPasswordValidation === 'input-error' ||
             this.state.emailValidation === 'input-error' ||
             this.state.confirmEmailValidation === 'input-error') {
+            console.log("YO FUCK");
             this.setState({inputErrorMessage:'error-message'});
             this.setState({errorMessage:'error-message-hide'});
         } else {
+            console.log("I AM HERE THEN");
             let self = this;
+            this.setState({disabledSubmit: true});
+
             axios.post('/api/registerTutor', this.state)
                 .then(function (response) {
                     console.log(response);
+                    console.log(self.state.username);
                     if (response.data.success) {
-                        document.location.href = '/home/login';
-                        console.log("registration successful");
+                        axios.post('/calendar/createNewCalendar', {id: self.state.username})
+                            .then(function(response){
+                                self.setState({disabledSubmit: false});
+                                console.log("registration successful");
+                                document.location.href = '/home/login';
+                            })
+                            .catch(function(error){
+                                console.log(error);
+                                self.setState({disabledSubmit: false});
+                            });
+                        
                     } else {
                         //registration failed
                         self.setState({errorMessage:'error-message'});
                         self.setState({inputErrorMessage:'error-message-hide'});
                         self.setState({errorMessageContent: response.data.error_message});
-
+                        self.setState({disabledSubmit: false});
                     }
 
                 })
@@ -159,6 +183,7 @@ class SignUpTutor extends React.Component {
                     console.log(error);
                     self.setState({errorMessage:'error-message'});
                     self.setState({inputErrorMessage:'error-message-hide'});
+                    self.setState({disabledSubmit: false});
                 });
         }
     }
@@ -234,6 +259,7 @@ class SignUpTutor extends React.Component {
                         className="signup-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
                         type="submit"
                         value="SUBMIT"
+                        disabled={this.state.disabledSubmit}
                         onClick={this.handleSubmit}/>
                 </div>
                 <h5 className={'col-xs-12 ' + this.state.inputErrorMessage}>one or more fields invalid</h5>

@@ -28,11 +28,11 @@ class UpcomingEvents extends React.Component {
                 events = this.props.user.availability[dayName];
                 for (event in events) {
                     if (!((day === today) && (todayHours > events[event].end_time))) {
-                        renEvents.push(<TutorUpcomingEvent dayName={dayName} today={ dayName === days[today] } startTime={events[event].start_time} endTime={events[event].end_time}/>);
+                        renEvents.push(<TutorUpcomingEvent tutorId={this.props.user._id} calId={this.props.user.calendarId} email={this.props.user.email} dayName={dayName} today={ dayName === days[today] } startTime={events[event].start_time} endTime={events[event].end_time}/>);
                         count++;
                     }
                 }
-                day = (day + 1)%7;
+                day = (day + 1) % 7;
                 dayName = days[day];
                 totalCount++;
             }
@@ -104,7 +104,6 @@ class UpcomingEvents extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    console.log(state);
     return state;
 };
 
