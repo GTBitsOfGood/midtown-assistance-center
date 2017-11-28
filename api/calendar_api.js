@@ -235,4 +235,56 @@ app.post('/studentGetHangoutLink', function(req, res){
 
 });
 
+app.post('/endCalendarEvent', function(req, res){
+  let tutorId = req.body.tutorId
+  data_access.users.getUser(tutorId, function(err, tutor) {
+    if (err) {
+        res.send({
+            success: false,
+            payload: null,
+            error: error
+        });
+        return;
+    }
+    let eventId = tutor.tutoringEventId;
+    let calendarId = tutor.calendarId;
+
+    tutor.tutoringEventId = "";
+
+    data_access.users.saveTutor(tutor, function(err, updatedTutor) {
+        if (err) {
+            res.send({
+                success: false,
+                payload: null,
+                error: error
+            });
+            return;
+        }
+
+        google.calendar.events.delete({
+          auth: google.auth,
+          calendarId: calendarId,
+          eventId: eventId
+        }, function(err, response){
+          if (err) {
+            res.send({
+                success: false,
+                payload: null,
+                error: error
+            });
+            return;
+          }
+
+          res.send({
+                success: true,
+                payload: null,
+                error: null
+          });
+          
+        });
+    });
+
+  });
+});
+
 export default app;
