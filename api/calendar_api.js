@@ -111,9 +111,6 @@ app.post('/createEvent', function(req, res){
         "attendees": [
           {
             "email": tutorEmail,
-          },
-          {
-            "email": "tejunareddy@gmail.com"
           }
         ],
         "start": {
@@ -146,7 +143,7 @@ app.post('/createEvent', function(req, res){
         }
 
         // Update the tutor with the hangout link that was just created for him
-        tutor.hangoutsLink = response.hangoutLink;
+        tutor.tutoringEventId = response.id;
 
         data_access.users.saveTutor(tutor, function(err, updatedTutor) {
           if (err) {
@@ -176,6 +173,56 @@ app.post('/createEvent', function(req, res){
 
 
 
+
+});
+
+app.post('/studentGetHangoutLink', function(req, res){
+  let eventId = req.body.eventId;
+  let email = req.body.email;
+  let calendarId = req.body.calendarId;
+
+  google.auth.refreshAccessToken(function(err, token) {
+    if (err) {
+      console.log('Error while trying to retrieve access token', err);
+      res.json({
+          success: false,
+          link: false,
+          error: err
+      });
+      return;
+    }
+    google.auth.credentials = token;
+
+    google.calendar.events({
+      auth: google.auth,
+      calendarId: calendarId,
+      eventId: eventId,
+      resource: {
+        "attendees": [
+          {
+            "email": email
+          }
+        ]
+      }
+    }, function(err, response) {
+      if (err) {
+        res.send({
+            success: false,
+            payload: null,
+            error: err
+        });
+        return
+      }
+
+      res.json({
+            success: true,
+            link: response.hangoutLink,
+            error: null
+      });
+    });
+
+
+  });  
 
 });
 
