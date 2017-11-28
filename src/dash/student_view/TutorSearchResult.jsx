@@ -29,8 +29,9 @@ class TutorSearchResult extends React.Component {
 
     onHangoutsButton() {
       let body = {
-        eventId: this.props.data.hangoutsLink,
-        email: this.props.data.email
+        eventId: this.props.data.eventId,
+        email: this.props.studentEmail,
+        calendarId: this.props.data.calendarId
       };
 
       axios.post('/calendar/studentGetHangoutLink', body)
