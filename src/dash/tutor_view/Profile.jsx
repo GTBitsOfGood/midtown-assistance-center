@@ -5,12 +5,14 @@ import {saveTutor} from '../../redux/actions/user_actions';
 
 import TimePicker from './TimePicker.jsx';
 
+const DAYS_OF_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 class Profile extends React.Component {
 
     constructor(props) {
         super(props);
         this.initAvailabilityList = this.initAvailabilityList.bind(this);
-        let list = this.initAvailabilityList();
+        let list = this.initAvailabilityList(this.props.user.availability);
 
         this.state = {
             bio: this.props.user.bio,
@@ -32,21 +34,26 @@ class Profile extends React.Component {
         this.unflatten = this.unflatten.bind(this);
     }
 
-    initAvailabilityList() {
+    initAvailabilityList(availability) {
         let availabilityItems = [];
-        Object.keys(this.props.user.availability).map((date, index) => {
-            let item = this.props.user.availability[date];
-            for (event in this.props.user.availability[date]) {
+        Object.keys(availability).map((date, index) => {
+            let item = availability[date];
+            for (event in availability[date]) {
                 availabilityItems.push(
                     {
                         date: date,
-                        start: this.props.user.availability[date][event]["start_time"],
-                        end: this.props.user.availability[date][event]["end_time"]
+                        start: availability[date][event]["start_time"],
+                        end: availability[date][event]["end_time"]
                     }
                 );
             }
         });
-        console.log("!@#$", availabilityItems);
+        availabilityItems.sort(function(a, b) {
+            if (a.date === b.date) {
+                return a.start.localeCompare(b.start);
+            }
+            return DAYS_OF_WEEK.indexOf(a.date) - DAYS_OF_WEEK.indexOf(b.date);
+        });
         return availabilityItems;
     }
 
@@ -71,8 +78,8 @@ class Profile extends React.Component {
         new_user.email = this.state.email;
         new_user.bio = this.state.bio;
         new_user.availability = this.unflatten();
+        this.setState({availabilityList: this.initAvailabilityList(new_user.availability)});
         this.props.saveUser(new_user);
-        this.setState({availabilityList: this.initAvailabilityList()});
     }
 
     handleEdit() {
