@@ -107,8 +107,12 @@ class Profile extends React.Component {
     handleAddSchedule() {
         // default new schedule is Monday
         if (this.state.is_edit) {
-            let temp = this.state.availability;
-            temp['Monday'].push({start_time: '00:00', end_time: '00:00'});
+            let temp = this.state.availabilityList;
+            temp.push({
+                date: "Monday",
+                start: "00:00",
+                end: "00:00"
+            });
             this.setState({availability: temp});
         }
     }
@@ -132,12 +136,9 @@ class Profile extends React.Component {
         this.setState({email: event.target.value});
     }
 
-
-
     render() {
         let availabilityItems = [];
         for (event in this.state.availabilityList) {
-            console.log("!@#$", event);
             availabilityItems.push(
                 <div className="time-item">
                     <TimePicker
