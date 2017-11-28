@@ -9,12 +9,16 @@ class Profile extends React.Component {
 
     constructor(props) {
         super(props);
+        this.initAvailabilityList = this.initAvailabilityList.bind(this);
+        let list = this.initAvailabilityList();
+
         this.state = {
             bio: this.props.user.bio,
             email: this.props.user.email,
             is_edit: false,
             button_text: 'Edit',
-            availability: this.props.user.availability
+            availability: this.props.user.availability,
+            availabilityList: list
         };
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
@@ -25,6 +29,25 @@ class Profile extends React.Component {
         this.handleAddSchedule = this.handleAddSchedule.bind(this);
         this.handleRemoveSchedule = this.handleRemoveSchedule.bind(this);
         this.handleSave = this.handleSave.bind(this);
+        // this.initAvailabilityList();
+    }
+
+    initAvailabilityList() {
+        let availabilityItems = [];
+        Object.keys(this.props.user.availability).map((date, index) => {
+            let item = this.props.user.availability[date];
+            for (event in this.props.user.availability[date]) {
+                availabilityItems.push(
+                    {
+                        date: date,
+                        start: this.props.user.availability[date][event]["start_time"],
+                        end: this.props.user.availability[date][event]["end_time"]
+                    }
+                );
+            }
+        });
+        console.log("!@#$", availabilityItems);
+        return availabilityItems;
     }
 
     handleSave() {
@@ -113,25 +136,43 @@ class Profile extends React.Component {
 
     render() {
         let availabilityItems = [];
-        Object.keys(this.state.availability).map((date, index) => {
-            let item = this.state.availability[date];
-            for (event in this.state.availability[date]) {
-                availabilityItems.push(
-                    <div className="time-item">
-                        <TimePicker
-                            key={index}
-                            date={ date }
-                            start={ item[event].start_time }
-                            end={ item[event].end_time }
-                            is_edit={ this.state.is_edit }
-                            handleRemoveSchedule = {this.handleRemoveSchedule}
-                            handleEditStart = {this.handleEditStart}
-                            handleEditEnd = {this.handleEditEnd}
-                            handleEditDate = {this.handleEditDate}/>
-                    </div>
-                );
-            }
-        });
+        for (event in this.state.availabilityList) {
+            console.log("!@#$", event);
+            availabilityItems.push(
+                <div className="time-item">
+                    <TimePicker
+                        key={event}
+                        date={ this.state.availabilityList[event].date }
+                        start={ this.state.availabilityList[event].start }
+                        end={ this.state.availabilityList[event].end }
+                        is_edit={ this.state.is_edit }
+                        handleRemoveSchedule = {this.handleRemoveSchedule}
+                        handleEditStart = {this.handleEditStart}
+                        handleEditEnd = {this.handleEditEnd}
+                        handleEditDate = {this.handleEditDate}/>
+                </div>
+            );
+        }
+        // Object.keys(this.state.availability).map((date, index) => {
+        //     let item = this.state.availability[date];
+        //     for (event in this.state.availability[date]) {
+        //         availabilityItems.push(
+        //             <div className="time-item">
+        //                 <TimePicker
+        //                     key={index}
+        //                     date={ date }
+        //                     start={ item[event].start_time }
+        //                     end={ item[event].end_time }
+        //                     is_edit={ this.state.is_edit }
+        //                     handleRemoveSchedule = {this.handleRemoveSchedule}
+        //                     handleEditStart = {this.handleEditStart}
+        //                     handleEditEnd = {this.handleEditEnd}
+        //                     handleEditDate = {this.handleEditDate}/>
+        //             </div>
+        //         );
+        //     }
+        // });
+
 
         return (
             <div className="row tutor-dash animated fadeInLeft">
