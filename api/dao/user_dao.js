@@ -101,6 +101,7 @@ module.exports = {
 
         } else if (docs.length === 1) {
           // Found a tutor with the same username
+
           callback(null, docs[0]);
         } else if (docs.length > 1) {
           console.error('Multiple tutors with username', username);
@@ -121,7 +122,7 @@ module.exports = {
 
             } else {
               // No tutors or students with that username!
-              callback(null, null);
+              callback('No tutors or students found', null);
             }
           });
         }

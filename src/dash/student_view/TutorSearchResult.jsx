@@ -1,24 +1,18 @@
 import React from 'react';
 import TutorReviewModal from './TutorReviewModal.jsx';
+import axios from 'axios';
 
 class TutorSearchResult extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            name: this.props.data.first_name ? this.props.data.first_name : 'NoName',
-            availability: this.props.data.availability ? this.props.data.availability : '',
-            profile_picture: this.props.data.profile_picture ? this.props.data.profile_picture : '',
-            bio: this.props.data.bio ? this.props.data.bio : '',
-            online: this.props.data.online ? this.props.data.online : '',
-            subjects: this.props.data.subjects ? this.props.data.subjects : '',
-            class_standing: this.props.data.class_standing ? this.props.data.class_standing : '',
-            rating: this.props.data.rating ? this.props.data.rating : '',
-            gender: this.props.data.gender ? this.props.data.gender : '',
-            id: this.props.id ? this.props.id : '',
             fullStars:0,
             halfStars:0,
             emptyStars:0,
         };
+
+        this.updateRating = this.updateRating.bind(this);
+        this.onHangoutsButton = this.onHangoutsButton.bind(this);
     }
 
     componentDidMount() {
@@ -31,6 +25,33 @@ class TutorSearchResult extends React.Component {
         emptyStars: (5 - Math.ceil(this.props.data.rating)),
         fullStars: Math.floor(this.props.data.rating)
       });
+    }
+
+    onHangoutsButton() {
+      let body = {
+        eventId: this.props.data.tutoringEventId,
+        email: this.props.studentEmail,
+        calendarId: this.props.data.calendarId
+      };
+
+      console.log(body);
+
+      let self = this;
+      axios.post('/calendar/studentGetHangoutLink', body)
+        .then(function(response){
+          console.log(response);
+          if (response.data.success) {
+            self.setState({
+              hangoutsLink: response.data.link,
+            });
+            window.open(response.data.link, "_blank");
+          } else {
+            console.log(response.data.error);
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
     }
 
     render() {
@@ -82,8 +103,8 @@ class TutorSearchResult extends React.Component {
                             <div className="request_hangout text-center">
                                 <h3 className="text-center"><strong>Request a Google Hangouts meeting with {this.props.data.first_name}</strong>
                                 </h3>
-                                <button className="btn btn-lg btn-default mac_button" type="button" data-toggle="modal" data-target={"#Modal_" + this.props.data.first_name}>
-                                    Click Here
+                                <button className="btn btn-lg btn-default mac_button" type="button" data-toggle="modal" data-target={"#Modal_" + this.props.data.first_name} disabled={!this.props.data.tutoringEventId} onClick={this.onHangoutsButton}>
+                                  {this.props.data.tutoringEventId? 'Click Here To Access' : 'Session Not Active'}
                                 </button>
                             </div>
                         </div>
@@ -96,4 +117,3 @@ class TutorSearchResult extends React.Component {
     }
 }
 export default TutorSearchResult;
-
