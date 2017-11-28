@@ -1,6 +1,7 @@
 import express from 'express';
 import ApiRouter from './api/api.js';
 import passportRoutes from './passportConfig';
+import calendar_api from './api/calendar_api';
 
 let bodyParser = require('body-parser');
 let Raven = require('raven');
@@ -15,6 +16,7 @@ server.set('views', './views');
 server.set('view engine', 'ejs');
 server.use('/api', ApiRouter);
 server.use('/', passportRoutes);
+server.use('/calendar', calendar_api);
 
 server.get('/', allowIfLoggedOut, (req, res) => {
     res.redirect('/home/about');

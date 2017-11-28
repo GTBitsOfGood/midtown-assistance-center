@@ -8,19 +8,36 @@ import axios from 'axios';
 class StudentDashboard extends React.Component {
     constructor(props) {
         super(props);
+        this.state = {
+          searchType: 'online',
+          subject: undefined,
+          time: undefined
+        };
+
         this.handleSearchClicked = this.handleSearchClicked.bind(this);
         this.updateTutors = this.updateTutors.bind(this);
     }
 
     componentWillMount() {
-        this.updateTutors("online", undefined, undefined);
+        this.updateTutors();
+        setInterval(this.updateTutors, 5000)
     }
 
     handleSearchClicked(subject, time) {
-        this.updateTutors("searchResults", subject, time);
+        // NOTE don't use this.setState because we don't want to re-render here
+        this.state = {
+          searchType: 'searchResults',
+          subject: subject,
+          time: time
+        };
+        this.updateTutors();
     }
 
-    updateTutors(searchType, subject, time) {
+    updateTutors() {
+        let searchType = this.state.searchType;
+        let subject = this.state.subject;
+        let time = this.state.time;
+
         let self = this;
         let data = {};
         if (searchType !== "online") {

@@ -17,7 +17,6 @@ app.get('/onlineTutors', (req, res) => {
 
 app.post('/registerTutor', (req, res) => {
     //Add this information to the database
-    console.log(req.body);
     data_access.users.checkIfUsernameIsTaken(req.body.username, function(err, resultUsername){
         if (err) {
             console.log(err);
@@ -37,10 +36,15 @@ app.post('/registerTutor', (req, res) => {
                             _id: req.body.username,
                             password: req.body.password,
                             join_date: Date.now(),
-                            status: 'in review'
+                            status: true,
+                            availability: req.body.availability
                         }, function(err, user_instance){
                             if (err) {
                                 console.log(err);
+                                res.send({
+                                    success: false,
+                                    error_message: 'Unknown error'
+                                });
                             } else {
                                 res.send({
                                     success: true,
