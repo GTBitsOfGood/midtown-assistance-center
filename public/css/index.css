@@ -379,9 +379,12 @@ body {
     width: 100%;
 }
 
+.subject-input,.time-input {
+    border: 1px solid var(--gray);
+}
+
 .subject-input:disabled, .time-input:disabled {
     background-color: var(--primaryLight);
-    border: 1px solid var(--gray);
 }
 
 .statistics {
