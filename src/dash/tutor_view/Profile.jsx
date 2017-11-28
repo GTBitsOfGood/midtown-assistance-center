@@ -48,20 +48,21 @@ class Profile extends React.Component {
         }
     }
 
-    handleEditStart(date, start_time, end_time) {
+    handleEditStart(date, start_time, end_time, prev_start) {
         let temp = this.state.availability;
         for (let slot in temp[date]) {
-            if (temp[date][slot]["end_time"] === end_time) {
+            if (temp[date][slot]["start_time"] === prev_start && temp[date][slot]["end_time"] === end_time) {
                 temp[date][slot]["start_time"] = start_time;
+                break;
             }
         }
         this.setState({availability: temp});
     }
 
-    handleEditEnd(date, start_time, end_time) {
+    handleEditEnd(date, start_time, end_time, prev_end) {
         let temp = this.state.availability;
         for (let slot in temp[date]) {
-            if (temp[date][slot]["start_time"] === start_time) {
+            if (temp[date][slot]["start_time"] === start_time && temp[date][slot]["end_time"] === prev_end) {
                 temp[date][slot]["end_time"] = end_time;
             }
         }

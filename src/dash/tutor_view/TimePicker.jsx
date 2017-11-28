@@ -13,12 +13,12 @@ class TimePicker extends React.Component {
     }
 
     handleStartChange(event) {
-        this.props.handleEditStart(this.props.date, event.target.value, this.props.end);
-        //this.setState({start: event.target.value });
+        this.props.handleEditStart(this.props.date, event.target.value, this.props.end, this.props.start);
+        // this.setState({start: event.target.value});
     }
 
     handleEndChange(event) {
-        this.props.handleEditEnd(this.props.date, this.props.start, event.target.value);
+        this.props.handleEditEnd(this.props.date, this.props.start, event.target.value, this.props.end);
         //this.setState({end: event.target.value });
     }
 
