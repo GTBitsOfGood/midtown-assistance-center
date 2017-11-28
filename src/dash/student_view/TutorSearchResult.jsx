@@ -1,5 +1,6 @@
 import React from 'react';
 import TutorReviewModal from './TutorReviewModal.jsx';
+import axios from 'axios';
 
 class TutorSearchResult extends React.Component {
     constructor(props) {
@@ -26,8 +27,27 @@ class TutorSearchResult extends React.Component {
       });
     }
 
-    onHangoutsButton(e) {
-      window.open('' + this.props.data.hangoutsLink);
+    onHangoutsButton() {
+      let body = {
+        eventId: this.props.data.hangoutsLink,
+        email: this.props.data.email
+      };
+
+      axios.post('/calendar/studentGetHangoutLink', body)
+        .then(function(response){
+          console.log(response);
+          if (response.data.success) {
+            this.setState({
+              hangoutsLink: response.data.link,
+            });
+            window.open(response.data.link, "_blank");
+          } else {
+            console.log(response.data.error);
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
     }
 
     render() {

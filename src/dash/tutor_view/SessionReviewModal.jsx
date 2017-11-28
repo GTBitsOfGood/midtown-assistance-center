@@ -13,7 +13,7 @@ class SessionModal extends React.Component {
             rating: 0,
             satisfaction: '',
             error_message:'hide'
-        }
+        };
         this.changeStar = this.changeStar.bind(this);
         this.setRating = this.setRating.bind(this);
         this.changeStarOut = this.changeStarOut.bind(this);
