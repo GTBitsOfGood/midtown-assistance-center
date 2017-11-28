@@ -193,33 +193,42 @@ app.post('/studentGetHangoutLink', function(req, res){
     }
     google.auth.credentials = token;
 
-    google.calendar.events.update({
+    google.calendar.events.get({
       auth: google.auth,
       calendarId: calendarId,
-      eventId: eventId,
-      resource: {
-        "attendees": [
-          {
-            "email": email
+      eventId: eventId
+    }, function(err, response){
+         let attend = response.attendees;
+         attend.push({"email": email});
+         google.calendar.events.update({
+          auth: google.auth,
+          calendarId: calendarId,
+          eventId: eventId,
+          resource: {
+            "start": response.start,
+            "end": response.end,
+            "attendees": attend
           }
-        ]
-      }
-    }, function(err, response) {
-      if (err) {
-        res.send({
-            success: false,
-            payload: null,
-            error: err
-        });
-        return
-      }
+        }, function(err, response) {
+          if (err) {
+            res.send({
+                success: false,
+                payload: null,
+                error: err
+            });
+            return
+          }
 
-      res.json({
-            success: true,
-            link: response.hangoutLink,
-            error: null
-      });
+          res.json({
+                success: true,
+                link: response.hangoutLink,
+                error: null
+          });
+        });
+
     });
+
+   
 
 
   });  
