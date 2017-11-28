@@ -95,6 +95,7 @@ class SessionModal extends React.Component {
                         <span onMouseOver = {() => this.changeStar(4)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(4)}><img className="star" src={this.state.fourth_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"></img></span>
                         <span onMouseOver = {() => this.changeStar(5)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(5)}><img className="star" src={this.state.fifth_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"></img></span>
                         <span><h3 className="rating-span">({this.state.rating}/5) {this.state.satisfaction}</h3></span>
+                        <h5><a href={this.props.hangoutsLink}>Click here to re-enter the hangouts</a></h5>
                         <h5>Leave some comments about any issues or misbehaving students (optional)</h5>
                         <textarea className="input-lg input feedback-text"></textarea>
                     </div>
