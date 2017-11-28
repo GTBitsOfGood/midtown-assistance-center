@@ -29,16 +29,19 @@ class TutorSearchResult extends React.Component {
 
     onHangoutsButton() {
       let body = {
-        eventId: this.props.data.eventId,
+        eventId: this.props.data.tutoringEventId,
         email: this.props.studentEmail,
         calendarId: this.props.data.calendarId
       };
 
+      console.log(body);
+
+      let self = this;
       axios.post('/calendar/studentGetHangoutLink', body)
         .then(function(response){
           console.log(response);
           if (response.data.success) {
-            this.setState({
+            self.setState({
               hangoutsLink: response.data.link,
             });
             window.open(response.data.link, "_blank");
@@ -100,8 +103,8 @@ class TutorSearchResult extends React.Component {
                             <div className="request_hangout text-center">
                                 <h3 className="text-center"><strong>Request a Google Hangouts meeting with {this.props.data.first_name}</strong>
                                 </h3>
-                                <button className="btn btn-lg btn-default mac_button" type="button" data-toggle="modal" data-target={"#Modal_" + this.props.data.first_name} disabled={!this.props.data.hangoutsLink} onClick={this.onHangoutsButton}>
-                                  {this.props.data.hangoutsLink? 'Click Here To Access' : 'Session Not Active'}
+                                <button className="btn btn-lg btn-default mac_button" type="button" data-toggle="modal" data-target={"#Modal_" + this.props.data.first_name} disabled={!this.props.data.tutoringEventId} onClick={this.onHangoutsButton}>
+                                  {this.props.data.tutoringEventId? 'Click Here To Access' : 'Session Not Active'}
                                 </button>
                             </div>
                         </div>

@@ -24,6 +24,7 @@ class TutorUpcomingEvent extends React.Component {
         };
 
         console.log(requestBody);
+
         let self = this;
         axios.post('/calendar/createEvent', requestBody)
             .then(function(response){
