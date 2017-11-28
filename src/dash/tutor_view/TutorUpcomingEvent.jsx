@@ -24,12 +24,12 @@ class TutorUpcomingEvent extends React.Component {
         };
 
         console.log(requestBody);
-
+        let self = this;
         axios.post('/calendar/createEvent', requestBody)
             .then(function(response){
                 console.log(response);
                 if (response.data.success) {
-                    this.setState({
+                    self.setState({
                       hangoutsLink: response.data.link,
                     });
                     window.open(response.data.link, "_blank");

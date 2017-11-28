@@ -193,7 +193,7 @@ app.post('/studentGetHangoutLink', function(req, res){
     }
     google.auth.credentials = token;
 
-    google.calendar.events({
+    google.calendar.events.update({
       auth: google.auth,
       calendarId: calendarId,
       eventId: eventId,
