@@ -29,25 +29,28 @@ class SubjectPicker extends React.Component {
     }
 
     render() {
-        const renData = <span>
-            <span className="subject-pick">
+        const renData = <div className="row input-group">
+            <span className="subject-pick col-md-4">
                 <label>Subject: </label>
-                <input type="text" value={ this.props.subject } onChange={ this.handleSubjectChange } disabled={ !this.props.is_edit }/>
+                <input className="input input-sm subject-input" type="text" value={ this.props.subject } onChange={ this.handleSubjectChange } disabled={ !this.props.is_edit }/>
             </span>
-            <span className="time-pick">
-                <label>Start Grade: </label>
-                <input type="number" min="6" max="12" value={ this.props.start } onChange={ this.handleStartChange } disabled={ !this.props.is_edit }/>
+            <span className="subject-pick col-md-2">
+                <label>Start: </label>
+                <input className="input input-sm subject-input" type="number" min="6" max="12" value={ this.props.start } onChange={ this.handleStartChange } disabled={ !this.props.is_edit }/>
             </span>
-            <span className="time-pick">
-                <label>End Grade: </label>
-                <input type="number" min="6" max="12" value={ this.props.end } onChange={ this.handleEndChange } disabled={ !this.props.is_edit }/>
+            <span className="subject-pick col-md-2">
+                <label>End: </label>
+                <input className="input input-sm subject-input" type="number" min="6" max="12" value={ this.props.end } onChange={ this.handleEndChange } disabled={ !this.props.is_edit }/>
             </span>
+            <span className="edit-subject-btn col-md-4">
+            <label className="white">: </label>
             <button
                 value={this.props.key}
-                className="btn btn-danger btn-sm"
+                className="btn btn-danger btn-sm subject-button"
                 onClick={ this.handleRemoveClick }
                 disabled={ !this.props.is_edit }>Remove</button>
-        </span>;
+            </span>
+        </div>;
         return this.state.show ? renData : null;
 
     }

@@ -277,7 +277,7 @@ class Profile extends React.Component {
                                             <i className="glyphicon glyphicon-apple"></i> Subjects:
                                             { subjectItems }
                                             <button
-                                                className="btn btn-success"
+                                                className="btn btn-success add-subject"
                                                 onClick={ this.handleAddSubject }
                                                 disabled={ !this.state.is_edit }>
                                                 Add a Subject
@@ -289,7 +289,7 @@ class Profile extends React.Component {
                                             <i className="glyphicon glyphicon-time"></i> Schedule:
                                             { availabilityItems }
                                             <button
-                                                className="btn btn-success"
+                                                className="btn btn-success add-time"
                                                 onClick={ this.handleAddSchedule }
                                                 disabled={ !this.state.is_edit }>
                                                 Add a time

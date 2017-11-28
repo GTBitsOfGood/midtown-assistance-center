@@ -361,6 +361,29 @@ body {
     display: inline-block;
 }
 
+.add-subject, .add-time {
+    margin-top: 2%;
+    margin-bottom: 5%;
+}
+
+.subject-pick {
+    display: inline-block;
+}
+
+.time-pick {
+    padding: 0 2% 0 2%;
+}
+
+.subject-input, .subject-button, .time-input, .time-button {
+    height: 30px;
+    width: 100%;
+}
+
+.subject-input:disabled, .time-input:disabled {
+    background-color: var(--primaryLight);
+    border: 1px solid var(--gray);
+}
+
 .statistics {
     /*width: 500px;*/
     margin: auto;
@@ -461,5 +484,9 @@ body {
 .modal-error-show {
     display: block;
     color: var(--error_red);
+}
+
+.white {
+    color: white;
 }
 
