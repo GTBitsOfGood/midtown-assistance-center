@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 class SessionModal extends React.Component {
     constructor(props) {
@@ -69,9 +70,22 @@ class SessionModal extends React.Component {
         if (this.state.rating == 0) {
             this.setState({error_message:'show'});
         } else {
+            axios.post('/calendar/endCalendarEvent', {
+                tutorId: this.props.tutorId
+            })
+            .then(function(response){
+                if (response.data.success) {
+                    this.setState({error_message:'hide'});
+                    $(".modal").modal('hide');
+                } else {
+                    console.log(response.data.error);
+                }
+            })
+            .catch(function(error){
+                console.log(error);
+            });
             //TODO: somehow store the tutor's review/rating
-            this.setState({error_message:'hide'});
-            $(".modal").modal('hide');
+            
         }
     }
 

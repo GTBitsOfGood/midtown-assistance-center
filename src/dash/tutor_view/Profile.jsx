@@ -5,16 +5,25 @@ import {saveTutor} from '../../redux/actions/user_actions';
 
 import TimePicker from './TimePicker.jsx';
 
+import SubjectPicker from './SubjectPicker.jsx';
+
+const DAYS_OF_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
 class Profile extends React.Component {
 
     constructor(props) {
         super(props);
+        this.initAvailabilityList = this.initAvailabilityList.bind(this);
+        let list = this.initAvailabilityList(this.props.user.availability);
+
         this.state = {
             bio: this.props.user.bio,
             email: this.props.user.email,
             is_edit: false,
             button_text: 'Edit',
-            availability: this.props.user.availability
+            availability: this.props.user.availability,
+            availabilityList: list,
+            subjects:this.props.user.subjects
         };
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
@@ -22,9 +31,53 @@ class Profile extends React.Component {
         this.handleEditStart = this.handleEditStart.bind(this);
         this.handleEditEnd = this.handleEditEnd.bind(this);
         this.handleEditDate = this.handleEditDate.bind(this);
+        this.handleEditStartGrade = this.handleEditStartGrade.bind(this);
+        this.handleEditEndGrade = this.handleEditEndGrade.bind(this);
+        this.handleEditSubject = this.handleEditSubject.bind(this);
         this.handleAddSchedule = this.handleAddSchedule.bind(this);
+        this.handleAddSubject = this.handleAddSubject.bind(this);
+        this.handleRemoveSubject = this.handleRemoveSubject.bind(this);
         this.handleRemoveSchedule = this.handleRemoveSchedule.bind(this);
         this.handleSave = this.handleSave.bind(this);
+        this.unflatten = this.unflatten.bind(this);
+    }
+
+    initAvailabilityList(availability) {
+        let availabilityItems = [];
+        Object.keys(availability).map((date, index) => {
+            let item = availability[date];
+            for (event in availability[date]) {
+                availabilityItems.push(
+                    {
+                        date: date,
+                        start: availability[date][event]["start_time"],
+                        end: availability[date][event]["end_time"]
+                    }
+                );
+            }
+        });
+        availabilityItems.sort(function(a, b) {
+            if (a.date === b.date) {
+                return a.start.localeCompare(b.start);
+            }
+            return DAYS_OF_WEEK.indexOf(a.date) - DAYS_OF_WEEK.indexOf(b.date);
+        });
+        return availabilityItems;
+    }
+
+    unflatten() {
+        let temp = {};
+        for (let ind in this.state.availabilityList) {
+            let item = this.state.availabilityList[ind];
+            if (!(item.date in temp)) {
+                temp[item.date] = []
+            }
+            temp[item.date].push({
+                "start_time": item.start,
+                "end_time": item.end
+            });
+        }
+        return temp;
     }
 
     handleSave() {
@@ -32,7 +85,9 @@ class Profile extends React.Component {
         let new_user = Object.assign({}, this.props.user);
         new_user.email = this.state.email;
         new_user.bio = this.state.bio;
-        new_user.availability = this.state.availability;
+        new_user.subjects = this.state.subjects;
+        new_user.availability = this.unflatten();
+        this.setState({availabilityList: this.initAvailabilityList(new_user.availability)});
         this.props.saveUser(new_user);
     }
 
@@ -48,56 +103,78 @@ class Profile extends React.Component {
         }
     }
 
-    handleEditStart(date, start_time, end_time) {
-        let temp = this.state.availability;
-        for (let slot in temp[date]) {
-            if (temp[date][slot]["end_time"] === end_time) {
-                temp[date][slot]["start_time"] = start_time;
-            }
-        }
-        this.setState({availability: temp});
+    handleEditStart(index, start) {
+        let temp = this.state.availabilityList;
+        temp[index].start = start;
+        this.setState({availabilityList: temp});
     }
 
-    handleEditEnd(date, start_time, end_time) {
-        let temp = this.state.availability;
-        for (let slot in temp[date]) {
-            if (temp[date][slot]["start_time"] === start_time) {
-                temp[date][slot]["end_time"] = end_time;
-            }
-        }
-        this.setState({availability: temp});
+    handleEditStartGrade(index, start) {
+        let temp = this.state.subjects;
+        temp[index].start_grade = start;
+        this.setState({subjects: temp});
     }
 
-    handleEditDate(prev_date, date, start_time, end_time) {
-        let temp = this.state.availability;
-        for (let slot in temp[prev_date]) {
-            if (temp[prev_date][slot]["start_time"] === start_time && temp[prev_date][slot]["end_time"] === end_time) {
-                temp[prev_date].splice(slot, 1);
-                break;
-            }
-        }
-        temp[date].push({start_time: start_time, end_time: end_time});
-        this.setState({availability: temp});
+    handleEditEnd(index, end) {
+        let temp = this.state.availabilityList;
+        temp[index].end = end;
+        this.setState({availabilityList: temp});
+    }
+
+    handleEditEndGrade(index, end) {
+        let temp = this.state.subjects;
+        temp[index].end_grade = end;
+        this.setState({subjects: temp});
+    }
+
+    handleEditDate(index, date) {
+        let temp = this.state.availabilityList;
+        temp[index].date = date;
+        this.setState({availabilityList: temp});
+    }
+
+    handleEditSubject(index, subject) {
+        let temp = this.state.subjects;
+        temp[index].subject = subject;
+        this.setState({subjects: temp});
     }
 
     handleAddSchedule() {
         // default new schedule is Monday
         if (this.state.is_edit) {
-            let temp = this.state.availability;
-            temp['Monday'].push({start_time: '00:00', end_time: '00:00'});
+            let temp = this.state.availabilityList;
+            temp.push({
+                date: "Monday",
+                start: "00:00",
+                end: "00:00"
+            });
             this.setState({availability: temp});
         }
     }
 
-    handleRemoveSchedule(date, start_time, end_time) {
-        let availabilityRemove = this.state.availability;
-        for (let slot in availabilityRemove[date]) {
-            if (availabilityRemove[date][slot]["start_time"] === start_time && availabilityRemove[date][slot]["end_time"] === end_time) {
-                availabilityRemove[date].splice(slot, 1);
-                break;
-            }
+    handleAddSubject() {
+        // default new schedule is Monday
+        if (this.state.is_edit) {
+            let temp = this.state.subjects;
+            temp.push({
+                subject: "Enter Subject",
+                start: "6",
+                end: "12"
+            });
+            this.setState({subjects: temp});
         }
-        this.setState({availability:availabilityRemove});
+    }
+
+    handleRemoveSchedule(index) {
+        let temp = this.state.availabilityList;
+        temp.splice(index, 1);
+        this.setState({availabilityList: temp});
+    }
+
+    handleRemoveSubject(index) {
+        let temp = this.state.subjects;
+        temp.splice(index, 1);
+        this.setState({subjects: temp});
     }
 
     handleBioChange(event) {
@@ -108,29 +185,42 @@ class Profile extends React.Component {
         this.setState({email: event.target.value});
     }
 
-
-
     render() {
         let availabilityItems = [];
-        Object.keys(this.state.availability).map((date, index) => {
-            let item = this.state.availability[date];
-            for (event in this.state.availability[date]) {
-                availabilityItems.push(
+        let subjectItems = [];
+        for (event in this.state.availabilityList) {
+            availabilityItems.push(
+                <div className="time-item">
+                    <TimePicker
+                        index={event}
+                        date={ this.state.availabilityList[event].date }
+                        start={ this.state.availabilityList[event].start }
+                        end={ this.state.availabilityList[event].end }
+                        is_edit={ this.state.is_edit }
+                        handleRemoveSchedule = {this.handleRemoveSchedule}
+                        handleEditStart = {this.handleEditStart}
+                        handleEditEnd = {this.handleEditEnd}
+                        handleEditDate = {this.handleEditDate}/>
+                </div>
+            );
+        }
+        for (event in this.state.subjects) {
+                subjectItems.push(
                     <div className="time-item">
-                        <TimePicker
-                            key={index}
-                            date={ date }
-                            start={ item[event].start_time }
-                            end={ item[event].end_time }
+                        <SubjectPicker
+                            index={event}
+                            subject={ this.state.subjects[event].subject }
+                            start={ this.state.subjects[event].start_grade }
+                            end={ this.state.subjects[event].end_grade }
                             is_edit={ this.state.is_edit }
-                            handleRemoveSchedule = {this.handleRemoveSchedule}
-                            handleEditStart = {this.handleEditStart}
-                            handleEditEnd = {this.handleEditEnd}
-                            handleEditDate = {this.handleEditDate}/>
+                            handleRemoveSubject = {this.handleRemoveSubject}
+                            handleEditStart = {this.handleEditStartGrade}
+                            handleEditEnd = {this.handleEditEndGrade}
+                            handleEditSubject = {this.handleEditSubject}/>
                     </div>
                 );
             }
-        });
+
 
         return (
             <div className="row tutor-dash animated fadeInLeft">
@@ -150,6 +240,8 @@ class Profile extends React.Component {
                                         Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
                                     </cite></small>
                                     <h3>{ this.props.user._id }</h3>
+                                    </div>
+                                    <div className="col-sm-12">
                                     <div className="form-group">
                                         <div className="row">
                                             <div className="col-xs-12">
@@ -182,10 +274,22 @@ class Profile extends React.Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-xs-12">
+                                            <i className="glyphicon glyphicon-apple"></i> Subjects:
+                                            { subjectItems }
+                                            <button
+                                                className="btn btn-success add-subject"
+                                                onClick={ this.handleAddSubject }
+                                                disabled={ !this.state.is_edit }>
+                                                Add a Subject
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-xs-12">
                                             <i className="glyphicon glyphicon-time"></i> Schedule:
                                             { availabilityItems }
                                             <button
-                                                className="btn btn-success"
+                                                className="btn btn-success add-time"
                                                 onClick={ this.handleAddSchedule }
                                                 disabled={ !this.state.is_edit }>
                                                 Add a time
