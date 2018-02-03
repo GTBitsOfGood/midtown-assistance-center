@@ -1,0 +1,36 @@
+@charset "utf-8";
+
+:root {
+    /*--gold: #d4af37;*/
+    --gold: #EEB211;
+    --gray: #aeb7b3;
+    --ltgray: #f1f6f7;
+    --dkgray: #5f6462;
+    --purple: #160c28;
+    --black: #000411;
+    --blackhover: #222633;
+    --lighterblack: #383B47;
+    --tutorBorderColor: var(--gray);
+    --primaryLight: #EEEEEE;
+    --error_red: #D8000C;
+}
+
+body {
+	height: 100vh;
+	width: 100vw;
+    font-family: 'Lato', sans-serif;
+}
+
+body_wrapper {
+    height: 100vh;
+    width: calc(100%-225px);
+}
+
+/* ================================= NAVIGATION ================================ */
+
+.admin_nav {
+    height: 100vh;
+    background-color: var(--blackhover);
+    width:225px;
+    box-shadow: 0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22);
+}

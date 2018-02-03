@@ -39,7 +39,7 @@ function allowIfLoggedOut(req, res, next) {
     if (!req.user) {
         next();
     } else {
-        res.redirect('/dash');
+        //res.redirect('/dash');
     }
 }
 
