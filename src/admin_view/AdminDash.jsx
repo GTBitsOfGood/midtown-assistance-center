@@ -2,6 +2,11 @@ import React from 'react';
 import ApproveTutors from './ApproveTutors.jsx';
 import TutorStatistics from './TutorStatistics.jsx';
 import Members from './Members.jsx';
+import { Provider } from 'react-redux';
+import store from '../redux/store.js';
+import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import { connect } from 'react-redux';
+import axios from 'axios';
 
 const tutors = [
     {
@@ -166,3 +171,10 @@ class DefaultAdminDash extends React.Component {
 }
 
 export default DefaultAdminDash;
+
+ReactDOM.render(
+    <Provider store={store}>
+        <DefaultAdminDash/>
+    </Provider>,
+    document.getElementById('root')
+);
