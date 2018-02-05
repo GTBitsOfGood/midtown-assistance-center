@@ -1,6 +1,6 @@
 import React from 'react';
-import ApproveTutors from './ApproveTutors.jsx';
-import TutorStatistics from './TutorStatistics.jsx';
+import Approve from './pages/Approve.jsx';
+import Dashboard from './pages/Dashboard.jsx';
 import Navigation from './navigation/Navigation.jsx';
 import Members from './Members.jsx';
 import { Provider } from 'react-redux';
@@ -17,11 +17,17 @@ class DefaultAdminDash extends React.Component {
   }
   render() {
     return (
-    <div>
-      <Navigation></Navigation>
-      <div className={styles.body_wrapper}>
-      </div>
-    </div>
+      <BrowserRouter>
+        <div className={styles.body}>
+            <Route path="/admin" component={Navigation}/>
+            <Switch>
+                <div className={styles.body_wrapper}>
+                    <Route exact path="/admin/dashboard" component={Dashboard}/>
+                    <Route exact path="/admin/approve" component={Approve} />
+                </div>
+            </Switch>
+        </div>
+      </BrowserRouter>
     );
   }
 }
