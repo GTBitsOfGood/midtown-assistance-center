@@ -161,6 +161,7 @@ class SignUpTutor extends React.Component {
                     if (response.data.success) {
                         axios.post('/calendar/createNewCalendar', {id: self.state.username})
                             .then(function(response){
+                                console.log(response);
                                 self.setState({disabledSubmit: false});
                                 console.log("registration successful");
                                 document.location.href = '/home/login';

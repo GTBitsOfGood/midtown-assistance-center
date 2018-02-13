@@ -12,6 +12,7 @@
     --lighterblack: #383B47;
     --tutorBorderColor: var(--gray);
     --primaryLight: #EEEEEE;
+    --primary: #AAA;
     --error_red: #D8000C;
 }
 
@@ -182,6 +183,33 @@ body {
     margin-bottom: 3%;
 }
 
+.tutor-subjects {
+    margin-bottom: 15px;
+    margin-top: 10px;
+}
+
+.subject-span, .favorite-span {
+    font-weight: 500;
+}
+
+.subject-span {
+    font-size: 1em;
+    margin-left: 10px;
+}
+
+.favorite-span {
+    margin-left: 5px;
+    font-size: 0.8em;
+    background-color: var(--gold);
+    color: var(--ltgray);
+    border-radius: 5px;
+    padding: 4px 7px;
+}
+
+.bio-text {
+    margin-bottom: 20px;
+}
+
 .request_hangout {
     margin-top: 3%;
 }
@@ -239,7 +267,11 @@ body {
 }
 
 .online-img {
-    margin-left: 0.5%;
+    margin-left: 1%;
+}
+
+.online-ic {
+    transform: translateY(-2px);
 }
 
 /*======================================== Admin Dash ========================================*/

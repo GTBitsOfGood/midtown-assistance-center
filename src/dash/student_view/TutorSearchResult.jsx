@@ -1,6 +1,9 @@
 import React from 'react';
 import TutorReviewModal from './TutorReviewModal.jsx';
+import Subject from './Subject.jsx';
 import axios from 'axios';
+
+const favorites_lst = ['Algebra', 'Java', 'Python', 'Geometry'];
 
 class TutorSearchResult extends React.Component {
     constructor(props) {
@@ -55,6 +58,8 @@ class TutorSearchResult extends React.Component {
     }
 
     render() {
+        let subjects = this.props.data.subjects.map((subject, num) => { return <Subject is_favorite={false} subject={subject.subject} start_grade={subject.start_grade} end_grade={subject.end_grade}/>});
+        let favorites = favorites_lst.map((favorite, num) => {return <Subject is_favorite={true} subject={favorite}/>});
         let stars = [];
         for (let x = 0; x < this.state.fullStars; x++) {
             stars.push(<span><img className="star" src='/images/full-star.png' width="25" height="25"></img></span>);
@@ -74,36 +79,47 @@ class TutorSearchResult extends React.Component {
                         </div>
                         <div className="">
                             <a data-toggle="collapse" className="tutor-name" data-parent="#accordion" href={'#collapse' + this.props.id}>
-                                <h2>
+                                <h3 className="">
                                     {this.props.data.first_name + ' ' + this.props.data.last_name}
                                     <span className="online-img">
-                                        <img src={this.props.data.online ? '/images/status-online.png' : '/images/status-offline.png'}></img>
+                                        <img className="online-ic" src={this.props.data.online ? '/images/status-online.png' : '/images/status-offline.png'}></img>
                                     </span>
                                     &emsp;
                                     {stars}
-                                </h2>
+                                </h3>
                             </a>
-                            <h4><strong>Subjects:</strong><span className="lighter-text"> {this.props.data.subjects.map((subject, num) => {return ' ' + subject.subject + '(' + subject.start_grade + '-' + subject.end_grade + ')' + ' ';})}</span></h4>
-                            <h4><strong>Availability:</strong><span className="lighter-text"> {Object.keys(this.props.data.availability).map((day, num) => {return (this.props.data.availability[day].length != 0 ? day + '(' + this.props.data.availability[day].map((time, num) => {return ((time.start_time.split(':')[0])%12 + ':' + time.start_time.split(':')[1] + ((time.start_time.split(':'))[0] >= 12 ? ' PM' : ' AM') + '-' + (time.end_time.split(':')[0])%12 + ':' + time.end_time.split(':')[1] + ((time.end_time.split(':'))[0] >= 12 ? ' PM' : ' AM'))}) + ') ': '') })}</span></h4>
+                            <h4 className="tutor-subjects lighter-text">Main Subjects:
+                            <span>
+                            {subjects}
+                            </span></h4>
+                            <h4 className="tutor-favorites lighter-text">Favorites:
+                            <span>
+                            {favorites}
+                            </span></h4>
+
                         </div>
                     </div>
                     <div id={'collapse' + this.props.id} className="panel-collapse collapse">
                         <div className="panel-body tutor-panel-body">
                             <div className="tutor_details container col-md-12">
                                 <div className="col-md-6">
-                                    <h3><strong>Details</strong></h3>
+                                    <h4><strong>Details</strong></h4>
                                     <h4><span><img className="small_img" src='/images/graduate-cap.png'></img></span><strong>{this.props.data.classStanding}</strong> at Georgia Tech</h4>
                                     <h4><span><img className="small_img" src={'/images/' + this.props.data.gender + '.png'}></img></span>{this.props.data.gender}</h4>
                                 </div>
                                 <div className="col-md-6">
-                                    <h3><strong>Bio </strong></h3>
-                                    <h4>{this.props.data.bio}</h4>
+                                    <h4><strong>Bio</strong></h4>
+                                    <h4 className="bio-text lighter-text">{this.props.data.bio}</h4>
+                                    <h4><strong>Availability</strong></h4>
+                                    <h4><span className="lighter-text">
+                                    {Object.keys(this.props.data.availability).map((day, num) => {return (this.props.data.availability[day].length != 0 ? day + '(' + this.props.data.availability[day].map((time, num) => {return ((time.start_time.split(':')[0])%12 + ':' + time.start_time.split(':')[1] + ((time.start_time.split(':'))[0] >= 12 ? ' PM' : ' AM') + '-' + (time.end_time.split(':')[0])%12 + ':' + time.end_time.split(':')[1] + ((time.end_time.split(':'))[0] >= 12 ? ' PM' : ' AM'))}) + ') ': '') })}
+                                    </span></h4>
                                 </div>
                             </div>
                             <div className="request_hangout text-center">
-                                <h3 className="text-center"><strong>Request a Google Hangouts meeting with {this.props.data.first_name}</strong>
-                                </h3>
-                                <button className="btn btn-lg btn-default mac_button" type="button" data-toggle="modal" data-target={"#Modal_" + this.props.data.first_name} disabled={!this.props.data.tutoringEventId} onClick={this.onHangoutsButton}>
+                                <h4 className="text-center"><strong>Request a Google Hangouts meeting with {this.props.data.first_name}</strong>
+                                </h4>
+                                <button className="btn btn-md btn-default mac_button" type="button" data-toggle="modal" data-target={"#Modal_" + this.props.data.first_name} disabled={!this.props.data.tutoringEventId} onClick={this.onHangoutsButton}>
                                   {this.props.data.tutoringEventId? 'Click Here To Access' : 'Session Not Active'}
                                 </button>
                             </div>
