@@ -226,7 +226,7 @@ class Profile extends React.Component {
             <div className="row tutor-dash animated fadeInLeft">
                 <div className="col">
                     <div className="text-center row">
-                        <h3 className="lighter-text text-uppercase tutor-events-header">  Profile</h3>
+                        <h4 className="lighter-text text-uppercase tutor-events-header">  Profile</h4>
                     </div>
                     <div className="row profile-wrapper">
                         <div className="col-xs-12 col-sm-offset-1 col-sm-10">

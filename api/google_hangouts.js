@@ -15,7 +15,7 @@ var clientId = secrets.installed.client_id;
 var redirectUrl = secrets.installed.redirect_uris[0];
 var auth = new googleAuth();
 var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
-oauth2Client.credentials.refresh_token = '1/jLo56ZoJy-DsJ62-rkyAr7APq_hqbpe_2_je3gpZnJU';
+oauth2Client.credentials.refresh_token = '1/0qOBe4HBtBTOYkXZ3MryqmOVeZWuiNuWhMdE0-Cz-po';
 
 module.exports = {
   auth: oauth2Client,

@@ -26,7 +26,8 @@ app.post('/createNewCalendar', function(req, res){
             }
         }, function(error, response) {
             if (error) {
-                console.log("error2")
+                console.log("error2");
+                console.log(error);
                 res.send({
                     success: false,
                     payload: null,
