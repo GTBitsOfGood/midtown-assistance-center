@@ -123,7 +123,12 @@ app.post('/createEvent', function(req, res){
         "end": {
           "dateTime": endDateString,
           "timeZone": "America/New_York"
-        }
+        },
+       anyoneCanAddSelf:true,
+       visibility: 'public',
+       organizer: {
+        "email":tutorEmail,
+       }
     }}, function(err, response){
       if (err) {
         res.json({
