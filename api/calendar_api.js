@@ -114,6 +114,7 @@ app.post('/createEvent', function(req, res){
         "attendees": [
           {
             "email": tutorEmail,
+            "additionalGuests":8
           }
         ],
         "start": {
@@ -128,7 +129,9 @@ app.post('/createEvent', function(req, res){
        visibility: 'public',
        organizer: {
         "email":tutorEmail,
-       }
+       },
+       guestsCanInviteOthers:true,
+       guestsCanModify:true
     }}, function(err, response){
       if (err) {
         res.json({
