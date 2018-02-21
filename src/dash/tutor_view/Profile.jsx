@@ -19,6 +19,7 @@ class Profile extends React.Component {
         this.state = {
             bio: this.props.user.bio,
             email: this.props.user.email,
+            gmail: this.props.user.gmail,
             is_edit: false,
             button_text: 'Edit',
             availability: this.props.user.availability,
@@ -28,6 +29,7 @@ class Profile extends React.Component {
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleGmailChange = this.handleGmailChange.bind(this);
         this.handleEditStart = this.handleEditStart.bind(this);
         this.handleEditEnd = this.handleEditEnd.bind(this);
         this.handleEditDate = this.handleEditDate.bind(this);
@@ -84,6 +86,7 @@ class Profile extends React.Component {
         // TODO field validation + better checking of what changed
         let new_user = Object.assign({}, this.props.user);
         new_user.email = this.state.email;
+        new_user.gmail = this.state.gmail;
         new_user.bio = this.state.bio;
         new_user.subjects = this.state.subjects;
         new_user.availability = this.unflatten();
@@ -185,6 +188,10 @@ class Profile extends React.Component {
         this.setState({email: event.target.value});
     }
 
+    handleGmailChange(event) {
+        this.setState({gmail: event.target.value});
+    }
+
     render() {
         let availabilityItems = [];
         let subjectItems = [];
@@ -251,6 +258,17 @@ class Profile extends React.Component {
                                                     className="form-control"
                                                     value={ this.state.email }
                                                     onChange={ this.handleEmailChange }
+                                                    disabled={ !this.state.is_edit }/>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-xs-12">
+                                                <i className="glyphicon glyphicon-envelope"></i>Gmail:
+                                                <textarea
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={ this.state.gmail }
+                                                    onChange={ this.handleGmailChange }
                                                     disabled={ !this.state.is_edit }/>
                                             </div>
                                         </div>
