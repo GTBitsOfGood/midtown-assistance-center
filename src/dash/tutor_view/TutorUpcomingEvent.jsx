@@ -56,7 +56,7 @@ class TutorUpcomingEvent extends React.Component {
                     </h3>
                     {renLogo}
                 </div>
-                <SessionReviewModal id={this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} hangoutsLink={this.state.hangoutsLink}/>
+                <SessionReviewModal tutorId={this.props.tutorId} id={this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} hangoutsLink={this.state.hangoutsLink}/>
             </div>
         );
     }

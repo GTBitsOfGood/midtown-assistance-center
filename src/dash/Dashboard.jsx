@@ -6,8 +6,6 @@ import StudentDash from './student_view/StudentDash.jsx';
 import StudentProfile from './student_view/Profile.jsx';
 import TutorDash from './tutor_view/TutorDash.jsx';
 import TutorProfile from './tutor_view/Profile.jsx';
-import AdminDash from './admin_view/AdminDash.jsx';
-import AdminProfile from './admin_view/Profile.jsx';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 import AboutUs from '../AboutUs.jsx';
@@ -31,14 +29,6 @@ const tutorRoutes = (
         <Route exact path="/dash" component={TutorDash}/>
         <Route exact path="/dash/about" component={AboutUs}/>
         <Route exact path="/dash/profile" component={TutorProfile}/>
-    </div>
-);
-
-const adminRoutes = (
-    <div>
-        <Route exact path="/dash/" component={AdminDash}/>
-        <Route exact path="/dash/about" component={AboutUs}/>
-        <Route exact path="/dash/profile" component={AdminProfile}/>
     </div>
 );
 
@@ -106,9 +96,6 @@ class DashComp extends React.Component {
 
                 return loading;
             }
-        } else {
-            console.log('Admin logged in');
-            routes = adminRoutes;
         }
 
         return (
