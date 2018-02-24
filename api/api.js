@@ -35,6 +35,7 @@ app.post('/registerTutor', (req, res) => {
                             email: req.body.email,
                             _id: req.body.username,
                             password: req.body.password,
+                            profile_picture: '/images/default_user_img.png',
                             join_date: Date.now(),
                             status: true,
                             availability: req.body.availability
