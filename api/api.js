@@ -33,6 +33,7 @@ app.post('/registerTutor', (req, res) => {
                             first_name: req.body.firstName,
                             last_name: req.body.lastName,
                             email: req.body.email,
+                            gmail: req.body.gmail,
                             _id: req.body.username,
                             password: req.body.password,
                             profile_picture: '/images/default_user_img.png',

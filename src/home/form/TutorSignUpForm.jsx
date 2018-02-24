@@ -22,6 +22,8 @@ class SignUpTutor extends React.Component {
             emailValidation: 'input-success',
             confirmEmail: '',
             confirmEmailValidation: 'input-success',
+            gmail: '',
+            gmailValidation: 'input-success',
             errorMessage: 'error-message-hide',
             inputErrorMessage:'error-message-hide',
             errorMessageContent: '',
@@ -44,6 +46,8 @@ class SignUpTutor extends React.Component {
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleConfirmEmailChange = this.handleConfirmEmailChange.bind(this);
         this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
+        this.handleGmailChange = this.handleGmailChange.bind(this);
+
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -137,15 +141,28 @@ class SignUpTutor extends React.Component {
         }
     }
 
+    handleGmailChange(event) {
+        let currentGmail = event.target.value;
+        this.setState({ gmail: currentGmail });
+
+        // TODO gmail validation
+        if (currentGmail.includes('@gmail')) {
+            this.setState({ gmailValidation: 'input-success'});
+        } else {
+            this.setState({ gmailValidation: 'input-error'});
+        }
+    }
+
     handleSubmit(event) {
         event.preventDefault();
         if (this.state.firstNameValidation === 'input-error' ||
-            this.state.lastNameValidation === 'input-error' ||
-            this.state.usernameValidation === 'input-error' ||
-            this.state.passwordValidation === 'input-error' ||
-            this.state.confirmPasswordValidation === 'input-error' ||
-            this.state.emailValidation === 'input-error' ||
-            this.state.confirmEmailValidation === 'input-error') {
+                this.state.lastNameValidation === 'input-error' ||
+                this.state.usernameValidation === 'input-error' ||
+                this.state.passwordValidation === 'input-error' ||
+                this.state.confirmPasswordValidation === 'input-error' ||
+                this.state.emailValidation === 'input-error' ||
+                this.state.confirmEmailValidation === 'input-error' ||
+                this.state.gmailValidation === 'input-error') {
             console.log("YO FUCK");
             this.setState({inputErrorMessage:'error-message'});
             this.setState({errorMessage:'error-message-hide'});
@@ -254,6 +271,15 @@ class SignUpTutor extends React.Component {
                         value={this.state.confirmEmail}
                         onChange={this.handleConfirmEmailChange}/>
                     <HelpBlock className={this.state.confirmEmailValidation === 'input-error' ? 'show-error' : 'hide-error'}>Emails must match.</HelpBlock>
+                </div>
+                <div className="row col-xs-12">
+                    <input
+                        type="text"
+                        className={this.state.gmailValidation + ' input-lg col-xs-10 col-xs-offset-1'}
+                        placeholder="Gmail"
+                        value={this.state.gmail}
+                        onChange={this.handleGmailChange}/>
+                    <HelpBlock className={this.state.gmailValidation === 'input-error' ? 'show-error' : 'hide-error'}>Gmail must be valid.</HelpBlock>
                 </div>
                 <div className="row col-xs-12">
                     <input
