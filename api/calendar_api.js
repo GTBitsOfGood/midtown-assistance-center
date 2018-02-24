@@ -173,7 +173,22 @@ app.post('/createEvent', function(req, res){
         "email":tutorEmail,
        },
        guestsCanInviteOthers:true,
-       guestsCanModify:true
+       guestsCanModify:true,
+       hangoutLink: tutorId + startDateString + endDateString,
+       conferenceDataVersion: 1,
+       conferenceData: {
+        conferenceSolution: {
+            name: tutorId + startDateString + endDateString + "_tutor_session",
+            key: {
+                type: "eventHangout"
+            },
+        },
+        createRequest: {
+            conferenceSolutionKey: {
+                type: "eventHangout"
+            }
+        }
+       }
     }
     }, function(err, response){
       if (err) {
@@ -208,6 +223,7 @@ app.post('/createEvent', function(req, res){
             });
             return;
           }
+          console.log(response);
 
           res.json({
             success: true,

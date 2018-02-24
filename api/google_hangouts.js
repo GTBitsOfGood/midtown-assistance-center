@@ -8,14 +8,14 @@ var SCOPES = ['https://www.googleapis.com/auth/calendar'];
 //     process.env.USERPROFILE) + '/.credentials/';
 // var TOKEN_PATH = TOKEN_DIR + 'calendar-nodejs-quickstart.json';
 
-var secrets = require('./client_sec.json');
+var secrets = require('./client_sec2.json');
 
 var clientSecret = secrets.installed.client_secret;
 var clientId = secrets.installed.client_id;
 var redirectUrl = secrets.installed.redirect_uris[0];
 var auth = new googleAuth();
 var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
-oauth2Client.credentials.refresh_token = '1/hg30NWc2LRFOTBJwIk4m35F2-Cjow5XHqlU5lCYl8Bo';
+oauth2Client.credentials.refresh_token = '1/x5lmUVEdNsbjtl0CzTgBe8ie85fLVS4ARoJWXgXOSVs';
 
 module.exports = {
   auth: oauth2Client,
