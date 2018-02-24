@@ -169,6 +169,9 @@ app.post('/createEvent', function(req, res){
        organizer: {
         "email":tutorEmail,
        },
+       creator: {
+        "email":tutorEmail,
+       },
        guestsCanInviteOthers:true,
        guestsCanModify:true
     }
