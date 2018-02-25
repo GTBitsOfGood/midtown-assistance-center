@@ -3,11 +3,15 @@ import ApiRouter from './api/api.js';
 import passportRoutes from './passportConfig';
 import calendar_api from './api/calendar_api';
 
+
 let bodyParser = require('body-parser');
 let Raven = require('raven');
 Raven.config('https://c552aa8ccf2c40cdb2050093dfcd3e8e:734ce4f24fd54361bcc2943b47c28149@sentry.io/243818').install();
-
+const http = require("http");
+const socketio = require('socket.io', {origins:':', agent:false, log:false});
 const server = express();
+const http_server = http.createServer(server);
+const io = socketio(http_server);
 
 server.use(express.static('public'));
 server.use(bodyParser.urlencoded({ extended: false }));
@@ -17,6 +21,33 @@ server.set('view engine', 'ejs');
 server.use('/api', ApiRouter);
 server.use('/', passportRoutes);
 server.use('/calendar', calendar_api);
+
+server.use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:3000');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept-Type');
+    res.header('Access-Control-Allow-Credentials', 'true');
+    next();
+})
+
+
+io.on('connection', socket => {
+  console.log('User connected')
+
+  socket.on('disconnect', () => {
+    console.log('user disconnected')
+  });
+
+  socket.on('tutor-login', () => {
+    console.log("tutor just logged in...");
+    io.emit('update-tutors');
+  });
+
+  socket.on('tutor-logout', () => {
+      console.log("tutor just logged out...");
+      io.emit('update-tutors');
+    });
+})
+
 
 server.get('/', allowIfLoggedOut, (req, res) => {
     res.redirect('/home/about');
@@ -73,6 +104,8 @@ function normalizePort(val) {
 // Set up the port
 let port = normalizePort(process.env.PORT || '3000');
 
-server.listen(port, () => {
+http_server.listen(3000, () => {
     console.info('server is listening on the port 3000');
 });
+
+
