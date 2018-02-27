@@ -18,6 +18,7 @@ class SignUpTutor extends React.Component {
             passwordValidation: 'input-error',
             confirmPassword: '',
             confirmPasswordValidation: 'input-success',
+            gmail: '',
             email: '',
             emailValidation: 'input-success',
             confirmEmail: '',
@@ -246,6 +247,17 @@ class SignUpTutor extends React.Component {
                         onChange={this.handleEmailChange}/>
                     <HelpBlock className={this.state.emailValidation === 'input-error' ? 'show-error' : 'hide-error'}>Email must be valid.</HelpBlock>
                 </div>
+                {/*careful*/}
+                <div className="row col-xs-12">
+                    <input
+                        type="text"
+                        className={this.state.emailValidation + ' input-lg col-xs-10 col-xs-offset-1'}
+                        placeholder="Gmail"
+                        value={this.state.email}
+                        onChange={this.handleEmailChange}/>
+                    <HelpBlock className={this.state.emailValidation === 'input-error' ? 'show-error' : 'hide-error'}>Email must be valid.</HelpBlock>
+                </div>
+                {/*Careful*/}
                 <div className="row col-xs-12">
                     <input
                         type="text"

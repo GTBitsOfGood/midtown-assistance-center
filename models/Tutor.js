@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 let schema = new Schema({
     first_name: {type: String, required: true},
     last_name: {type: String, required: true},
-    email: {type: String, required: true}, //THIS IS FOR THIER GEORIGA TECH EMAIL
+    email: {type: String, required: true}, //THIS IS FOR THEIR GEORGIA TECH EMAIL
     gmail: {type: String, required: true},
     _id: {type: String, required: true},
     password: {type: String, required: true},
