@@ -33,6 +33,7 @@ app.post('/registerTutor', (req, res) => {
                             first_name: req.body.firstName,
                             last_name: req.body.lastName,
                             email: req.body.email,
+                            gmail: 'placeHolder',           //UPDATE THIS WHEN YOU GET THE GMAIL FROM THE TUTOR
                             _id: req.body.username,
                             password: req.body.password,
                             join_date: Date.now(),
