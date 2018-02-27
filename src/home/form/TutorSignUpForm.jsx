@@ -247,17 +247,6 @@ class SignUpTutor extends React.Component {
                         onChange={this.handleEmailChange}/>
                     <HelpBlock className={this.state.emailValidation === 'input-error' ? 'show-error' : 'hide-error'}>Email must be valid.</HelpBlock>
                 </div>
-                {/*careful*/}
-                <div className="row col-xs-12">
-                    <input
-                        type="text"
-                        className={this.state.emailValidation + ' input-lg col-xs-10 col-xs-offset-1'}
-                        placeholder="Gmail"
-                        value={this.state.email}
-                        onChange={this.handleEmailChange}/>
-                    <HelpBlock className={this.state.emailValidation === 'input-error' ? 'show-error' : 'hide-error'}>Email must be valid.</HelpBlock>
-                </div>
-                {/*Careful*/}
                 <div className="row col-xs-12">
                     <input
                         type="text"
@@ -267,6 +256,26 @@ class SignUpTutor extends React.Component {
                         onChange={this.handleConfirmEmailChange}/>
                     <HelpBlock className={this.state.confirmEmailValidation === 'input-error' ? 'show-error' : 'hide-error'}>Emails must match.</HelpBlock>
                 </div>
+                {/*ADDED INFORMATION ABOUT GMAIL ACCOUNT FOR THE TUTOR*/}
+                <div className="row col-xs-12">
+                    <input
+                        type="text"
+                        className={this.state.emailValidation + ' input-lg col-xs-10 col-xs-offset-1'}
+                        placeholder="Gmail"
+                        value={this.state.email}
+                        onChange={this.handleEmailChange}/>
+                    <HelpBlock className={this.state.emailValidation === 'input-error' ? 'show-error' : 'hide-error'}>Email must be valid.</HelpBlock>
+                </div>
+                <div className="row col-xs-12">
+                    <input
+                        type="text"
+                        className={this.state.confirmEmailValidation + ' input-lg col-xs-10 col-xs-offset-1'}
+                        placeholder="Confirm Gmail"
+                        value={this.state.confirmEmail}
+                        onChange={this.handleConfirmEmailChange}/>
+                    <HelpBlock className={this.state.confirmEmailValidation === 'input-error' ? 'show-error' : 'hide-error'}>Emails must match.</HelpBlock>
+                </div>
+                {/*END OF INFORMATION ADDED ABOUT THE TUTORS GMAIL ACCOUNT*/}
                 <div className="row col-xs-12">
                     <input
                         className="signup-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
