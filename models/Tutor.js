@@ -18,81 +18,81 @@ let schema = new Schema({
     num_ratings: {type: Number, default: 0},
     subjects: {type:
       [
-        {
-            subject: {type:String},
-            start_grade: {type:Number},
-            end_grade: {type:Number}
-        }
+          {
+              subject: {type:String},
+              start_grade: {type:Number},
+              end_grade: {type:Number}
+          }
       ],
-      default: []
+    default: []
     },
     availability: {type:
       {
-        Monday: {type:
+          Monday: {type:
           [
-            {
-                start_time: {type:String},
-                end_time: {type:String}
-            }
+              {
+                  start_time: {type:String},
+                  end_time: {type:String}
+              }
           ],
           default: []
-        },
-        Tuesday: {type:
+          },
+          Tuesday: {type:
           [
-            {
-                start_time: {type:String},
-                end_time: {type:String}
-            }
+              {
+                  start_time: {type:String},
+                  end_time: {type:String}
+              }
           ],
           default: []
-        },
-        Wednesday: {type:
+          },
+          Wednesday: {type:
           [
-            {
-                start_time: {type:String},
-                end_time: {type:String}
-            }
+              {
+                  start_time: {type:String},
+                  end_time: {type:String}
+              }
           ],
           default: []
-        },
-        Thursday: {type:
+          },
+          Thursday: {type:
           [
-            {
-                start_time: {type:String},
-                end_time: {type:String}
-            }
+              {
+                  start_time: {type:String},
+                  end_time: {type:String}
+              }
           ],
           default: []
-        },
-        Friday: {type:
+          },
+          Friday: {type:
           [
-            {
-                start_time: {type:String},
-                end_time: {type:String}
-            }
+              {
+                  start_time: {type:String},
+                  end_time: {type:String}
+              }
           ],
           default: []
-        },
-        Saturday: {type:
+          },
+          Saturday: {type:
           [
-            {
-                start_time: {type:String},
-                end_time: {type:String}
-            }
+              {
+                  start_time: {type:String},
+                  end_time: {type:String}
+              }
           ],
           default: []
-        },
-        Sunday: {type:
+          },
+          Sunday: {type:
           [
-            {
-                start_time: {type:String},
-                end_time: {type:String}
-            }
+              {
+                  start_time: {type:String},
+                  end_time: {type:String}
+              }
           ],
           default: []
-        },
-        default: {}
-    }},
+          },
+          default: {}
+      }},
     gender: {type:String, required: false},
     online: {type:Boolean, required: false},
     approved: {type:Boolean, default: true},
