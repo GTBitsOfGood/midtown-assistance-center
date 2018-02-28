@@ -68,12 +68,17 @@ class Profile extends React.Component {
     }
 
     unflatten() {
-        let temp = {};
+        let temp = {
+            "Sunday": [],
+            "Monday": [],
+            "Tuesday": [],
+            "Wednesday": [],
+            "Thursday": [],
+            "Friday": [],
+            "Saturday": []
+        };
         for (let ind in this.state.availabilityList) {
             let item = this.state.availabilityList[ind];
-            if (!(item.date in temp)) {
-                temp[item.date] = []
-            }
             temp[item.date].push({
                 "start_time": item.start,
                 "end_time": item.end
