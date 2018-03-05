@@ -33,8 +33,10 @@ app.post('/registerTutor', (req, res) => {
                             first_name: req.body.firstName,
                             last_name: req.body.lastName,
                             email: req.body.email,
+                            gmail: req.body.gmail,
                             _id: req.body.username,
                             password: req.body.password,
+                            profile_picture: '/images/default_user_img.png',
                             join_date: Date.now(),
                             status: true,
                             availability: req.body.availability
@@ -151,6 +153,38 @@ app.patch('/tutor', (req, res) => {
             success: true,
             error_message: null
         });
+    });
+});
+
+app.post('/subjects', (req, res) => {
+    data_access.subjects.addSubject(req.body, function(err, resultSubject) {
+        if (err) {
+            console.error(err);
+            return res.json({
+                success: false,
+                error_message: 'Creating subject failed',
+            });
+        }
+
+        return res.json({
+            success: true,
+            error_message: null
+        });
+    });
+});
+
+
+app.get('/subjects', (req, res) => {
+    data_access.subjects.getAllSubjects(function(err, resSubjects) {
+        if (err) {
+            console.error(err);
+            res.json({
+                success: false,
+                error_message: 'getting subjects failed'
+            });
+            res.send([]);
+        }
+        res.send(resSubjects);
     });
 });
 
