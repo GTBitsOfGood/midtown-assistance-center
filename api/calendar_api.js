@@ -59,6 +59,7 @@ app.post('/createNewCalendar', function(req, res){
                 error: err
             });
             console.log('Error while trying to retrieve access token', err);
+            console.log("hi");
             return;
         }
         google.auth.credentials = token;
