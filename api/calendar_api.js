@@ -75,6 +75,8 @@ app.post('/createNewCalendar', function(req, res){
                     payload: null,
                     error: error
                 });
+                console.log("error inserting calendar");
+                console.log(error);
                 return;
             }
 
