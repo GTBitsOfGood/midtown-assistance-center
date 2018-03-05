@@ -7,9 +7,15 @@ import TimePicker from './TimePicker.jsx';
 
 import SubjectPicker from './SubjectPicker.jsx';
 
+import { getSubjects } from "../../redux/actions/subject_actions"
+
 const DAYS_OF_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 class Profile extends React.Component {
+
+    componentWillMount() {
+        this.props.getSubjects();
+    }
 
     constructor(props) {
         super(props);
@@ -342,7 +348,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        saveUser : (user) => dispatch(saveTutor(user))
+        saveUser : (user) => dispatch(saveTutor(user)),
+        getSubjects: () => dispatch(getSubjects)
     };
 };
 
