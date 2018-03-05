@@ -9,14 +9,14 @@ let initial_state = {
 
 export default function change_subject(state=initial_state, action) {
     switch (action.type) {
-        case 'GET_SUBJECTS_PENDING':
+        case types.getSubjectsPending:
             return {...state, fetching: true};
             break;
 
-        case 'GET_SUBJECTS_REJECTED':
+        case types.getSubjectsRejected:
             return {...state, fetching: false, error: action.payload};
             break;
-        case 'GET_SUBJECTS_FULFILLED':
+        case types.getSubjectsFulfilled:
             return {
                 ...state,
                 fetching: false,

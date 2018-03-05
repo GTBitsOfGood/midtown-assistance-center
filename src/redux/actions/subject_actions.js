@@ -4,7 +4,7 @@ import store from '../store';
 
 export function getSubjects () {
     store.dispatch({
-        type: 'GET_SUBJECTS',
+        type: types.getSubjects,
         payload: axios.get('/api/subjects')
     });
 }
