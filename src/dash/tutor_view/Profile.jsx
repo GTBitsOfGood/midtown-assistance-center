@@ -167,11 +167,10 @@ class Profile extends React.Component {
     }
 
     handleAddSubject() {
-        // default new schedule is Monday
         if (this.state.is_edit) {
             let temp = this.state.subjects;
             temp.push({
-                subject: "Enter Subject",
+                subject: "",
                 start: "6",
                 end: "12"
             });
@@ -206,7 +205,7 @@ class Profile extends React.Component {
     render() {
         let availabilityItems = [];
         let subjectItems = [];
-        for (event in this.state.availabilityList) {
+        for (let event in this.state.availabilityList) {
             availabilityItems.push(
                 <div className="time-item">
                     <TimePicker
@@ -222,7 +221,7 @@ class Profile extends React.Component {
                 </div>
             );
         }
-        for (event in this.state.subjects) {
+        for (let event in this.state.subjects) {
                 subjectItems.push(
                     <div className="time-item">
                         <SubjectPicker
