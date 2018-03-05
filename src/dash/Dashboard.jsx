@@ -15,6 +15,10 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import {GridLoader} from 'halogen';
 import styles from '../../public/css/index.css';
+import socketIOClient from 'socket.io-client';
+
+const SOCKETIO_ENDPOINT = 'http://localhost:3000'
+const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 const studentRoutes = (
     <div>
@@ -62,7 +66,12 @@ class DashComp extends React.Component {
             });
     }
 
+    componentWillUnmount() {
+        socket.close();
+    }
+
     render() {
+
         if (this.props.user._id === undefined) {
             return loading;
         }
@@ -88,11 +97,13 @@ class DashComp extends React.Component {
         } else if (this.props.user.approved !== undefined) {
             console.log('Tutor logged in');
             routes = tutorRoutes;
+            socket.emit('tutor-login');
 
             if (!this.props.user.online && !this.props.user.logging_out) {
                 let new_tutor = Object.assign({}, this.props.user);
                 new_tutor.online = true;
                 this.props.setTutorOnline(new_tutor);
+
 
                 return loading;
             }

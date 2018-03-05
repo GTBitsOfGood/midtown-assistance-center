@@ -7,9 +7,15 @@ import TimePicker from './TimePicker.jsx';
 
 import SubjectPicker from './SubjectPicker.jsx';
 
+import { getSubjects } from "../../redux/actions/subject_actions"
+
 const DAYS_OF_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 class Profile extends React.Component {
+
+    componentWillMount() {
+        this.props.getSubjects();
+    }
 
     constructor(props) {
         super(props);
@@ -19,6 +25,7 @@ class Profile extends React.Component {
         this.state = {
             bio: this.props.user.bio,
             email: this.props.user.email,
+            gmail: this.props.user.gmail,
             is_edit: false,
             button_text: 'Edit',
             availability: this.props.user.availability,
@@ -28,6 +35,7 @@ class Profile extends React.Component {
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
+        this.handleGmailChange = this.handleGmailChange.bind(this);
         this.handleEditStart = this.handleEditStart.bind(this);
         this.handleEditEnd = this.handleEditEnd.bind(this);
         this.handleEditDate = this.handleEditDate.bind(this);
@@ -66,12 +74,17 @@ class Profile extends React.Component {
     }
 
     unflatten() {
-        let temp = {};
+        let temp = {
+            "Sunday": [],
+            "Monday": [],
+            "Tuesday": [],
+            "Wednesday": [],
+            "Thursday": [],
+            "Friday": [],
+            "Saturday": []
+        };
         for (let ind in this.state.availabilityList) {
             let item = this.state.availabilityList[ind];
-            if (!(item.date in temp)) {
-                temp[item.date] = []
-            }
             temp[item.date].push({
                 "start_time": item.start,
                 "end_time": item.end
@@ -84,6 +97,7 @@ class Profile extends React.Component {
         // TODO field validation + better checking of what changed
         let new_user = Object.assign({}, this.props.user);
         new_user.email = this.state.email;
+        new_user.gmail = this.state.gmail;
         new_user.bio = this.state.bio;
         new_user.subjects = this.state.subjects;
         new_user.availability = this.unflatten();
@@ -153,11 +167,10 @@ class Profile extends React.Component {
     }
 
     handleAddSubject() {
-        // default new schedule is Monday
         if (this.state.is_edit) {
             let temp = this.state.subjects;
             temp.push({
-                subject: "Enter Subject",
+                subject: "",
                 start: "6",
                 end: "12"
             });
@@ -185,10 +198,14 @@ class Profile extends React.Component {
         this.setState({email: event.target.value});
     }
 
+    handleGmailChange(event) {
+        this.setState({gmail: event.target.value});
+    }
+
     render() {
         let availabilityItems = [];
         let subjectItems = [];
-        for (event in this.state.availabilityList) {
+        for (let event in this.state.availabilityList) {
             availabilityItems.push(
                 <div className="time-item">
                     <TimePicker
@@ -204,7 +221,7 @@ class Profile extends React.Component {
                 </div>
             );
         }
-        for (event in this.state.subjects) {
+        for (let event in this.state.subjects) {
                 subjectItems.push(
                     <div className="time-item">
                         <SubjectPicker
@@ -226,7 +243,7 @@ class Profile extends React.Component {
             <div className="row tutor-dash animated fadeInLeft">
                 <div className="col">
                     <div className="text-center row">
-                        <h3 className="lighter-text text-uppercase tutor-events-header">  Profile</h3>
+                        <h4 className="lighter-text text-uppercase tutor-events-header">  Profile</h4>
                     </div>
                     <div className="row profile-wrapper">
                         <div className="col-xs-12 col-sm-offset-1 col-sm-10">
@@ -251,6 +268,17 @@ class Profile extends React.Component {
                                                     className="form-control"
                                                     value={ this.state.email }
                                                     onChange={ this.handleEmailChange }
+                                                    disabled={ !this.state.is_edit }/>
+                                            </div>
+                                        </div>
+                                        <div className="row">
+                                            <div className="col-xs-12">
+                                                <i className="glyphicon glyphicon-envelope"></i>Gmail:
+                                                <textarea
+                                                    type="text"
+                                                    className="form-control"
+                                                    value={ this.state.gmail }
+                                                    onChange={ this.handleGmailChange }
                                                     disabled={ !this.state.is_edit }/>
                                             </div>
                                         </div>
@@ -319,7 +347,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        saveUser : (user) => dispatch(saveTutor(user))
+        saveUser : (user) => dispatch(saveTutor(user)),
+        getSubjects: () => dispatch(getSubjects)
     };
 };
 

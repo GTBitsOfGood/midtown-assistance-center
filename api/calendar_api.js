@@ -8,6 +8,7 @@ app.post('/createNewCalendar', function(req, res){
 	let tutorId = req.body.id;
 	google.auth.refreshAccessToken(function(err, token) {
       if (err) {
+            console.log("error1");
             res.send({
                 success: false,
                 payload: null,
@@ -25,6 +26,8 @@ app.post('/createNewCalendar', function(req, res){
             }
         }, function(error, response) {
             if (error) {
+                console.log("error2");
+                console.log(error);
                 res.send({
                     success: false,
                     payload: null,
@@ -34,7 +37,7 @@ app.post('/createNewCalendar', function(req, res){
             }
 
             let calId = response.id;
-
+            console.log("br3");
             // code to update the tutor db with the calendar for the tutor
             data_access.users.getUser(tutorId, function(err, tutor) {
                 if (err) {
