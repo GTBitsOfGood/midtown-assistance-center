@@ -28,6 +28,7 @@ app.post('/registerTutor', (req, res) => {
                     console.log(err);
                 } else {
                     console.log(resultEmail);
+                    console.log(req.body.availability)
                     if (!resultEmail) {
                         data_access.users.createTutor({
                             first_name: req.body.firstName,
