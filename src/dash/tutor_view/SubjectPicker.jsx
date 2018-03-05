@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 
 class SubjectPicker extends React.Component {
     constructor(props) {
@@ -22,6 +23,7 @@ class SubjectPicker extends React.Component {
 
     handleSubjectChange(event) {
         this.props.handleEditSubject(this.props.index, event.target.value);
+        console.log(this.props);
     }
 
     handleRemoveClick(event) {
@@ -29,10 +31,28 @@ class SubjectPicker extends React.Component {
     }
 
     render() {
+        let subjectOptions = [];
+        if (this.props.subjects.availableSubjects) {
+            let subjects = this.props.subjects.availableSubjects.data;
+            for (let ind in subjects) {
+                subjectOptions.push(
+                    <option key={ind} value={subjects[ind]}>{subjects[ind]}</option>
+                );
+            }
+        }
+
         const renData = <div className="row input-group">
             <span className="subject-pick col-md-4">
-                <label>Subject: </label>
-                <input className="input input-sm subject-input" type="text" value={ this.props.subject } onChange={ this.handleSubjectChange } disabled={ !this.props.is_edit }/>
+                <label>Subject:</label>
+                <select
+                        className="input input-sm subject-input"
+                        name="subject"
+                        value={ this.props.subject }
+                        defaultValue={ this.props.subject }
+                        onChange={ this.handleSubjectChange }
+                        disabled={ !this.props.is_edit }>
+                    { subjectOptions }
+                </select>
             </span>
             <span className="subject-pick col-md-2">
                 <label>Start: </label>
@@ -56,4 +76,19 @@ class SubjectPicker extends React.Component {
     }
 }
 
-export default SubjectPicker;
+const mapStateToProps = (state) => {
+    return {
+        subjects: state.subjects,
+    };
+};
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+    };
+};
+
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SubjectPicker);

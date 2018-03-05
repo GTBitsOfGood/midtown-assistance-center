@@ -7,9 +7,15 @@ import TimePicker from './TimePicker.jsx';
 
 import SubjectPicker from './SubjectPicker.jsx';
 
+import { getSubjects } from "../../redux/actions/subject_actions"
+
 const DAYS_OF_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 class Profile extends React.Component {
+
+    componentWillMount() {
+        this.props.getSubjects();
+    }
 
     constructor(props) {
         super(props);
@@ -161,11 +167,10 @@ class Profile extends React.Component {
     }
 
     handleAddSubject() {
-        // default new schedule is Monday
         if (this.state.is_edit) {
             let temp = this.state.subjects;
             temp.push({
-                subject: "Enter Subject",
+                subject: "",
                 start: "6",
                 end: "12"
             });
@@ -200,7 +205,7 @@ class Profile extends React.Component {
     render() {
         let availabilityItems = [];
         let subjectItems = [];
-        for (event in this.state.availabilityList) {
+        for (let event in this.state.availabilityList) {
             availabilityItems.push(
                 <div className="time-item">
                     <TimePicker
@@ -216,7 +221,7 @@ class Profile extends React.Component {
                 </div>
             );
         }
-        for (event in this.state.subjects) {
+        for (let event in this.state.subjects) {
                 subjectItems.push(
                     <div className="time-item">
                         <SubjectPicker
@@ -342,7 +347,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        saveUser : (user) => dispatch(saveTutor(user))
+        saveUser : (user) => dispatch(saveTutor(user)),
+        getSubjects: () => dispatch(getSubjects)
     };
 };
 

@@ -157,6 +157,38 @@ app.patch('/tutor', (req, res) => {
     });
 });
 
+app.post('/subjects', (req, res) => {
+    data_access.subjects.addSubject(req.body, function(err, resultSubject) {
+        if (err) {
+            console.error(err);
+            return res.json({
+                success: false,
+                error_message: 'Creating subject failed',
+            });
+        }
+
+        return res.json({
+            success: true,
+            error_message: null
+        });
+    });
+});
+
+
+app.get('/subjects', (req, res) => {
+    data_access.subjects.getAllSubjects(function(err, resSubjects) {
+        if (err) {
+            console.error(err);
+            res.json({
+                success: false,
+                error_message: 'getting subjects failed'
+            });
+            res.send([]);
+        }
+        res.send(resSubjects);
+    });
+});
+
 app.patch('/admin', (req, res) => {
     res.json({
         success: false,
