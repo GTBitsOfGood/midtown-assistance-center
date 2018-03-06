@@ -4,8 +4,52 @@ var google = require('./google_hangouts.js');
 var moment = require('moment');
 import data_access from './data_access';
 
+
+app.post('/addCalendarACL', function(req, res) {
+    let tutorId = req.body.id;
+    let email = req.body.email;
+    let calendarId = req.body.calendarId;
+    google.auth.refreshAccessToken(function(err, token) {
+      if (err) {
+            res.send({
+                success: false,
+                payload: null,
+                error: err
+            });
+            console.log('Error while trying to retrieve access token', err);
+            return;
+        }
+        google.auth.credentials = token;
+        google.calendar.acl.insert({
+          auth: google.auth,
+          calendarId: calendarId,
+          resource: {
+              'role':'owner',
+              'scope': {
+                'type': 'user',
+                'value': email
+              }
+          }
+        }, function(err, r){
+          if (err) {
+            res.send({
+                success: false,
+                payload: null,
+                error: err
+            });
+            return;
+          } else {
+            res.send({
+                success: true,
+            });
+          }
+        });
+    });
+});
+
 app.post('/createNewCalendar', function(req, res){
 	let tutorId = req.body.id;
+	let email = req.body.email;
 	google.auth.refreshAccessToken(function(err, token) {
       if (err) {
             console.log("error1");
@@ -15,6 +59,7 @@ app.post('/createNewCalendar', function(req, res){
                 error: err
             });
             console.log('Error while trying to retrieve access token', err);
+            console.log("hi");
             return;
         }
         google.auth.credentials = token;
@@ -26,18 +71,17 @@ app.post('/createNewCalendar', function(req, res){
             }
         }, function(error, response) {
             if (error) {
-                console.log("error2");
-                console.log(error);
                 res.send({
                     success: false,
                     payload: null,
                     error: error
                 });
+                console.log("error inserting calendar");
+                console.log(error);
                 return;
             }
 
             let calId = response.id;
-            console.log("br3");
             // code to update the tutor db with the calendar for the tutor
             data_access.users.getUser(tutorId, function(err, tutor) {
                 if (err) {
@@ -51,7 +95,6 @@ app.post('/createNewCalendar', function(req, res){
 
                 // Update the tutor with the calendar id that was just created for him
                 tutor.calendarId = calId;
-
                 data_access.users.saveTutor(tutor, function(err, updatedTutor) {
                     if (err) {
                         res.send({
@@ -61,13 +104,12 @@ app.post('/createNewCalendar', function(req, res){
                         });
                         return;
                     }
-
                     res.send({
                         success: true,
+                        calId: calId,
                         payload: updatedTutor
                     });
                 });
-
             });
         });
     });
@@ -114,6 +156,7 @@ app.post('/createEvent', function(req, res){
         "attendees": [
           {
             "email": tutorEmail,
+            "additionalGuests":8
           }
         ],
         "start": {
@@ -123,8 +166,34 @@ app.post('/createEvent', function(req, res){
         "end": {
           "dateTime": endDateString,
           "timeZone": "America/New_York"
+        },
+       anyoneCanAddSelf:true,
+       visibility: 'public',
+       organizer: {
+        "email":tutorEmail,
+       },
+       creator: {
+        "email":tutorEmail,
+       },
+       guestsCanInviteOthers:true,
+       guestsCanModify:true,
+       hangoutLink: tutorId + startDateString + endDateString,
+       conferenceDataVersion: 1,
+       conferenceData: {
+        conferenceSolution: {
+            name: tutorId + startDateString + endDateString + "_tutor_session",
+            key: {
+                type: "eventHangout"
+            },
+        },
+        createRequest: {
+            conferenceSolutionKey: {
+                type: "eventHangout"
+            }
         }
-    }}, function(err, response){
+       }
+    }
+    }, function(err, response){
       if (err) {
         res.json({
           success: false,
@@ -157,6 +226,7 @@ app.post('/createEvent', function(req, res){
             });
             return;
           }
+          console.log(response);
 
           res.json({
             success: true,
