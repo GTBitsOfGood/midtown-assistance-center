@@ -2,6 +2,7 @@ import React from 'react';
 import TutorReviewModal from './TutorReviewModal.jsx';
 import Subject from './Subject.jsx';
 import axios from 'axios';
+import Availability from './Availability.jsx';
 
 const favorites_lst = ['Algebra', 'Java', 'Python', 'Geometry'];
 
@@ -61,6 +62,7 @@ class TutorSearchResult extends React.Component {
         let subjects = this.props.data.subjects.map((subject, num) => { return <Subject is_favorite={false} subject={subject.subject} start_grade={subject.start_grade} end_grade={subject.end_grade}/>});
         let favorites = favorites_lst.map((favorite, num) => {return <Subject is_favorite={true} subject={favorite}/>});
         let stars = [];
+        let date = new Date(this.props.data.join_date).toLocaleDateString();
         for (let x = 0; x < this.state.fullStars; x++) {
             stars.push(<span><img className="star" src='/images/full-star.png' width="25" height="25"></img></span>);
         }
@@ -104,16 +106,16 @@ class TutorSearchResult extends React.Component {
                             <div className="tutor_details container col-md-12">
                                 <div className="col-md-6">
                                     <h4><strong>Details</strong></h4>
-                                    <h4><span><img className="small_img" src='/images/graduate-cap.png'></img></span><strong>{this.props.data.classStanding}</strong> at Georgia Tech</h4>
-                                    <h4><span><img className="small_img" src={'/images/' + this.props.data.gender + '.png'}></img></span>{this.props.data.gender}</h4>
+                                    <h4 className="details"><span className="details-ic glyphicon glyphicon-briefcase"></span><strong> Student</strong> at Georgia Tech</h4>
+                                    <h4 className="details"><span className="details-ic glyphicon glyphicon-calendar"></span><strong>{date}</strong> Join Date</h4>
+                                    <h4 className="details"><span className="details-ic glyphicon glyphicon-stats"></span><strong> 213</strong> Total Sessions</h4>
+                                    <h4 className="details"><span className="details-ic glyphicon glyphicon-star"></span><strong> {this.props.data.rating}</strong> rating out of {this.props.data.num_ratings} total ratings</h4>
+                                    <h4 className="availability-info"><strong>Availability</strong></h4>
+                                    <Availability availability={this.props.data.availability}></Availability>
                                 </div>
                                 <div className="col-md-6">
                                     <h4><strong>Bio</strong></h4>
                                     <h4 className="bio-text lighter-text">{this.props.data.bio}</h4>
-                                    <h4><strong>Availability</strong></h4>
-                                    <h4><span className="lighter-text">
-                                    {Object.keys(this.props.data.availability).map((day, num) => {return (this.props.data.availability[day].length != 0 ? day + '(' + this.props.data.availability[day].map((time, num) => {return ((time.start_time.split(':')[0])%12 + ':' + time.start_time.split(':')[1] + ((time.start_time.split(':'))[0] >= 12 ? ' PM' : ' AM') + '-' + (time.end_time.split(':')[0])%12 + ':' + time.end_time.split(':')[1] + ((time.end_time.split(':'))[0] >= 12 ? ' PM' : ' AM'))}) + ') ': '') })}
-                                    </span></h4>
                                 </div>
                             </div>
                             <div className="request_hangout text-center">

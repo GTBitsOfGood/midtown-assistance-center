@@ -208,6 +208,7 @@ body {
 
 .bio-text {
     margin-bottom: 20px;
+    font-size: 1em;
 }
 
 .request_hangout {
@@ -272,6 +273,26 @@ body {
 
 .online-ic {
     transform: translateY(-2px);
+}
+
+.availability-info {
+    margin-top: 25px;
+}
+
+.availability-table td, .details {
+    font-weight: 300;
+}
+
+.availability-table td, .availability-table th {
+    padding: 5px ! important;
+}
+
+.availability-table, .details {
+    font-size: 1em;
+}
+
+.details-ic {
+    margin-right: 5px;
 }
 
 /*======================================== Admin Dash ========================================*/
