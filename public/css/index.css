@@ -176,7 +176,6 @@ body {
 
 .tutors-header {
     color: var(--black);
-    font-weight: 400;
 }
 
 .tutor_details {
@@ -263,8 +262,16 @@ body {
     color: var(--gray);
 }
 
+.clear-search h4 {
+    font-weight: 300;
+}
+
 .clear-search:hover {
     color: var(--gold);
+}
+
+.search-list-header {
+    /*padding: 5px;*/
 }
 
 .online-img {
