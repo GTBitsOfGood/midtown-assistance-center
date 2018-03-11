@@ -41,7 +41,7 @@ class SubjectPicker extends React.Component {
             }
         }
 
-        const renData = <div className="row input-group">
+        const renData = <div className="row input-group col-md-12 col-no-padding">
             <span className="subject-pick col-md-4">
                 <label>Subject:</label>
                 <select

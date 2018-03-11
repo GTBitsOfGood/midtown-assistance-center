@@ -438,6 +438,7 @@ body {
 .subject-input, .subject-button, .time-input, .time-button {
     height: 30px;
     width: 100%;
+    border-radius: 3px;
 }
 
 .subject-input,.time-input {
@@ -471,6 +472,35 @@ body {
     margin-top: 10%;
     font-weight: 300;
 
+}
+
+.tutor-profile-pic {
+    height: 164px;
+    width: 164px;
+    margin-top: 18px;
+    float:right;
+}
+
+.profile-pic-wrapper, .profile-info-wrapper {
+    height: 200px;
+    display: table;
+    border-bottom: 1px solid var(--primaryLight);
+    margin-bottom: 10px;
+}
+
+.profile-info {
+    display: table-cell;
+    vertical-align: middle;
+    float:left-center;
+}
+
+.tutor-username, .tutor-profile-name {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.tutor-profile-input {
+    margin-bottom: 10px;
 }
 
 /*======================================== General ========================================*/
@@ -562,5 +592,9 @@ body {
 
 .white {
     color: white;
+}
+
+.col-no-padding {
+    padding: 0;
 }
 

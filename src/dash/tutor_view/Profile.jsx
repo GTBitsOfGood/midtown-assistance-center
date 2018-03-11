@@ -54,7 +54,7 @@ class Profile extends React.Component {
         let availabilityItems = [];
         Object.keys(availability).map((date, index) => {
             let item = availability[date];
-            for (event in availability[date]) {
+            for (var event in availability[date]) {
                 availabilityItems.push(
                     {
                         date: date,
@@ -248,21 +248,23 @@ class Profile extends React.Component {
                     <div className="row profile-wrapper">
                         <div className="col-xs-12 col-sm-offset-1 col-sm-10">
                             <div className="row">
-                                <div className="col-sm-6 col-md-4">
-                                    <img src="../../images/default_user_img.png" alt="user-pic" className="img-rounded img-responsive" />
+                                <div className="col-sm-6 col-md-5 profile-pic-wrapper">
+                                    <img src={this.props.user.profile_picture} alt="user-pic" className="tutor-profile-pic img-circle img-responsive" />
                                 </div>
-                                <div className="col-sm-6 col-md-8">
-                                    <h1>{ this.props.user.first_name + ' ' + this.props.user.last_name }</h1>
-                                    <small><cite title="Atlanta, USA">
-                                        Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
-                                    </cite></small>
-                                    <h3>{ this.props.user._id }</h3>
+                                <div className="col-sm-6 col-md-7 profile-info-wrapper">
+                                    <div className="profile-info">
+                                        <h2 className="tutor-profile-name">{ this.props.user.first_name + ' ' + this.props.user.last_name }</h2>
+                                        <small><cite title="Atlanta, USA">
+                                            Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
+                                        </cite></small>
+                                        <h4 className="tutor-username">{ this.props.user._id }</h4>
                                     </div>
-                                    <div className="col-sm-12">
+                                </div>
+                                <div className="col-sm-12">
                                     <div className="form-group">
-                                        <div className="row">
+                                        <div className="row tutor-profile-input">
                                             <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-envelope"></i>Email:
+                                                <i className="glyphicon glyphicon-envelope"></i> Email:
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
@@ -271,9 +273,9 @@ class Profile extends React.Component {
                                                     disabled={ !this.state.is_edit }/>
                                             </div>
                                         </div>
-                                        <div className="row">
+                                        <div className="row tutor-profile-input">
                                             <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-envelope"></i>Gmail:
+                                                <i className="glyphicon glyphicon-envelope"></i> Gmail:
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
@@ -282,14 +284,14 @@ class Profile extends React.Component {
                                                     disabled={ !this.state.is_edit }/>
                                             </div>
                                         </div>
-                                        <div className="row">
+                                        <div className="row tutor-profile-input">
                                             <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-calendar"></i>Join Date:
+                                                <i className="glyphicon glyphicon-calendar"></i> Join Date:
                                                 <p>{ (new Date(this.props.user.join_date)).toDateString() }</p>
                                             </div>
                                         </div>
                                         <div className="row">
-                                            <div className="col-xs-12">
+                                            <div className="col-xs-12 tutor-profile-input">
                                                 <i className="glyphicon glyphicon-home"></i> Bio:
                                                 <textarea
                                                     type="text"
