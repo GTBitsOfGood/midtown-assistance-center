@@ -467,6 +467,12 @@ body {
     margin-top: 125px;
 }
 
+.tutor-approval-msg {
+    margin-top: 10%;
+    font-weight: 300;
+
+}
+
 /*======================================== General ========================================*/
 
 .mac_button {

@@ -6,13 +6,17 @@ import TutorProfile from './Profile.jsx';
 class TutorDash extends React.Component {
 
     render() {
+
         return (
             <div className="tutor-dash container col-xs-12">
                 <div className="col-md-6">
                     <TutorProfile/>
                 </div>
                 <div className="col-md-6 upcoming-events-list">
-                    <TutorUpcomingEvents/>
+                { this.props.user.approved ?
+                    <TutorUpcomingEvents/> :
+                    <h4 className="tutor-approval-msg">Your profile is awaiting approval. Edit your profile and check back soon!</h4>
+                }
                 </div>
             </div>
         );

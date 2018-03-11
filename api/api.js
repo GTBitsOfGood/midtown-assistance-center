@@ -40,7 +40,8 @@ app.post('/registerTutor', (req, res) => {
                             profile_picture: '/images/default_user_img.png',
                             join_date: Date.now(),
                             status: true,
-                            availability: req.body.availability
+                            availability: req.body.availability,
+                            approved: false
                         }, function(err, user_instance){
                             if (err) {
                                 console.log(err);
