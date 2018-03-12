@@ -22,12 +22,12 @@ module.exports = {
     // get the overall average tutor rating for a range of dates (ex. Jan-Feb 2018)
     getTutorAvgRating: function(start_date, end_date) {
         console.log(start_date);
-    }
+    },
 
     // get the overall discrepancy between expected session start time and actual session start time
     getStartTimeDiscrepancy: function(start_date, end_date) {
         console.log(start_date);
-    }
+    },
 
     // get the tutor comments for sessions with a rating <= max_rating
     getTutorComments: function(max_rating) {
