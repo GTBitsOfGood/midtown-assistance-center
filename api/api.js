@@ -156,6 +156,20 @@ app.patch('/tutor', (req, res) => {
     });
 });
 
+app.get('/subjects', (req, res) => {
+    data_access.subjects.getAllSubjects(function(err, resSubjects) {
+        if (err) {
+            console.error(err);
+            res.json({
+                success: false,
+                error_message: 'getting subjects failed'
+            });
+            res.send([]);
+        }
+        res.send(resSubjects);
+    });
+});
+
 app.post('/subjects', (req, res) => {
     data_access.subjects.addSubject(req.body, function(err, resultSubject) {
         if (err) {
@@ -173,19 +187,8 @@ app.post('/subjects', (req, res) => {
     });
 });
 
+app.post('/favorites', (req, res) => {
 
-app.get('/subjects', (req, res) => {
-    data_access.subjects.getAllSubjects(function(err, resSubjects) {
-        if (err) {
-            console.error(err);
-            res.json({
-                success: false,
-                error_message: 'getting subjects failed'
-            });
-            res.send([]);
-        }
-        res.send(resSubjects);
-    });
 });
 
 app.patch('/admin', (req, res) => {

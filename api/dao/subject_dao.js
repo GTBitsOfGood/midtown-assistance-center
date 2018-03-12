@@ -8,8 +8,9 @@ module.exports = {
                 console.error('Error getting all subjects');
                 callback(err);
             } else {
-                let subj = subjects.map(subject => subject.title);
-                callback(null, subj);
+                // let subj = subjects.map(subject => subject.title);
+                // callback(null, subj);
+                callback(null, subjects);
             }
         });
     },

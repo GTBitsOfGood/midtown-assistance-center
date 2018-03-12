@@ -30,7 +30,7 @@ class Profile extends React.Component {
             button_text: 'Edit',
             availability: this.props.user.availability,
             availabilityList: list,
-            subjects:this.props.user.subjects
+            subjects: this.props.user.subjects
         };
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
@@ -125,7 +125,7 @@ class Profile extends React.Component {
 
     handleEditStartGrade(index, start) {
         let temp = this.state.subjects;
-        temp[index].start_grade = start;
+        temp[index].start_grade = start.type === 'number' ? parseInt(start) : start;
         this.setState({subjects: temp});
     }
 
@@ -136,8 +136,9 @@ class Profile extends React.Component {
     }
 
     handleEditEndGrade(index, end) {
+        console.log(end, this.state.subjects);
         let temp = this.state.subjects;
-        temp[index].end_grade = end;
+        temp[index].end_grade = end.type === 'number' ? parseInt(end) : end;
         this.setState({subjects: temp});
     }
 
@@ -170,9 +171,10 @@ class Profile extends React.Component {
         if (this.state.is_edit) {
             let temp = this.state.subjects;
             temp.push({
-                subject: "",
-                start: "6",
-                end: "12"
+                // hardcoded subject, not from db
+                subject: "math",
+                start_grade: 6,
+                end_grade: 12
             });
             this.setState({subjects: temp});
         }

@@ -23,7 +23,7 @@ class SubjectPicker extends React.Component {
 
     handleSubjectChange(event) {
         this.props.handleEditSubject(this.props.index, event.target.value);
-        console.log(this.props);
+        console.log(event.target.value);
     }
 
     handleRemoveClick(event) {
@@ -36,7 +36,7 @@ class SubjectPicker extends React.Component {
             let subjects = this.props.subjects.availableSubjects.data;
             for (let ind in subjects) {
                 subjectOptions.push(
-                    <option key={ind} value={subjects[ind]}>{subjects[ind]}</option>
+                    <option key={ind} value={subjects[ind]._id}>{subjects[ind]._id}</option>
                 );
             }
         }
@@ -56,11 +56,25 @@ class SubjectPicker extends React.Component {
             </span>
             <span className="subject-pick col-md-2">
                 <label>Start: </label>
-                <input className="input input-sm subject-input" type="number" min="6" max="12" value={ this.props.start } onChange={ this.handleStartChange } disabled={ !this.props.is_edit }/>
+                <input
+                    className="input input-sm subject-input"
+                    type="number"
+                    min="6"
+                    max="12"
+                    value={ this.props.start }
+                    onChange={ this.handleStartChange }
+                    disabled={ !this.props.is_edit }/>
             </span>
             <span className="subject-pick col-md-2">
                 <label>End: </label>
-                <input className="input input-sm subject-input" type="number" min="6" max="12" value={ this.props.end } onChange={ this.handleEndChange } disabled={ !this.props.is_edit }/>
+                <input
+                    className="input input-sm subject-input"
+                    type="number"
+                    min="6"
+                    max="12"
+                    value={ this.props.end }
+                    onChange={ this.handleEndChange }
+                    disabled={ !this.props.is_edit }/>
             </span>
             <span className="edit-subject-btn col-md-4">
             <label className="white">: </label>
