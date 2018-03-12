@@ -1,3 +1,9 @@
+//What? This is the MongoDB API endpoints file. You can call an endpoint and change the database in various ways.
+//Who? These endpoints can be hit by redux on the front end.
+//When? When a new user signs up or creates a session, the database should change with respect to this action
+//Where? The database is on mlab.com. You can actively see/change data in there.
+//Why? We need a way to add data into the database. This file helps to separate the actual database calls and the API calls from the front end.
+
 import express from 'express';
 import data_access from './data_access';
 const app = express();
