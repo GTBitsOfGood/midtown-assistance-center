@@ -1,33 +1,27 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-class SubjectPicker extends React.Component {
+class FavoritePicker extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             show: true
         };
-        this.handleStartChange = this.handleStartChange.bind(this);
-        this.handleEndChange = this.handleEndChange.bind(this);
+        this.handleFavoriteChange = this.handleFavoriteChange.bind(this);
         this.handleRemoveClick = this.handleRemoveClick.bind(this);
         this.handleSubjectChange = this.handleSubjectChange.bind(this);
     }
 
-    handleStartChange(event) {
-        this.props.handleEditStart(this.props.index, event.target.value);
-    }
-
-    handleEndChange(event) {
-        this.props.handleEditEnd(this.props.index, event.target.value);
+    handleFavoriteChange(event) {
+        this.props.handleEditFavorite(this.props.index, event.target.value);
     }
 
     handleSubjectChange(event) {
         this.props.handleEditSubject(this.props.index, event.target.value);
-        console.log(event.target.value);
     }
 
     handleRemoveClick(event) {
-        this.props.handleRemoveSubject(this.props.index);
+        this.props.handleRemoveFavorite(this.props.index);
     }
 
     render() {
@@ -45,36 +39,24 @@ class SubjectPicker extends React.Component {
             <span className="subject-pick col-md-4">
                 <label>Subject:</label>
                 <select
-                        className="input input-sm subject-input"
-                        name="subject"
-                        value={ this.props.subject }
-                        defaultValue={ this.props.subject }
-                        onChange={ this.handleSubjectChange }
-                        disabled={ !this.props.is_edit }>
+                    className="input input-sm subject-input"
+                    name="subject"
+                    value={ this.props.subject }
+                    defaultValue={ this.props.subject }
+                    onChange={ this.handleSubjectChange }
+                    disabled={ !this.props.is_edit }>
                     { subjectOptions }
                 </select>
             </span>
-            <span className="subject-pick col-md-2">
-                <label>Start: </label>
+            <span className="subject-pick col-md-4">
+                <label>Favorite Topic: </label>
                 <input
                     className="input input-sm subject-input"
-                    type="number"
-                    min="6"
-                    max="12"
-                    value={ this.props.start }
-                    onChange={ this.handleStartChange }
-                    disabled={ !this.props.is_edit }/>
-            </span>
-            <span className="subject-pick col-md-2">
-                <label>End: </label>
-                <input
-                    className="input input-sm subject-input"
-                    type="number"
-                    min="6"
-                    max="12"
-                    value={ this.props.end }
-                    onChange={ this.handleEndChange }
-                    disabled={ !this.props.is_edit }/>
+                    type="text"
+                    value={ this.props.favorite }
+                    onChange={ this.handleFavoriteChange }
+                    disabled={ !this.props.is_edit }
+                    required/>
             </span>
             <span className="edit-subject-btn col-md-4">
             <label className="white">: </label>
@@ -105,4 +87,4 @@ const mapDispatchToProps = (dispatch) => {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(SubjectPicker);
+)(FavoritePicker);
