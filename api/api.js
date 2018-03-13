@@ -187,10 +187,6 @@ app.post('/subjects', (req, res) => {
     });
 });
 
-app.post('/favorites', (req, res) => {
-
-});
-
 app.patch('/admin', (req, res) => {
     res.json({
         success: false,

@@ -10,5 +10,5 @@ module.exports = {
                 callback(null, favorite_instance);
             }
         });
-    }
+    },
 };
