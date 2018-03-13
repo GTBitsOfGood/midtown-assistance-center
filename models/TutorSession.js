@@ -11,7 +11,8 @@ const Schema = mongoose.Schema;
 let schema = new Schema({
     students_attended: {type:{
         student_id: {type: String},
-        student_rating: {type: Number}, 
+        student_rating: {type: Number, default: null},
+        student_comment: {type: String, default:null},
         time: {type: Date}
     }, required: true},
     tutor_rating: {type: Number, required: true},
