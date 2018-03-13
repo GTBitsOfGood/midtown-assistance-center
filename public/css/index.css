@@ -479,13 +479,39 @@ body {
     width: 164px;
     margin-top: 18px;
     float:right;
+    position: relative;
+}
+
+.edit-profile-pic {
+    position: absolute;
+    float:right;
+    top: 18px;
+    right: 15px;
+    height: 164px;
+    width: 164px;
+    border-radius: 50%;
+    opacity: 0;
+    background-color: var(--purple);
+    display: table;
+    text-align: center;
+}
+
+.edit-profile-pic-text {
+    display: table-cell;
+    vertical-align: middle;
+    color: var(--primaryLight);
+}
+
+.edit-profile-header {
+    margin-top: 0;
+    margin-bottom: 0;
 }
 
 .profile-pic-wrapper, .profile-info-wrapper {
     height: 200px;
     display: table;
     border-bottom: 1px solid var(--primaryLight);
-    margin-bottom: 10px;
+    margin-bottom: 40px;
 }
 
 .profile-info {
@@ -501,6 +527,12 @@ body {
 
 .tutor-profile-input {
     margin-bottom: 10px;
+}
+
+.profile-pic-wrapper:hover .edit-profile-pic {
+    cursor: pointer;
+    animation: hoverFadeIn 0.7s;
+    opacity: 0.7;
 }
 
 /*======================================== General ========================================*/
@@ -598,3 +630,7 @@ body {
     padding: 0;
 }
 
+@keyframes hoverFadeIn {
+    from { opacity: 0; }
+      to { opacity: 0.7; }
+}
