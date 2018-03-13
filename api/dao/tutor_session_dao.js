@@ -26,6 +26,22 @@ function sumSessionTimes(accumulator, currentValue) {
 
 module.exports = {
 
+    // add a tutor session object
+    addSession: function(session, callback) {
+        TutorSession.create(session, function (err, session_instance) {
+            if (err) {
+                console.error('Error creating a new session AND THIS IS WHY DUDE:', err);
+                callback(err);
+            } else {
+                callback(null, session_instance);
+            }
+        });
+    },
+
+    addStudentReview: function(review, callback) {
+        console.log("adding student review");
+    },
+
     // get all of the sessions that the tutor has been a part of
     getSessionsByTutor: function(username, callback) {
         TutorSession.find({tutor_id:username}, function(err, docs) {
