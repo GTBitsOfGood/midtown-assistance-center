@@ -1,27 +1,30 @@
 const TutorSession = require('../../models/TutorSession.js');
 
+function sumRatings(accumulator, currentValue) {
+    return accumulator.students_attended.reduce(sumStudentRatings) + currentValue;
+}
+
+function sumStudentRatings(accumulator, currentValue) {
+    return accumulator.student_rating + currentValue;
+}
+
+function numRatings(accumulator, currentValue) {
+    return accumulator.students_attended.reduce(numStudentRatings) + currentValue;
+}
+
+function sumStudentRatings(accumulator, currentValue) {
+    return ( accumulator.student_rating != null ? 1 : 0 ) + currentValue;
+}
+
+function sumSessionDiscrepancy(accumulator, currentValue) {
+    return ((accumulator.expected_end_time - accumulator.expected_start_time) - (accumulator.end_time - accumulator.start_time)) + currentValue;
+}
+
+function sumSessionTimes(accumulator, currentValue) {
+    return (accumulator.end_time - accumulator.start_time) + currentValue;
+}
 
 module.exports = {
-
-    function sumRatings(accumulator, currentValue) {
-        return accumulator.students_attended.reduce(sumStudentRatings) + currentValue;
-    }
-
-    function sumStudentRatings(accumulator, currentValue) {
-        return accumulator.student_rating + currentValue;
-    }
-
-    function numRatings(accumulator, currentValue) {
-        return accumulator.students_attended.reduce(numStudentRatings) + currentValue;
-    }
-
-    function sumStudentRatings(accumulator, currentValue) {
-        return ( accumulator.student_rating != null ? 1 : 0 ) + currentValue;
-    }
-
-    function sumSessionTimes(accumulator, currentValue) {
-        return (accumulator.end_time - accumulator.start_time) + currentValue;
-    }
 
     // get all of the sessions that the tutor has been a part of
     getSessionsByTutor: function(username, callback) {
@@ -58,15 +61,28 @@ module.exports = {
                 var avgSessionTime = docs.reduce(getAvgSessionTime)/docs.length;
                 callback(null, {time:avgSessionTime});
             }
-        })
+        });
     },
     // get the overall discrepancy between expected session time and actual session time
     // for a certain range of dates (ex. Jan-Feb 2018)
     getSessionDiscrepancy: function(start_date, end_date) {
-        console.log(start_date);
+        function filterByStartDate(session) {
+            return session.start_time > start_date && sesion.end_time > end_date;
+        }
+        TutorSession.find({}, function(err, docs) {
+            if (err) {
+                console.log(err);
+                callback(err);
+            } else {
+                docs.filter()
+                var totalDiscrepancy = docs.reduce(getSessionDiscrepancy)
+                var avgDiscrepancy = totalDiscrepancy/docs.length;
+                callback(null, {time:avgSessionTime});
+            }
+        });
     },
     // get the overall average tutor rating for a range of dates (ex. Jan-Feb 2018)
-    getTutorAvgRating: function(start_date, end_date) {
+    getOverallTutorAvgRating: function(start_date, end_date) {
         console.log(start_date);
     },
 
