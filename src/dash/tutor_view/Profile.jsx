@@ -309,7 +309,7 @@ class Profile extends React.Component {
                         <div className="col-xs-12 col-sm-offset-1 col-sm-10">
                             <div className="row">
                                 <div className="col-sm-6 col-md-5 profile-pic-wrapper">
-                                    <img src={this.props.user.profile_picture} alt="user-pic" className="tutor-profile-pic img-circle" />
+                                    <img src={this.props.user.profile_picture} alt="user-pic" className="tutor-profile-picture img-circle" />
                                     <div className="edit-profile-pic">
                                         <div className="edit-profile-pic-text">
                                             <h3 className="edit-profile-header"><span className="glyphicon glyphicon-pencil"></span> Edit</h3>

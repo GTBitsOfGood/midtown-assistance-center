@@ -53,6 +53,11 @@ module.exports = {
             }
         });
     },
+
+    // rank tutors
+    rankTutorsByRating: function(callback) {
+        console.log("/")
+    },
     // get the average rating for the tutor and the total number of ratings
     getTutorAvgRating: function(username, callback) {
         TutorSession.find({tutor_id:username}, function(err, docs) {
