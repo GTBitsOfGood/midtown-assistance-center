@@ -9,12 +9,15 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let schema = new Schema({
-    students_attended: {type:{
-        student_id: {type: String},
-        student_rating: {type: Number, default: null},
-        student_comment: {type: String, default:null},
-        time: {type: Date}
-    }, required: true},
+    students_attended: {type: [
+        type:{
+            student_id: {type: String},
+            student_rating: {type: Number, default: null},
+            student_comment: {type: String, default:null},
+            time: {type: Date}
+        }
+    ],
+    required: true},
     tutor_rating: {type: Number, required: true},
     tutor_comment: {type: String, required: true},
     tutor_id: {type: String, required: true},
