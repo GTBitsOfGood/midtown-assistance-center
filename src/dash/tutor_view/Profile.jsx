@@ -7,6 +7,8 @@ import TimePicker from './TimePicker.jsx';
 
 import SubjectPicker from './SubjectPicker.jsx';
 
+import FavoritePicker from './FavoritePicker.jsx';
+
 import { getSubjects } from "../../redux/actions/subject_actions"
 
 const DAYS_OF_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -30,7 +32,8 @@ class Profile extends React.Component {
             button_text: 'Edit',
             availability: this.props.user.availability,
             availabilityList: list,
-            subjects:this.props.user.subjects
+            subjects: this.props.user.subjects,
+            favorites: this.props.user.favorites,
         };
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
@@ -46,6 +49,10 @@ class Profile extends React.Component {
         this.handleAddSubject = this.handleAddSubject.bind(this);
         this.handleRemoveSubject = this.handleRemoveSubject.bind(this);
         this.handleRemoveSchedule = this.handleRemoveSchedule.bind(this);
+        this.handleAddFavorite = this.handleAddFavorite.bind(this);
+        this.handleEditFavorite = this.handleEditFavorite.bind(this);
+        this.handleRemoveFavorite = this.handleRemoveFavorite.bind(this);
+        this.handleEditFavSubject = this.handleEditFavSubject.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.unflatten = this.unflatten.bind(this);
     }
@@ -100,6 +107,7 @@ class Profile extends React.Component {
         new_user.gmail = this.state.gmail;
         new_user.bio = this.state.bio;
         new_user.subjects = this.state.subjects;
+        new_user.favorites = this.state.favorites;
         new_user.availability = this.unflatten();
         this.setState({availabilityList: this.initAvailabilityList(new_user.availability)});
         this.props.saveUser(new_user);
@@ -125,7 +133,7 @@ class Profile extends React.Component {
 
     handleEditStartGrade(index, start) {
         let temp = this.state.subjects;
-        temp[index].start_grade = start;
+        temp[index].start_grade = start.type === 'number' ? parseInt(start) : start;
         this.setState({subjects: temp});
     }
 
@@ -136,8 +144,9 @@ class Profile extends React.Component {
     }
 
     handleEditEndGrade(index, end) {
+        console.log(end, this.state.subjects);
         let temp = this.state.subjects;
-        temp[index].end_grade = end;
+        temp[index].end_grade = end.type === 'number' ? parseInt(end) : end;
         this.setState({subjects: temp});
     }
 
@@ -166,13 +175,41 @@ class Profile extends React.Component {
         }
     }
 
+    handleEditFavorite(index, fav) {
+        let temp = this.state.favorites;
+        temp[index].favorite = fav;
+        this.setState({favorites: temp});
+    }
+
+    handleEditFavSubject(index, subj) {
+        let temp = this.state.favorites;
+        temp[index].subject = subj;
+        this.setState({favorites: temp});
+    }
+
+
+    handleAddFavorite() {
+        if (this.state.is_edit) {
+            let temp = this.state.favorites;
+            temp.push({
+                favorite: "",
+                // hardcoded subject, not from db
+                subject: this.props.subjects.availableSubjects.data[0]
+            });
+            this.setState({favorites: temp});
+        }
+    }
+
+
+
     handleAddSubject() {
         if (this.state.is_edit) {
             let temp = this.state.subjects;
             temp.push({
-                subject: "",
-                start: "6",
-                end: "12"
+                // hardcoded subject, not from db
+                subject: this.props.subjects.availableSubjects.data[0],
+                start_grade: 6,
+                end_grade: 12
             });
             this.setState({subjects: temp});
         }
@@ -190,6 +227,13 @@ class Profile extends React.Component {
         this.setState({subjects: temp});
     }
 
+    handleRemoveFavorite(index) {
+        let temp = this.state.favorites;
+        temp.splice(index, 1);
+        this.setState({favorites: temp});
+    }
+
+
     handleBioChange(event) {
         this.setState({bio: event.target.value});
     }
@@ -205,6 +249,7 @@ class Profile extends React.Component {
     render() {
         let availabilityItems = [];
         let subjectItems = [];
+        let favoriteItems = [];
         for (let event in this.state.availabilityList) {
             availabilityItems.push(
                 <div className="time-item">
@@ -237,6 +282,21 @@ class Profile extends React.Component {
                     </div>
                 );
             }
+        for (let event in this.state.favorites) {
+            favoriteItems.push(
+                <div className="time-item">
+                    <FavoritePicker
+                        index={event}
+                        subject={ this.state.favorites[event].subject }
+                        favorite={ this.state.favorites[event].favorite }
+                        is_edit={ this.state.is_edit }
+                        handleRemoveFavorite = {this.handleRemoveFavorite}
+                        handleEditSubject = {this.handleEditFavSubject}
+                        handleEditFavorite = {this.handleEditFavorite}/>
+                </div>
+            );
+        }
+
 
 
         return (
@@ -321,6 +381,18 @@ class Profile extends React.Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-xs-12">
+                                            <i className="glyphicon glyphicon-apple"></i> Favorites:
+                                            { favoriteItems }
+                                            <button
+                                                className="btn btn-success add-subject"
+                                                onClick={ this.handleAddFavorite }
+                                                disabled={ !this.state.is_edit }>
+                                                Add a Favorite
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div className="row">
+                                        <div className="col-xs-12">
                                             <i className="glyphicon glyphicon-time"></i> Schedule:
                                             { availabilityItems }
                                             <button
@@ -349,6 +421,7 @@ class Profile extends React.Component {
 const mapStateToProps = (state) => {
     return {
         user: state.user,
+        subjects: state.subjects
     };
 };
 

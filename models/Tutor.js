@@ -27,6 +27,14 @@ let schema = new Schema({
       ],
       default: []
     },
+    favorites: { type:
+        [
+            {
+                favorite: {type: String},
+                subject: {type: String}
+            }
+        ], default: []
+    },
     availability: {type:
       {
         Monday: {type:

@@ -60,7 +60,9 @@ class TutorSearchResult extends React.Component {
 
     render() {
         let subjects = this.props.data.subjects.map((subject, num) => { return <Subject is_favorite={false} subject={subject.subject} start_grade={subject.start_grade} end_grade={subject.end_grade}/>});
-        let favorites = favorites_lst.map((favorite, num) => {return <Subject is_favorite={true} subject={favorite}/>});
+        let favorites = this.props.data.favorites.map((fav, num) => {
+            return <Subject is_favorite={true} subject={fav.favorite}/>
+        });
         let stars = [];
         let date = new Date(this.props.data.join_date).toLocaleDateString();
         for (let x = 0; x < this.state.fullStars; x++) {
