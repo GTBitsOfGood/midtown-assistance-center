@@ -55,7 +55,8 @@ class FavoritePicker extends React.Component {
                     type="text"
                     value={ this.props.favorite }
                     onChange={ this.handleFavoriteChange }
-                    disabled={ !this.props.is_edit }/>
+                    disabled={ !this.props.is_edit }
+                    required/>
             </span>
             <span className="edit-subject-btn col-md-4">
             <label className="white">: </label>

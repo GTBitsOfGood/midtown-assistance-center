@@ -154,6 +154,14 @@ module.exports = {
           }
         }
 
+        for (let i = 0; i < tutor.favorites.length; i++) {
+          let fav_json = tutor.favorites[i];
+          if (fav_json.favorite.toLowerCase() === subject.toLowerCase()
+              || fav_json.subject.toLowerCase() === subject.toLowerCase()) {
+            return true;
+          }
+        }
+
         return false;
       }
 

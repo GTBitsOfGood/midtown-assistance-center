@@ -194,7 +194,7 @@ class Profile extends React.Component {
             temp.push({
                 favorite: "",
                 // hardcoded subject, not from db
-                subject: "math"
+                subject: this.props.subjects.availableSubjects.data[0]
             });
             this.setState({favorites: temp});
         }
@@ -207,7 +207,7 @@ class Profile extends React.Component {
             let temp = this.state.subjects;
             temp.push({
                 // hardcoded subject, not from db
-                subject: "math",
+                subject: this.props.subjects.availableSubjects.data[0],
                 start_grade: 6,
                 end_grade: 12
             });
@@ -414,6 +414,7 @@ class Profile extends React.Component {
 const mapStateToProps = (state) => {
     return {
         user: state.user,
+        subjects: state.subjects
     };
 };
 
