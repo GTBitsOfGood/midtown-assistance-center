@@ -17,11 +17,15 @@ function sumStudentRatings(accumulator, currentValue) {
 }
 
 function sumSessionDiscrepancy(accumulator, currentValue) {
-    return ((accumulator.expected_end_time - accumulator.expected_start_time) - (accumulator.end_time - accumulator.start_time)) + currentValue;
+    return ((accumulator.expected_end_time - accumulator.end_time) - (accumulator.start_time - accumulator.expected_start_time)) + currentValue;
 }
 
 function sumSessionTimes(accumulator, currentValue) {
     return (accumulator.end_time - accumulator.start_time) + currentValue;
+}
+
+function getComments(doc) {
+    return {comment: doc.tutor_comment, rating: doc.tutor_rating};
 }
 
 module.exports = {
@@ -37,9 +41,16 @@ module.exports = {
             }
         });
     },
+    // update the tutor session object (if a student is added or a rating is added)
+    updateTutorSession: function(session, callback) {
+        TutorSession.findByIdAndUpdate(session._id, { $set: session}, function (err, updatedSession) {
+            if (err) {
+              console.log('Error saving session');
+              return callback(err);
+            }
 
-    addStudentReview: function(review, callback) {
-        console.log("adding student review");
+            callback(null, updatedSession);
+        });
     },
 
     // get all of the sessions that the tutor has been a part of
@@ -65,7 +76,6 @@ module.exports = {
                 console.log(err);
                 callback(err)
             } else {
-                rating = 0;
                 var sumRatings = docs.reduce(sumRatings);
                 var numRatings = docs.reduce(numRatings);
                 callback(null, {avgRating: sumRatings/numRatings, totalRatings:numRatings});
@@ -87,15 +97,15 @@ module.exports = {
     // get the overall discrepancy between expected session time and actual session time
     // for a certain range of dates (ex. Jan-Feb 2018)
     getSessionDiscrepancy: function(start_date, end_date) {
-        function filterByStartDate(session) {
-            return session.start_time > start_date && sesion.end_time > end_date;
+        function filterBySessionDate(session) {
+            return session.start_time > start_date && session.end_time < end_date;
         }
         TutorSession.find({}, function(err, docs) {
             if (err) {
                 console.log(err);
                 callback(err);
             } else {
-                docs.filter()
+                docs = docs.filter(filterBySessionDate)
                 var totalDiscrepancy = docs.reduce(getSessionDiscrepancy)
                 var avgDiscrepancy = totalDiscrepancy/docs.length;
                 callback(null, {time:avgSessionTime});
@@ -104,16 +114,36 @@ module.exports = {
     },
     // get the overall average tutor rating for a range of dates (ex. Jan-Feb 2018)
     getOverallTutorAvgRating: function(start_date, end_date) {
-        console.log(start_date);
+        function filterBySessionDate(session) {
+            return session.start_time > start_date && session.end_time < end_date;
+        }
+        TutorSession.find({}, function(err, docs) {
+            if (err) {
+                console.log(err);
+                callback(err);
+            } else {
+                docs = docs.filter(filterBySessionDate)
+                var sumRatings = docs.reduce(sumRatings);
+                var numRatings = docs.reduce(numRatings);
+                callback(null, {avgRating: sumRatings/numRatings, totalRatings:numRatings});
+            }
+        });
     },
 
-    // get the overall discrepancy between expected session start time and actual session start time
-    getStartTimeDiscrepancy: function(start_date, end_date) {
-        console.log(start_date);
-    },
-
-    // get the tutor comments for sessions with a rating <= max_rating
-    getTutorComments: function(max_rating) {
-        console.log(max_rating);
+    // get the tutor feedback comments for sessions with a rating <= max_rating
+    getTutorFeedback: function(max_rating) {
+        function filterByMaxRating(session) {
+            return session.tutor_rating <= max_rating;
+        }
+        TutorSession.find({}, function(err, docs) {
+            if (err) {
+                console.log(err);
+                callback(err);
+            } else {
+                docs = docs.filter(filterByMaxRating)
+                docs = docs.map(getComments);
+                callback(null, docs);
+            }
+        });
     }
 }
