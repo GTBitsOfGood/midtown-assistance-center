@@ -34,11 +34,13 @@ class Profile extends React.Component {
             availabilityList: list,
             subjects: this.props.user.subjects,
             favorites: this.props.user.favorites,
+            editProfilePic: 'hide',
         };
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.handleGmailChange = this.handleGmailChange.bind(this);
+        this.handleProfilePicChange = this.handleProfilePicChange.bind(this);
         this.handleEditStart = this.handleEditStart.bind(this);
         this.handleEditEnd = this.handleEditEnd.bind(this);
         this.handleEditDate = this.handleEditDate.bind(this);
@@ -55,6 +57,8 @@ class Profile extends React.Component {
         this.handleEditFavSubject = this.handleEditFavSubject.bind(this);
         this.handleSave = this.handleSave.bind(this);
         this.unflatten = this.unflatten.bind(this);
+        this.handleSaveProfilePic = this.handleSaveProfilePic.bind(this);
+        this.handleEditProfilePic = this.handleEditProfilePic.bind(this);
     }
 
     initAvailabilityList(availability) {
@@ -111,6 +115,17 @@ class Profile extends React.Component {
         new_user.availability = this.unflatten();
         this.setState({availabilityList: this.initAvailabilityList(new_user.availability)});
         this.props.saveUser(new_user);
+    }
+
+    handleSaveProfilePic() {
+        this.setState({editProfilePic: 'hide'});
+        let new_user = Object.assign({}, this.props.user);
+        new_user.profile_picture = this.state.profile_picture;
+        this.props.saveUser(new_user);
+    }
+
+    handleEditProfilePic() {
+        this.setState({editProfilePic: 'show'});
     }
 
     handleEdit() {
@@ -246,6 +261,10 @@ class Profile extends React.Component {
         this.setState({gmail: event.target.value});
     }
 
+    handleProfilePicChange(event) {
+        this.setState({profile_picture: event.target.value});
+    }
+
     render() {
         let availabilityItems = [];
         let subjectItems = [];
@@ -310,10 +329,19 @@ class Profile extends React.Component {
                             <div className="row">
                                 <div className="col-sm-6 col-md-5 profile-pic-wrapper">
                                     <img src={this.props.user.profile_picture} alt="user-pic" className="tutor-profile-picture img-circle" />
-                                    <div className="edit-profile-pic">
+                                    <div className="edit-profile-pic" onClick={this.handleEditProfilePic}>
                                         <div className="edit-profile-pic-text">
                                             <h3 className="edit-profile-header"><span className="glyphicon glyphicon-pencil"></span> Edit</h3>
                                         </div>
+                                    </div>
+                                    <div className={"edit-img-input-" + this.state.editProfilePic}>
+                                        <input
+                                        className="input input-sm"
+                                        value={this.state.profile_picture == '/images/default_user_img.png' ? '' : this.state.profile_picture} placeholder="Enter Image URL"
+                                        type="text"
+                                        onChange={ this.handleProfilePicChange }
+                                        ></input>
+                                        <button onClick={this.handleSaveProfilePic} type="button" className="btn btn-sm btn-primary">Save</button>
                                     </div>
                                 </div>
                                 <div className="col-sm-6 col-md-7 profile-info-wrapper">
@@ -329,7 +357,13 @@ class Profile extends React.Component {
                                     <div className="form-group">
                                         <div className="row tutor-profile-input">
                                             <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-envelope"></i> Email:
+                                                <h5><i className="glyphicon glyphicon-calendar"></i> Join Date:</h5>
+                                                <p>{ (new Date(this.props.user.join_date)).toDateString() }</p>
+                                            </div>
+                                        </div>
+                                        <div className="row tutor-profile-input">
+                                            <div className="col-xs-12">
+                                                <h5><i className="glyphicon glyphicon-envelope"></i> Email:</h5>
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
@@ -340,7 +374,7 @@ class Profile extends React.Component {
                                         </div>
                                         <div className="row tutor-profile-input">
                                             <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-envelope"></i> Gmail:
+                                                <h5><i className="glyphicon glyphicon-envelope"></i> Gmail:</h5>
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
@@ -349,15 +383,10 @@ class Profile extends React.Component {
                                                     disabled={ !this.state.is_edit }/>
                                             </div>
                                         </div>
-                                        <div className="row tutor-profile-input">
-                                            <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-calendar"></i> Join Date:
-                                                <p>{ (new Date(this.props.user.join_date)).toDateString() }</p>
-                                            </div>
-                                        </div>
+
                                         <div className="row">
                                             <div className="col-xs-12 tutor-profile-input">
-                                                <i className="glyphicon glyphicon-home"></i> Bio:
+                                                <h5><i className="glyphicon glyphicon-home"></i> Bio:</h5>
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
@@ -369,7 +398,7 @@ class Profile extends React.Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-xs-12">
-                                            <i className="glyphicon glyphicon-apple"></i> Subjects:
+                                            <h5><i className="glyphicon glyphicon-apple"></i> Subjects:</h5>
                                             { subjectItems }
                                             <button
                                                 className="btn btn-success add-subject"
@@ -381,7 +410,7 @@ class Profile extends React.Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-xs-12">
-                                            <i className="glyphicon glyphicon-apple"></i> Favorites:
+                                            <h5><i className="glyphicon glyphicon-apple"></i> Favorites:</h5>
                                             { favoriteItems }
                                             <button
                                                 className="btn btn-success add-subject"
@@ -393,7 +422,7 @@ class Profile extends React.Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-xs-12">
-                                            <i className="glyphicon glyphicon-time"></i> Schedule:
+                                            <h5><i className="glyphicon glyphicon-time"></i> Schedule:</h5>
                                             { availabilityItems }
                                             <button
                                                 className="btn btn-success add-time"

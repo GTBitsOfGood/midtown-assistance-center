@@ -535,6 +535,42 @@ body {
     opacity: 0.7;
 }
 
+.edit-img-input-show {
+    background-color: white;
+    height: 164px;
+    width: 164px;
+    position: absolute;
+    top: 18px;
+    right: 15px;
+}
+
+.edit-img-input-hide {
+    display: none;
+}
+
+.edit-img-input-show input {
+    display: block;
+    float: right;
+    margin-top: 5px;
+    height: 30px;
+    border: 1px solid var(--gray);
+    background-color: var(--primaryLight);
+    width: 150px;
+    position: absolute;
+    top: 0;
+    right: 7px;
+}
+
+.edit-img-input-show button {
+    display: block;
+    float: right;
+    height: 30px;
+    width: 150px;
+    position: absolute;
+    top: 40px;
+    right: 7px;
+}
+
 /*======================================== General ========================================*/
 
 .mac_button {
