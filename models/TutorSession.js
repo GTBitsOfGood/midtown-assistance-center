@@ -11,7 +11,7 @@ const Schema = mongoose.Schema;
 let schema = new Schema({
     _id: {type: {
             tutor_id: {type: Schema.Types.ObjectId, ref:'Tutor', required: true},
-            start_time: {type: Date, required: true}
+            expected_start_time: {type: Date, required: true}
         }
     },
     students_attended: {type: [
@@ -23,12 +23,13 @@ let schema = new Schema({
         }
     ],
     default: []},
-    link: {type: String},
-    tutor_rating: {type: Number},
-    tutor_comment: {type: String},
-    end_time: {type: Date},
-    expected_start_time: {type: Date, required: true},
-    expected_end_time: {type: Date, required:true}
+    eventId: {type: String, required: true},
+    hangouts_link: {type: String, required: false},
+    tutor_rating: {type: Number, required: false},
+    tutor_comment: {type: String, required: false},
+    end_time: {type: Date, required: false},
+    start_time: {type: Date, required: true},
+    expected_end_time: {type: Date, required:true},
 });
 
 module.exports = mongoose.model('TutorSession', schema);

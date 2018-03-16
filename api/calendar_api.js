@@ -121,6 +121,8 @@ app.post('/createEvent', function(req, res){
 	let startTime = req.body.startTime;
 	let endTime = req.body.endTime;
     let tutorEmail = req.body.email;
+    let sessionRequestBody = req.body.sessionRequestBody;
+    let _id = sessionRequestBody._id;
 
 	let currDateStart = moment();
 	currDateStart.hour(startTime.split(":")[0]);
@@ -136,116 +138,160 @@ app.post('/createEvent', function(req, res){
 	let startDateString = currDateStart.format("YYYY-MM-DDTHH:mm:ss");
 	let endDateString = currDateEnd.format("YYYY-MM-DDTHH:mm:ss");
 
-  google.auth.refreshAccessToken(function(err, token) {
-    if (err) {
-      console.log('Error while trying to retrieve access token', err);
-      res.json({
-          success: false,
-          link: false,
-          error: err
-      });
-      return;
-    }
-    google.auth.credentials = token;
-
-    google.calendar.events.insert({
-      auth: google.auth,
-      calendarId: calId,
-      resource: {
-        "summary": "tutor session",
-        "attendees": [
-          {
-            "email": tutorEmail,
-            "additionalGuests":8
-          }
-        ],
-        "start": {
-          "dateTime": startDateString,
-          "timeZone": "America/New_York"
-        },
-        "end": {
-          "dateTime": endDateString,
-          "timeZone": "America/New_York"
-        },
-       anyoneCanAddSelf:true,
-       visibility: 'public',
-       organizer: {
-        "email":tutorEmail,
-       },
-       creator: {
-        "email":tutorEmail,
-       },
-       guestsCanInviteOthers:true,
-       guestsCanModify:true,
-       hangoutLink: tutorId + startDateString + endDateString,
-       conferenceDataVersion: 1,
-       conferenceData: {
-        conferenceSolution: {
-            name: tutorId + startDateString + endDateString + "_tutor_session",
-            key: {
-                type: "eventHangout"
-            },
-        },
-        createRequest: {
-            conferenceSolutionKey: {
-                type: "eventHangout"
+	var check_event_exists = new Promise(function(resolve, reject) {
+	    console.log("in promise");
+	    data_access.tutor_sessions.getSessionByTutor(_id, function(err, response) {
+            if (err) {
+                console.log(err);
+                res.json({
+                  success: false,
+                  link: false,
+                  error: err
+                });
+              reject(err);
+            } else if (response.length > 0) {
+                console.log("here");
+                return res.json({
+                  success: true,
+                  link: response[0].hangouts_link,
+                  id: response[0].eventId,
+                 });
+                 resolve(true);
+            } else {
+                console.log("here2");
+                resolve(false);
             }
-        }
-       }
-    }
-    }, function(err, response){
-      if (err) {
-        res.json({
-          success: false,
-          link: false,
-          error: err
         });
-        return;
-      }
-      
-      // code to update the tutor db with the hangout link for the tutor
-      data_access.users.getUser(tutorId, function(err, tutor) {
-        if (err) {
-          res.send({
-            success: false,
-            payload: null,
-            error: error
-          });
-          return;
-        }
+	});
 
-        // Update the tutor with the hangout link that was just created for him
-        tutor.tutoringEventId = response.id;
+	check_event_exists.then(function(value) {
+	    add_new_session(value);
+	}, function(error) {
+	    console.log(error);
+	});
 
-        data_access.users.saveTutor(tutor, function(err, updatedTutor) {
-          if (err) {
-            res.send({
-              success: false,
-              payload: null,
-              error: error
-            });
+    function add_new_session(add_calendar) {
+        if (add_calendar) {
             return;
-          }
-          console.log(response);
+        }
+        google.auth.refreshAccessToken(function(err, token) {
+            if (err) {
+              console.log('Error while trying to retrieve access token', err);
+              res.json({
+                  success: false,
+                  link: false,
+                  error: err
+              });
+              return;
+            }
+            google.auth.credentials = token;
 
-          res.json({
-            success: true,
-            link: response.hangoutLink,
-            error: null
-          });
+            google.calendar.events.insert({
+              auth: google.auth,
+              calendarId: calId,
+              resource: {
+                "summary": "tutor session",
+                "attendees": [
+                  {
+                    "email": tutorEmail,
+                    "additionalGuests":8
+                  }
+                ],
+                "start": {
+                  "dateTime": startDateString,
+                  "timeZone": "America/New_York"
+                },
+                "end": {
+                  "dateTime": endDateString,
+                  "timeZone": "America/New_York"
+                },
+               anyoneCanAddSelf:true,
+               visibility: 'public',
+               organizer: {
+                "email":tutorEmail,
+               },
+               creator: {
+                "email":tutorEmail,
+               },
+               guestsCanInviteOthers:true,
+               guestsCanModify:true,
+               hangoutLink: tutorId + startDateString + endDateString,
+               conferenceDataVersion: 1,
+               conferenceData: {
+                conferenceSolution: {
+                    name: tutorId + startDateString + endDateString + "_tutor_session",
+                    key: {
+                        type: "eventHangout"
+                    },
+                },
+                createRequest: {
+                    conferenceSolutionKey: {
+                        type: "eventHangout"
+                    }
+                }
+               }
+            }
+            }, function(err, response){
+              if (err) {
+                res.json({
+                  success: false,
+                  link: false,
+                  error: err
+                });
+                return;
+              }
+
+              // code to update the tutor db with the hangout link for the tutor
+              data_access.users.getUser(tutorId, function(err, tutor) {
+                if (err) {
+                  res.send({
+                    success: false,
+                    payload: null,
+                    error: error
+                  });
+                  return;
+                }
+
+                // Update the tutor with the hangout link that was just created for him
+                tutor.tutoringEventId = response.id;
+
+                data_access.users.saveTutor(tutor, function(err, updatedTutor) {
+                  if (err) {
+                    res.send({
+                      success: false,
+                      payload: null,
+                      error: error
+                    });
+                    return;
+                  }
+                  console.log(response);
+
+                });
+
+                sessionRequestBody['hangouts_link'] = response.hangoutLink;
+                sessionRequestBody['eventId'] = response.id;
+                data_access.tutor_sessions.addSession(sessionRequestBody, function(err, resultSession) {
+                    if (err) {
+                        console.error(err);
+                        return res.json({
+                            success: false,
+                            error_message: 'Creating session failed',
+                        });
+                    }
+                    return res.json({
+                        success: true,
+                        error_message: null,
+                        result: resultSession,
+                        link: resultSession.hangouts_link,
+                        id: resultSession.eventId,
+                        error: null
+                    });
+                });
+
+              });
+            });
         });
-
-      });
-    });
-
-
-  });
-
-	//TODO: make db call to get calendarId using tutorId
-	//TODO: add googlehangouts link to the tutor in the db to show that they are in session
-
-
-
+    }
 
 });
 

@@ -55,7 +55,7 @@ module.exports = {
 
     // get all of the sessions that the tutor has been a part of
     getSessionsByTutor: function(username, callback) {
-        TutorSession.find({tutor_id:username}, function(err, docs) {
+        TutorSession.find({"_id.tutor_id":username}, function(err, docs) {
             if (err) {
                 console.log(err);
                 callback(err)
@@ -64,7 +64,19 @@ module.exports = {
             }
         });
     },
-
+    // get a particular session for a tutor
+    getSessionByTutor: function(data, callback) {
+        console.log("in dao func");
+        console.log(data);
+        TutorSession.find({"_id.tutor_id": data.tutor_id, "_id.expected_start_time":data.expected_start_time}, function(err, docs) {
+            if (err) {
+                console.log(err);
+                callback(err)
+            } else {
+                callback(null, docs);
+            }
+        });
+    },
     // rank tutors
     rankTutorsByRating: function(callback) {
         console.log("/")
