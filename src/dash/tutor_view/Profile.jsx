@@ -35,6 +35,7 @@ class Profile extends React.Component {
             subjects: this.props.user.subjects,
             favorites: this.props.user.favorites,
             editProfilePic: 'hide',
+            profile_picture: this.props.user.profile_picture,
         };
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);

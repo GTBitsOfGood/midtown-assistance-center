@@ -26,7 +26,7 @@ class TutorUpcomingEvent extends React.Component {
                 calId: this.props.calId,
                 startTime: this.props.startTime,
                 endTime: this.props.endTime,
-                email: this.props.email
+                email: this.props.gmail
             };
 
             console.log(requestBody);

@@ -23,6 +23,7 @@ let schema = new Schema({
         }
     ],
     default: []},
+    link: {type: String},
     tutor_rating: {type: Number},
     tutor_comment: {type: String},
     end_time: {type: Date},
