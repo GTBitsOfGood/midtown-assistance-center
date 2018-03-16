@@ -176,13 +176,10 @@ class SignUpTutor extends React.Component {
                     console.log(response);
                     console.log(self.state.username);
                     if (response.data.success) {
-                        axios.post('/calendar/createNewCalendar', {id: self.state.username})
+                        axios.post('/calendar/createNewCalendar', {id: self.state.username, email: self.state.gmail})
                             .then(function(response){
-                                console.log(response);
-                                console.log("calendar ID");
-                                console.log(response.data.calId);
                                 self.setState({disabledSubmit: false});
-                                axios.post('/calendar/addCalendarACL', {id: self.state.username, email: self.state.email, calendarId: response.data.calId})
+                                axios.post('/calendar/addCalendarACL', {id: self.state.username, email: self.state.gmail, calendarId: response.data.calId})
                                     .then(function(res){
                                         console.log(res);
                                         console.log("registration successful");
