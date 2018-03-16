@@ -13,12 +13,18 @@ class SessionModal extends React.Component {
             fifth_star:false,
             rating: 0,
             satisfaction: '',
-            error_message:'hide'
+            error_message:'hide',
+            comment: ''
         };
         this.changeStar = this.changeStar.bind(this);
         this.setRating = this.setRating.bind(this);
         this.changeStarOut = this.changeStarOut.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleCommentChange = this.handleCommentChange.bind(this);
+    }
+
+    handleCommentChange(e) {
+        this.setState({comment: e.target.value});
     }
 
     changeStar(number) {
@@ -70,13 +76,17 @@ class SessionModal extends React.Component {
         if (this.state.rating == 0) {
             this.setState({error_message:'show'});
         } else {
+            let onSubmit = this.props.onSubmit;
+            let rating = this.state.rating;
+            let comment = this.state.comment;
             axios.post('/calendar/endCalendarEvent', {
                 tutorId: this.props.tutorId
             })
             .then(function(response){
                 if (response.data.success) {
-                    this.setState({error_message:'hide'});
+                    //this.setState({error_message:'hide'});
                     $(".modal").modal('hide');
+                    onSubmit(rating, comment);
                 } else {
                     console.log(response.data.error);
                 }
@@ -84,8 +94,6 @@ class SessionModal extends React.Component {
             .catch(function(error){
                 console.log(error);
             });
-            //TODO: somehow store the tutor's review/rating
-            
         }
     }
 
@@ -111,7 +119,7 @@ class SessionModal extends React.Component {
                         <span><h3 className="rating-span">({this.state.rating}/5) {this.state.satisfaction}</h3></span>
                         <h5><a href={this.props.hangoutsLink} target="_blank">Click here to re-enter the hangouts</a></h5>
                         <h5>Leave some comments about any issues or misbehaving students (optional)</h5>
-                        <textarea className="input-lg input feedback-text"></textarea>
+                        <textarea className="input-lg input feedback-text" value={this.state.comment} onChange={this.handleCommentChange}></textarea>
                     </div>
                   </div>
                   <div className="review-modal-footer modal-footer">

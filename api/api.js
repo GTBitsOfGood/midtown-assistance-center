@@ -195,6 +195,52 @@ app.post('/subjects', (req, res) => {
     });
 });
 
+app.post('/tutorSubmitReview', (req, res) => {
+   var get_session = new Promise(function(resolve, reject) {
+        console.log(req);
+        data_access.tutor_sessions.getSessionByTutor(req.body._id, function(err, response) {
+           if (err) {
+               console.log(err);
+               reject(err);
+           } else if (response.length > 0) {
+                resolve(response);
+           } else {
+               reject("could not find session");
+           }
+       });
+   });
+   get_session.then(function(value) {
+        let session = {};
+        session.update = {};
+        session._id = value[0]._id;
+   	    session.update.tutor_rating = req.body.rating;
+   	    session.update.tutor_comment = req.body.comment;
+   	    session.update.end_time = req.body.end_time;
+   	    data_access.tutor_sessions.updateTutorSession(session, function(err, response) {
+   	        if (err) {
+   	            console.log(err);
+   	            res.json({
+   	                success: false,
+   	                error: err
+   	            });
+   	        } else {
+   	            res.json({
+   	                success: true,
+   	                error: null,
+   	                session: response
+   	            });
+   	        }
+   	    });
+   }, function(err) {
+   	    console.log(err);
+   	    res.json({
+         success: false,
+         error: err
+       });
+    }
+   );
+});
+
 app.patch('/admin', (req, res) => {
     res.json({
         success: false,

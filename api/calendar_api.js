@@ -139,7 +139,6 @@ app.post('/createEvent', function(req, res){
 	let endDateString = currDateEnd.format("YYYY-MM-DDTHH:mm:ss");
 
 	var check_event_exists = new Promise(function(resolve, reject) {
-	    console.log("in promise");
 	    data_access.tutor_sessions.getSessionByTutor(_id, function(err, response) {
             if (err) {
                 console.log(err);
@@ -150,7 +149,6 @@ app.post('/createEvent', function(req, res){
                 });
               reject(err);
             } else if (response.length > 0) {
-                console.log("here");
                 return res.json({
                   success: true,
                   link: response[0].hangouts_link,
@@ -158,7 +156,6 @@ app.post('/createEvent', function(req, res){
                  });
                  resolve(true);
             } else {
-                console.log("here2");
                 resolve(false);
             }
         });

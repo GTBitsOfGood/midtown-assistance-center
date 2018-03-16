@@ -43,11 +43,14 @@ module.exports = {
     },
     // update the tutor session object (if a student is added or a rating is added)
     updateTutorSession: function(session, callback) {
-        TutorSession.findByIdAndUpdate(session._id, { $set: session}, function (err, updatedSession) {
+        console.log(session);
+        console.log(session._id);
+        TutorSession.findByIdAndUpdate(session._id, { $set: session.update}, { new: true }, function (err, updatedSession) {
             if (err) {
               console.log('Error saving session');
               return callback(err);
             }
+            console.log(updatedSession);
 
             callback(null, updatedSession);
         });
@@ -66,8 +69,6 @@ module.exports = {
     },
     // get a particular session for a tutor
     getSessionByTutor: function(data, callback) {
-        console.log("in dao func");
-        console.log(data);
         TutorSession.find({"_id.tutor_id": data.tutor_id, "_id.expected_start_time":data.expected_start_time}, function(err, docs) {
             if (err) {
                 console.log(err);

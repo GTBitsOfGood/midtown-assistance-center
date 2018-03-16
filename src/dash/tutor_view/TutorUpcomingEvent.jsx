@@ -13,6 +13,35 @@ class TutorUpcomingEvent extends React.Component {
         };
 
         this.handleAccessHangoutLink = this.handleAccessHangoutLink.bind(this);
+        this.submitReview = this.submitReview.bind(this);
+    }
+
+    submitReview(rating, comment) {
+        let now = new Date();
+        let start = new Date();
+        let startTimeSplit = this.props.startTime.split(":");
+        start.setHours(parseInt(startTimeSplit[0]), parseInt(startTimeSplit[1]), 0, 0);
+        let sessionRequestBody = {
+            _id: {
+                expected_start_time: start,
+                tutor_id: this.props.tutorId,
+            },
+            rating: rating,
+            comment: comment,
+            end_time: now
+        }
+        axios.post('/api/tutorSubmitReview', sessionRequestBody)
+            .then(function(response){
+                console.log(response);
+                if (response.data.success) {
+                    console.log(response.data);
+                } else {
+                    console.log(response.data.error);
+                }
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
     }
 
     handleAccessHangoutLink() {
@@ -83,7 +112,7 @@ class TutorUpcomingEvent extends React.Component {
                     </h3>
                     {renLogo}
                 </div>
-                <SessionReviewModal tutorId={this.props.tutorId} id={this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} hangoutsLink={this.state.hangoutsLink}/>
+                <SessionReviewModal onSubmit={this.submitReview} tutorId={this.props.tutorId} id={this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} hangoutsLink={this.state.hangoutsLink}/>
             </div>
         );
     }
