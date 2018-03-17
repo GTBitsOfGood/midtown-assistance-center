@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-class TutorModal extends React.Component {
+class SubjectComp extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -27,9 +27,9 @@ const mapDispatchToProps = (dispatch) => {
   return {};
 };
 
-const TutorReviewModal = connect(
+const Subject = connect(
   mapStateToProps,
   mapDispatchToProps
-)(TutorModal);
+)(SubjectComp);
 
-export default TutorReviewModal;
+export default Subject;

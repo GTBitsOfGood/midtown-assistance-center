@@ -57,8 +57,11 @@ class Loginpage extends React.Component {
 
     render() {
         return (
+        <div>
+            <div className="bkgrd">
+            </div>
             <div className="animated fadeInRight col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center login-form container">
-                <h2 className="login-header">LOGIN</h2>
+                <h3 className="login-header">Login</h3>
                 <form onSubmit={this.sendToServer}>
                     <div className="row col-xs-12">
                         <input
@@ -93,6 +96,7 @@ class Loginpage extends React.Component {
                     </div>
                 </form>
             </div>
+        </div>
         );
     }
 }

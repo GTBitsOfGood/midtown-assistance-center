@@ -3,6 +3,7 @@ const access_codes = require('./dao/access_code_dao');
 const users = require('./dao/user_dao');
 const session = require('./dao/session_dao');
 const subjects = require('./dao/subject_dao');
+const tutor_sessions = require('./dao/tutor_session_dao');
 
 // Set up default mongoose connection
 const mongoDB = process.env.DB_CONNECTION_STRING;
@@ -21,5 +22,6 @@ module.exports = {
     access_codes,
     session,
     subjects,
+    tutor_sessions,
     mongoDB
 };

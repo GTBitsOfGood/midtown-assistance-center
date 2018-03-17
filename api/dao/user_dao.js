@@ -200,7 +200,6 @@ module.exports = {
         callback('The student password is masked! Not saving this to db');
       }
 
-      console.log('updating student');
       Student.findByIdAndUpdate(student._id, { $set: student}, { new: true }, function (err, updatedStudent) {
         if (err) {
           console.log('Error saving student');
