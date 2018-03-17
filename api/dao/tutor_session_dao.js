@@ -8,37 +8,71 @@
 
 const TutorSession = require('../../models/TutorSession.js');
 
-// find the sum of all ratings among all tutor sessions
+/**
+ * find the sum of all ratings among all tutor sessions
+ * @param accumulator
+ * @param currentValue
+ * @returns {number}
+ */
 function sumRatings(accumulator, currentValue) {
     return accumulator.students_attended.reduce(sumStudentRatings) + currentValue;
 }
 
-// find the sum of the student ratings within 1 tutor session
+/**
+ * find the sum of the student ratings within 1 tutor session
+ * @param accumulator
+ * @param currentValue
+ * @returns {number}
+ */
 function sumStudentRatings(accumulator, currentValue) {
     return accumulator.student_rating + currentValue;
 }
 
-// find the total number of students who have ratings among all tutor sessions
+/**
+ * find the total number of students who have ratings among all tutor sessions
+ * @param accumulator
+ * @param currentValue
+ * @returns {number}
+ */
 function numRatings(accumulator, currentValue) {
     return accumulator.students_attended.reduce(numStudentRatings) + currentValue;
 }
 
-// find the number of students who have rated a single tutor session
-function sumStudentRatings(accumulator, currentValue) {
+/**
+ * find the number of students who have rated a single tutor session
+ * @param accumulator
+ * @param currentValue
+ * @returns {*}
+ */
+function numStudentRatings(accumulator, currentValue) {
     return ( accumulator.student_rating != null ? 1 : 0 ) + currentValue;
 }
 
-// find the total discrepancy between expected start and end times of sessions
+/**
+ * find the total discrepancy between expected start and end times of sessions
+ * @param accumulator
+ * @param currentValue
+ * @returns {number}
+ */
 function sumSessionDiscrepancy(accumulator, currentValue) {
     return ((accumulator.expected_end_time - accumulator.end_time) - (accumulator.start_time - accumulator.expected_start_time)) + currentValue;
 }
 
-// find the total sum of session durations
+/**
+ * find the total sum of session durations
+ * @param accumulator
+ * @param currentValue
+ * @returns {number}
+ */
 function sumSessionTimes(accumulator, currentValue) {
     return (accumulator.end_time - accumulator.start_time) + currentValue;
 }
 
-// get the comment and the rating from a tutor session document
+/**
+ * get the comment and the rating from a tutor session document
+ * @param doc
+ * @returns {{comment: tutor_comment|{type, required}|*, rating: *|tutor_rating|{type, required}}}
+ */
 function getComments(doc) {
     return {comment: doc.tutor_comment, rating: doc.tutor_rating};
 }
