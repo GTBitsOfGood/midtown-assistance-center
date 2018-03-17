@@ -1,15 +1,17 @@
-//What? This is the MongoDB API endpoints file. You can call an endpoint and change the database in various ways.
-//Who? These endpoints can be hit by redux on the front end.
-//When? When a new user signs up or creates a session, the database should change with respect to this action
-//Where? The database is on mlab.com. You can actively see/change data in there.
-//Why? We need a way to add data into the database. This file helps to separate the actual database calls and the API calls from the front end.
+/*
+What? This is the MongoDB API endpoints file. You can call an endpoint and change the database in various ways.
+Who? These endpoints can be hit by redux on the front end.
+When? When a new user signs up or creates a session, the database should change with respect to this action
+Where? The database is on mlab.com. You can actively see/change data in there.
+Why? We need a way to add data into the database. This file helps to separate the actual database calls and the API calls from the front end.
+*/
 
 import express from 'express';
 import data_access from './data_access';
 const app = express();
 
+// get all online tutors for search page
 app.get('/onlineTutors', (req, res) => {
-    console.log(req.query);
     function onTutorsFound(err, tutors) {
         if (err) {
             console.error(err);
@@ -21,6 +23,7 @@ app.get('/onlineTutors', (req, res) => {
     data_access.users.getAllAvailableTutors(req.query.subject, req.query.availability, onTutorsFound);
 });
 
+// register a new tutor, ensure that the tutor username and email don't already exist
 app.post('/registerTutor', (req, res) => {
     //Add this information to the database
     data_access.users.checkIfUsernameIsTaken(req.body.username, function(err, resultUsername){
@@ -33,8 +36,6 @@ app.post('/registerTutor', (req, res) => {
                 if (err) {
                     console.log(err);
                 } else {
-                    console.log(resultEmail);
-                    console.log(req.body.availability)
                     if (!resultEmail) {
                         data_access.users.createTutor({
                             first_name: req.body.firstName,
@@ -79,6 +80,7 @@ app.post('/registerTutor', (req, res) => {
     });
 });
 
+// register a new student, ensure that the student's username and email do not already exist
 app.post('/registerStudent', (req, res) => {
     //Add this information to the database
     console.log(req.body);
@@ -130,6 +132,7 @@ app.post('/registerStudent', (req, res) => {
     });
 });
 
+// update student in database
 app.patch('/student', (req, res) => {
     data_access.users.saveStudent(req.body, function(err, resultStudent) {
         if (err) {
@@ -147,6 +150,7 @@ app.patch('/student', (req, res) => {
     });
 });
 
+// update tutor in database
 app.patch('/tutor', (req, res) => {
     data_access.users.saveTutor(req.body, function(err, resultStudent) {
         if (err) {
@@ -164,6 +168,7 @@ app.patch('/tutor', (req, res) => {
     });
 });
 
+// get subjects from database
 app.get('/subjects', (req, res) => {
     data_access.subjects.getAllSubjects(function(err, resSubjects) {
         if (err) {
@@ -178,6 +183,7 @@ app.get('/subjects', (req, res) => {
     });
 });
 
+// add new subject
 app.post('/subjects', (req, res) => {
     data_access.subjects.addSubject(req.body, function(err, resultSubject) {
         if (err) {
@@ -195,52 +201,32 @@ app.post('/subjects', (req, res) => {
     });
 });
 
+// when a tutor submits a review, update the session accordingly
 app.post('/tutorSubmitReview', (req, res) => {
-   var get_session = new Promise(function(resolve, reject) {
-        console.log(req);
-        data_access.tutor_sessions.getSessionByTutor(req.body._id, function(err, response) {
-           if (err) {
-               console.log(err);
-               reject(err);
-           } else if (response.length > 0) {
-                resolve(response);
-           } else {
-               reject("could not find session");
-           }
-       });
-   });
-   get_session.then(function(value) {
-        let session = {};
-        session.update = {};
-        session._id = value[0]._id;
-   	    session.update.tutor_rating = req.body.rating;
-   	    session.update.tutor_comment = req.body.comment;
-   	    session.update.end_time = req.body.end_time;
-   	    data_access.tutor_sessions.updateTutorSession(session, function(err, response) {
-   	        if (err) {
-   	            console.log(err);
-   	            res.json({
-   	                success: false,
-   	                error: err
-   	            });
-   	        } else {
-   	            res.json({
-   	                success: true,
-   	                error: null,
-   	                session: response
-   	            });
-   	        }
-   	    });
-   }, function(err) {
-   	    console.log(err);
-   	    res.json({
-         success: false,
-         error: err
-       });
-    }
-   );
+    let session = {};
+    session.update = {};
+    session._id = req.body._id;
+    session.update.tutor_rating = req.body.rating;
+    session.update.tutor_comment = req.body.comment;
+    session.update.end_time = req.body.end_time;
+    data_access.tutor_sessions.updateTutorSession(session, function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            res.json({
+                success: true,
+                error: null,
+                session: response
+            });
+        }
+    });
 });
 
+// update the administrator
 app.patch('/admin', (req, res) => {
     res.json({
         success: false,

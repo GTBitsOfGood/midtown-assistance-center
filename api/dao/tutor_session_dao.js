@@ -43,8 +43,6 @@ module.exports = {
     },
     // update the tutor session object (if a student is added or a rating is added)
     updateTutorSession: function(session, callback) {
-        console.log(session);
-        console.log(session._id);
         TutorSession.findByIdAndUpdate(session._id, { $set: session.update}, { new: true }, function (err, updatedSession) {
             if (err) {
               console.log('Error saving session');
