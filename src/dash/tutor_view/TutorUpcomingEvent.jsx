@@ -1,21 +1,42 @@
+/**
+ * @file
+ * TutorUpcomingEvent.jsx
+ *
+ * @fileoverview
+ * React component for an upcoming event on the tutor dash.
+ * The google hangouts link is active if the event is within
+ * the hour.
+ */
+
 import React from 'react';
 import axios from 'axios';
 import SessionReviewModal from './SessionReviewModal.jsx';
 
 
 class TutorUpcomingEvent extends React.Component {
+
+    /**
+     * Set the hangouts link in the state and bind functions
+     * @param props
+     */
     constructor(props) {
         super(props);
 
         this.state = {
-          hangoutsLink: '',
-          hangoutsLinkExpires: ''
+            hangoutsLink: '',
+            hangoutsLinkExpires: ''
         };
 
         this.handleAccessHangoutLink = this.handleAccessHangoutLink.bind(this);
         this.submitReview = this.submitReview.bind(this);
     }
 
+    /**
+     * submit the tutor review, update the rating and comment for the
+     * tutor session in the database
+     * @param rating
+     * @param comment
+     */
     submitReview(rating, comment) {
         let now = new Date();
         let start = new Date();
@@ -32,7 +53,6 @@ class TutorUpcomingEvent extends React.Component {
         }
         axios.post('/api/tutorSubmitReview', sessionRequestBody)
             .then(function(response){
-                console.log(response);
                 if (response.data.success) {
                     console.log(response.data);
                 } else {
@@ -44,6 +64,13 @@ class TutorUpcomingEvent extends React.Component {
             });
     }
 
+
+    /**
+     * when the tutor requests access to the hangouts link,
+     * send a request to the createEvent function with the start time
+     * and end time of the session and either get the already created
+     * link or create a new one.
+     */
     handleAccessHangoutLink() {
         let now = new Date();
         let time = now.getHours() + ":" + now.getMinutes();
@@ -53,6 +80,7 @@ class TutorUpcomingEvent extends React.Component {
         let endTimeSplit = this.props.endTime.split(":");
         start.setHours(parseInt(startTimeSplit[0]), parseInt(startTimeSplit[1]), 0, 0);
         end.setHours(parseInt(endTimeSplit[0]), parseInt(endTimeSplit[1]), 0, 0);
+
         if (this.state.hangoutsLink && time.localeCompare(this.props.endTime) < 0) {
             window.open(this.state.hangoutsLink, "_blank");
         } else {
@@ -60,10 +88,10 @@ class TutorUpcomingEvent extends React.Component {
                 _id: {
                     tutor_id: this.props.tutorId,
                     expected_start_time: start,
-                 },
-                 start_time: now,
-                 expected_end_time: end
-            }
+                },
+                start_time: now,
+                expected_end_time: end
+            };
             let requestBody = {
                 sessionRequestBody: sessionRequestBody,
                 tutorId: this.props.tutorId,
@@ -73,32 +101,31 @@ class TutorUpcomingEvent extends React.Component {
                 email: this.props.gmail
             };
 
-
-
             let self = this;
             axios.post('/calendar/createEvent', requestBody)
-            .then(function(response){
-                console.log(response);
-                if (response.data.success) {
-                    self.setState({
-                      hangoutsLink: response.data.link,
-                    });
-                    window.open(response.data.link, "_blank");
-
-                } else {
-                    console.log(response.data.error);
-                }
-            })
-            .catch(function(err) {
-                console.log(err);
-            });
+                .then(function(response){
+                    if (response.data.success) {
+                        self.setState({
+                            hangoutsLink: response.data.link,
+                        });
+                        window.open(response.data.link, '_blank');
+                    } else {
+                        console.log(response.data.error);
+                    }
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
         }
     }
 
+    /**
+     * Render the tutor upcoming event component
+     * @returns {HTML}
+     */
     render() {
         let now = new Date();
         let startTimeHour = parseInt(this.props.startTime.split(':')[0]);
-        let startTimeMinute = parseInt(this.props.startTime.split(':')[1]);
         let endTimeHour = parseInt(this.props.endTime.split(':')[0]);
         let startTime = startTimeHour%12 + ':' + this.props.startTime.split(':')[1] + (startTimeHour >= 12 ? ' PM' : ' AM');
         let endTime = endTimeHour%12 + ':' + this.props.endTime.split(':')[1] + (endTimeHour >= 12 ? ' PM' : ' AM');
