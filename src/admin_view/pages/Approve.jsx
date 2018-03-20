@@ -1,5 +1,6 @@
 import styles from '../../../public/css/admin.css';
 import React from 'react';
+import ApproveTutorItem from '../ApproveTutorItem.jsx'
 
 class Approve extends React.Component {
   constructor(props) {
@@ -8,6 +9,7 @@ class Approve extends React.Component {
   render() {
     return (
       <div>
+      	<ApproveTutorItem/>
       </div>
     );
   }
