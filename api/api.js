@@ -19,12 +19,43 @@ const app = express();
 
 // get all online tutors for search page
 app.get('/onlineTutors', (req, res) => {
+    function addActiveSession(tutor) {
+        var return_tutor = JSON.parse(JSON.stringify(tutor));
+        var getSession = new Promise(function(resolve, reject) {
+            data_access.tutor_sessions.getActiveSession(return_tutor._id, function(err, response) {
+                if (err) {
+                    reject(err);
+                } else if (response.length == 0) {
+                    return_tutor.session = undefined;
+                    return_tutor.has_session = false;
+                    resolve(return_tutor);
+                } else {
+                    return_tutor.session = response[0];
+                    return_tutor.has_session = true;
+                    resolve(return_tutor);
+                }
+            });
+        });
+
+        return getSession;
+    }
+
     function onTutorsFound(err, tutors) {
         if (err) {
             console.error(err);
             return res.send([]);
         }
-        return res.send(tutors);
+        var tutor_promises = tutors.map(addActiveSession);
+        Promise.all(tutor_promises).then(function(values) {
+            res.send(values);
+        }, function(err) {
+            console.log(err);
+            res.send({
+                success: false,
+                error_message: err
+            });
+        });
+        return;
     }
 
     data_access.users.getAllAvailableTutors(req.query.subject, req.query.availability, onTutorsFound);

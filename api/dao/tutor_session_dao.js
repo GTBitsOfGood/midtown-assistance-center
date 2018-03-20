@@ -238,8 +238,9 @@ module.exports = {
     /**
      * get the tutor feedback comments for sessions with a rating <= max_rating
      * @param max_rating the maximum rating
+     * @param callback
      */
-    getTutorFeedback: function(max_rating) {
+    getTutorFeedback: function(max_rating, callback) {
         function filterByMaxRating(session) {
             return session.tutor_rating <= max_rating;
         }
@@ -253,5 +254,44 @@ module.exports = {
                 callback(null, docs);
             }
         });
-    }
-}
+    },
+
+    /**
+     * Get all active tutor sessions
+     * @param callback
+     */
+    getActiveSessions: function(callback) {
+        function hasEndTime(session) {
+            return session.end_time === 'undefined';
+        }
+        TutorSession.find({}, function(err, docs) {
+            if (err) {
+                console.log(err);
+                callback(err);
+            } else {
+                docs = docs.filter(hasEndTime);
+                callback(null, docs);
+            }
+        });
+    },
+
+    /**
+     * Get active tutor session for a specific tutor
+     * @param tutorId the tutor's id
+     * @param callback
+     */
+    getActiveSession: function(tutorId, callback) {
+        function hasEndTime(session) {
+            return session.end_time === undefined;
+        }
+        TutorSession.find({'_id.tutor_id':tutorId}, function(err, docs) {
+            if (err) {
+                console.log(err);
+                callback(err);
+            } else {
+                docs = docs.filter(hasEndTime);
+                callback(null, docs);
+            }
+        });
+    },
+};

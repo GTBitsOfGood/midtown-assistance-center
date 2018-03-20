@@ -53,7 +53,7 @@ class StudentDashboard extends React.Component {
               self.props.changeTutors(response.data);
               self.props.changeSearchDisplay(searchType, subject, time);
             } else {
-              console.log(response.data);
+              console.log(response);
             }
           })
           .catch(function (error) {
