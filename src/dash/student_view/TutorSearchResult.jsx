@@ -102,7 +102,7 @@ class TutorSearchResult extends React.Component {
                             <div className="request_hangout text-center">
                                 <h4 className="text-center"><strong>Request a Google Hangouts meeting with {this.props.data.first_name}</strong>
                                 </h4>
-                                <button className="btn btn-md btn-default mac_button" type="button" data-toggle="modal" data-target={"#Modal_" + this.props.data.first_name} disabled={!this.props.data.session} onClick={this.onHangoutsButton}>
+                                <button className="btn btn-md btn-default mac_button" type="button" data-toggle="modal" data-target={"#Modal_" + this.props.data.first_name} data-backdrop="static" disabled={!this.props.data.session} onClick={this.onHangoutsButton}>
                                     {this.props.data.session ? 'Click Here To Access' : 'Session Not Active'}
                                 </button>
                             </div>

@@ -23,6 +23,8 @@ class UpcomingEvents extends React.Component {
         let totalCount = 0;
         let renEvents = [];
         let events = [];
+        // TODO: get past sessions (store in redux) in dash component and check here if the session is one that just ended
+        // by checking the start time and today's date along with tutor id (primary key)
         if (this.props.user.availability) {
             while (count < NUM_OF_EVENTS && totalCount < 7) {
                 events = this.props.user.availability[dayName];

@@ -118,7 +118,6 @@ module.exports = {
      * @param callback
      */
     addStudentReview: function (session, callback) {
-
         TutorSession.findOneAndUpdate({'_id.tutor_id':session._id.tutor_id, '_id.expected_start_time':session._id.expected_start_time, 'students_attended.student_id': {$ne: session.update.students_attended.student_id}}, {$push: session.update}, {new: true}, function (err, updatedSession) {
             if (err) {
                 console.log('Error saving session');
@@ -201,7 +200,7 @@ module.exports = {
                 console.log(err);
                 callback(err);
             } else {
-                var avgSessionTime = docs.reduce(getAvgSessionTime) / docs.length;
+                var avgSessionTime = docs.reduce(sumSessionTimes) / docs.length;
                 callback(null, {time: avgSessionTime});
             }
         });
@@ -315,7 +314,6 @@ module.exports = {
                 callback(err);
             } else {
                 docs = docs.filter(hasEndTime);
-                console.log(docs);
                 callback(null, docs);
             }
         });
