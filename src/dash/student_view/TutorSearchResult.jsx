@@ -71,14 +71,15 @@ class TutorSearchResult extends React.Component {
                                 </h3>
                             </a>
                             <h4 className="tutor-subjects lighter-text">Main Subjects:
-                            <span>
-                            {subjects}
-                            </span></h4>
+                                <span>
+                                    {subjects}
+                                </span>
+                            </h4>
                             <h4 className="tutor-favorites lighter-text">Favorites:
-                            <span>
-                            {favorites}
-                            </span></h4>
-
+                                <span>
+                                    {favorites}
+                                </span>
+                            </h4>
                         </div>
                     </div>
                     <div id={'collapse' + this.props.id} className="panel-collapse collapse">
@@ -102,7 +103,7 @@ class TutorSearchResult extends React.Component {
                                 <h4 className="text-center"><strong>Request a Google Hangouts meeting with {this.props.data.first_name}</strong>
                                 </h4>
                                 <button className="btn btn-md btn-default mac_button" type="button" data-toggle="modal" data-target={"#Modal_" + this.props.data.first_name} disabled={!this.props.data.session} onClick={this.onHangoutsButton}>
-                                  {this.props.data.session ? 'Click Here To Access' : 'Session Not Active'}
+                                    {this.props.data.session ? 'Click Here To Access' : 'Session Not Active'}
                                 </button>
                             </div>
                         </div>

@@ -21,6 +21,7 @@ class TutorModal extends React.Component {
         this.changeStarOut = this.changeStarOut.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleCommentChange = this.handleCommentChange.bind(this);
+        this.handleCancel = this.handleCancel.bind(this);
     }
 
     changeStar(number) {
@@ -72,11 +73,35 @@ class TutorModal extends React.Component {
         this.setState({comment: e.target.value});
     }
 
+    handleCancel() {
+        var now = new Date();
+        var studentRatingObj = {
+            student_id: this.props.username,
+            time: now
+        };
+        var request = {
+            _id: this.props.session._id,
+            review: studentRatingObj
+        }
+        axios.post('/api/studentSubmitReview', request)
+            .then(function(response){
+                if (response.data.success) {
+                    console.log(response.data);
+                } else {
+                    console.log(response.data.error);
+                }
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
+        this.setState({error_message:'hide'});
+        $(".modal").modal('hide');
+    }
+
     handleSubmit() {
         if (this.state.rating == 0) {
             this.setState({error_message:'show'});
         } else {
-            //TODO: update the tutor's rating on submit
             var now = new Date();
             var studentRatingObj = {
                 student_id: this.props.username,
@@ -131,7 +156,7 @@ class TutorModal extends React.Component {
                                 </div>
                             </div>
                             <div className="review-modal-footer modal-footer">
-                                <button type="button" className="btn btn-default mac_button" data-dismiss="modal">Cancel</button>
+                                <button type="button" onClick={this.handleCancel} className="btn btn-default mac_button">Cancel</button>
                                 <button type="submit" onClick={this.handleSubmit} className="btn btn-default mac_button_inverse">Submit</button>
                             </div>
                         </div>

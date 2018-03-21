@@ -122,7 +122,7 @@ module.exports = {
         TutorSession.findOneAndUpdate({'_id.tutor_id':session._id.tutor_id, '_id.expected_start_time':session._id.expected_start_time, 'students_attended.student_id': {$ne: session.update.students_attended.student_id}}, {$push: session.update}, {new: true}, function (err, updatedSession) {
             if (err) {
                 console.log('Error saving session');
-                return callback(err);
+                callback(err);
             }
             console.log(updatedSession);
             callback(null, updatedSession);
