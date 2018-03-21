@@ -16,21 +16,21 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
+let studentReview = new Schema({
+    student_id: {type: String, required: true},
+    student_rating: {type: Number, default: null},
+    student_comment: {type: String, default: null},
+    time: {type: Date, required: true}
+});
+
 let schema = new Schema({
-    _id: {type: {
-            tutor_id: {type: Schema.Types.ObjectId, ref:'Tutor', required: true},
-            expected_start_time: {type: Date, required: true}
-        }
+    _id: {type:
+            {
+                tutor_id: {type: Schema.Types.ObjectId, ref:'Tutor', required: true},
+                expected_start_time: {type: Date, required: true}
+            }
     },
-    students_attended: {type: [
-        {
-            student_id: {type: Schema.Types.ObjectId, ref: 'Student', required: true},
-            student_rating: {type: Number, default: null},
-            student_comment: {type: String, default: null},
-            time: {type: Date, required: true}
-        }
-    ],
-    default: []},
+    students_attended: {type: [studentReview], default: []},
     eventId: {type: String, required: true},
     hangouts_link: {type: String, required: false},
     tutor_rating: {type: Number, required: false},

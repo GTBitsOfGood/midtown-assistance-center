@@ -32,16 +32,7 @@ class TutorSearchResult extends React.Component {
     }
 
     onHangoutsButton() {
-      let body = {
-        eventId: this.props.data.tutoringEventId,
-        email: this.props.studentEmail,
-        calendarId: this.props.data.calendarId
-      };
-
-      console.log(body);
-
-      let self = this;
-      self.setState({hangoutsLink: this.props.data.session.hangouts_link});
+      this.setState({hangoutsLink: this.props.data.session.hangouts_link});
       window.open(this.props.data.session.hangouts_link, '_blank');
     }
 
@@ -117,7 +108,7 @@ class TutorSearchResult extends React.Component {
                         </div>
                     </div>
                 </div>
-                <TutorReviewModal firstName={this.props.data.first_name}/>
+                <TutorReviewModal username={this.props.username} firstName={this.props.data.first_name} session={this.props.data.session}/>
             </div>
 
         );

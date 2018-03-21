@@ -264,6 +264,25 @@ app.post('/tutorSubmitReview', (req, res) => {
     });
 });
 
+// when a student submits a review, update the session accordingly
+app.post('/studentSubmitReview', (req, res) => {
+    data_access.tutor_sessions.addStudentReview({_id: req.body._id, update: {'students_attended': req.body.review}}, function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            res.json({
+                success: true,
+                error: null,
+                session: response
+            });
+        }
+    });
+});
+
 // update the administrator
 app.patch('/admin', (req, res) => {
     res.json({
