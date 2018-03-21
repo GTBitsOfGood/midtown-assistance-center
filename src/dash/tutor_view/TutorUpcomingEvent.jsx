@@ -137,6 +137,9 @@ class TutorUpcomingEvent extends React.Component {
                 <div className="tutorUpcomingEventContent">
                     <h3 className="upcoming-event-desc">{this.props.today ? 'Today' : this.props.dayName}<span className="upcoming-event-light lighter-text"> from </span>{startTime}<span className="upcoming-event-light lighter-text"> to </span>{endTime}
                     </h3>
+
+                </div>
+                <div className="tutorUpcomingEventContent">
                     {renLogo}
                 </div>
                 <SessionReviewModal onSubmit={this.submitReview} tutorId={this.props.tutorId} id={this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} hangoutsLink={this.state.hangoutsLink}/>
