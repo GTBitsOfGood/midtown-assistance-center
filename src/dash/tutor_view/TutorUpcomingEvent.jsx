@@ -135,7 +135,7 @@ class TutorUpcomingEvent extends React.Component {
         return (
             <div className="tutorUpcomingEvent">
                 <div className="tutorUpcomingEventContent">
-                    <h3 className="upcoming-event-desc"><strong>{this.props.today ? 'Today' : this.props.dayName}</strong><span className="lighter-text"> from </span><strong>{startTime}</strong><span className="lighter-text"> to </span><strong>{endTime}</strong>
+                    <h3 className="upcoming-event-desc">{this.props.today ? 'Today' : this.props.dayName}<span className="upcoming-event-light lighter-text"> from </span>{startTime}<span className="upcoming-event-light lighter-text"> to </span>{endTime}
                     </h3>
                     {renLogo}
                 </div>
