@@ -20,7 +20,9 @@ let studentReview = new Schema({
     student_id: {type: String, required: true},
     student_rating: {type: Number, default: null},
     student_comment: {type: String, default: null},
-    time: {type: Date, required: true}
+    time: {type: Date, required: true},
+    reported: {type: Boolean, default: false},
+    reason_for_report: {type: String, required: false}
 });
 
 let schema = new Schema({
