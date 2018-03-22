@@ -15,37 +15,18 @@ const TutorSession = require('../../models/TutorSession.js');
  * @returns {number}
  */
 function sumRatings(accumulator, currentValue) {
-    return accumulator.students_attended.reduce(sumStudentRatings) + currentValue;
+    var rating = currentValue.getRating();
+    return accumulator + (rating == null ? 0 : rating * currentValue.getNumRatings());
 }
 
 /**
- * find the sum of the student ratings within 1 tutor session
- * @param accumulator
- * @param currentValue
- * @returns {number}
- */
-function sumStudentRatings(accumulator, currentValue) {
-    return accumulator.student_rating + currentValue;
-}
-
-/**
- * find the total number of students who have ratings among all tutor sessions
+ * find the total number of ratings among all tutor sessions
  * @param accumulator
  * @param currentValue
  * @returns {number}
  */
 function numRatings(accumulator, currentValue) {
-    return accumulator.students_attended.reduce(numStudentRatings) + currentValue;
-}
-
-/**
- * find the number of students who have rated a single tutor session
- * @param accumulator
- * @param currentValue
- * @returns {*}
- */
-function numStudentRatings(accumulator, currentValue) {
-    return (accumulator.student_rating != null ? 1 : 0) + currentValue;
+    return accumulator + currentValue.getNumRatings();
 }
 
 /**
@@ -65,7 +46,7 @@ function sumSessionDiscrepancy(accumulator, currentValue) {
  * @returns {number}
  */
 function sumSessionTimes(accumulator, currentValue) {
-    return (accumulator.end_time - accumulator.start_time) + currentValue;
+    return accumulator + currentValue.getDuration();
 }
 
 /**
@@ -143,8 +124,6 @@ module.exports = {
                 for (var doc in docs) {
                     new_docs[doc].rating = docs[doc].getRating();
                 }
-                console.log("sessions for " + username);
-                console.log(new_docs);
                 callback(null, new_docs);
             }
         });
@@ -184,14 +163,22 @@ module.exports = {
      * @param callback
      */
     getTutorAvgRating: function (username, callback) {
-        TutorSession.find({tutor_id: username}, function (err, docs) {
+        function sumRatings(accumulator, currentValue) {
+            var rating = currentValue.getRating();
+            return accumulator + (rating == null ? 0 : rating * currentValue.getNumRatings());
+        }
+
+        function numRatings(accumulator, currentValue) {
+            return accumulator + currentValue.getNumRatings();
+        }
+        TutorSession.find({'_id.tutor_id': username}, function (err, docs) {
             if (err) {
                 console.log(err);
                 callback(err);
             } else {
-                var sumRatings = docs.reduce(sumRatings);
-                var numRatings = docs.reduce(numRatings);
-                callback(null, {avgRating: sumRatings / numRatings, totalRatings: numRatings});
+                var sum = docs.reduce(sumRatings, 0);
+                var num = docs.reduce(numRatings, 0);
+                callback(null, {avgRating: (num == 0 ? 0 : sum / num), totalRatings: num});
             }
         });
     },
@@ -201,6 +188,9 @@ module.exports = {
      * @param callback
      */
     getAvgSessionTime: function (callback) {
+        function sumSessionTimes(accumulator, currentValue) {
+            return accumulator + currentValue.getDuration();
+        }
         TutorSession.find({}, function (err, docs) {
             if (err) {
                 console.log(err);
@@ -233,7 +223,7 @@ module.exports = {
                 docs = docs.filter(filterBySessionDate);
                 var totalDiscrepancy = docs.reduce(getSessionDiscrepancy);
                 var avgDiscrepancy = totalDiscrepancy / docs.length;
-                callback(null, {time: avgSessionTime});
+                callback(null, {time: avgDiscrepancy});
             }
         });
     },

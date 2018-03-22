@@ -32,7 +32,6 @@ class Feedback extends React.Component {
         axios.post('/api/getTutorSessions', {'username':username})
             .then(function(response){
                 if (response.data.success) {
-                    console.log(response.data);
                     self.setState({
                         sessions: response.data.sessions,
                         renderSessions: response.data.sessions
@@ -77,7 +76,6 @@ class Feedback extends React.Component {
             for (var review in this.state.renderSessions[session].students_attended) {
                 var student_review = this.state.renderSessions[session].students_attended[review];
                 if (student_review.student_rating !== null) {
-                    console.log(student_review.student_rating);
                     renSessions.push(<Review time={student_review.time} rating={student_review.student_rating} comment={student_review.student_comment}/>);
                 }
             }

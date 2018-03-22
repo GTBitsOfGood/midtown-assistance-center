@@ -300,7 +300,26 @@ app.post('/getTutorSessions', (req, res) => {
             });
         }
     });
-})
+});
+
+// get the tutor statistics by username (for now just number of ratings and avg rating)
+app.post('/getTutorStats', (req, res) => {
+    data_access.tutor_sessions.getTutorAvgRating(req.body.username, function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            res.json({
+                success: true,
+                error: null,
+                statistics: response
+            });
+        }
+    });
+});
 
 // update the administrator
 app.patch('/admin', (req, res) => {
