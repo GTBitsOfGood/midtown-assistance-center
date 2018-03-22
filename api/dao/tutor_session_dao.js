@@ -139,7 +139,13 @@ module.exports = {
                 console.log(err);
                 callback(err);
             } else {
-                callback(null, docs);
+                var new_docs = JSON.parse(JSON.stringify(docs));
+                for (var doc in docs) {
+                    new_docs[doc].rating = docs[doc].getRating();
+                }
+                console.log("sessions for " + username);
+                console.log(new_docs);
+                callback(null, new_docs);
             }
         });
     },

@@ -283,6 +283,25 @@ app.post('/studentSubmitReview', (req, res) => {
     });
 });
 
+// get all tutoring sessions for a tutor
+app.post('/getTutorSessions', (req, res) => {
+    data_access.tutor_sessions.getSessionsByTutor(req.body.username, function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            res.json({
+                success: true,
+                error: null,
+                sessions: response
+            });
+        }
+    });
+})
+
 // update the administrator
 app.patch('/admin', (req, res) => {
     res.json({

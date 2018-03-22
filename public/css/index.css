@@ -397,14 +397,14 @@ body {
 .tutor-events-header {
     margin-bottom: 2%;
     margin-top: 3%;
+    font-size: 15px;
 }
 
 .tutorUpcomingEvent {
-    height: 64px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     /*width: 500px;*/
     width: 100%;
-    margin: 0 auto 10px auto;
+    /*margin: 0 auto 10px auto;*/
     background-color: white;
     display: table;
 }
@@ -416,21 +416,17 @@ body {
     padding-left: 50px;
 }
 
-@media screen and (max-width:1100px) {
-    .tutorUpcomingEventContent h3 {
-        font-size: 1.5em;
-    }
-}
-
 .upcoming-event-desc {
     display: inline-block;
     margin: 0;
-    font-size: 1.5em;
 }
 
 .google-link {
     float: right;
     display: inline-block;
+    border: 1px solid var(--primaryLight);
+    height: 55px;
+    width: auto;
 }
 
 .add-subject, .add-time {
@@ -583,8 +579,33 @@ body {
 }
 
 .upcoming-event-light {
+    color: var(--dkgray);
+}
+
+.feedbackWrapper {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    background-color: white;
+    padding: 10px;
+    max-height: 400px;
+    overflow-y: scroll;
+}
+
+.tutor-review {
+    padding: 5px 0 5px 20px;
+    border-bottom: 1px solid var(--primaryLight);
+    position: relative;
+}
+
+.review-date {
+    font-weight: 300;
     font-size: 0.8em;
-    margin: 0 1px 0 1px;
+}
+
+.report-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: var(--error_red);
 }
 
 /*======================================== General ========================================*/

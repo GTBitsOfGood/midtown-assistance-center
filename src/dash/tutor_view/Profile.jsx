@@ -347,7 +347,7 @@ class Profile extends React.Component {
                                 </div>
                                 <div className="col-sm-6 col-md-7 profile-info-wrapper">
                                     <div className="profile-info">
-                                        <h2 className="tutor-profile-name">{ this.props.user.first_name + ' ' + this.props.user.last_name }</h2>
+                                        <h3 className="tutor-profile-name">{ this.props.user.first_name + ' ' + this.props.user.last_name }</h3>
                                         <small><cite title="Atlanta, USA">
                                             Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
                                         </cite></small>
