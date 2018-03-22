@@ -89,7 +89,7 @@ class Feedback extends React.Component {
                         <h4 className="lighter-text text-uppercase tutor-events-header"> Feedback</h4>
                     </div>
                     <div className="feedbackWrapper col-xs-12">
-                        {renSessions}
+                        {renSessions.length == 0 ? <div className="text-center"><h5>You do not have any feedback yet</h5></div> : renSessions}
                     </div>
                 </div>
             </div>
