@@ -81,7 +81,7 @@ class Feedback extends React.Component {
             }
         }
         return (
-            <div className="row animated fadeInRight">
+            <div className="row animated fadeInRight feedback">
                 <div className="col">
                     <div className="text-center">
                         <h4 className="lighter-text text-uppercase tutor-events-header"> Feedback</h4>

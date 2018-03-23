@@ -146,7 +146,7 @@ class SessionModal extends React.Component {
         return (
             <div>
                 <div className="modal" id={'Modal_' + this.props.id} tabindex="1000" role="dialog" aria-labelledby={"#Modal_" + this.props.id + "Label"} aria-hidden="true" autofocus>
-                    <div className="modal-dialog" role="document">
+                    <div className="modal-dialog review-modal-dialog" role="document">
                         <div className="modal-content tutor-modal review-modal">
                             <div className="modal-header text-center">
                                 <h3 className="modal-title rate-session-header text-uppercase" id="exampleModalLabel">Rate your session</h3>
