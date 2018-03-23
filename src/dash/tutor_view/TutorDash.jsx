@@ -1,5 +1,6 @@
 import React from 'react';
 import TutorUpcomingEvents from './TutorUpcomingEvents.jsx';
+import Feedback from './Feedback.jsx';
 import { connect } from 'react-redux';
 import TutorProfile from './Profile.jsx';
 
@@ -13,10 +14,13 @@ class TutorDash extends React.Component {
                     <TutorProfile/>
                 </div>
                 <div className="col-md-6 upcoming-events-list">
-                { this.props.user.approved ?
-                    <TutorUpcomingEvents/> :
-                    <h4 className="tutor-approval-msg">Your profile is awaiting approval. Edit your profile and check back soon!</h4>
-                }
+                    { this.props.user.approved ?
+                        <div>
+                            <TutorUpcomingEvents></TutorUpcomingEvents>
+                            <Feedback></Feedback>
+                        </div> :
+                        <h4 className="tutor-approval-msg">Your profile is awaiting approval. Edit your profile and check back soon!</h4>
+                    }
                 </div>
             </div>
         );

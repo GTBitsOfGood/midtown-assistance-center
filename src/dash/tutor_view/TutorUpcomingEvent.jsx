@@ -130,13 +130,16 @@ class TutorUpcomingEvent extends React.Component {
         let startTime = startTimeHour%12 + ':' + this.props.startTime.split(':')[1] + (startTimeHour >= 12 ? ' PM' : ' AM');
         let endTime = endTimeHour%12 + ':' + this.props.endTime.split(':')[1] + (endTimeHour >= 12 ? ' PM' : ' AM');
         let active = (startTimeHour - now.getHours() <= 1 && this.props.today);
-        const renLogo = active ? <a onClick={this.handleAccessHangoutLink} href="#" data-toggle="modal" data-target={"#Modal_" + this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} className="google-link"><img src="/images/google-icon-active.png"></img></a> : <img className="google-link" src="/images/google-icon-disabled.png"></img>;
+        const renLogo = active ? <a onClick={this.handleAccessHangoutLink} href="#" data-toggle="modal" data-target={"#Modal_" + this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]}><img className="google-link" src="/images/google-icon-active.png"></img></a> : <img className="google-link" src="/images/google-icon-disabled.png"></img>;
 
         return (
             <div className="tutorUpcomingEvent">
                 <div className="tutorUpcomingEventContent">
-                    <h3 className="upcoming-event-desc"><strong>{this.props.today ? 'Today' : this.props.dayName}</strong><span className="lighter-text"> from </span><strong>{startTime}</strong><span className="lighter-text"> to </span><strong>{endTime}</strong>
-                    </h3>
+                    <h4 className="upcoming-event-desc">{this.props.today ? 'Today' : this.props.dayName}<span className="upcoming-event-light lighter-text"> from </span>{startTime}<span className="upcoming-event-light lighter-text"> to </span>{endTime}
+                    </h4>
+
+                </div>
+                <div className="tutorUpcomingEventContent">
                     {renLogo}
                 </div>
                 <SessionReviewModal onSubmit={this.submitReview} tutorId={this.props.tutorId} id={this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} hangoutsLink={this.state.hangoutsLink}/>

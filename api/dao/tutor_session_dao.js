@@ -15,37 +15,18 @@ const TutorSession = require('../../models/TutorSession.js');
  * @returns {number}
  */
 function sumRatings(accumulator, currentValue) {
-    return accumulator.students_attended.reduce(sumStudentRatings) + currentValue;
+    var rating = currentValue.getRating();
+    return accumulator + (rating == null ? 0 : rating * currentValue.getNumRatings());
 }
 
 /**
- * find the sum of the student ratings within 1 tutor session
- * @param accumulator
- * @param currentValue
- * @returns {number}
- */
-function sumStudentRatings(accumulator, currentValue) {
-    return accumulator.student_rating + currentValue;
-}
-
-/**
- * find the total number of students who have ratings among all tutor sessions
+ * find the total number of ratings among all tutor sessions
  * @param accumulator
  * @param currentValue
  * @returns {number}
  */
 function numRatings(accumulator, currentValue) {
-    return accumulator.students_attended.reduce(numStudentRatings) + currentValue;
-}
-
-/**
- * find the number of students who have rated a single tutor session
- * @param accumulator
- * @param currentValue
- * @returns {*}
- */
-function numStudentRatings(accumulator, currentValue) {
-    return ( accumulator.student_rating != null ? 1 : 0 ) + currentValue;
+    return accumulator + currentValue.getNumRatings();
 }
 
 /**
@@ -65,7 +46,7 @@ function sumSessionDiscrepancy(accumulator, currentValue) {
  * @returns {number}
  */
 function sumSessionTimes(accumulator, currentValue) {
-    return (accumulator.end_time - accumulator.start_time) + currentValue;
+    return accumulator + currentValue.getDuration();
 }
 
 /**
@@ -84,7 +65,7 @@ module.exports = {
      * @param session
      * @param callback
      */
-    addSession: function(session, callback) {
+    addSession: function (session, callback) {
         TutorSession.create(session, function (err, session_instance) {
             if (err) {
                 console.error('Error creating a new session AND THIS IS WHY DUDE:', err);
@@ -96,14 +77,13 @@ module.exports = {
     },
 
     /**
-     * update the tutor session object (if a student is added or a rating
-     * is added)
+     * update the tutor session object if a tutor review is added
      * @param session the session object (must contain _id: the session id,
      * update: the new info)
      * @param callback
      */
-    updateTutorSession: function(session, callback) {
-        TutorSession.findByIdAndUpdate(session._id, { $set: session.update}, { new: true }, function (err, updatedSession) {
+    updateTutorSession: function (session, callback) {
+        TutorSession.findByIdAndUpdate(session._id, {$set: session.update}, {new: true}, function (err, updatedSession) {
             if (err) {
                 console.log('Error saving session');
                 return callback(err);
@@ -113,17 +93,38 @@ module.exports = {
     },
 
     /**
+     * add a student review to the session
+     * @param session the session object (must contain _id: the session id,
+     * update: the new info)
+     * @param callback
+     */
+    addStudentReview: function (session, callback) {
+        TutorSession.findOneAndUpdate({'_id.tutor_id':session._id.tutor_id, '_id.expected_start_time':session._id.expected_start_time, 'students_attended.student_id': {$ne: session.update.students_attended.student_id}}, {$push: session.update}, {new: true}, function (err, updatedSession) {
+            if (err) {
+                console.log('Error saving session');
+                callback(err);
+            }
+            console.log(updatedSession);
+            callback(null, updatedSession);
+        });
+    },
+
+    /**
      * get all of the sessions that the tutor has been a part of
      * @param username the id of the tutor
      * @param callback
      */
-    getSessionsByTutor: function(username, callback) {
-        TutorSession.find({"_id.tutor_id":username}, function(err, docs) {
+    getSessionsByTutor: function (username, callback) {
+        TutorSession.find({'_id.tutor_id': username}, function (err, docs) {
             if (err) {
                 console.log(err);
-                callback(err)
+                callback(err);
             } else {
-                callback(null, docs);
+                var new_docs = JSON.parse(JSON.stringify(docs));
+                for (var doc in docs) {
+                    new_docs[doc].rating = docs[doc].getRating();
+                }
+                callback(null, new_docs);
             }
         });
     },
@@ -133,11 +134,14 @@ module.exports = {
      * @param data: contains the tutor id and the start time of the session
      * @param callback
      */
-    getSessionByTutor: function(data, callback) {
-        TutorSession.find({"_id.tutor_id": data.tutor_id, "_id.expected_start_time":data.expected_start_time}, function(err, docs) {
+    getSessionByTutor: function (data, callback) {
+        TutorSession.find({
+            '_id.tutor_id': data.tutor_id,
+            '_id.expected_start_time': data.expected_start_time
+        }, function (err, docs) {
             if (err) {
                 console.log(err);
-                callback(err)
+                callback(err);
             } else {
                 callback(null, docs);
             }
@@ -148,8 +152,8 @@ module.exports = {
      * rank tutors
      * @param callback
      */
-    rankTutorsByRating: function(callback) {
-        console.log("rank tutors");
+    rankTutorsByRating: function (callback) {
+        console.log('rank tutors');
         // TODO: rank tutors function
     },
 
@@ -158,15 +162,23 @@ module.exports = {
      * @param username
      * @param callback
      */
-    getTutorAvgRating: function(username, callback) {
-        TutorSession.find({tutor_id:username}, function(err, docs) {
+    getTutorAvgRating: function (username, callback) {
+        function sumRatings(accumulator, currentValue) {
+            var rating = currentValue.getRating();
+            return accumulator + (rating == null ? 0 : rating * currentValue.getNumRatings());
+        }
+
+        function numRatings(accumulator, currentValue) {
+            return accumulator + currentValue.getNumRatings();
+        }
+        TutorSession.find({'_id.tutor_id': username}, function (err, docs) {
             if (err) {
                 console.log(err);
-                callback(err)
+                callback(err);
             } else {
-                var sumRatings = docs.reduce(sumRatings);
-                var numRatings = docs.reduce(numRatings);
-                callback(null, {avgRating: sumRatings/numRatings, totalRatings:numRatings});
+                var sum = docs.reduce(sumRatings, 0);
+                var num = docs.reduce(numRatings, 0);
+                callback(null, {avgRating: (num == 0 ? 0 : sum / num), totalRatings: num});
             }
         });
     },
@@ -175,14 +187,17 @@ module.exports = {
      * get the overall average tutoring session time
      * @param callback
      */
-    getAvgSessionTime: function(callback) {
-        TutorSession.find({}, function(err, docs) {
+    getAvgSessionTime: function (callback) {
+        function sumSessionTimes(accumulator, currentValue) {
+            return accumulator + currentValue.getDuration();
+        }
+        TutorSession.find({}, function (err, docs) {
             if (err) {
                 console.log(err);
                 callback(err);
             } else {
-                var avgSessionTime = docs.reduce(getAvgSessionTime)/docs.length;
-                callback(null, {time:avgSessionTime});
+                var avgSessionTime = docs.reduce(sumSessionTimes) / docs.length;
+                callback(null, {time: avgSessionTime});
             }
         });
     },
@@ -195,19 +210,20 @@ module.exports = {
      * @param end_date the end of the date range
      * @param callback
      */
-    getSessionDiscrepancy: function(start_date, end_date, callback) {
+    getSessionDiscrepancy: function (start_date, end_date, callback) {
         function filterBySessionDate(session) {
             return session.start_time > start_date && session.end_time < end_date;
         }
-        TutorSession.find({}, function(err, docs) {
+
+        TutorSession.find({}, function (err, docs) {
             if (err) {
                 console.log(err);
                 callback(err);
             } else {
-                docs = docs.filter(filterBySessionDate)
-                var totalDiscrepancy = docs.reduce(getSessionDiscrepancy)
-                var avgDiscrepancy = totalDiscrepancy/docs.length;
-                callback(null, {time:avgSessionTime});
+                docs = docs.filter(filterBySessionDate);
+                var totalDiscrepancy = docs.reduce(getSessionDiscrepancy);
+                var avgDiscrepancy = totalDiscrepancy / docs.length;
+                callback(null, {time: avgDiscrepancy});
             }
         });
     },
@@ -218,19 +234,20 @@ module.exports = {
      * @param end_date the end of the date range
      * @param callback
      */
-    getOverallTutorAvgRating: function(start_date, end_date, callback) {
+    getOverallTutorAvgRating: function (start_date, end_date, callback) {
         function filterBySessionDate(session) {
             return session.start_time > start_date && session.end_time < end_date;
         }
-        TutorSession.find({}, function(err, docs) {
+
+        TutorSession.find({}, function (err, docs) {
             if (err) {
                 console.log(err);
                 callback(err);
             } else {
-                docs = docs.filter(filterBySessionDate)
+                docs = docs.filter(filterBySessionDate);
                 var sumRatings = docs.reduce(sumRatings);
                 var numRatings = docs.reduce(numRatings);
-                callback(null, {avgRating: sumRatings/numRatings, totalRatings:numRatings});
+                callback(null, {avgRating: sumRatings / numRatings, totalRatings: numRatings});
             }
         });
     },
@@ -238,20 +255,63 @@ module.exports = {
     /**
      * get the tutor feedback comments for sessions with a rating <= max_rating
      * @param max_rating the maximum rating
+     * @param callback
      */
-    getTutorFeedback: function(max_rating) {
+    getTutorFeedback: function (max_rating, callback) {
         function filterByMaxRating(session) {
             return session.tutor_rating <= max_rating;
         }
-        TutorSession.find({}, function(err, docs) {
+
+        TutorSession.find({}, function (err, docs) {
             if (err) {
                 console.log(err);
                 callback(err);
             } else {
-                docs = docs.filter(filterByMaxRating)
+                docs = docs.filter(filterByMaxRating);
                 docs = docs.map(getComments);
                 callback(null, docs);
             }
         });
-    }
-}
+    },
+
+    /**
+     * Get all active tutor sessions
+     * @param callback
+     */
+    getActiveSessions: function (callback) {
+        function hasEndTime(session) {
+            return session.end_time === 'undefined';
+        }
+
+        TutorSession.find({}, function (err, docs) {
+            if (err) {
+                console.log(err);
+                callback(err);
+            } else {
+                docs = docs.filter(hasEndTime);
+                callback(null, docs);
+            }
+        });
+    },
+
+    /**
+     * Get active tutor session for a specific tutor
+     * @param tutorId the tutor's id
+     * @param callback
+     */
+    getActiveSession: function (tutorId, callback) {
+        function hasEndTime(session) {
+            return session.end_time === undefined;
+        }
+
+        TutorSession.find({'_id.tutor_id': tutorId}, function (err, docs) {
+            if (err) {
+                console.log(err);
+                callback(err);
+            } else {
+                docs = docs.filter(hasEndTime);
+                callback(null, docs);
+            }
+        });
+    },
+};

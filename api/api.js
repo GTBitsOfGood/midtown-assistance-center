@@ -19,12 +19,43 @@ const app = express();
 
 // get all online tutors for search page
 app.get('/onlineTutors', (req, res) => {
+    function addActiveSession(tutor) {
+        var return_tutor = JSON.parse(JSON.stringify(tutor));
+        var getSession = new Promise(function(resolve, reject) {
+            data_access.tutor_sessions.getActiveSession(return_tutor._id, function(err, response) {
+                if (err) {
+                    reject(err);
+                } else if (response.length == 0) {
+                    return_tutor.session = undefined;
+                    return_tutor.has_session = false;
+                    resolve(return_tutor);
+                } else {
+                    return_tutor.session = response[0];
+                    return_tutor.has_session = true;
+                    resolve(return_tutor);
+                }
+            });
+        });
+
+        return getSession;
+    }
+
     function onTutorsFound(err, tutors) {
         if (err) {
             console.error(err);
             return res.send([]);
         }
-        return res.send(tutors);
+        var tutor_promises = tutors.map(addActiveSession);
+        Promise.all(tutor_promises).then(function(values) {
+            res.send(values);
+        }, function(err) {
+            console.log(err);
+            res.send({
+                success: false,
+                error_message: err
+            });
+        });
+        return;
     }
 
     data_access.users.getAllAvailableTutors(req.query.subject, req.query.availability, onTutorsFound);
@@ -228,6 +259,63 @@ app.post('/tutorSubmitReview', (req, res) => {
                 success: true,
                 error: null,
                 session: response
+            });
+        }
+    });
+});
+
+// when a student submits a review, update the session accordingly
+app.post('/studentSubmitReview', (req, res) => {
+    data_access.tutor_sessions.addStudentReview({_id: req.body._id, update: {'students_attended': req.body.review}}, function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            res.json({
+                success: true,
+                error: null,
+                session: response
+            });
+        }
+    });
+});
+
+// get all tutoring sessions for a tutor
+app.post('/getTutorSessions', (req, res) => {
+    data_access.tutor_sessions.getSessionsByTutor(req.body.username, function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            res.json({
+                success: true,
+                error: null,
+                sessions: response
+            });
+        }
+    });
+});
+
+// get the tutor statistics by username (for now just number of ratings and avg rating)
+app.post('/getTutorStats', (req, res) => {
+    data_access.tutor_sessions.getTutorAvgRating(req.body.username, function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            res.json({
+                success: true,
+                error: null,
+                statistics: response
             });
         }
     });

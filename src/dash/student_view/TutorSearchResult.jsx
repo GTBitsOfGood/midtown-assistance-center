@@ -32,30 +32,8 @@ class TutorSearchResult extends React.Component {
     }
 
     onHangoutsButton() {
-      let body = {
-        eventId: this.props.data.tutoringEventId,
-        email: this.props.studentEmail,
-        calendarId: this.props.data.calendarId
-      };
-
-      console.log(body);
-
-      let self = this;
-      axios.post('/calendar/studentGetHangoutLink', body)
-        .then(function(response){
-          console.log(response);
-          if (response.data.success) {
-            self.setState({
-              hangoutsLink: response.data.link,
-            });
-            window.open(response.data.link, "_blank");
-          } else {
-            console.log(response.data.error);
-          }
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
+      this.setState({hangoutsLink: this.props.data.session.hangouts_link});
+      window.open(this.props.data.session.hangouts_link, '_blank');
     }
 
     render() {
@@ -93,14 +71,15 @@ class TutorSearchResult extends React.Component {
                                 </h3>
                             </a>
                             <h4 className="tutor-subjects lighter-text">Main Subjects:
-                            <span>
-                            {subjects}
-                            </span></h4>
+                                <span>
+                                    {subjects}
+                                </span>
+                            </h4>
                             <h4 className="tutor-favorites lighter-text">Favorites:
-                            <span>
-                            {favorites}
-                            </span></h4>
-
+                                <span>
+                                    {favorites}
+                                </span>
+                            </h4>
                         </div>
                     </div>
                     <div id={'collapse' + this.props.id} className="panel-collapse collapse">
@@ -123,14 +102,14 @@ class TutorSearchResult extends React.Component {
                             <div className="request_hangout text-center">
                                 <h4 className="text-center"><strong>Request a Google Hangouts meeting with {this.props.data.first_name}</strong>
                                 </h4>
-                                <button className="btn btn-md btn-default mac_button" type="button" data-toggle="modal" data-target={"#Modal_" + this.props.data.first_name} disabled={!this.props.data.tutoringEventId} onClick={this.onHangoutsButton}>
-                                  {this.props.data.tutoringEventId? 'Click Here To Access' : 'Session Not Active'}
+                                <button className="btn btn-md btn-default mac_button" type="button" data-toggle="modal" data-target={"#Modal_" + this.props.data.first_name} data-backdrop="static" disabled={!this.props.data.session} onClick={this.onHangoutsButton}>
+                                    {this.props.data.session ? 'Click Here To Access' : 'Session Not Active'}
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
-                <TutorReviewModal firstName={this.props.data.first_name}/>
+                <TutorReviewModal username={this.props.username} firstName={this.props.data.first_name} session={this.props.data.session}/>
             </div>
 
         );

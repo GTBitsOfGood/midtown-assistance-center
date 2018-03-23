@@ -50,10 +50,10 @@ export class MenuBar extends React.Component {
                         }
                     </Nav>
                     <Nav pullRight>
-                        <span><img className="nav-prof-pic" src='/images/user.png'></img></span>
+                        <span><img className="nav-prof-pic" src={this.props.user.profile_picture ? this.props.user.profile_picture : '/images/user.png'}></img></span>
                         <DropdownButton className="btn btn-sm dropdown-menu-button" title={this.props.user._id}>
                             <LinkContainer to="#">
-                                <MenuItem>Usage</MenuItem>
+                                <MenuItem>Messages</MenuItem>
                             </LinkContainer>
                             {
                                 window.location.pathname === '/dash/profile' ?
