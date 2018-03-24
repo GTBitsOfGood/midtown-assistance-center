@@ -31,21 +31,21 @@ server.use(function (req, res, next) {
 
 
 io.on('connection', socket => {
-  console.log('User connected')
+    console.log('User connected')
 
-  socket.on('disconnect', () => {
-    console.log('user disconnected')
-  });
-
-  socket.on('tutor-login', () => {
-    console.log("tutor just logged in...");
-    io.emit('update-tutors');
-  });
-
-  socket.on('tutor-logout', () => {
-      console.log("tutor just logged out...");
-      io.emit('update-tutors');
+    socket.on('disconnect', () => {
+        console.log('user disconnected')
     });
+
+    socket.on('tutor-login', () => {
+        console.log("tutor just logged in...");
+        io.emit('update-tutors');
+    });
+
+    socket.on('tutor-logout', () => {
+        console.log("tutor just logged out...");
+        io.emit('update-tutors');
+        });
 })
 
 
