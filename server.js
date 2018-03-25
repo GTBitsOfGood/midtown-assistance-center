@@ -34,7 +34,8 @@ io.on('connection', socket => {
     console.log('User connected')
 
     socket.on('disconnect', () => {
-        console.log('user disconnected')
+        console.log('user disconnected');
+        socket.disconnect();
     });
 
     socket.on('tutor-login', () => {
@@ -45,7 +46,12 @@ io.on('connection', socket => {
     socket.on('tutor-logout', () => {
         console.log("tutor just logged out...");
         io.emit('update-tutors');
-        });
+    });
+
+    socket.on('error', function () {
+        console.log("socket error");
+        socket.disconnect();
+    });
 })
 
 
