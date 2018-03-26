@@ -68,7 +68,7 @@ server.get('/dash*', allowIfLoggedIn, (req, res) => {
 });
 
 server.get('/admin*', allowIfLoggedOut, (req, res) => {
-    res.render('admin')
+    res.render('admin');
 })
 
 
