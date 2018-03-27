@@ -4,6 +4,7 @@ import GPAImprovementStatistics from '../GPAImprovementStatistics.jsx'
 import SubjectPieStatistics from '../SubjectPieStatistics.jsx'
 import LoginStatistics from '../LoginStatistics.jsx'
 import UserList from '../UserList.jsx'
+import GeneralOverviewStatistics from '../GeneralOverviewStatistics.jsx'
 class Dashboard extends React.Component {
   constructor(props) {
     super(props);
@@ -11,6 +12,7 @@ class Dashboard extends React.Component {
   render() {
     return (
       <div class = "Row">
+        <GeneralOverviewStatistics/>
       	<SubjectPieStatistics/>
       	<LoginStatistics/>
         <GPAImprovementStatistics/>
