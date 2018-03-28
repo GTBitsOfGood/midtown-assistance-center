@@ -104,13 +104,30 @@
 .admin_nav_item_active > .admin_nav_item_text {
     font-weight: 400;
 }
+/* ================================= DASHBOARD - GENERAL SUMMARY ================================ */
+.admin_overview_statistics_card{
+    width: auto;
+    background-color: #fff;
+    margin-bottom: 5px;
+}
+.general_statistics_title{
+    text-align: center;
+}
+.general_statistics_card{
+    margin-left: 25px;
+    text-align: center;
+}
 
+.general_statistic_text{
+    text-align: center;
+}
 /* ================================= DASHBOARD - STATISTICS ================================ */
 .admin_statistics_title{
     text-align: center;
 }
 .admin_statistics_card {
-    width: 525px;
+    width: 485px;
+    display:inline-block;
     
 }
 
@@ -120,6 +137,11 @@
 
 .admin_statistics_general_legend{
     margin-top: 20px;
+}
+
+.admin_statistics_dropdown{
+    margin-right: 5px;
+    margin-left: 5px;
 }
 
 /* ================================= DASHBOARD - APPROVE ================================ */
