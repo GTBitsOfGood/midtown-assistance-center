@@ -60,7 +60,7 @@ class TutorUpcomingEvent extends React.Component {
                 }
             })
             .catch(function(err) {
-                console.log(err);  
+                console.log(err); 
             });
     }
 
