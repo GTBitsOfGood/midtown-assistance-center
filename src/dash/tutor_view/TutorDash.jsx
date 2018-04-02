@@ -16,8 +16,8 @@ class TutorDash extends React.Component {
                 <div className="col-md-6 upcoming-events-list">
                     { this.props.user.approved ?
                         <div>
-                            <TutorUpcomingEvents></TutorUpcomingEvents>
-                            <Feedback></Feedback>
+                            <TutorUpcomingEvents />
+                            <Feedback />
                         </div> :
                         <h4 className="tutor-approval-msg">Your profile is awaiting approval. Edit your profile and check back soon!</h4>
                     }
