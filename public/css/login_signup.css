@@ -17,15 +17,30 @@ body {
     font-family: 'Lato', sans-serif;
 }
 
+.bkgrd {
+    height: calc(100vh - 50px);
+    width: 100vw;
+    background: url("/images/atlanta_home.png");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto 100vh;
+    opacity: 0.3;
+    position: fixed;
+    z-index: -10;
+    background-color: #CCC;
+}
+
 .signup-form, .login-form {
     position: fixed;
-    margin-top: 10vh;
+    margin-top: calc(50vh - 200px);
     min-height: 300px;
+    max-width: 500px;
     padding: 2%;
     overflow-y: scroll;
-    #background-color: var(--ltgray);
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-    border-top: 2px solid var(--gold);
+    background-color: #FFF;
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+    /*border-top: 3px solid var(--gold);*/
+    border: 1px solid var(--gray);
     padding-right: 0;
     padding-left: 1.5%;
 }
@@ -33,11 +48,13 @@ body {
 .signup-form {
     height: 70vh;
     min-height: 300px;
+    margin-top: 15vh;
 }
 
 .signup-form .signup-header, .login-form .login-header {
-    color: var(--black);
-    font-weight: 400;
+    color: var(--dkgray);
+    font-weight: 300;
+    text-transform: none;
 }
 
 .signup-form .signup-header {
@@ -62,7 +79,7 @@ body {
 }
 
 .signup-form input:not(.input-error), .signup-form select, .login-form input:not(.input-error) {
-    border-bottom: 1px solid var(--gray);
+    /*border-bottom: 1px solid var(--gray);*/
 }
 
 .signup-form input, .signup-form select, .login-form input {
@@ -71,7 +88,9 @@ body {
     border-right: 0;
     border-radius: 0px;
     margin-top: 2%;
-    color: var(--dkgray);
+    /*background-color: var(--ltgray);*/
+    font-weight: 300;
+    color: var(--gray);
 }
 
 .signup-form input:focus, .login-form input:focus {
@@ -93,11 +112,12 @@ body {
 }
 
 .signup-form .signup-button, .login-form .login-button {
-    border: 2px solid var(--ltgray);
     background-color: var(--gold);
     color: var(--ltgray);
-    margin-top: 8%;
-    border-radius: 1px;
+    margin-top: 5%;
+    border-radius: 3px;
+    font-weight: 400;
+    border-bottom: 0;
 }
 
 .login-form .login-button {
