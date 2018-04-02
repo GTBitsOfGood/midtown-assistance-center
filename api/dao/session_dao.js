@@ -2,6 +2,18 @@ const Session = require('../../models/Session');
 
 module.exports = {
 
+    /*
+        1. This method allows the admin dash to retrieve the previous month's sessions to
+        plot in cool graphs and provide a neat way to summarize this app's performance
+        ~RM
+    */
+
+    getRecentSession: function() {
+        Session.find()
+    },
+
+
+
     createSession: function(session, callback) {
         Session.create(session, function (err, session_instance) {
             if (err) {
@@ -12,7 +24,6 @@ module.exports = {
             return callback(null, session_instance);
         });
     },
-
     getFilteredSessions(username, startTime, endTime, limit, sortByTime, callback) {
         function filterByUsername(session) {
             return session.username === username;

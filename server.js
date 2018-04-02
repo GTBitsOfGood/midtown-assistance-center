@@ -3,6 +3,8 @@ import ApiRouter from './api/api.js';
 import passportRoutes from './passportConfig';
 import calendar_api from './api/calendar_api';
 
+
+
 let bodyParser = require('body-parser');
 let Raven = require('raven');
 Raven.config('https://c552aa8ccf2c40cdb2050093dfcd3e8e:734ce4f24fd54361bcc2943b47c28149@sentry.io/243818').install();
@@ -17,6 +19,7 @@ server.set('view engine', 'ejs');
 server.use('/api', ApiRouter);
 server.use('/', passportRoutes);
 server.use('/calendar', calendar_api);
+
 
 server.get('/', allowIfLoggedOut, (req, res) => {
     res.redirect('/home/about');

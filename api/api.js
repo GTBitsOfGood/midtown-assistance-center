@@ -2,6 +2,16 @@ import express from 'express';
 import data_access from './data_access';
 const app = express();
 
+/*
+    1. This is a route for the admin dash to get the N most recent tutoring sessions
+    2.
+*/
+
+app.get('/getRecentSessions', (req, res) => {
+    // TO DO: Add method in Session Dao
+    //
+});
+
 app.get('/onlineTutors', (req, res) => {
     console.log(req.query);
     function onTutorsFound(err, tutors) {
@@ -137,6 +147,7 @@ app.patch('/student', (req, res) => {
     });
 });
 
+
 app.patch('/tutor', (req, res) => {
     data_access.users.saveTutor(req.body, function(err, resultStudent) {
         if (err) {
@@ -160,5 +171,7 @@ app.patch('/admin', (req, res) => {
         error_message: 'Update failed because admin dao does not exist yet'
     });
 });
+
+
 
 export default app;
