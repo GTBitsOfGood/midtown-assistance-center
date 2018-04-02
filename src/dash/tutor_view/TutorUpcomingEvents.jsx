@@ -2,7 +2,6 @@ import React from 'react';
 import TutorUpcomingEvent from './TutorUpcomingEvent.jsx';
 import { connect } from 'react-redux';
 import { updateUser } from '../../redux/actions/user_actions.js';
-import Statistics from './Statistics.jsx';
 
 const NUM_OF_EVENTS = 5;
 
@@ -56,7 +55,7 @@ class UpcomingEvents extends React.Component {
                             {renEvents}
                         </div>
                     </div>
-                    <Statistics/>
+
                 </div>
             </div>
         );

@@ -55,7 +55,7 @@ class Statistics extends React.Component {
         }
 
         return (
-            <div>
+            <div className="row animated fadeInRight">
                 <h4 className="lighter-text text-uppercase tutor-events-header text-center">Statistics</h4>
                 <div className="statistics row">
                     <div className="col-xs-12">

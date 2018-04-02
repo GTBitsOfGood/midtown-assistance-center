@@ -3,6 +3,7 @@ import TutorUpcomingEvents from './TutorUpcomingEvents.jsx';
 import Feedback from './Feedback.jsx';
 import { connect } from 'react-redux';
 import TutorProfile from './Profile.jsx';
+import Statistics from './Statistics.jsx';
 
 class TutorDash extends React.Component {
 
@@ -17,6 +18,7 @@ class TutorDash extends React.Component {
                     { this.props.user.approved ?
                         <div>
                             <TutorUpcomingEvents />
+                            <Statistics/>
                             <Feedback />
                         </div> :
                         <h4 className="tutor-approval-msg">Your profile is awaiting approval. Edit your profile and check back soon!</h4>
