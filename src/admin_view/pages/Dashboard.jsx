@@ -11,13 +11,12 @@ class Dashboard extends React.Component {
   }
   render() {
     return (
-      <div class = "Row">
+      <div className = "Row">
         <GeneralOverviewStatistics/>
       	<SubjectPieStatistics/>
       	<LoginStatistics/>
         <GPAImprovementStatistics/>
         <UserList/>
-
       </div>
     );
   }

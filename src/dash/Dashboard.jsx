@@ -32,7 +32,6 @@ const tutorRoutes = (
     <div>
         <Route exact path="/dash" component={TutorDash}/>
         <Route exact path="/dash/about" component={AboutUs}/>
-        <Route exact path="/dash/profile" component={TutorProfile}/>
     </div>
 );
 
