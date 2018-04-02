@@ -27,7 +27,12 @@ server.use(function (req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept-Type');
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
-})
+});
+
+io.configure(function () {
+    io.set('transports', ['xhr-polling']);
+    io.set('polling duration', 10);
+});
 
 
 io.on('connection', socket => {
