@@ -8,25 +8,31 @@ class TutorUpcomingEvent extends React.Component {
         super(props);
 
         this.state = {
-          hangoutsLink: ''
+          hangoutsLink: '',
+          hangoutsLinkExpires: ''
         };
 
         this.handleAccessHangoutLink = this.handleAccessHangoutLink.bind(this);
     }
 
     handleAccessHangoutLink() {
-        let requestBody = {
-            tutorId: this.props.tutorId,
-            calId: this.props.calId,
-            startTime: this.props.startTime,
-            endTime: this.props.endTime,
-            email: this.props.email
-        };
+        let now = new Date();
+        let time = now.getHours() + ":" + now.getMinutes();
+        if (this.state.hangoutsLink && time.localeCompare(this.props.endTime) < 0) {
+            window.open(this.state.hangoutsLink, "_blank");
+        } else {
+            let requestBody = {
+                tutorId: this.props.tutorId,
+                calId: this.props.calId,
+                startTime: this.props.startTime,
+                endTime: this.props.endTime,
+                email: this.props.email
+            };
 
-        console.log(requestBody);
+            console.log(requestBody);
 
-        let self = this;
-        axios.post('/calendar/createEvent', requestBody)
+            let self = this;
+            axios.post('/calendar/createEvent', requestBody)
             .then(function(response){
                 console.log(response);
                 if (response.data.success) {
@@ -41,6 +47,7 @@ class TutorUpcomingEvent extends React.Component {
             .catch(function(err) {
                 console.log(err);
             });
+        }
     }
 
     render() {
