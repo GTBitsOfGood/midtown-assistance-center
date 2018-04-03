@@ -197,11 +197,6 @@ app.patch('/student', (req, res) => {
     });
 });
 
-<<<<<<< HEAD
-
-=======
-// update tutor in database
->>>>>>> dev
 app.patch('/tutor', (req, res) => {
     data_access.users.saveTutor(req.body, function(err, resultStudent) {
         if (err) {
@@ -342,9 +337,4 @@ app.patch('/admin', (req, res) => {
     });
 });
 
-
-<<<<<<< HEAD
-
-=======
->>>>>>> dev
 export default app;
