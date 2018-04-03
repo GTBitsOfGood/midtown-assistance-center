@@ -1,11 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateUser } from '../../redux/actions/user_actions.js';
+
 
 class Review extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+
         };
         this.reportReview = this.reportReview.bind(this);
     }
@@ -48,7 +49,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser : (user) => dispatch(updateUser(user))
+
     };
 };
 

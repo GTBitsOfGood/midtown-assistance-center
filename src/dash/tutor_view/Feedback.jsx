@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { saveTutor, getSessions } from '../../redux/actions/user_actions.js';
+import { saveTutor } from '../../redux/actions/user_actions.js';
 import Review from './Review.jsx';
 
 class Feedback extends React.Component {
@@ -10,15 +10,6 @@ class Feedback extends React.Component {
             sessions: {},
             renderSessions: {}
         };
-        // this.getSessions = this.getSessions.bind(this);
-    }
-
-    /**
-     * Get all of the sessions for the tutor from the database
-     * on mount
-     */
-    componentDidMount() {
-        // this.props.getSessions(this.props.user);
     }
 
 
@@ -65,8 +56,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser : (user) => dispatch(saveTutor(user)),
-        getSessions: (user) => dispatch(getSessions(user))
+
     };
 };
 

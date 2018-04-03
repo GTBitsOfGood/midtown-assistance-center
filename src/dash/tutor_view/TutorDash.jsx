@@ -5,8 +5,6 @@ import { connect } from 'react-redux';
 import TutorProfile from './Profile.jsx';
 import socketIOClient from "socket.io-client";
 import Statistics from './Statistics.jsx';
-import { getSubjects } from "../../redux/actions/subject_actions";
-import { getSessions, getStat } from "../../redux/actions/user_actions";
 
 const SOCKETIO_ENDPOINT = window.location.hostname+(window.location.port ? ':'+window.location.port: '');
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
@@ -15,11 +13,6 @@ class TutorDash extends React.Component {
 
     componentWillUnmount() {
         socket.close();
-    }
-
-    componentDidMount() {
-        // this.props.getStat(this.props.user);
-        // this.props.getSessions(this.props.user);
     }
 
     render() {
@@ -50,8 +43,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getStat: (user) => dispatch(getStat(user)),
-        getSessions: (user) => dispatch(getSessions(user))
 
     };
 };

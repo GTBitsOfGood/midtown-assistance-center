@@ -1,8 +1,6 @@
 import React from 'react';
 import TutorUpcomingEvent from './TutorUpcomingEvent.jsx'
-import Statistics from './Statistics.jsx';
 import { connect } from 'react-redux';
-import { updateUser } from '../../redux/actions/user_actions.js';
 
 const NUM_OF_EVENTS = 5;
 
@@ -69,7 +67,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser : (user) => dispatch(updateUser(user))
+
     };
 };
 

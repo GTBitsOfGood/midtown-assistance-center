@@ -47,7 +47,7 @@ class SessionModal extends React.Component {
      * @param data
      */
     updateStudentInSession(data) {
-        var students = this.state.students_in_session;
+        let students = this.state.students_in_session;
         students.push(data);
         this.setState({students_in_session:students});
     }
@@ -66,15 +66,15 @@ class SessionModal extends React.Component {
      * @param number
      */
     changeStar(number) {
-        if (number == 1) {
+        if (number === 1) {
             this.setState({first_star:true,second_star:false,third_star:false,fourth_star:false,fifth_star:false});
-        } else if (number == 2) {
+        } else if (number === 2) {
             this.setState({first_star:true,second_star:true,third_star:false,fourth_star:false,fifth_star:false});
-        } else if (number == 3) {
+        } else if (number === 3) {
             this.setState({first_star:true,second_star:true,third_star:true,fourth_star:false,fifth_star:false});
-        } else if (number == 4) {
+        } else if (number === 4) {
             this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:false});
-        } else if (number == 5) {
+        } else if (number === 5) {
             this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:true});
         }
     }
@@ -156,12 +156,12 @@ class SessionModal extends React.Component {
      * @returns {HTML}
      */
     render() {
-        const renStudents = []
+        const renStudents = [];
         this.props.socket.on('session-update-' + this.props.eventId, (data) => {
             console.log("Session update!");
             this.updateStudentInSession(data);
         });
-        for (var student in this.state.students_in_session) {
+        for (let student in this.state.students_in_session) {
             console.log(this.state.students_in_session[student]);
             renStudents.push(<h5>{this.state.students_in_session[student].user}</h5>);
         }
@@ -178,7 +178,7 @@ class SessionModal extends React.Component {
                                 <div id={'ModalBody_' + this.props.id}>
                                     <h3>Session Information</h3>
                                     <h4>Students in session</h4>
-                                    {renStudents.length == 0 ? <h5>No Students in Session</h5> : renStudents}
+                                    {renStudents.length === 0 ? <h5>No Students in Session</h5> : renStudents}
                                     <h3>How was your tutoring session?</h3>
                                     <h5 className={'text-uppercase modal-error-' + this.state.error_message}>Rating must be nonzero</h5>
                                     <span onMouseOver = {() => this.changeStar(1)} onMouseOut = {this.changeStarOut} onClick={() => this.setRating(1)}><img className="star" src={this.state.first_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"/></span>
@@ -212,7 +212,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+
+    };
 };
 
 const SessionReviewModal = connect(

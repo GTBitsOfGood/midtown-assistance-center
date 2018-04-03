@@ -51,7 +51,7 @@ class TutorUpcomingEvent extends React.Component {
             rating: rating,
             comment: comment,
             end_time: now
-        }
+        };
         axios.post('/api/tutorSubmitReview', sessionRequestBody)
             .then(function(response){
                 if (response.data.success) {

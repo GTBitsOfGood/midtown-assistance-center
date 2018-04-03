@@ -6,7 +6,6 @@ import DashMenuBar from './DashMenuBar.jsx';
 import StudentDash from './student_view/StudentDash.jsx';
 import StudentProfile from './student_view/Profile.jsx';
 import TutorDash from './tutor_view/TutorDash.jsx';
-import TutorProfile from './tutor_view/Profile.jsx';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 import AboutUs from '../AboutUs.jsx';
@@ -17,7 +16,6 @@ import axios from 'axios';
 import {GridLoader} from 'halogen';
 import styles from '../../public/css/index.css';
 import socketIOClient from 'socket.io-client';
-import { getSubjects } from "../redux/actions/subject_actions";
 import { fetchUserAndInfo } from "../redux/actions/user_actions";
 
 const SOCKETIO_ENDPOINT = window.location.hostname+(window.location.port ? ':'+window.location.port: '');
@@ -62,7 +60,6 @@ class DashComp extends React.Component {
     }
 
     render() {
-        console.log(this.props);
         if (this.props.user.fetching || !this.props.user.fetched) {
             return loading;
         }
@@ -87,7 +84,6 @@ class DashComp extends React.Component {
             console.log('Tutor logged in');
             routes = tutorRoutes;
             socket.emit('tutor-login');
-
             if (!this.props.user.online && !this.props.user.logging_out) {
                 let new_tutor = Object.assign({}, this.props.user);
                 new_tutor.online = true;

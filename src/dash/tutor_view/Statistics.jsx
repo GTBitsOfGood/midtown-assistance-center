@@ -1,9 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateUser } from '../../redux/actions/user_actions.js';
 import {PieChart} from 'react-easy-chart';
-import axios from "axios/index";
-import { getStat } from "../../redux/actions/user_actions";
 
 class Statistics extends React.Component {
 
@@ -15,11 +12,6 @@ class Statistics extends React.Component {
                 totalRatings: 0
             }
         };
-    }
-
-    componentDidMount() {
-        // TODO
-        // this.props.getStat(this.props.user);
     }
 
     render() {
@@ -91,7 +83,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         setUser : (user) => dispatch(updateUser(user)),
-        getStat: (user) => dispatch(getStat(user))
     };
 };
 
