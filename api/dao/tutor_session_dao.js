@@ -7,6 +7,7 @@
  */
 
 const TutorSession = require('../../models/TutorSession.js');
+const Tutor = require('../../models/Tutor.js');
 
 /**
  * find the sum of all ratings among all tutor sessions
@@ -106,6 +107,26 @@ module.exports = {
             }
             callback(null, updatedSession);
         });
+        let new_stat = 0;
+        module.exports.getTutorAvgRating(session._id.tutor_id, function(err, res) {
+            if (err) {
+                console.error(err);
+            }
+            new_stat = res;
+        });
+        Tutor.findOne({"_id": session._id.tutor_id}, function (err, tutor) {
+            if (err) {
+                console.error(err);
+            }
+            tutor.rating = new_stat.avgRating;
+            tutor.num_ratings = new_stat.totalRatings;
+            tutor.save(function(err) {
+                if (err) {
+                    console.error(err);
+                }
+            });
+            console.log(tutor);
+        });
     },
 
     /**
@@ -145,6 +166,7 @@ module.exports = {
                 callback(null, docs);
             }
         });
+
     },
 
     /**
@@ -163,7 +185,7 @@ module.exports = {
      */
     getTutorAvgRating: function (username, callback) {
         function sumRatings(accumulator, currentValue) {
-            var rating = currentValue.getRating();
+            let rating = currentValue.getRating();
             return accumulator + (rating == null ? 0 : rating * currentValue.getNumRatings());
         }
 
@@ -175,9 +197,9 @@ module.exports = {
                 console.error(err);
                 callback(err);
             } else {
-                var sum = docs.reduce(sumRatings, 0);
-                var num = docs.reduce(numRatings, 0);
-                callback(null, {avgRating: (num == 0 ? 0 : sum / num), totalRatings: num});
+                let sum = docs.reduce(sumRatings, 0);
+                let num = docs.reduce(numRatings, 0);
+                callback(null, {avgRating: (num === 0 ? 0 : sum / num), totalRatings: num});
             }
         });
     },

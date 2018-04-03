@@ -2,19 +2,6 @@ import * as types from './types/user_types'
 import axios from 'axios';
 import { getSubjects } from "./subject_actions";
 
-// export function fetchUser() {
-//     return dispatch => {
-//         dispatch({type: types.fetchUserPending});
-//         return axios.get('/user').then(
-//             res => {
-//                 dispatch({type: types.fetchUserFulfilled, payload: res.data});
-//             },
-//             err => {
-//                 dispatch({type: types.fetchUserRejected, payload: err});
-//             }
-//         );
-//     };
-// }
 
 export function fetchUser() {
     return {
@@ -38,11 +25,6 @@ export function fetchUserAndInfo() {
     }
 }
 
-// export const fetchUser = () => async dispatch => {
-//   dispatch({ type: types.fetchUserPending });
-//   const res = await axios.get('/user');
-//   dispatch({ type: types.fetchUserFulfilled, payload: res.data });
-// };
 
 export function saveStudent(user) {
     return {

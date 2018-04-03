@@ -25,46 +25,46 @@ class TutorModal extends React.Component {
     }
 
     changeStar(number) {
-        if (number == 1) {
+        if (number === 1) {
             this.setState({first_star:true,second_star:false,third_star:false,fourth_star:false,fifth_star:false});
-        } else if (number == 2) {
+        } else if (number === 2) {
             this.setState({first_star:true,second_star:true,third_star:false,fourth_star:false,fifth_star:false});
-        } else if (number == 3) {
+        } else if (number === 3) {
             this.setState({first_star:true,second_star:true,third_star:true,fourth_star:false,fifth_star:false});
-        } else if (number == 4) {
+        } else if (number === 4) {
             this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:false});
-        } else if (number == 5) {
+        } else if (number === 5) {
             this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:true});
         }
     }
 
     changeStarOut() {
-        if (this.state.rating == 0) {
+        if (this.state.rating === 0) {
             this.setState({first_star:false,second_star:false,third_star:false,fourth_star:false,fifth_star:false});
-        } else if (this.state.rating == 1) {
+        } else if (this.state.rating === 1) {
             this.setState({first_star:true,second_star:false,third_star:false,fourth_star:false,fifth_star:false});
-        } else if (this.state.rating == 2) {
+        } else if (this.state.rating === 2) {
             this.setState({first_star:true,second_star:true,third_star:false,fourth_star:false,fifth_star:false});
-        } else if (this.state.rating == 3) {
+        } else if (this.state.rating === 3) {
             this.setState({first_star:true,second_star:true,third_star:true,fourth_star:false,fifth_star:false});
-        } else if (this.state.rating == 4) {
+        } else if (this.state.rating === 4) {
             this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:false});
-        } else if (this.state.rating == 5) {
+        } else if (this.state.rating === 5) {
             this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:true});
         }
 
     }
 
     setRating(number) {
-        if (number == 1) {
+        if (number === 1) {
             this.setState({rating:1, satisfaction:'poor'});
-        } else if (number == 2) {
+        } else if (number === 2) {
             this.setState({rating:2, satisfaction:'below average'});
-        } else if (number == 3) {
+        } else if (number === 3) {
             this.setState({rating:3, satisfaction:'average'});
-        } else if (number == 4) {
+        } else if (number === 4) {
             this.setState({rating:4, satisfaction:'very good'});
-        } else if (number == 5) {
+        } else if (number === 5) {
             this.setState({rating:5, satisfaction:'excellent'});
         }
     }
