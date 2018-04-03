@@ -173,7 +173,7 @@ module.exports = {
         }
         TutorSession.find({'_id.tutor_id': username}, function (err, docs) {
             if (err) {
-                console.log(err);
+                console.error(err);
                 callback(err);
             } else {
                 var sum = docs.reduce(sumRatings, 0);

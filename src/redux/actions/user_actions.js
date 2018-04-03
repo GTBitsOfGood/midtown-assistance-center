@@ -1,4 +1,5 @@
 import * as types from './types/user_types'
+import axios from 'axios';
 
 export function fetchUser (user) {
   return {
@@ -20,6 +21,15 @@ export function saveTutor (user) {
     payload: user
   };
 }
+
+export function getStat(user) {
+  return {
+    type: types.getRating,
+    payload: axios.post('/api/getTutorStats', { username: user._id })
+  }
+}
+
+
 
 export function saveAdmin (user) {
   return {

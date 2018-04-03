@@ -2,7 +2,16 @@ import config from 'config';
 import * as types from '../actions/types/user_types'
 import axios from 'axios';
 
-let initial_state = {};
+let initial_state = {
+  fetched: false,
+  fetching: false,
+  stat: {
+    statistics: {
+      avgRating: 0,
+      totalRatings: 0
+    }
+  }
+};
 
 export default function change_user(state = initial_state, action) {
   let new_state = Object.assign({}, state);
@@ -65,6 +74,13 @@ export default function change_user(state = initial_state, action) {
           console.error(error);
         });
       break;
+    case types.getRatingPending:
+      return {...state, fetching: true};
+    case types.getRatingRejected:
+      return {...state, fetching: false, error: action.payload};
+    case types.getRatingFulfilled:
+      return {...state, fetching: false, fetched: true, stat: action.payload.data}
+
   }
 
   return new_state;

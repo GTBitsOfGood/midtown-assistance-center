@@ -15,7 +15,7 @@ const DAYS_OF_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "F
 
 class Profile extends React.Component {
 
-    componentWillMount() {
+    componentDidMount() {
         this.props.getSubjects();
     }
 

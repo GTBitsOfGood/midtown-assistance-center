@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateUser } from '../../redux/actions/user_actions.js';
+import { saveTutor, getStat } from '../../redux/actions/user_actions.js';
 import axios from 'axios';
 import Review from './Review.jsx';
 
 class Feedback extends React.Component {
     constructor(props) {
         super(props);
+        // props.getStat(props.user);
         this.state = {
             sessions: {},
             renderSessions: {}
@@ -20,7 +21,7 @@ class Feedback extends React.Component {
      * on mount
      */
     componentWillMount() {
-        this.getSessions();
+        // this.getSessions();
     }
 
     /**
@@ -96,12 +97,14 @@ class Feedback extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return state;
+    return {
+        user: state.user
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser : (user) => dispatch(updateUser(user))
+        setUser : (user) => dispatch(saveTutor(user)),
     };
 };
 

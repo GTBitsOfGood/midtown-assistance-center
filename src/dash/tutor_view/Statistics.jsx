@@ -3,55 +3,45 @@ import { connect } from 'react-redux';
 import { updateUser } from '../../redux/actions/user_actions.js';
 import {PieChart} from 'react-easy-chart';
 import axios from "axios/index";
+import { getStat } from "../../redux/actions/user_actions";
 
 class Statistics extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            statistics: {}
+            statistics: {
+                avgRating: 0,
+                totalRatings: 0
+            }
         };
-        this.getTutorStatistics = this.getTutorStatistics.bind(this);
     }
 
-    componentWillMount() {
-        this.getTutorStatistics();
-    }
-
-    getTutorStatistics() {
-        var username = this.props.user._id;
-        var self = this;
-        axios.post('/api/getTutorStats', {'username':username})
-            .then(function(response){
-                if (response.data.success) {
-                    console.log(response.data);
-                    self.setState({
-                        statistics: response.data.statistics,
-                    });
-                } else {
-                    console.log(response.data.error);
-                }
-            })
-            .catch(function(err) {
-                console.log(err);
-            });
+    componentDidMount() {
+        this.props.getStat(this.props.user);
     }
 
     render() {
-        let rating = Math.round(this.state.statistics.avgRating*2)/2;
+        let avgRating = 0;
+        let totalRatings = 0;
+        if (this.props.user.stat) {
+            avgRating = this.props.user.stat.statistics.avgRating;
+            totalRatings = this.props.user.stat.statistics.totalRatings;
+        }
+        let rating = Math.round(avgRating * 2)/2;
         let stars = [];
         let halfStars = (rating - Math.floor(rating))/0.5;
         let emptyStars = (5 - Math.ceil(rating));
         let fullStars = Math.floor(rating);
 
         for (let x = 0; x < fullStars; x++) {
-            stars.push(<span><img className="star" src='/images/full-star.png' width="20" height="20"></img></span>);
+            stars.push(<span><img className="star" src='/images/full-star.png' width="20" height="20"/></span>);
         }
         for (let y = 0; y < halfStars; y++) {
-            stars.push(<span><img className="star" src='/images/half-star.png' width="20" height="20"></img></span>);
+            stars.push(<span><img className="star" src='/images/half-star.png' width="20" height="20"/></span>);
         }
         for (let z = 0; z < emptyStars; z++) {
-            stars.push(<span><img className="star" src='/images/empty-star.png' width="20" height="20"></img></span>);
+            stars.push(<span><img className="star" src='/images/empty-star.png' width="20" height="20"/></span>);
         }
 
         return (
@@ -64,7 +54,7 @@ class Statistics extends React.Component {
                                 <h4><span className="lighter-text">Average Rating:</span> { stars } </h4>
                             </div>
                             <div className="col">
-                                <h4><span className="lighter-text">Number of ratings:</span><strong> { this.state.statistics.totalRatings }</strong></h4>
+                                <h4><span className="lighter-text">Number of ratings:</span><strong> { totalRatings }</strong></h4>
                             </div>
                         </div>
                         <div className="col-md-6 col-xs-12">
@@ -90,12 +80,15 @@ class Statistics extends React.Component {
 }
 
 const mapStateToProps = (state) => {
-    return state;
+    return {
+        user: state.user
+    };
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser : (user) => dispatch(updateUser(user))
+        setUser : (user) => dispatch(updateUser(user)),
+        getStat: (user) => dispatch(getStat(user))
     };
 };
 
