@@ -65,7 +65,7 @@ module.exports = {
      * Get all the tutor sessions for the previous month
      * @param session: {}
      * @param callback
-     *
+     * @author RM
      */
 
     getTutorSessions: function(session, callback) {
@@ -78,8 +78,9 @@ module.exports = {
         var oneMonthAgoDate = d;
 
         //TO DO: Query the TutorSessionDao to get all sessions 1 month ago
+        //Look at http://mongoosejs.com/docs/queries.html
 
-        TutoringSessionsList = {}
+        TutoringSessionsList = TutorSession.find().where('start_time').gt(oneMonthAgoDate);
 
         //Return the list of tutor sessions
 
