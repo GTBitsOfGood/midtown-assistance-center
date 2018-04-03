@@ -6,3 +6,7 @@ export const getRating = 'GET_RATING';
 export const getRatingPending = 'GET_RATING_PENDING';
 export const getRatingRejected = 'GET_RATING_REJECTED';
 export const getRatingFulfilled = 'GET_RATING_FULFILLED';
+export const getSessions = 'GET_SESSIONS';
+export const getSessionsPending = 'GET_SESSIONS_PENDING';
+export const getSessionsRejected = 'GET_SESSIONS_REJECTED';
+export const getSessionsFulfilled = 'GET_SESSIONS_FULFILLED';

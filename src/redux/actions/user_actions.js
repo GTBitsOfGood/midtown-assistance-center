@@ -29,6 +29,13 @@ export function getStat(user) {
   }
 }
 
+export function getSessions(user) {
+  return {
+    type: types.getSessions,
+    payload: axios.post('/api/getTutorSessions', { username: user._id })
+  }
+}
+
 
 
 export function saveAdmin (user) {

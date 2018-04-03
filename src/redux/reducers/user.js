@@ -79,7 +79,13 @@ export default function change_user(state = initial_state, action) {
     case types.getRatingRejected:
       return {...state, fetching: false, error: action.payload};
     case types.getRatingFulfilled:
-      return {...state, fetching: false, fetched: true, stat: action.payload.data}
+      return {...state, fetching: false, fetched: true, stat: action.payload.data};
+    case types.getSessionsPending:
+        return {...state, fetching: true};
+    case types.getSessionsRejected:
+        return {...state, fetching: false, error: action.payload};
+    case types.getSessionsFulfilled:
+        return {...state, fetching: false, fetched: true, sessions: action.payload.data};
 
   }
 
