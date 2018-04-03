@@ -60,6 +60,33 @@ function getComments(doc) {
 
 module.exports = {
 
+
+    /**
+     * Get all the tutor sessions for the previous month
+     * @param session: {}
+     * @param callback
+     *
+     */
+
+    getTutorSessions: function(session, callback) {
+        //Get Today's date
+        var d = new Date();
+        var m = d.getMonth();
+        d.setMonth(d.getMonth() - 1);
+
+        //Get Start date for sessions 1 month prior
+        var oneMonthAgoDate = d;
+
+        //TO DO: Query the TutorSessionDao to get all sessions 1 month ago
+
+        TutoringSessionsList = {}
+
+        //Return the list of tutor sessions
+
+        return TutoringSessionsList;
+    },
+
+
     /**
      * add a tutor session object
      * @param session
