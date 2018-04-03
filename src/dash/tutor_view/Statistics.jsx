@@ -17,14 +17,6 @@ class Statistics extends React.Component {
         };
     }
 
-    // componentDidUpdate(prevProps) {
-    //     // console.log(this.props.user.session)
-    //     if (this.props.user.sessions !== prevProps.user.sessions) {
-    //         this.props.getStat(this.props.user);
-    //     }
-    //     //
-    // }
-
     componentDidMount() {
         this.props.getStat(this.props.user);
     }

@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { updateUser } from '../../redux/actions/user_actions.js';
-import axios from 'axios';
 
 class Review extends React.Component {
     constructor(props) {

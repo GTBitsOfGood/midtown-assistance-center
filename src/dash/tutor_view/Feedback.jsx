@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { saveTutor, getSessions } from '../../redux/actions/user_actions.js';
-import axios from 'axios';
 import Review from './Review.jsx';
 
 class Feedback extends React.Component {

@@ -15,7 +15,7 @@ class TutorModal extends React.Component {
             satisfaction: '',
             error_message:'hide',
             comment: ''
-        }
+        };
         this.changeStar = this.changeStar.bind(this);
         this.setRating = this.setRating.bind(this);
         this.changeStarOut = this.changeStarOut.bind(this);
@@ -74,15 +74,15 @@ class TutorModal extends React.Component {
     }
 
     handleCancel() {
-        var now = new Date();
-        var studentRatingObj = {
+        let now = new Date();
+        let studentRatingObj = {
             student_id: this.props.username,
             time: now
         };
-        var request = {
+        let request = {
             _id: this.props.session._id,
             review: studentRatingObj
-        }
+        };
         axios.post('/api/studentSubmitReview', request)
             .then(function(response){
                 if (response.data.success) {
@@ -99,20 +99,20 @@ class TutorModal extends React.Component {
     }
 
     handleSubmit() {
-        if (this.state.rating == 0) {
-            this.setState({error_message:'show'});
+        if (this.state.rating === 0) {
+            this.setState({error_message: 'show'});
         } else {
-            var now = new Date();
-            var studentRatingObj = {
+            let now = new Date();
+            let studentRatingObj = {
                 student_id: this.props.username,
                 student_rating: this.state.rating,
                 student_comment: this.state.comment,
                 time: now
             };
-            var request = {
+            let request = {
                 _id: this.props.session._id,
                 review: studentRatingObj
-            }
+            };
             axios.post('/api/studentSubmitReview', request)
                 .then(function(response){
                     if (response.data.success) {
@@ -145,14 +145,14 @@ class TutorModal extends React.Component {
                                     {this.props.session ? <h5><a href={this.props.session.hangouts_link} target="_blank">Click here to re-enter the hangouts</a></h5> : "" }
                                     <h2>How was your tutoring session with {this.props.firstName}?</h2>
                                     <h5 className={'text-uppercase modal-error-' + this.state.error_message}>Rating must be nonzero</h5>
-                                    <span onMouseOver = {() => this.changeStar(1)} onMouseOut = {this.changeStarOut} onClick={() => this.setRating(1)}><img className="star" src={this.state.first_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"></img></span>
-                                    <span onMouseOver = {() => this.changeStar(2)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(2)}><img className="star" src={this.state.second_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"></img></span>
-                                    <span onMouseOver = {() => this.changeStar(3)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(3)}><img className="star" src={this.state.third_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"></img></span>
-                                    <span onMouseOver = {() => this.changeStar(4)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(4)}><img className="star" src={this.state.fourth_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"></img></span>
-                                    <span onMouseOver = {() => this.changeStar(5)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(5)}><img className="star" src={this.state.fifth_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"></img></span>
+                                    <span onMouseOver = {() => this.changeStar(1)} onMouseOut = {this.changeStarOut} onClick={() => this.setRating(1)}><img className="star" src={this.state.first_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"/></span>
+                                    <span onMouseOver = {() => this.changeStar(2)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(2)}><img className="star" src={this.state.second_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"/></span>
+                                    <span onMouseOver = {() => this.changeStar(3)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(3)}><img className="star" src={this.state.third_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"/></span>
+                                    <span onMouseOver = {() => this.changeStar(4)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(4)}><img className="star" src={this.state.fourth_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"/></span>
+                                    <span onMouseOver = {() => this.changeStar(5)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(5)}><img className="star" src={this.state.fifth_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"/></span>
                                     <span><h3 className="rating-span">({this.state.rating}/5) {this.state.satisfaction}</h3></span>
                                     <h5>Leave some feedback (optional)</h5>
-                                    <textarea value={this.state.comment} onChange={this.handleCommentChange} className="input-lg input feedback-text"></textarea>
+                                    <textarea value={this.state.comment} onChange={this.handleCommentChange} className="input-lg input feedback-text"/>
                                 </div>
                             </div>
                             <div className="review-modal-footer modal-footer">

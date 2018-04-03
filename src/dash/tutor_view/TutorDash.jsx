@@ -18,7 +18,7 @@ class TutorDash extends React.Component {
                     { this.props.user.approved ?
                         <div>
                             <TutorUpcomingEvents />
-                            <Statistics/>
+                            <Statistics />
                             <Feedback />
                         </div> :
                         <h4 className="tutor-approval-msg">Your profile is awaiting approval. Edit your profile and check back soon!</h4>
@@ -31,14 +31,12 @@ class TutorDash extends React.Component {
 
 const mapStateToProps = (state) => {
     // Since we never use the redux state here
-    console.log(state);
     return state;
 };
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser : (user) => dispatch(updateUser(user))
-    };
+        };
 };
 
 export default connect(
