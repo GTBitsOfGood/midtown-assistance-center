@@ -17,6 +17,7 @@ let schema = new Schema({
     transcript: {type: String, default: ''},
     rating: {type: Number, default: 0},
     num_ratings: {type: Number, default: 0},
+    num_sessions: {type: Number, default: 0},
     subjects: {type:
       [
         {

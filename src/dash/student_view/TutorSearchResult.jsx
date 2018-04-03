@@ -26,7 +26,7 @@ class TutorSearchResult extends React.Component {
 
     updateRating() {
       this.setState({
-        halfStars: (this.props.data.rating - Math.floor(this.props.data.rating))/0.5,
+        halfStars: Math.floor((this.props.data.rating - Math.floor(this.props.data.rating))/0.5),
         emptyStars: (5 - Math.ceil(this.props.data.rating)),
         fullStars: Math.floor(this.props.data.rating)
       });

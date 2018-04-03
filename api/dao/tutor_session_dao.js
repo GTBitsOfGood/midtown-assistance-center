@@ -120,6 +120,7 @@ module.exports = {
             }
             tutor.rating = new_stat.avgRating;
             tutor.num_ratings = new_stat.totalRatings;
+            tutor.num_sessions = new_stat.totalSessions;
             tutor.save(function(err) {
                 if (err) {
                     console.error(err);
@@ -199,7 +200,7 @@ module.exports = {
             } else {
                 let sum = docs.reduce(sumRatings, 0);
                 let num = docs.reduce(numRatings, 0);
-                callback(null, {avgRating: (num === 0 ? 0 : sum / num), totalRatings: num});
+                callback(null, {avgRating: (num === 0 ? 0 : sum / num), totalRatings: num, totalSessions: docs.length});
             }
         });
     },
