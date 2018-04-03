@@ -18,7 +18,8 @@ class Statistics extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getStat(this.props.user);
+        // TODO
+        // this.props.getStat(this.props.user);
     }
 
     render() {

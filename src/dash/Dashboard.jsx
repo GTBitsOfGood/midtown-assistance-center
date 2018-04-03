@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
+import * as types from '../redux/actions/types/user_types';
 import DashMenuBar from './DashMenuBar.jsx';
 import StudentDash from './student_view/StudentDash.jsx';
 import StudentProfile from './student_view/Profile.jsx';
@@ -16,6 +17,8 @@ import axios from 'axios';
 import {GridLoader} from 'halogen';
 import styles from '../../public/css/index.css';
 import socketIOClient from 'socket.io-client';
+import { getSubjects } from "../redux/actions/subject_actions";
+import { fetchUserAndInfo } from "../redux/actions/user_actions";
 
 const SOCKETIO_ENDPOINT = window.location.hostname+(window.location.port ? ':'+window.location.port: '');
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
@@ -51,18 +54,7 @@ const loading = (
 class DashComp extends React.Component {
 
     componentDidMount() {
-        let self = this;
-        axios.get('/user')
-            .then(function (response) {
-                if (response.data !== '') {
-                    self.props.storeUser(response.data);
-                } else {
-                    console.error('Dashboard received no user info');
-                }
-            })
-            .catch(function (error) {
-                console.error(error);
-            });
+        this.props.fetchUserAndInfo();
     }
 
     componentWillUnmount() {
@@ -70,11 +62,10 @@ class DashComp extends React.Component {
     }
 
     render() {
-
-        if (this.props.user._id === undefined) {
+        console.log(this.props);
+        if (this.props.user.fetching || !this.props.user.fetched) {
             return loading;
         }
-
         if (this.props.user.logging_out) {
             console.log('LOGGING OUT');
             axios.get('/logout', {params:{username:this.props.user._id}}).then(function(response) {
@@ -87,13 +78,12 @@ class DashComp extends React.Component {
             });
             return loading;
         }
-
         // FIXME we should introduce a user type variable
         let routes;
-        if (this.props.user.grade_level !== undefined) {
+        if (this.props.user.type === types.typeStudent) {
             console.log('Student logged in');
             routes = studentRoutes;
-        } else if (this.props.user.approved !== undefined) {
+        } else if (this.props.user.type === types.typeTutor) {
             console.log('Tutor logged in');
             routes = tutorRoutes;
             socket.emit('tutor-login');
@@ -102,12 +92,9 @@ class DashComp extends React.Component {
                 let new_tutor = Object.assign({}, this.props.user);
                 new_tutor.online = true;
                 this.props.setTutorOnline(new_tutor);
-
-
                 return loading;
             }
         }
-
         return (
             <div className="animated fadeInDown">
                 <BrowserRouter>
@@ -131,8 +118,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        storeUser: (user) => dispatch(fetchUser(user)),
-        setTutorOnline: (tutor) => dispatch(saveTutor(tutor))
+        // storeUser: (user) => dispatch(fetchUser(user)),
+        setTutorOnline: (tutor) => dispatch(saveTutor(tutor)),
+        fetchUserAndInfo: () => dispatch(fetchUserAndInfo())
     };
 };
 

@@ -59,7 +59,7 @@ class Profile extends React.Component {
     }
 
     componentDidMount() {
-        this.props.getSubjects();
+
     }
 
     initAvailabilityList(availability) {
@@ -458,7 +458,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         saveUser : (user) => dispatch(saveTutor(user)),
-        getSubjects: () => dispatch(getSubjects())
     };
 };
 

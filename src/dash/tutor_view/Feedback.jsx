@@ -18,7 +18,7 @@ class Feedback extends React.Component {
      * on mount
      */
     componentDidMount() {
-        this.props.getSessions(this.props.user);
+        // this.props.getSessions(this.props.user);
     }
 
 
