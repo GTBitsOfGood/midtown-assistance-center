@@ -22,7 +22,7 @@ class StudentSignUpForm extends React.Component {
             email: '',
             emailValidation: 'input-success',
             access_code: '',
-            grade_level: 6,
+            grade_level: props.startingGrade,
             errorMessage: 'error-message-hide',
             inputErrorMessage:'error-message-hide',
             errorMessageContent: ''
@@ -264,7 +264,7 @@ StudentSignUpForm.propTypes = {
 };
 
 StudentSignUpForm.defaultProps = {
-    startingGrade: 6,
+    startingGrade: 1,
     endingGrade: 12
 };
 
