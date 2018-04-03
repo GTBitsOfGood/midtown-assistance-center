@@ -1,5 +1,6 @@
 import React from 'react';
-import TutorUpcomingEvent from './TutorUpcomingEvent.jsx';
+import TutorUpcomingEvent from './TutorUpcomingEvent.jsx'
+import Statistics from './Statistics.jsx';
 import { connect } from 'react-redux';
 import { updateUser } from '../../redux/actions/user_actions.js';
 
@@ -30,7 +31,7 @@ class UpcomingEvents extends React.Component {
                 events = this.props.user.availability[dayName];
                 for (let event in events) {
                     if (!((day === today) && (todayHours > events[event].end_time))) {
-                        renEvents.push(<TutorUpcomingEvent key={keyId++} tutorId={this.props.user._id} calId={this.props.user.calendarId} gmail={this.props.user.gmail} dayName={dayName} today={ dayName === days[today] } startTime={events[event].start_time} endTime={events[event].end_time}/>);
+                        renEvents.push(<TutorUpcomingEvent key={keyId++} socket={this.props.socket} tutorId={this.props.user._id} calId={this.props.user.calendarId} gmail={this.props.user.gmail} dayName={dayName} today={ dayName === days[today] } startTime={events[event].start_time} endTime={events[event].end_time}/>);
                         count++;
                     }
                 }
@@ -48,7 +49,7 @@ class UpcomingEvents extends React.Component {
         renEvents = renEvents.slice(0, NUM_OF_EVENTS);
 
         return (
-            <div className="row animated fadeInRight">
+            <div className="row animated fadeInRight tutorUpcomingEvents">
                 <div className="col">
                     <div className="text-center row">
                         <h4 className="lighter-text text-uppercase tutor-events-header">Upcoming Sessions</h4>
@@ -56,7 +57,6 @@ class UpcomingEvents extends React.Component {
                             {renEvents}
                         </div>
                     </div>
-
                 </div>
             </div>
         );

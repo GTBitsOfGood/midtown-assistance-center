@@ -17,7 +17,7 @@ import {GridLoader} from 'halogen';
 import styles from '../../public/css/index.css';
 import socketIOClient from 'socket.io-client';
 
-const SOCKETIO_ENDPOINT = 'http://localhost:3000'
+const SOCKETIO_ENDPOINT = window.location.hostname+(window.location.port ? ':'+window.location.port: '');
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 const studentRoutes = (
@@ -77,7 +77,7 @@ class DashComp extends React.Component {
 
         if (this.props.user.logging_out) {
             console.log('LOGGING OUT');
-            axios.get('/logout').then(function(response) {
+            axios.get('/logout', {params:{username:this.props.user._id}}).then(function(response) {
                 console.log(response.data);
                 if (response.data) {
                     document.location.href='/';

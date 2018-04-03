@@ -250,10 +250,23 @@ body {
     width: 90%;
 }
 
+.feedback {
+    position: static;
+}
+
+.review-modal-dialog {
+}
+
 .review-modal {
     border-radius: 0;
     border-top: 2px solid var(--gold);
     z-index: 9999;
+    position: relative;
+}
+
+.tutorUpcomingEvents {
+    position: relative;
+    z-index: 1;
 }
 
 .review-modal-footer {

@@ -104,7 +104,6 @@ module.exports = {
                 console.log('Error saving session');
                 callback(err);
             }
-            console.log(updatedSession);
             callback(null, updatedSession);
         });
     },

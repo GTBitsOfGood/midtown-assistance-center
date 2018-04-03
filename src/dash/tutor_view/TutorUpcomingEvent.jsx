@@ -24,7 +24,8 @@ class TutorUpcomingEvent extends React.Component {
 
         this.state = {
             hangoutsLink: '',
-            hangoutsLinkExpires: ''
+            hangoutsLinkExpires: '',
+            eventId: ''
         };
 
         this.handleAccessHangoutLink = this.handleAccessHangoutLink.bind(this);
@@ -60,7 +61,7 @@ class TutorUpcomingEvent extends React.Component {
                 }
             })
             .catch(function(err) {
-                console.log(err);
+                console.log(err); 
             });
     }
 
@@ -107,6 +108,7 @@ class TutorUpcomingEvent extends React.Component {
                     if (response.data.success) {
                         self.setState({
                             hangoutsLink: response.data.link,
+                            eventId: response.data.id
                         });
                         window.open(response.data.link, '_blank');
                     } else {
@@ -142,7 +144,7 @@ class TutorUpcomingEvent extends React.Component {
                 <div className="tutorUpcomingEventContent">
                     {renLogo}
                 </div>
-                <SessionReviewModal onSubmit={this.submitReview} tutorId={this.props.tutorId} id={this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} hangoutsLink={this.state.hangoutsLink}/>
+                <SessionReviewModal socket={this.props.socket} onSubmit={this.submitReview} tutorId={this.props.tutorId} id={this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} hangoutsLink={this.state.hangoutsLink} eventId={this.state.eventId}/>
             </div>
         );
     }

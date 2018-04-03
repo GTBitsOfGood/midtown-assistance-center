@@ -3,6 +3,7 @@ import TutorReviewModal from './TutorReviewModal.jsx';
 import Subject from './Subject.jsx';
 import axios from 'axios';
 import Availability from './Availability.jsx';
+import socketIOClient from "socket.io-client";
 
 const favorites_lst = ['Algebra', 'Java', 'Python', 'Geometry'];
 
@@ -34,6 +35,7 @@ class TutorSearchResult extends React.Component {
     onHangoutsButton() {
       this.setState({hangoutsLink: this.props.data.session.hangouts_link});
       window.open(this.props.data.session.hangouts_link, '_blank');
+      this.props.socket.emit('student-join', {'session':this.props.data.session.eventId, 'student': this.props.username});
     }
 
     render() {
