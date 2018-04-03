@@ -12,7 +12,6 @@ module.exports = {
             return callback(null, session_instance);
         });
     },
-
     getFilteredSessions(username, startTime, endTime, limit, sortByTime, callback) {
         function filterByUsername(session) {
             return session.username === username;

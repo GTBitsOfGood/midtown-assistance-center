@@ -6,6 +6,10 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { saveTutor } from '../redux/actions/user_actions.js';
 import axios from 'axios';
 import styles from '../../public/css/index.css';
+import socketIOClient from 'socket.io-client';
+
+const SOCKETIO_ENDPOINT = 'http://localhost:3000';
+const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 export class MenuBar extends React.Component {
     constructor(props) {
@@ -14,10 +18,12 @@ export class MenuBar extends React.Component {
     }
 
     logout() {
+
         console.warn('Logging out user');
         let new_tutor = Object.assign({}, this.props.user);
         new_tutor.online = false;
         new_tutor.logging_out = true;
+        socket.emit('tutor-logout');
         this.props.setTutorOffline(new_tutor);
     }
 
@@ -44,10 +50,10 @@ export class MenuBar extends React.Component {
                         }
                     </Nav>
                     <Nav pullRight>
-                        <span><img className="nav-prof-pic" src='/images/user.png'></img></span>
+                        <span><img className="nav-prof-pic" src={this.props.user.profile_picture ? this.props.user.profile_picture : '/images/user.png'}></img></span>
                         <DropdownButton className="btn btn-sm dropdown-menu-button" title={this.props.user._id}>
                             <LinkContainer to="#">
-                                <MenuItem>Usage</MenuItem>
+                                <MenuItem>Messages</MenuItem>
                             </LinkContainer>
                             {
                                 window.location.pathname === '/dash/profile' ?

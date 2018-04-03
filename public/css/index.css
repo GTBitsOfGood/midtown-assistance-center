@@ -48,6 +48,9 @@ body {
 
 .nav-prof-pic {
     margin-top: 10px;
+    height: 32px;
+    width: 32px;
+    border-radius: 50%;
 }
 
 .dropdown-menu-button {
@@ -176,7 +179,6 @@ body {
 
 .tutors-header {
     color: var(--black);
-    font-weight: 400;
 }
 
 .tutor_details {
@@ -208,6 +210,7 @@ body {
 
 .bio-text {
     margin-bottom: 20px;
+    font-size: 1em;
 }
 
 .request_hangout {
@@ -262,8 +265,16 @@ body {
     color: var(--gray);
 }
 
+.clear-search h4 {
+    font-weight: 300;
+}
+
 .clear-search:hover {
     color: var(--gold);
+}
+
+.search-list-header {
+    /*padding: 5px;*/
 }
 
 .online-img {
@@ -272,6 +283,26 @@ body {
 
 .online-ic {
     transform: translateY(-2px);
+}
+
+.availability-info {
+    margin-top: 25px;
+}
+
+.availability-table td, .details {
+    font-weight: 300;
+}
+
+.availability-table td, .availability-table th {
+    padding: 5px ! important;
+}
+
+.availability-table, .details {
+    font-size: 1em;
+}
+
+.details-ic {
+    margin-right: 5px;
 }
 
 /*======================================== Admin Dash ========================================*/
@@ -369,29 +400,36 @@ body {
 .tutor-events-header {
     margin-bottom: 2%;
     margin-top: 3%;
+    font-size: 15px;
 }
 
 .tutorUpcomingEvent {
-    height: 64px;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     /*width: 500px;*/
-    margin: 0 auto 10px auto;
+    width: 100%;
+    /*margin: 0 auto 10px auto;*/
     background-color: white;
+    display: table;
 }
 
-@media screen and (max-width:1100px) {
-    .tutorUpcomingEventContent h3 {
-        font-size: 1.5em;
-    }
+.tutorUpcomingEventContent {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: left;
+    padding-left: 50px;
 }
 
 .upcoming-event-desc {
     display: inline-block;
+    margin: 0;
 }
 
 .google-link {
     float: right;
     display: inline-block;
+    border: 1px solid var(--primaryLight);
+    height: 55px;
+    width: auto;
 }
 
 .add-subject, .add-time {
@@ -410,6 +448,7 @@ body {
 .subject-input, .subject-button, .time-input, .time-button {
     height: 30px;
     width: 100%;
+    border-radius: 3px;
 }
 
 .subject-input,.time-input {
@@ -433,6 +472,144 @@ body {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     padding: 10px 0 10px 0;
     margin: 0 10px 0 3px;
+}
+
+.tutor-modal {
+    margin-top: 125px;
+}
+
+.tutor-approval-msg {
+    margin-top: 10%;
+    font-weight: 300;
+
+}
+
+.tutor-profile-picture {
+    height: 164px;
+    width: 164px;
+    margin-top: 18px;
+    float:right;
+    position: relative;
+}
+
+.edit-profile-pic {
+    position: absolute;
+    float:right;
+    top: 18px;
+    right: 15px;
+    height: 164px;
+    width: 164px;
+    border-radius: 50%;
+    opacity: 0;
+    background-color: var(--purple);
+    display: table;
+    text-align: center;
+}
+
+.edit-profile-pic-text {
+    display: table-cell;
+    vertical-align: middle;
+    color: var(--primaryLight);
+}
+
+.edit-profile-header {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.profile-pic-wrapper, .profile-info-wrapper {
+    height: 200px;
+    display: table;
+    border-bottom: 1px solid var(--primaryLight);
+    margin-bottom: 40px;
+}
+
+.profile-info {
+    display: table-cell;
+    vertical-align: middle;
+    float:left-center;
+}
+
+.tutor-username, .tutor-profile-name {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.tutor-profile-input {
+    margin-bottom: 10px;
+}
+
+.profile-pic-wrapper:hover .edit-profile-pic {
+    cursor: pointer;
+    animation: hoverFadeIn 0.7s;
+    opacity: 0.7;
+}
+
+.edit-img-input-show {
+    background-color: white;
+    height: 164px;
+    width: 164px;
+    position: absolute;
+    top: 18px;
+    right: 15px;
+}
+
+.edit-img-input-hide {
+    display: none;
+}
+
+.edit-img-input-show input {
+    display: block;
+    float: right;
+    margin-top: 5px;
+    height: 30px;
+    border: 1px solid var(--gray);
+    background-color: var(--primaryLight);
+    width: 150px;
+    position: absolute;
+    top: 0;
+    right: 7px;
+}
+
+.edit-img-input-show button {
+    display: block;
+    float: right;
+    height: 30px;
+    width: 150px;
+    position: absolute;
+    top: 40px;
+    right: 7px;
+}
+
+.upcoming-event-light {
+    color: var(--dkgray);
+}
+
+.feedbackWrapper {
+    box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+    background-color: white;
+    padding: 10px;
+    max-height: 400px;
+    overflow-y: scroll;
+    min-height: 100px;
+}
+
+.tutor-review {
+    padding: 5px 0 5px 20px;
+    border-bottom: 1px solid var(--primaryLight);
+    position: relative;
+}
+
+.review-date {
+    font-weight: 300;
+    font-size: 0.8em;
+}
+
+.report-btn {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    color: var(--error_red);
 }
 
 /*======================================== General ========================================*/
@@ -526,3 +703,11 @@ body {
     color: white;
 }
 
+.col-no-padding {
+    padding: 0;
+}
+
+@keyframes hoverFadeIn {
+    from { opacity: 0; }
+      to { opacity: 0.7; }
+}

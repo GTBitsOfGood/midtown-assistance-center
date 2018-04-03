@@ -4,6 +4,10 @@ import TutorSearchList from './TutorSearchList.jsx';
 import {changeTutorsAction, onSearchAction} from '../../redux/actions/student_view_actions';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import socketIOClient from 'socket.io-client';
+
+const SOCKETIO_ENDPOINT = 'http://localhost:3000'
+const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 class StudentDashboard extends React.Component {
     constructor(props) {
@@ -20,7 +24,6 @@ class StudentDashboard extends React.Component {
 
     componentWillMount() {
         this.updateTutors();
-        setInterval(this.updateTutors, 5000)
     }
 
     handleSearchClicked(subject, time) {
@@ -50,7 +53,7 @@ class StudentDashboard extends React.Component {
               self.props.changeTutors(response.data);
               self.props.changeSearchDisplay(searchType, subject, time);
             } else {
-              console.log(response.data);
+              console.log(response);
             }
           })
           .catch(function (error) {
@@ -59,6 +62,11 @@ class StudentDashboard extends React.Component {
     }
 
     render() {
+
+        socket.on('update-tutors', () => {
+            console.log("Tutor update!");
+            window.location.reload();
+        });
         return (
             <div>
                 <div className="col-md-12 atlanta">
