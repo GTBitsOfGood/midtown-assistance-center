@@ -30,7 +30,7 @@ class UpcomingEvents extends React.Component {
                 events = this.props.user.availability[dayName];
                 for (event in events) {
                     if (!((day === today) && (todayHours > events[event].end_time))) {
-                        renEvents.push(<TutorUpcomingEvent tutorId={this.props.user._id} calId={this.props.user.calendarId} gmail={this.props.user.gmail} dayName={dayName} today={ dayName === days[today] } startTime={events[event].start_time} endTime={events[event].end_time}/>);
+                        renEvents.push(<TutorUpcomingEvent socket={this.props.socket} tutorId={this.props.user._id} calId={this.props.user.calendarId} gmail={this.props.user.gmail} dayName={dayName} today={ dayName === days[today] } startTime={events[event].start_time} endTime={events[event].end_time}/>);
                         count++;
                     }
                 }

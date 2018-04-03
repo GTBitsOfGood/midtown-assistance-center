@@ -17,7 +17,7 @@ import {GridLoader} from 'halogen';
 import styles from '../../public/css/index.css';
 import socketIOClient from 'socket.io-client';
 
-const SOCKETIO_ENDPOINT = window.location.hostname
+const SOCKETIO_ENDPOINT = window.location.hostname+(window.location.port ? ':'+window.location.port: '');
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 const studentRoutes = (

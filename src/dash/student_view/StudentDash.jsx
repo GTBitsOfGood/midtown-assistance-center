@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import socketIOClient from 'socket.io-client';
 
-const SOCKETIO_ENDPOINT = window.location.hostname;
+const SOCKETIO_ENDPOINT = window.location.hostname+(window.location.port ? ':'+window.location.port: '');
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 class StudentDashboard extends React.Component {
@@ -72,7 +72,7 @@ class StudentDashboard extends React.Component {
                 <div className="col-md-12 atlanta">
                     <DashSearchBar handleSearchClicked={this.handleSearchClicked}/>
                 </div>
-                <TutorSearchList/>
+                <TutorSearchList socket={socket}/>
             </div>
         );
     }

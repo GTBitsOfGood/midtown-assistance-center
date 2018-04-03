@@ -48,6 +48,12 @@ io.on('connection', socket => {
         io.emit('update-tutors');
     });
 
+    socket.on('student-join', (data) => {
+        console.log(data);
+        console.log('student joined session');
+        io.emit('session-update-' + data.session, {user:data.student});
+    })
+
     socket.on('error', function () {
         console.log('socket error');
         socket.disconnect();
