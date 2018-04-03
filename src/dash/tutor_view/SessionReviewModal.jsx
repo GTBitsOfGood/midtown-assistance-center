@@ -145,7 +145,7 @@ class SessionModal extends React.Component {
     render() {
         return (
             <div>
-                <div className="modal" id={'Modal_' + this.props.id} tabindex="1000" role="dialog" aria-labelledby={"#Modal_" + this.props.id + "Label"} aria-hidden="true" autofocus>
+                <div className="modal" id={'Modal_' + this.props.id} tabIndex="1000" role="dialog" aria-labelledby={"#Modal_" + this.props.id + "Label"} aria-hidden="true" autoFocus>
                     <div className="modal-dialog" role="document">
                         <div className="modal-content tutor-modal review-modal">
                             <div className="modal-header text-center">

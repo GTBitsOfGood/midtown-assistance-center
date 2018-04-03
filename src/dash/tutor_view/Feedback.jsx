@@ -31,12 +31,13 @@ class Feedback extends React.Component {
     render() {
         let renSessions = [];
         const sessions = !this.props.user.sessions ? [] : this.props.user.sessions.sessions;
+        let keyId = 0;
         if (this.props.user.sessions) {
             for (let session in sessions) {
                 for (let review in sessions[session].students_attended) {
                     let student_review = sessions[session].students_attended[review];
                     if (student_review.student_rating !== null) {
-                        renSessions.push(<Review time={student_review.time} rating={student_review.student_rating} comment={student_review.student_comment}/>);
+                        renSessions.push(<Review key={keyId++} time={student_review.time} rating={student_review.student_rating} comment={student_review.student_comment}/>);
                     }
                 }
             }

@@ -272,7 +272,7 @@ class Profile extends React.Component {
         let favoriteItems = [];
         for (let event in this.state.availabilityList) {
             availabilityItems.push(
-                <div className="time-item">
+                <div key={event} className="time-item">
                     <TimePicker
                         index={event}
                         date={ this.state.availabilityList[event].date }
@@ -288,7 +288,7 @@ class Profile extends React.Component {
         }
         for (let event in this.state.subjects) {
                 subjectItems.push(
-                    <div className="time-item">
+                    <div key={event} className="time-item">
                         <SubjectPicker
                             index={event}
                             subject={ this.state.subjects[event].subject }
@@ -304,7 +304,7 @@ class Profile extends React.Component {
             }
         for (let event in this.state.favorites) {
             favoriteItems.push(
-                <div className="time-item">
+                <div key={event} className="time-item">
                     <FavoritePicker
                         index={event}
                         subject={ this.state.favorites[event].subject }
