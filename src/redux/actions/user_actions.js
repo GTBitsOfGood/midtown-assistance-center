@@ -15,7 +15,7 @@ export function fetchUserAndInfo() {
         return dispatch(fetchUser()).then(() => {
             const user = getState().user;
             if (user.type === types.typeTutor) {
-                return dispatch(setTutorOnline(user))
+                return dispatch(setTutorOnline(user, {online: true}))
                     .then(dispatch(getStat(user)))
                     .then(dispatch(getSessions(user)))
                     .then(dispatch(getSubjects()))
@@ -26,10 +26,21 @@ export function fetchUserAndInfo() {
     }
 }
 
-export function setTutorOnline(user) {
+export function setTutorOnline(user, status) {
+    return (dispatch) => {
+        return dispatch({type: types.setTutorOnline, status: {...status}, payload: axios.patch('/api/tutor', {...user, ...status})})
+            .then(() => {
+                if (status.logging_out) {
+                    dispatch(logoutUser(user));
+                }
+            });
+    }
+}
+
+export function logoutUser(user) {
     return {
-        type: types.setTutorOnline,
-        payload: axios.patch('/api/tutor', {...user, online: true})
+        type: types.logoutUser,
+        payload: axios.get('/logout', {params: {username: user._id}})
     }
 }
 

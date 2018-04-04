@@ -44,6 +44,15 @@ export default function change_user(state = initial_state, action) {
         case types.setTutorOnlineFulfilled:
             new_state = {...state, ...action.payload.data.tutor};
             break;
+        case types.logoutUserPending:
+            new_state = {...state, fetching: true};
+            break;
+        case types.logoutUserRejected:
+            new_state = {...state, fetching: false, error: action.payload};
+            break;
+        case types.logoutUserFulfilled:
+            new_state = {...initial_state, logged_out: action.payload.data };
+            break;
         case types.fetchUserFromDb:
             new_state = action.payload;
 

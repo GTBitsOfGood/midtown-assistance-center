@@ -1,10 +1,9 @@
 import React from 'react';
-import { Nav, Navbar, MenuItem, DropdownButton } from 'react-bootstrap';
+import { DropdownButton, MenuItem, Nav, Navbar } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
-import { saveTutor } from '../redux/actions/user_actions.js';
-import axios from 'axios';
+import { setTutorOnline, saveTutor } from '../redux/actions/user_actions';
 import styles from '../../public/css/index.css';
 import socketIOClient from 'socket.io-client';
 
@@ -19,10 +18,11 @@ export class MenuBar extends React.Component {
 
     logout() {
         console.warn('Logging out user');
+        // this.props.setTutorOnline(this.props.user, {online: false, logging_out: true});
+        socket.emit('tutor-logout');
         let new_tutor = Object.assign({}, this.props.user);
         new_tutor.online = false;
         new_tutor.logging_out = true;
-        socket.emit('tutor-logout');
         this.props.setTutorOffline(new_tutor);
     }
 
@@ -82,7 +82,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setTutorOffline: (tutor) => dispatch(saveTutor(tutor))
+        setTutorOffline: (tutor) => dispatch(saveTutor(tutor)),
+        setTutorOnline: (tutor, status) => dispatch(setTutorOnline(tutor, status))
     };
 };
 

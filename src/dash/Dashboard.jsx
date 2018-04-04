@@ -50,6 +50,9 @@ const loading = (
 );
 
 class DashComp extends React.Component {
+    constructor(props) {
+        super(props);
+    }
 
     componentDidMount() {
         this.props.fetchUserAndInfo();
@@ -107,8 +110,6 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        // storeUser: (user) => dispatch(fetchUser(user)),
-        // setTutorOnline: (tutor) => dispatch(saveTutor(tutor)),
         fetchUserAndInfo: () => dispatch(fetchUserAndInfo())
     };
 };
