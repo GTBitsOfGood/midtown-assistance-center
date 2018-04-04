@@ -15,13 +15,21 @@ export function fetchUserAndInfo() {
         return dispatch(fetchUser()).then(() => {
             const user = getState().user;
             if (user.type === types.typeTutor) {
-                return dispatch(getStat(user))
+                return dispatch(setTutorOnline(user))
+                    .then(dispatch(getStat(user)))
                     .then(dispatch(getSessions(user)))
                     .then(dispatch(getSubjects()))
             } else if (user.type === types.typeStudent) {
 
             }
         });
+    }
+}
+
+export function setTutorOnline(user) {
+    return {
+        type: types.setTutorOnline,
+        payload: axios.patch('/api/tutor', {...user, online: true})
     }
 }
 

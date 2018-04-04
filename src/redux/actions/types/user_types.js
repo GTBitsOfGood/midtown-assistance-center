@@ -6,6 +6,11 @@ export const saveAdminToDb = 'SAVE_ADMIN_TO_DB';
 export const typeStudent = 'TYPE_STUDENT';
 export const typeTutor = 'TYPE_TUTOR';
 
+export const setTutorOnline = 'SET_TUTOR_ONLINE';
+export const setTutorOnlinePending = 'SET_TUTOR_ONLINE_PENDING';
+export const setTutorOnlineRejected = 'SET_TUTOR_ONLINE_REJECTED';
+export const setTutorOnlineFulfilled = 'SET_TUTOR_ONLINE_FULFILLED';
+
 export const fetchUser = 'FETCH_USER';
 export const fetchUserPending = 'FETCH_USER_PENDING';
 export const fetchUserRejected = 'FETCH_USER_REJECTED';

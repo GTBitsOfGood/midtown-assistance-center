@@ -18,7 +18,6 @@ export class MenuBar extends React.Component {
     }
 
     logout() {
-
         console.warn('Logging out user');
         let new_tutor = Object.assign({}, this.props.user);
         new_tutor.online = false;

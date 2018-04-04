@@ -9,16 +9,16 @@ import TutorDash from './tutor_view/TutorDash.jsx';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 import AboutUs from '../AboutUs.jsx';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { fetchUser, saveTutor } from '../redux/actions/user_actions.js';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import {GridLoader} from 'halogen';
+import { GridLoader } from 'halogen';
 import styles from '../../public/css/index.css';
 import socketIOClient from 'socket.io-client';
 import { fetchUserAndInfo } from "../redux/actions/user_actions";
 
-const SOCKETIO_ENDPOINT = window.location.hostname+(window.location.port ? ':'+window.location.port: '');
+const SOCKETIO_ENDPOINT = window.location.hostname + (window.location.port ? ':' + window.location.port : '');
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 const studentRoutes = (
@@ -42,7 +42,7 @@ const loading = (
             <div>
                 <Route path="/dash" component={DashMenuBar}/>
                 <div className={styles.loading}>
-                    <GridLoader  color="#EEB211" size="150px"/>
+                    <GridLoader color="#EEB211" size="150px"/>
                 </div>
             </div>
         </BrowserRouter>
@@ -65,17 +65,16 @@ class DashComp extends React.Component {
         }
         if (this.props.user.logging_out) {
             console.log('LOGGING OUT');
-            axios.get('/logout', {params:{username:this.props.user._id}}).then(function(response) {
+            axios.get('/logout', {params: {username: this.props.user._id}}).then(function (response) {
                 console.log(response.data);
                 if (response.data) {
-                    document.location.href='/';
+                    document.location.href = '/';
                 }
-            }).catch(function(error) {
+            }).catch(function (error) {
                 console.log(error);
             });
             return loading;
         }
-        // FIXME we should introduce a user type variable
         let routes;
         if (this.props.user.type === types.typeStudent) {
             console.log('Student logged in');
@@ -84,12 +83,6 @@ class DashComp extends React.Component {
             console.log('Tutor logged in');
             routes = tutorRoutes;
             socket.emit('tutor-login');
-            if (!this.props.user.online && !this.props.user.logging_out) {
-                let new_tutor = Object.assign({}, this.props.user);
-                new_tutor.online = true;
-                this.props.setTutorOnline(new_tutor);
-                return loading;
-            }
         }
         return (
             <div className="animated fadeInDown">
@@ -115,7 +108,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         // storeUser: (user) => dispatch(fetchUser(user)),
-        setTutorOnline: (tutor) => dispatch(saveTutor(tutor)),
+        // setTutorOnline: (tutor) => dispatch(saveTutor(tutor)),
         fetchUserAndInfo: () => dispatch(fetchUserAndInfo())
     };
 };

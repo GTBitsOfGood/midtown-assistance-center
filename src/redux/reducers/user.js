@@ -11,7 +11,8 @@ let initial_state = {
             totalRatings: 0
         }
     },
-    sessions: []
+    sessions: [],
+    online: false,
 };
 
 export default function change_user(state = initial_state, action) {
@@ -34,7 +35,15 @@ export default function change_user(state = initial_state, action) {
             }
             new_state = {...new_state, type: type};
             break;
-
+        case types.setTutorOnlinePending:
+            new_state = {...state};
+            break;
+        case types.setTutorOnlineRejected:
+            new_state = {...state, error: action.payload};
+            break;
+        case types.setTutorOnlineFulfilled:
+            new_state = {...state, ...action.payload.data.tutor};
+            break;
         case types.fetchUserFromDb:
             new_state = action.payload;
 
