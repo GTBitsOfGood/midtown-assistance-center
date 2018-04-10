@@ -60,7 +60,7 @@ class StudentProfile extends React.Component {
         }
 
         return (
-            <div className="container">
+            <div className="container animated slideInDown" >
                 <br/>
                 <div className="row">
                     <div className="col-xs-12 col-sm-offset-1 col-sm-10">
