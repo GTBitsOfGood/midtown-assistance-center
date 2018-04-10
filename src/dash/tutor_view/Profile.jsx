@@ -56,10 +56,6 @@ class Profile extends React.Component {
         this.handleEditProfilePic = this.handleEditProfilePic.bind(this);
     }
 
-    componentDidMount() {
-
-    }
-
     initAvailabilityList(availability) {
         let availabilityItems = [];
         Object.keys(availability).map((date, index) => {

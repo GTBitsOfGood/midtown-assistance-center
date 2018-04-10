@@ -117,7 +117,7 @@ function normalizePort(val) {
 let port = normalizePort(process.env.PORT || '3000');
 
 http_server.listen(port, () => {
-    console.info('server is listening on the port 3000');
+    console.info('server is listening on the port ' + port);
 });
 
 

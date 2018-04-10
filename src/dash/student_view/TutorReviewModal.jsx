@@ -25,48 +25,67 @@ class TutorModal extends React.Component {
     }
 
     changeStar(number) {
-        if (number === 1) {
-            this.setState({first_star:true,second_star:false,third_star:false,fourth_star:false,fifth_star:false});
-        } else if (number === 2) {
-            this.setState({first_star:true,second_star:true,third_star:false,fourth_star:false,fifth_star:false});
-        } else if (number === 3) {
-            this.setState({first_star:true,second_star:true,third_star:true,fourth_star:false,fifth_star:false});
-        } else if (number === 4) {
-            this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:false});
-        } else if (number === 5) {
-            this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:true});
+        switch(number) {
+            case 1:
+                this.setState({first_star:true,second_star:false,third_star:false,fourth_star:false,fifth_star:false});
+                break;
+            case 2:
+                this.setState({first_star:true,second_star:true,third_star:false,fourth_star:false,fifth_star:false});
+                break;
+            case 3:
+                this.setState({first_star:true,second_star:true,third_star:true,fourth_star:false,fifth_star:false});
+                break;
+            case 4:
+                this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:false});
+                break;
+            case 5:
+                this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:true});
+                break;
         }
     }
 
     changeStarOut() {
-        if (this.state.rating === 0) {
-            this.setState({first_star:false,second_star:false,third_star:false,fourth_star:false,fifth_star:false});
-        } else if (this.state.rating === 1) {
-            this.setState({first_star:true,second_star:false,third_star:false,fourth_star:false,fifth_star:false});
-        } else if (this.state.rating === 2) {
-            this.setState({first_star:true,second_star:true,third_star:false,fourth_star:false,fifth_star:false});
-        } else if (this.state.rating === 3) {
-            this.setState({first_star:true,second_star:true,third_star:true,fourth_star:false,fifth_star:false});
-        } else if (this.state.rating === 4) {
-            this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:false});
-        } else if (this.state.rating === 5) {
-            this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:true});
+        switch(this.state.rating) {
+            case 0:
+                this.setState({first_star:false,second_star:false,third_star:false,fourth_star:false,fifth_star:false});
+                break;
+            case 1:
+                this.setState({first_star:true,second_star:false,third_star:false,fourth_star:false,fifth_star:false});
+                break;
+            case 2:
+                this.setState({first_star:true,second_star:true,third_star:false,fourth_star:false,fifth_star:false});
+                break;
+            case 3:
+                this.setState({first_star:true,second_star:true,third_star:true,fourth_star:false,fifth_star:false});
+                break;
+            case 4:
+                this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:false});
+                break;
+            case 5:
+                this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:true});
+                break;
         }
-
     }
 
     setRating(number) {
-        if (number === 1) {
-            this.setState({rating:1, satisfaction:'poor'});
-        } else if (number === 2) {
-            this.setState({rating:2, satisfaction:'below average'});
-        } else if (number === 3) {
-            this.setState({rating:3, satisfaction:'average'});
-        } else if (number === 4) {
-            this.setState({rating:4, satisfaction:'very good'});
-        } else if (number === 5) {
-            this.setState({rating:5, satisfaction:'excellent'});
+        switch(number) {
+            case 1:
+                this.setState({satisfaction:'poor'});
+                break;
+            case 2:
+                this.setState({satisfaction:'below average'});
+                break;
+            case 3:
+                this.setState({satisfaction:'average'});
+                break;
+            case 4:
+                this.setState({satisfaction:'very good'});
+                break;
+            case 5:
+                this.setState({satisfaction:'excellent'});
+                break;
         }
+        this.setState({rating: number});
     }
 
     handleCommentChange(e) {

@@ -18,6 +18,7 @@ import styles from '../../public/css/index.css';
 import socketIOClient from 'socket.io-client';
 import { fetchUserAndInfo } from "../redux/actions/user_actions";
 
+// TODO: use global const
 const SOCKETIO_ENDPOINT = window.location.hostname + (window.location.port ? ':' + window.location.port : '');
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
 

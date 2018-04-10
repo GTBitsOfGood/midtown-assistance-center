@@ -53,6 +53,7 @@ export default function change_user(state = initial_state, action) {
         case types.logoutUserFulfilled:
             new_state = {...initial_state, logged_out: action.payload.data };
             break;
+        // FIXME: use thunks and remove old stuff that's not used
         case types.fetchUserFromDb:
             new_state = action.payload;
 
