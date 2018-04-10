@@ -69,8 +69,11 @@ app.get('/user', (req, res) => {
 
 app.get('/logout', (req, res) => {
     req.logout();
-
-    let session_obj = {type: 'Logout', username: req.body.username, time: Date.now()};
+    let session_obj = {
+        type: 'Logout',
+        username: req.query.username,
+        time: Date.now()
+    };
     session_dao.createSession(session_obj, function (err, session_instance) {
         if(err) {
             console.log("ERR");

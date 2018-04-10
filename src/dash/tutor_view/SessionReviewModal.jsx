@@ -31,13 +31,25 @@ class SessionModal extends React.Component {
             rating: 0,
             satisfaction: '',
             error_message:'hide',
-            comment: ''
+            comment: '',
+            students_in_session: []
         };
         this.changeStar = this.changeStar.bind(this);
         this.setRating = this.setRating.bind(this);
         this.changeStarOut = this.changeStarOut.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleCommentChange = this.handleCommentChange.bind(this);
+        this.updateStudentInSession = this.updateStudentInSession.bind(this);
+    }
+
+    /**
+     * When a student joins the session, update the array of students
+     * @param data
+     */
+    updateStudentInSession(data) {
+        let students = this.state.students_in_session;
+        students.push(data);
+        this.setState({students_in_session:students});
     }
 
     /**
@@ -54,15 +66,15 @@ class SessionModal extends React.Component {
      * @param number
      */
     changeStar(number) {
-        if (number == 1) {
+        if (number === 1) {
             this.setState({first_star:true,second_star:false,third_star:false,fourth_star:false,fifth_star:false});
-        } else if (number == 2) {
+        } else if (number === 2) {
             this.setState({first_star:true,second_star:true,third_star:false,fourth_star:false,fifth_star:false});
-        } else if (number == 3) {
+        } else if (number === 3) {
             this.setState({first_star:true,second_star:true,third_star:true,fourth_star:false,fifth_star:false});
-        } else if (number == 4) {
+        } else if (number === 4) {
             this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:false});
-        } else if (number == 5) {
+        } else if (number === 5) {
             this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:true});
         }
     }
@@ -113,6 +125,7 @@ class SessionModal extends React.Component {
      * hangouts event while adding the rating/comment/
      * end time to the tutor session
      */
+    // FIXME handle through redux
     handleSubmit() {
         if (this.state.rating == 0) {
             this.setState({error_message:'show'});
@@ -143,32 +156,45 @@ class SessionModal extends React.Component {
      * @returns {HTML}
      */
     render() {
+        const renStudents = [];
+        this.props.socket.on('session-update-' + this.props.eventId, (data) => {
+            console.log("Session update!");
+            this.updateStudentInSession(data);
+        });
+        for (let student in this.state.students_in_session) {
+            console.log(this.state.students_in_session[student]);
+            renStudents.push(<h5>{this.state.students_in_session[student].user}</h5>);
+        }
+
         return (
             <div>
-                <div className="modal" id={'Modal_' + this.props.id} tabindex="1000" role="dialog" aria-labelledby={"#Modal_" + this.props.id + "Label"} aria-hidden="true" autofocus>
+                <div className="modal" id={'Modal_' + this.props.id} tabIndex="1000" role="dialog" aria-labelledby={"#Modal_" + this.props.id + "Label"} aria-hidden="true" autoFocus>
                     <div className="modal-dialog" role="document">
                         <div className="modal-content tutor-modal review-modal">
                             <div className="modal-header text-center">
-                                <h3 className="modal-title rate-session-header text-uppercase" id="exampleModalLabel">Rate your session</h3>
+                                <h4 className="modal-title rate-session-header text-uppercase" id="exampleModalLabel">Rate your session</h4>
                             </div>
                             <div className="modal-body text-center">
                                 <div id={'ModalBody_' + this.props.id}>
-                                    <h2>How was your tutoring session?</h2>
+                                    <h3>Session Information</h3>
+                                    <h4>Students in session</h4>
+                                    {renStudents.length === 0 ? <h5>No Students in Session</h5> : renStudents}
+                                    <h3>How was your tutoring session?</h3>
                                     <h5 className={'text-uppercase modal-error-' + this.state.error_message}>Rating must be nonzero</h5>
-                                    <span onMouseOver = {() => this.changeStar(1)} onMouseOut = {this.changeStarOut} onClick={() => this.setRating(1)}><img className="star" src={this.state.first_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"></img></span>
-                                    <span onMouseOver = {() => this.changeStar(2)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(2)}><img className="star" src={this.state.second_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"></img></span>
-                                    <span onMouseOver = {() => this.changeStar(3)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(3)}><img className="star" src={this.state.third_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"></img></span>
-                                    <span onMouseOver = {() => this.changeStar(4)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(4)}><img className="star" src={this.state.fourth_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"></img></span>
-                                    <span onMouseOver = {() => this.changeStar(5)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(5)}><img className="star" src={this.state.fifth_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"></img></span>
+                                    <span onMouseOver = {() => this.changeStar(1)} onMouseOut = {this.changeStarOut} onClick={() => this.setRating(1)}><img className="star" src={this.state.first_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"/></span>
+                                    <span onMouseOver = {() => this.changeStar(2)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(2)}><img className="star" src={this.state.second_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"/></span>
+                                    <span onMouseOver = {() => this.changeStar(3)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(3)}><img className="star" src={this.state.third_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"/></span>
+                                    <span onMouseOver = {() => this.changeStar(4)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(4)}><img className="star" src={this.state.fourth_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"/></span>
+                                    <span onMouseOver = {() => this.changeStar(5)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(5)}><img className="star" src={this.state.fifth_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"/></span>
                                     <span><h3 className="rating-span">({this.state.rating}/5) {this.state.satisfaction}</h3></span>
                                     <h5><a href={this.props.hangoutsLink} target="_blank">Click here to re-enter the hangouts</a></h5>
                                     <h5>Leave some comments about any issues or misbehaving students (optional)</h5>
-                                    <textarea className="input-lg input feedback-text" value={this.state.comment} onChange={this.handleCommentChange}></textarea>
+                                    <textarea className="input-lg input feedback-text" value={this.state.comment} onChange={this.handleCommentChange}/>
                                 </div>
                             </div>
                             <div className="review-modal-footer modal-footer">
-                                <button type="button" className="btn btn-default mac_button" data-dismiss="modal">Cancel</button>
-                                <button type="button" onClick={this.handleSubmit} className="btn btn-default mac_button_inverse">Submit</button>
+                                <button type="button" className="btn btn-default mac_button" data-dismiss="modal">Close</button>
+                                <button type="button" onClick={this.handleSubmit} className="btn btn-default mac_button_inverse">End Session</button>
                             </div>
                         </div>
                     </div>
@@ -186,7 +212,9 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => {
-    return {};
+    return {
+
+    };
 };
 
 const SessionReviewModal = connect(

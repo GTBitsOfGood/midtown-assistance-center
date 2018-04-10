@@ -13,26 +13,18 @@ class TimePicker extends React.Component {
     }
 
     handleStartChange(event) {
-        // this.props.handleEditStart(this.props.date, event.target.value, this.props.end, this.props.start);
         this.props.handleEditStart(this.props.index, event.target.value);
-        // this.setState({start: event.target.value});
     }
 
     handleEndChange(event) {
-        // this.props.handleEditEnd(this.props.date, this.props.start, event.target.value, this.props.end);
         this.props.handleEditEnd(this.props.index, event.target.value);
-        //this.setState({end: event.target.value });
     }
 
     handleDateChange(event) {
-        // this.props.handleEditDate(this.props.date, event.target.value, this.props.start, this.props.end);
         this.props.handleEditDate(this.props.index, event.target.value);
-        //this.setState({date: event.target.value});
     }
 
     handleRemoveClick(event) {
-        //this.setState({show:false});
-        // this.props.handleRemoveSchedule(this.props.date, this.props.start, this.props.end);
         this.props.handleRemoveSchedule(this.props.index);
     }
 
@@ -64,7 +56,7 @@ class TimePicker extends React.Component {
                 value={this.props.key}
                 className="btn btn-danger btn-sm time-button"
                 onClick={ this.handleRemoveClick }
-                disabled={ !this.props.is_edit }><span className="glyphicon glyphicon-remove"></span></button>
+                disabled={ !this.props.is_edit }><span className="glyphicon glyphicon-remove"/></button>
             </span>
         </div>;
         return this.state.show ? renData : null;

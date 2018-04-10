@@ -7,7 +7,7 @@ import calendar_api from './api/calendar_api';
 let bodyParser = require('body-parser');
 let Raven = require('raven');
 Raven.config('https://c552aa8ccf2c40cdb2050093dfcd3e8e:734ce4f24fd54361bcc2943b47c28149@sentry.io/243818').install();
-const http = require("http");
+const http = require('http');
 const socketio = require('socket.io', {origins:':', agent:false, log:false});
 const server = express();
 const http_server = http.createServer(server);
@@ -27,26 +27,38 @@ server.use(function (req, res, next) {
     res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept-Type');
     res.header('Access-Control-Allow-Credentials', 'true');
     next();
-})
+});
 
 
 io.on('connection', socket => {
-  console.log('User connected')
+    console.log('User connected');
 
-  socket.on('disconnect', () => {
-    console.log('user disconnected')
-  });
-
-  socket.on('tutor-login', () => {
-    console.log("tutor just logged in...");
-    io.emit('update-tutors');
-  });
-
-  socket.on('tutor-logout', () => {
-      console.log("tutor just logged out...");
-      io.emit('update-tutors');
+    socket.on('disconnect', () => {
+        console.log('user disconnected');
+        socket.disconnect();
     });
-})
+
+    socket.on('tutor-login', () => {
+        console.log('tutor just logged in...');
+        io.emit('update-tutors');
+    });
+
+    socket.on('tutor-logout', () => {
+        console.log('tutor just logged out...');
+        io.emit('update-tutors');
+    });
+
+    socket.on('student-join', (data) => {
+        console.log(data);
+        console.log('student joined session');
+        io.emit('session-update-' + data.session, {user:data.student});
+    })
+
+    socket.on('error', function () {
+        console.log('socket error');
+        socket.disconnect();
+    });
+});
 
 
 server.get('/', allowIfLoggedOut, (req, res) => {
@@ -62,8 +74,8 @@ server.get('/dash*', allowIfLoggedIn, (req, res) => {
 });
 
 server.get('/admin*', allowIfLoggedOut, (req, res) => {
-    res.render('admin')
-})
+    res.render('admin');
+});
 
 
 function allowIfLoggedOut(req, res, next) {
@@ -104,8 +116,8 @@ function normalizePort(val) {
 // Set up the port
 let port = normalizePort(process.env.PORT || '3000');
 
-http_server.listen(3000, () => {
-    console.info('server is listening on the port 3000');
+http_server.listen(port, () => {
+    console.info('server is listening on the port ' + port);
 });
 
 
