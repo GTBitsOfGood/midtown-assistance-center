@@ -163,7 +163,7 @@ class SessionModal extends React.Component {
         });
         for (let student in this.state.students_in_session) {
             console.log(this.state.students_in_session[student]);
-            renStudents.push(<h5>{this.state.students_in_session[student].user}</h5>);
+            renStudents.push(<h5 className="lighter-text">{this.state.students_in_session[student].user}</h5>);
         }
 
         return (
@@ -172,24 +172,31 @@ class SessionModal extends React.Component {
                     <div className="modal-dialog" role="document">
                         <div className="modal-content tutor-modal review-modal">
                             <div className="modal-header text-center">
-                                <h4 className="modal-title rate-session-header text-uppercase" id="exampleModalLabel">Rate your session</h4>
+                                <h4 className="modal-title rate-session-header text-uppercase" id="exampleModalLabel">Session Information</h4>
+                                <h5><a href={this.props.hangoutsLink} target="_blank">Click here to re-enter the hangouts</a></h5>
                             </div>
-                            <div className="modal-body text-center">
+                            <div className="modal-body tutor-modal-body">
                                 <div id={'ModalBody_' + this.props.id}>
-                                    <h3>Session Information</h3>
-                                    <h4>Students in session</h4>
-                                    {renStudents.length === 0 ? <h5>No Students in Session</h5> : renStudents}
-                                    <h3>How was your tutoring session?</h3>
-                                    <h5 className={'text-uppercase modal-error-' + this.state.error_message}>Rating must be nonzero</h5>
-                                    <span onMouseOver = {() => this.changeStar(1)} onMouseOut = {this.changeStarOut} onClick={() => this.setRating(1)}><img className="star" src={this.state.first_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"/></span>
-                                    <span onMouseOver = {() => this.changeStar(2)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(2)}><img className="star" src={this.state.second_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"/></span>
-                                    <span onMouseOver = {() => this.changeStar(3)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(3)}><img className="star" src={this.state.third_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"/></span>
-                                    <span onMouseOver = {() => this.changeStar(4)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(4)}><img className="star" src={this.state.fourth_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"/></span>
-                                    <span onMouseOver = {() => this.changeStar(5)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(5)}><img className="star" src={this.state.fifth_star ? '/images/full-star.png' : '/images/empty-star.png'} width="40" height="40"/></span>
-                                    <span><h3 className="rating-span">({this.state.rating}/5) {this.state.satisfaction}</h3></span>
-                                    <h5><a href={this.props.hangoutsLink} target="_blank">Click here to re-enter the hangouts</a></h5>
-                                    <h5>Leave some comments about any issues or misbehaving students (optional)</h5>
-                                    <textarea className="input-lg input feedback-text" value={this.state.comment} onChange={this.handleCommentChange}/>
+                                    <div className="modal-body-session-info">
+                                        <h5>Student Join Requests</h5>
+                                        <h5 className="lighter-text">No Open Requests</h5>
+                                    </div>
+                                    <div className="modal-body-session-info">
+                                        <h5>Students In Session</h5>
+                                        {renStudents.length === 0 ? <h5 className="lighter-text">No Students in Session</h5> : renStudents}
+                                    </div>
+                                    <div className="modal-body-session-rating">
+                                        <h5>How was your tutoring session?</h5>
+                                        <h5 className={'text-uppercase modal-error-' + this.state.error_message}>Rating must be nonzero</h5>
+                                        <span onMouseOver = {() => this.changeStar(1)} onMouseOut = {this.changeStarOut} onClick={() => this.setRating(1)}><img className="star" src={this.state.first_star ? '/images/full-star.png' : '/images/empty-star.png'} width="25" height="25"/></span>
+                                        <span onMouseOver = {() => this.changeStar(2)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(2)}><img className="star" src={this.state.second_star ? '/images/full-star.png' : '/images/empty-star.png'} width="25" height="25"/></span>
+                                        <span onMouseOver = {() => this.changeStar(3)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(3)}><img className="star" src={this.state.third_star ? '/images/full-star.png' : '/images/empty-star.png'} width="25" height="25"/></span>
+                                        <span onMouseOver = {() => this.changeStar(4)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(4)}><img className="star" src={this.state.fourth_star ? '/images/full-star.png' : '/images/empty-star.png'} width="25" height="25"/></span>
+                                        <span onMouseOver = {() => this.changeStar(5)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(5)}><img className="star" src={this.state.fifth_star ? '/images/full-star.png' : '/images/empty-star.png'} width="25" height="25"/></span>
+                                        <span><h5 className="rating-span">({this.state.rating}/5) {this.state.satisfaction}</h5></span>
+                                        <h5>Leave some comments about any issues or misbehaving students (optional)</h5>
+                                        <textarea className="input-sm input feedback-text" value={this.state.comment} onChange={this.handleCommentChange}/>
+                                    </div>
                                 </div>
                             </div>
                             <div className="review-modal-footer modal-footer">
