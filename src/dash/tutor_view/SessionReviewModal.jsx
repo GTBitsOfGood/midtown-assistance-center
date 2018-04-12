@@ -39,17 +39,6 @@ class SessionModal extends React.Component {
         this.changeStarOut = this.changeStarOut.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleCommentChange = this.handleCommentChange.bind(this);
-        this.updateStudentInSession = this.updateStudentInSession.bind(this);
-    }
-
-    /**
-     * When a student joins the session, update the array of students
-     * @param data
-     */
-    updateStudentInSession(data) {
-        let students = this.state.students_in_session;
-        students.push(data);
-        this.setState({students_in_session:students});
     }
 
     /**
@@ -157,13 +146,10 @@ class SessionModal extends React.Component {
      */
     render() {
         const renStudents = [];
-        this.props.socket.on('session-update-' + this.props.eventId, (data) => {
-            console.log("Session update!");
-            this.updateStudentInSession(data);
-        });
-        for (let student in this.state.students_in_session) {
-            console.log(this.state.students_in_session[student]);
-            renStudents.push(<h5 className="lighter-text">{this.state.students_in_session[student].user}</h5>);
+
+        for (let student in this.props.session.students_attended) {
+            console.log(this.props.session.students_attended[student]);
+            renStudents.push(<h5 className="lighter-text">{this.props.session.students_attended[student].student_id}</h5>);
         }
 
         return (
@@ -173,7 +159,7 @@ class SessionModal extends React.Component {
                         <div className="modal-content tutor-modal review-modal">
                             <div className="modal-header text-center">
                                 <h4 className="modal-title rate-session-header text-uppercase" id="exampleModalLabel">Session Information</h4>
-                                <h5><a href={this.props.hangoutsLink} target="_blank">Click here to re-enter the hangouts</a></h5>
+                                <h5><a href={this.props.session.hangouts_link} target="_blank">Click here to re-enter the hangouts</a></h5>
                             </div>
                             <div className="modal-body tutor-modal-body">
                                 <div id={'ModalBody_' + this.props.id}>

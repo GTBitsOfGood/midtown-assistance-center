@@ -3,9 +3,7 @@ import TutorReviewModal from './TutorReviewModal.jsx';
 import Subject from './Subject.jsx';
 import axios from 'axios';
 import Availability from './Availability.jsx';
-import socketIOClient from "socket.io-client";
-
-const favorites_lst = ['Algebra', 'Java', 'Python', 'Geometry'];
+import socketIOClient from 'socket.io-client';
 
 class TutorSearchResult extends React.Component {
     constructor(props) {
@@ -21,27 +19,27 @@ class TutorSearchResult extends React.Component {
     }
 
     componentDidMount() {
-      this.updateRating();
+        this.updateRating();
     }
 
     updateRating() {
-      this.setState({
-        halfStars: Math.floor((this.props.data.rating - Math.floor(this.props.data.rating))/0.5),
-        emptyStars: (5 - Math.ceil(this.props.data.rating)),
-        fullStars: Math.floor(this.props.data.rating)
-      });
+        this.setState({
+            halfStars: Math.floor((this.props.data.rating - Math.floor(this.props.data.rating))/0.5),
+            emptyStars: (5 - Math.ceil(this.props.data.rating)),
+            fullStars: Math.floor(this.props.data.rating)
+        });
     }
 
     onHangoutsButton() {
-      this.setState({hangoutsLink: this.props.data.session.hangouts_link});
-      window.open(this.props.data.session.hangouts_link, '_blank');
-      this.props.socket.emit('student-join', {'session':this.props.data.session.eventId, 'student': this.props.username});
+        this.setState({hangoutsLink: this.props.data.session.hangouts_link});
+        window.open(this.props.data.session.hangouts_link, '_blank');
+        this.props.socket.emit('student-join', {'session':this.props.data.session.eventId, 'student': this.props.username});
     }
 
     render() {
-        let subjects = this.props.data.subjects.map((subject, num) => { return <Subject is_favorite={false} subject={subject.subject} start_grade={subject.start_grade} end_grade={subject.end_grade}/>});
+        let subjects = this.props.data.subjects.map((subject, num) => { return <Subject is_favorite={false} subject={subject.subject} start_grade={subject.start_grade} end_grade={subject.end_grade}/>;});
         let favorites = this.props.data.favorites.map((fav, num) => {
-            return <Subject is_favorite={true} subject={fav.favorite}/>
+            return <Subject is_favorite={true} subject={fav.favorite}/>;
         });
         let stars = [];
         let date = new Date(this.props.data.join_date).toLocaleDateString();
@@ -104,7 +102,7 @@ class TutorSearchResult extends React.Component {
                             <div className="request_hangout text-center">
                                 <h4 className="text-center"><strong>Request a Google Hangouts meeting with {this.props.data.first_name}</strong>
                                 </h4>
-                                <button className="btn btn-md btn-default mac_button" type="button" data-toggle="modal" data-target={"#Modal_" + this.props.data.first_name} data-backdrop="static" disabled={!this.props.data.session} onClick={this.onHangoutsButton}>
+                                <button className="btn btn-md btn-default mac_button" type="button" data-toggle="modal" data-target={'#Modal_' + this.props.data.first_name} data-backdrop="static" disabled={!this.props.data.session} onClick={this.onHangoutsButton}>
                                     {this.props.data.session ? 'Click Here To Access' : 'Session Not Active'}
                                 </button>
                             </div>

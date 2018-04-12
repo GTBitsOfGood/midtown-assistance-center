@@ -149,12 +149,13 @@ app.post('/createEvent', function(req, res){
                 });
                 reject(err);
             } else if (response.length > 0) {
+                resolve(true);
                 return res.json({
                     success: true,
+                    session: response[0],
                     link: response[0].hangouts_link,
                     id: response[0].eventId,
                 });
-                resolve(true);
             } else {
                 resolve(false);
             }
@@ -162,9 +163,9 @@ app.post('/createEvent', function(req, res){
     });
 
     check_event_exists.then(function(value) {
-	    add_new_session(value);
+        add_new_session(value);
     }, function(error) {
-	    console.log(error);
+        console.log(error);
     });
 
     function add_new_session(add_calendar) {
@@ -278,7 +279,7 @@ app.post('/createEvent', function(req, res){
                         return res.json({
                             success: true,
                             error_message: null,
-                            result: resultSession,
+                            session: resultSession,
                             link: resultSession.hangouts_link,
                             id: resultSession.eventId,
                             error: null

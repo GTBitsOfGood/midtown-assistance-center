@@ -6,14 +6,14 @@ import TutorProfile from './Profile.jsx';
 import socketIOClient from "socket.io-client";
 import Statistics from './Statistics.jsx';
 
-const SOCKETIO_ENDPOINT = window.location.hostname+(window.location.port ? ':'+window.location.port: '');
+const SOCKETIO_ENDPOINT = window.location.hostname + (window.location.port ? ':'+ window.location.port : '');
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 class TutorDash extends React.Component {
 
     // TODO:
     componentWillUnmount() {
-        socket.close();
+        //socket.close();
     }
 
     render() {

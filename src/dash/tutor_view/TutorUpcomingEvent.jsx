@@ -25,11 +25,23 @@ class TutorUpcomingEvent extends React.Component {
         this.state = {
             hangoutsLink: '',
             hangoutsLinkExpires: '',
-            eventId: ''
+            eventId: '',
+            session: {}
         };
 
         this.handleAccessHangoutLink = this.handleAccessHangoutLink.bind(this);
         this.submitReview = this.submitReview.bind(this);
+        this.updateSession = this.updateSession.bind(this);
+    }
+
+    /**
+     * When a student joins the session, update the array of students
+     * @param data
+     */
+    updateSession(data) {
+        let students = this.state.students_in_session;
+        students.push(data);
+        this.setState({students_in_session:students});
     }
 
     /**
@@ -108,7 +120,8 @@ class TutorUpcomingEvent extends React.Component {
                     if (response.data.success) {
                         self.setState({
                             hangoutsLink: response.data.link,
-                            eventId: response.data.id
+                            eventId: response.data.id,
+                            session: response.data.session
                         });
                         window.open(response.data.link, '_blank');
                     } else {
@@ -134,6 +147,10 @@ class TutorUpcomingEvent extends React.Component {
         let active = (startTimeHour - now.getHours() <= 1 && this.props.today);
         const renLogo = active ? <a onClick={this.handleAccessHangoutLink} href="#" data-toggle="modal" data-target={"#Modal_" + this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]}><img className="google-link" src="/images/google-icon-active.png"></img></a> : <img className="google-link" src="/images/google-icon-disabled.png"></img>;
 
+        this.props.socket.on('session-update-' + this.props.session.eventId, (data) => {
+            console.log("Session update!");
+            this.updateSession(data);
+        });
         return (
             <div className="tutorUpcomingEvent">
                 <div className="tutorUpcomingEventContent">
@@ -144,7 +161,7 @@ class TutorUpcomingEvent extends React.Component {
                 <div className="tutorUpcomingEventContent">
                     {renLogo}
                 </div>
-                <SessionReviewModal socket={this.props.socket} onSubmit={this.submitReview} tutorId={this.props.tutorId} id={this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} hangoutsLink={this.state.hangoutsLink} eventId={this.state.eventId}/>
+                <SessionReviewModal onSubmit={this.submitReview} tutorId={this.props.tutorId} id={this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} session={this.state.session}/>
             </div>
         );
     }
