@@ -131,6 +131,22 @@ module.exports = {
     },
 
     /**
+     * add a student join request to the session
+     * @param session the session object (must contain _id: the session id,
+     * update: the new info)
+     * @param callback
+     */
+    addJoinRequest: function (session, callback) {
+        TutorSession.findOneAndUpdate({'_id.tutor_id':session._id.tutor_id, '_id.expected_start_time':session._id.expected_start_time, 'join_requests.student_id': {$ne: session.update.join_requests.student_id}}, {$push: session.update}, {new: true}, function (err, updatedSession) {
+            if (err) {
+                console.log('Error saving session');
+                callback(err);
+            }
+            callback(null, updatedSession);
+        });
+    },
+
+    /**
      * get all of the sessions that the tutor has been a part of
      * @param username the id of the tutor
      * @param callback

@@ -30,13 +30,13 @@ class Statistics extends React.Component {
         let keyId = 0;
 
         for (let x = 0; x < fullStars; x++) {
-            stars.push(<span key={keyId++}><img className="star" src='/images/full-star.png' width="20" height="20"/></span>);
+            stars.push(<span key={keyId++}><img className="tutor-star" src='/images/full-star.png' width="20" height="20"/></span>);
         }
         for (let y = 0; y < halfStars; y++) {
-            stars.push(<span key={keyId++}><img className="star" src='/images/half-star.png' width="20" height="20"/></span>);
+            stars.push(<span key={keyId++}><img className="tutor-star" src='/images/half-star.png' width="20" height="20"/></span>);
         }
         for (let z = 0; z < emptyStars; z++) {
-            stars.push(<span key={keyId++}><img className="star" src='/images/empty-star.png' width="20" height="20"/></span>);
+            stars.push(<span key={keyId++}><img className="tutor-star" src='/images/empty-star.png' width="20" height="20"/></span>);
         }
 
         return (

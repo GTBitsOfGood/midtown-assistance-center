@@ -18,7 +18,7 @@ export function fetchUserAndInfo() {
                 return dispatch(setTutorOnline(user, {online: true}))
                     .then(dispatch(getStat(user)))
                     .then(dispatch(getSessions(user)))
-                    .then(dispatch(getSubjects()))
+                    .then(dispatch(getSubjects()));
             } else if (user.type === types.typeStudent) {
 
             }
@@ -41,7 +41,7 @@ export function logoutUser(user) {
     return {
         type: types.logoutUser,
         payload: axios.get('/logout', {params: {username: user._id}})
-    }
+    };
 }
 
 

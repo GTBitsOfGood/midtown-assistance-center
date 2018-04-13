@@ -1,4 +1,4 @@
-import * as types from '../actions/types/student_view_types'
+import * as types from '../actions/types/student_view_types';
 
 let initial_state = {
   // TODO tutoring session state

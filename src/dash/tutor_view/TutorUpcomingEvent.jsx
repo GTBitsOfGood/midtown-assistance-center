@@ -35,13 +35,36 @@ class TutorUpcomingEvent extends React.Component {
     }
 
     /**
-     * When a student joins the session, update the array of students
+     * When a student joins the session or requests to join the session,
+     * get the updated session from the database
      * @param data
      */
-    updateSession(data) {
-        let students = this.state.students_in_session;
-        students.push(data);
-        this.setState({students_in_session:students});
+    updateSession() {
+        let start = new Date();
+        let startTimeSplit = this.props.startTime.split(":");
+        start.setHours(parseInt(startTimeSplit[0]), parseInt(startTimeSplit[1]), 0, 0);
+        let sessionRequestBody = {
+            _id: {
+                expected_start_time: start,
+                tutor_id: this.props.tutorId,
+            }
+        };
+        let self = this;
+        axios.post('/api/getTutorSession', sessionRequestBody)
+            .then(function(response){
+                if (response.data.success) {
+                    self.setState({
+                        hangoutsLink: response.data.link,
+                        eventId: response.data.id,
+                        session: response.data.session
+                    });
+                } else {
+                    console.log(response.data.error);
+                }
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
     }
 
     /**
@@ -94,8 +117,8 @@ class TutorUpcomingEvent extends React.Component {
         start.setHours(parseInt(startTimeSplit[0]), parseInt(startTimeSplit[1]), 0, 0);
         end.setHours(parseInt(endTimeSplit[0]), parseInt(endTimeSplit[1]), 0, 0);
 
-        if (this.state.hangoutsLink && time.localeCompare(this.props.endTime) < 0) {
-            window.open(this.state.hangoutsLink, "_blank");
+        if (this.state.session.hangouts_link && time.localeCompare(this.props.endTime) < 0) {
+            window.open(this.state.session.hangouts_link, "_blank");
         } else {
             let sessionRequestBody = {
                 _id: {
@@ -147,9 +170,10 @@ class TutorUpcomingEvent extends React.Component {
         let active = (startTimeHour - now.getHours() <= 1 && this.props.today);
         const renLogo = active ? <a onClick={this.handleAccessHangoutLink} href="#" data-toggle="modal" data-target={"#Modal_" + this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]}><img className="google-link" src="/images/google-icon-active.png"></img></a> : <img className="google-link" src="/images/google-icon-disabled.png"></img>;
 
-        this.props.socket.on('session-update-' + this.props.session.eventId, (data) => {
+        this.props.socket.on('session-update-' + this.state.session.eventId, (data) => {
             console.log("Session update!");
-            this.updateSession(data);
+            console.log(data);
+            this.updateSession();
         });
         return (
             <div className="tutorUpcomingEvent">

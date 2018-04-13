@@ -25,6 +25,15 @@ let studentReview = new Schema({
     reason_for_report: {type: String, required: false}
 });
 
+let joinRequest = new Schema({
+    student_id: {type: String, required: true},
+    topic: {type: String, required: true},
+    student_comment: {type: String, required: false},
+    create_time: {type: Date, default: Date.now()},
+    status: {type: String, required: true, enum: ['pending', 'approved', 'rejected'], default: 'pending'},
+    tutor_comment: {type: String, required: false}
+});
+
 let schema = new Schema({
     _id: {type:
             {
@@ -33,6 +42,7 @@ let schema = new Schema({
             }
     },
     students_attended: {type: [studentReview], default: []},
+    join_requests: {type:[joinRequest], default: []},
     eventId: {type: String, required: true},
     hangouts_link: {type: String, required: false},
     tutor_rating: {type: Number, required: false},

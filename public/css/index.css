@@ -14,6 +14,7 @@
     --primaryLight: #EEEEEE;
     --primary: #AAA;
     --error_red: #D8000C;
+    --success_green: #4F8A10;
 }
 
 body {
@@ -123,7 +124,13 @@ body {
 
 .star {
     margin-bottom: 5px;
-    opacity: 0.9;
+    opacity: 0.8;
+    width: 25px;
+    height: 25px;
+}
+
+.tutor-star {
+    margin-bottom: 5px;
 }
 
 .tutor-name, .panel-anchor {
@@ -503,6 +510,19 @@ body {
     margin-bottom: 20px;
     padding-bottom: 20px;
     border-bottom: 1px solid var(--primaryLight);
+    overflow: auto;
+}
+
+.approve-student, .deny-student {
+    margin-top: 10px;
+}
+
+.approve-student {
+    color: var(--success_green);
+}
+
+.deny-student {
+    color: var(--error_red);
 }
 
 .tutor-approval-msg {

@@ -265,6 +265,44 @@ app.post('/tutorSubmitReview', (req, res) => {
     });
 });
 
+// when a student joins a session, add them
+app.post('/addStudentToSession', (req, res) => {
+    data_access.tutor_sessions.addStudentReview({_id: req.body._id, update: {'students_attended': req.body.review}}, function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            res.json({
+                success: true,
+                error: null,
+                session: response
+            });
+        }
+    });
+});
+
+// when a student requests to join the session, add the request
+app.post('/addJoinRequest', (req, res) => {
+    data_access.tutor_sessions.addJoinRequest({_id: req.body._id, update: {'join_requests': req.body.join_request}}, function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            res.json({
+                success: true,
+                error: null,
+                session: response
+            });
+        }
+    });
+});
+
 // when a student submits a review, update the session accordingly
 app.post('/studentSubmitReview', (req, res) => {
     data_access.tutor_sessions.addStudentReview({_id: req.body._id, update: {'students_attended': req.body.review}}, function(err, response) {
@@ -283,6 +321,27 @@ app.post('/studentSubmitReview', (req, res) => {
         }
     });
 });
+
+app.post('/getTutorSession', (req, res) => {
+    console.log(req.body._id);
+    data_access.tutor_sessions.getSessionByTutor(req.body._id, function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                link: false,
+                error: err
+            });
+        }
+        return res.json({
+            success: true,
+            session: response[0],
+            link: response[0].hangouts_link,
+            id: response[0].eventId,
+        });
+
+    });
+})
 
 // get all tutoring sessions for a tutor
 app.post('/getTutorSessions', (req, res) => {

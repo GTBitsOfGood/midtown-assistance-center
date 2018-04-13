@@ -146,10 +146,26 @@ class SessionModal extends React.Component {
      */
     render() {
         const renStudents = [];
+        const renRequests = [];
 
         for (let student in this.props.session.students_attended) {
-            console.log(this.props.session.students_attended[student]);
             renStudents.push(<h5 className="lighter-text">{this.props.session.students_attended[student].student_id}</h5>);
+        }
+
+        for (let student in this.props.session.join_requests) {
+            renRequests.push(<div className="student-join-request col-sm-12">
+                <h5 className="col-sm-3">
+                    {this.props.session.join_requests[student].student_id}
+                </h5>
+                <h5 className="col-sm-3">
+                    {this.props.session.join_requests[student].topic}
+                </h5>
+                <h5 className="lighter-text col-sm-4">
+                    {this.props.session.join_requests[student].student_comment ? this.props.session.join_requests[student].student_comment : 'No Request Description'}
+                </h5>
+                <span className="col-sm-1 glyphicon glyphicon-ok approve-student"></span>
+                <span className="col-sm-1 glyphicon glyphicon-remove deny-student"></span>
+            </div>);
         }
 
         return (
@@ -164,11 +180,11 @@ class SessionModal extends React.Component {
                             <div className="modal-body tutor-modal-body">
                                 <div id={'ModalBody_' + this.props.id}>
                                     <div className="modal-body-session-info">
-                                        <h5>Student Join Requests</h5>
-                                        <h5 className="lighter-text">No Open Requests</h5>
+                                        <h4><small>Student Join Requests</small></h4>
+                                        {renRequests.length === 0 ? <h5 className="lighter-text">No Open Join Requests</h5> : renRequests}
                                     </div>
                                     <div className="modal-body-session-info">
-                                        <h5>Students In Session</h5>
+                                        <h4><small>Students In Session</small></h4>
                                         {renStudents.length === 0 ? <h5 className="lighter-text">No Students in Session</h5> : renStudents}
                                     </div>
                                     <div className="modal-body-session-rating">

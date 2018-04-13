@@ -89,7 +89,6 @@ class TutorSearchResult extends React.Component {
                                     <h4><strong>Details</strong></h4>
                                     <h4 className="details"><span className="details-ic glyphicon glyphicon-briefcase"></span><strong> Student</strong> at Georgia Tech</h4>
                                     <h4 className="details"><span className="details-ic glyphicon glyphicon-calendar"></span><strong>{date}</strong> Join Date</h4>
-                                    <h4 className="details"><span className="details-ic glyphicon glyphicon-stats"></span><strong> 213</strong> Total Sessions</h4>
                                     <h4 className="details"><span className="details-ic glyphicon glyphicon-star"></span><strong> {this.props.data.rating}</strong> rating out of {this.props.data.num_ratings} total ratings</h4>
                                     <h4 className="availability-info"><strong>Availability</strong></h4>
                                     <Availability availability={this.props.data.availability}></Availability>
@@ -109,7 +108,7 @@ class TutorSearchResult extends React.Component {
                         </div>
                     </div>
                 </div>
-                <TutorReviewModal username={this.props.username} firstName={this.props.data.first_name} session={this.props.data.session}/>
+                <TutorReviewModal socket={this.props.socket} username={this.props.username} subjects={this.props.data.subjects} favorites={this.props.data.favorites} firstName={this.props.data.first_name} session={this.props.data.session}/>
             </div>
 
         );
