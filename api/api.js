@@ -29,8 +29,8 @@ app.get('/getRecentSessions', (req, res) => {
 
 app.get('/onlineTutors', (req, res) => {
     function addActiveSession(tutor) {
-        var return_tutor = JSON.parse(JSON.stringify(tutor));
-        var getSession = new Promise(function(resolve, reject) {
+        let return_tutor = JSON.parse(JSON.stringify(tutor));
+        let getSession = new Promise(function(resolve, reject) {
             data_access.tutor_sessions.getActiveSession(return_tutor._id, function(err, response) {
                 if (err) {
                     reject(err);
@@ -54,7 +54,7 @@ app.get('/onlineTutors', (req, res) => {
             console.error(err);
             return res.send([]);
         }
-        var tutor_promises = tutors.map(addActiveSession);
+        let tutor_promises = tutors.map(addActiveSession);
         Promise.all(tutor_promises).then(function(values) {
             res.send(values);
         }, function(err) {
