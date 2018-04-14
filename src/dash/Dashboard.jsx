@@ -9,7 +9,7 @@ import TutorDash from './tutor_view/TutorDash.jsx';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 import AboutUs from '../AboutUs.jsx';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { fetchUser, saveTutor } from '../redux/actions/user_actions.js';
 import { connect } from 'react-redux';
 import axios from 'axios';
@@ -37,26 +37,26 @@ const studentRoutes = (
   </div>
 );
 
-const tutorRoutes = (
-  <div>
-    <Route exact path="/dash" component={TutorDash} />
-    <Route exact path="/dash/about" component={AboutUs} />
-  </div>
-);
-
 const adminRoutes = (
   <BrowserRouter>
     <div className={adminStyles.body}>
       <Route path="/dash" component={Navigation} />
       <Switch>
         <div className={adminStyles.body_wrapper}>
-          <Route exact path="/dash/dashboard" component={Dashboard} />
           <Route exact path="/dash/approve" component={Approve} />
           <Route exact path="/dash/add_admin" component={AddAdmin} />
+          <Route path="/dash/*" component={Dashboard} />
         </div>
       </Switch>
     </div>
   </BrowserRouter>
+);
+
+const tutorRoutes = (
+  <div>
+    <Route exact path="/dash" component={TutorDash} />
+    <Route exact path="/dash/about" component={AboutUs} />
+  </div>
 );
 
 const loading = (
@@ -114,10 +114,6 @@ class DashComp extends React.Component {
       socket.emit('tutor-login');
     } else if (this.props.user.type === types.typeAdmin) {
       console.log('Admin logged in');
-      routes = adminRoutes;
-    }
-
-    if (this.props.user.type === types.typeAdmin) {
       return adminRoutes;
     }
     return (

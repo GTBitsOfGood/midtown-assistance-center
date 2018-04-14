@@ -12,12 +12,10 @@ class Navigation extends React.Component {
 
   setActive(page) {
     page = page.split(' ');
-    console.log(page);
     let new_page =
       page[0].toLowerCase() +
-      (page.length == 1 ? '' : '_' + page[1].toLowerCase());
-    console.log(new_page);
-    this.props.history.push('/admin/' + new_page);
+      (page.length === 1 ? '' : '_' + page[1].toLowerCase());
+    this.props.history.push('/dash/' + new_page);
   }
 
   render() {
@@ -29,25 +27,25 @@ class Navigation extends React.Component {
           func={this.setActive}
           page="Dashboard"
           icon="stats"
-          active={currentPage == 'dashboard'}
+          active={currentPage === 'dashboard'}
         />
         <NavigationItem
           func={this.setActive}
           page="Approve"
           icon="check"
-          active={currentPage == 'approve'}
+          active={currentPage === 'approve'}
         />
         <NavigationItem
           func={this.setActive}
           page="Schools"
           icon="apple"
-          active={currentPage == 'schools'}
+          active={currentPage === 'schools'}
         />
         <NavigationItem
           func={this.setActive}
           page="Add Admin"
           icon="check"
-          active={currentPage == 'add_admin'}
+          active={currentPage === 'add_admin'}
         />
       </div>
     );
