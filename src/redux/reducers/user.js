@@ -66,22 +66,19 @@ export default function change_user(state = initial_state, action) {
       // new_state.password = config.hidden_password;
       break;
 
-    case types.saveStudentToDb:
-      // FIXME should use thunks for this :/
-      new_state = action.payload;
-
-      // FIXME Hide password (even though our backend should already hide it)
-      // new_state.password = config.hidden_password;
-
-      // Make save call
-      axios
-        .patch('/api/student', new_state)
-        .then(function(response) {
-          console.log(response.data);
-        })
-        .catch(function(error) {
-          console.error(error);
-        });
+    case types.saveStudentPending:
+      new_state = { ...state, fetching: true };
+      break;
+    case types.saveStudentRejected:
+      new_state = { ...state, fetching: false, error: action.payload };
+      break;
+    case types.saveStudentFulfilled:
+      new_state = {
+        ...state,
+        ...action.payload.data.student,
+        fetching: false,
+        fetched: true
+      };
       break;
 
     case types.saveTutorToDb:

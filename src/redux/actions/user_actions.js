@@ -45,10 +45,10 @@ export function logoutUser(user) {
   };
 }
 
-export function saveStudent(user) {
+export function saveStudent(student) {
   return {
-    type: types.saveStudentToDb,
-    payload: user
+    type: types.saveStudent,
+    payload: axios.patch('/api/student', student)
   };
 }
 

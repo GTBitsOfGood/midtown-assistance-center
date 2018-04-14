@@ -211,7 +211,8 @@ app.patch('/student', (req, res) => {
 
     res.json({
       success: true,
-      error_message: null
+      error_message: null,
+      student: resultStudent
     });
   });
 });
