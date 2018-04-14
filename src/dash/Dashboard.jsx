@@ -15,11 +15,13 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { GridLoader } from 'halogen';
 import styles from '../../public/css/index.css';
+import adminStyles from '../../public/css/admin.css';
 import socketIOClient from 'socket.io-client';
 import { fetchUserAndInfo } from '../redux/actions/user_actions';
 import Approve from './admin_view/pages/Approve.jsx';
 import AddAdmin from './admin_view/pages/AddAdmin.jsx';
 import Dashboard from './admin_view/pages/Dashboard.jsx';
+import Navigation from './admin_view/navigation/Navigation.jsx';
 
 // TODO: use global const
 const SOCKETIO_ENDPOINT =
@@ -43,11 +45,18 @@ const tutorRoutes = (
 );
 
 const adminRoutes = (
-  <div>
-    <Route exact path="/dash" component={Dashboard} />
-    <Route exact path="/dash/approve" component={Approve} />
-    <Route exact path="/dash/add_admin" component={AddAdmin} />
-  </div>
+  <BrowserRouter>
+    <div className={adminStyles.body}>
+      <Route path="/dash" component={Navigation} />
+      <Switch>
+        <div className={adminStyles.body_wrapper}>
+          <Route exact path="/dash/dashboard" component={Dashboard} />
+          <Route exact path="/dash/approve" component={Approve} />
+          <Route exact path="/dash/add_admin" component={AddAdmin} />
+        </div>
+      </Switch>
+    </div>
+  </BrowserRouter>
 );
 
 const loading = (
@@ -106,6 +115,10 @@ class DashComp extends React.Component {
     } else if (this.props.user.type === types.typeAdmin) {
       console.log('Admin logged in');
       routes = adminRoutes;
+    }
+
+    if (this.props.user.type === types.typeAdmin) {
+      return adminRoutes;
     }
     return (
       <div className="animated fadeInDown">
