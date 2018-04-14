@@ -95,7 +95,9 @@ app.post('/registerTutor', (req, res) => {
 
                 //If we could not find an existing user with the same user
                 if (!duplicateEmailFound) {
-                    data_access.users.createTutor({
+
+                    //Create an object for the new tutor using the data from req.body
+                    let newTutor = {
                         first_name: req.body.firstName,
                         last_name: req.body.lastName,
                         email: req.body.email,
@@ -107,12 +109,17 @@ app.post('/registerTutor', (req, res) => {
                         status: true,
                         availability: req.body.availability,
                         approved: false
-                    }, function(err, user_instance){
+                    };
+
+                    //1. Create callback function for user_dao CreateTutor method.
+                    //2. This method tells the frontend about success/failure of creating a tutor
+                    let callback = function(err, user_instance)
+                    {
                         if (err) {
                             console.error(err);
                             res.send({
                                 success: false,
-                                error_message: 'Unknown error'
+                                error_message: 'Mongoose error in adding Tutor to Database'
                             });
                         } else {
                             res.send({
@@ -120,7 +127,11 @@ app.post('/registerTutor', (req, res) => {
                                 error_message: null
                             });
                         }
-                    });
+                    };
+
+                    //We can now create the tutor without worrying about overwriting another tutor's data
+                    data_access.users.createTutor(newTutor, callback);
+
                 } else {
                     res.send({
                         success: false,
