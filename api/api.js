@@ -146,19 +146,18 @@ app.post('/registerStudent', (req, res) => {
 
         //resultUsername is a boolean that represents if a username was found in the database
 
-        function(err, resultUsername){                                  //this function is the callback in dao_user.js
+        function(err, resultUsername){                                  //this function is the callback in user_dao.js
 
             //If we get an error trying to call a method in user_dao.js, throw it
             if (err) {
                 console.log(err);
             }
 
-            //
+            //If we could not find the username in the database, then we can create a user with it :)
             if (!resultUsername) {
                 console.log(resultUsername);
 
-                //Careful: We are defined this function, not extending checkIfEmailIsTaken!
-                //resultEmail is the callback function
+                //Careful: We are defining this callback function, not extending checkIfEmailIsTaken
                 data_access.users.checkIfEmailIsTaken(req.body.email, function(err, resultEmail) {
                     if (err) {
                         console.log(err);
@@ -192,7 +191,10 @@ app.post('/registerStudent', (req, res) => {
                         }
                     }
                 });
-            } else {
+            }
+            // We found a username that matches this one, so we don't create a new user and overwrite the old one.
+            // We alert that the username already exists to the front end!
+            else {
                 res.json({
                     success: false,
                     error_message: 'Username already exists'

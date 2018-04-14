@@ -11,7 +11,9 @@ import config from 'config';
 
 module.exports = {
     /**
-     * This functions checks if a username string is already in the database
+     * 1. This functions checks if a username string is already in the database
+     * 2. This function is called in api.js when creating a new tutor or student
+     * 3. Look at the post(/registerStudent) endpoint in api.js
      * @param username: string for username
      * @param callback: takes two parameters: error and boolean which represents if a tutor exists already
      */
@@ -23,7 +25,6 @@ module.exports = {
                 console.error('Error checking if username is taken:', err);
                 callback(err);
                 return;
-
             }
             if (docs.length > 0) {
                 // Found a tutor with the same username so return true for found
@@ -40,51 +41,56 @@ module.exports = {
                 callback(err);
                 return;
 
-            } else if (docs.length > 0) {
+            }
+            if (docs.length > 0) {
                 // Found a student with the same username
                 callback(null, true);
-                return;
-
-            } else {
-                // No student or tutor found with that username!
-                callback(null, false);
                 return;
             }
         });
 
+        // We could not find a tutor or a student with this username.
+        callback(null, false);
+        return;
 
     },
 
     checkIfEmailIsTaken: function(email, callback) {
-    // Look for tutors with the same email
+        // Look for tutors with the same email
         Tutor.find({email: email}, function (err, docs) {
             if (err) {
                 console.error('Error checking if email is taken:', err);
                 callback(err);
-
-            } else if (docs.length > 0) {
+                return;
+            }
+            if (docs.length > 0) {
                 // Found a tutor with the same email
                 callback(null, true);
-
-            } else {
-
-                // Look for students with the same email
-                Student.find({email: email}, function (err, docs) {
-                    if (err) {
-                        console.error('Error checking if email is taken:', err);
-                        callback(err);
-
-                    } else if (docs.length > 0) {
-                        // Found a student with the same email
-                        callback(null, true);
-
-                    } else {
-                        // No student or tutor found with that email!
-                        callback(null, false);
-                    }
-                });
+                return;
             }
         });
+
+
+        // Look for students with the same email
+        Student.find({email: email}, function (err, docs) {
+            if (err) {
+                console.error('Error checking if email is taken:', err);
+                callback(err);
+                return;
+
+            }
+            if (docs.length > 0) {
+                // Found a student with the same email
+                callback(null, true);
+                return;
+
+            }
+        });
+
+        // No student or tutor found with this email!
+        callback(null, false);
+        return;
+
     },
 
     createStudent: function(student, callback) {
