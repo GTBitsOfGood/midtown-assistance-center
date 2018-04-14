@@ -1,12 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { updateUser } from '../../redux/actions/user_actions.js';
-import axios from 'axios';
+
 
 class Review extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
+
         };
         this.reportReview = this.reportReview.bind(this);
     }
@@ -23,14 +23,14 @@ class Review extends React.Component {
      * @returns {HTML}
      */
     render() {
-        var date = new Date(this.props.time);
-        var stars = [];
-        var empty_stars = [];
-        for (var x = 0; x < this.props.rating; x++) {
-            stars.push(<span className="glyphicon glyphicon-star"></span>);
+        let date = new Date(this.props.time);
+        let stars = [];
+        let empty_stars = [];
+        for (let x = 0; x < this.props.rating; x++) {
+            stars.push(<span key={x} className="glyphicon glyphicon-star"/>);
         }
-        for (var y = this.props.rating; y < 5; y++) {
-            empty_stars.push(<span className="glyphicon glyphicon-star-empty"></span>);
+        for (let y = this.props.rating; y < 5; y++) {
+            empty_stars.push(<span key={y} className="glyphicon glyphicon-star-empty"/>);
         }
         return (
             <div className="tutor-review">
@@ -49,7 +49,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser : (user) => dispatch(updateUser(user))
+
     };
 };
 

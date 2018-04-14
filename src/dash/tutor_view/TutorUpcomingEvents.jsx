@@ -1,8 +1,6 @@
 import React from 'react';
-import TutorUpcomingEvent from './TutorUpcomingEvent.jsx';
+import TutorUpcomingEvent from './TutorUpcomingEvent.jsx'
 import { connect } from 'react-redux';
-import { updateUser } from '../../redux/actions/user_actions.js';
-import Statistics from './Statistics.jsx';
 
 const NUM_OF_EVENTS = 5;
 
@@ -26,11 +24,12 @@ class UpcomingEvents extends React.Component {
         // TODO: get past sessions (store in redux) in dash component and check here if the session is one that just ended
         // by checking the start time and today's date along with tutor id (primary key)
         if (this.props.user.availability) {
+            let keyId = 0;
             while (count < NUM_OF_EVENTS && totalCount < 7) {
                 events = this.props.user.availability[dayName];
-                for (event in events) {
+                for (let event in events) {
                     if (!((day === today) && (todayHours > events[event].end_time))) {
-                        renEvents.push(<TutorUpcomingEvent tutorId={this.props.user._id} calId={this.props.user.calendarId} gmail={this.props.user.gmail} dayName={dayName} today={ dayName === days[today] } startTime={events[event].start_time} endTime={events[event].end_time}/>);
+                        renEvents.push(<TutorUpcomingEvent key={keyId++} socket={this.props.socket} tutorId={this.props.user._id} calId={this.props.user.calendarId} gmail={this.props.user.gmail} dayName={dayName} today={ dayName === days[today] } startTime={events[event].start_time} endTime={events[event].end_time}/>);
                         count++;
                     }
                 }
@@ -48,7 +47,7 @@ class UpcomingEvents extends React.Component {
         renEvents = renEvents.slice(0, NUM_OF_EVENTS);
 
         return (
-            <div className="row animated fadeInRight">
+            <div className="row animated fadeInRight tutorUpcomingEvents">
                 <div className="col">
                     <div className="text-center row">
                         <h4 className="lighter-text text-uppercase tutor-events-header">Upcoming Sessions</h4>
@@ -56,7 +55,6 @@ class UpcomingEvents extends React.Component {
                             {renEvents}
                         </div>
                     </div>
-                    <Statistics/>
                 </div>
             </div>
         );
@@ -69,7 +67,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setUser : (user) => dispatch(updateUser(user))
+
     };
 };
 

@@ -16,6 +16,7 @@ export default function change_subject(state=initial_state, action) {
         case types.getSubjectsRejected:
             return {...state, fetching: false, error: action.payload};
             break;
+
         case types.getSubjectsFulfilled:
             return {
                 ...state,

@@ -255,7 +255,8 @@ app.patch('/tutor', (req, res) => {
 
         res.json({
             success: true,
-            error_message: null
+            error_message: null,
+            tutor: resultStudent
         });
     });
 });

@@ -9,15 +9,9 @@ import SubjectPicker from './SubjectPicker.jsx';
 
 import FavoritePicker from './FavoritePicker.jsx';
 
-import { getSubjects } from "../../redux/actions/subject_actions"
-
 const DAYS_OF_WEEK = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
 class Profile extends React.Component {
-
-    componentWillMount() {
-        this.props.getSubjects();
-    }
 
     constructor(props) {
         super(props);
@@ -272,7 +266,7 @@ class Profile extends React.Component {
         let favoriteItems = [];
         for (let event in this.state.availabilityList) {
             availabilityItems.push(
-                <div className="time-item">
+                <div key={event} className="time-item">
                     <TimePicker
                         index={event}
                         date={ this.state.availabilityList[event].date }
@@ -288,7 +282,7 @@ class Profile extends React.Component {
         }
         for (let event in this.state.subjects) {
                 subjectItems.push(
-                    <div className="time-item">
+                    <div key={event} className="time-item">
                         <SubjectPicker
                             index={event}
                             subject={ this.state.subjects[event].subject }
@@ -304,7 +298,7 @@ class Profile extends React.Component {
             }
         for (let event in this.state.favorites) {
             favoriteItems.push(
-                <div className="time-item">
+                <div key={event} className="time-item">
                     <FavoritePicker
                         index={event}
                         subject={ this.state.favorites[event].subject }
@@ -332,7 +326,7 @@ class Profile extends React.Component {
                                     <img src={this.props.user.profile_picture} alt="user-pic" className="tutor-profile-picture img-circle" />
                                     <div className="edit-profile-pic" onClick={this.handleEditProfilePic}>
                                         <div className="edit-profile-pic-text">
-                                            <h3 className="edit-profile-header"><span className="glyphicon glyphicon-pencil"></span> Edit</h3>
+                                            <h3 className="edit-profile-header"><span className="glyphicon glyphicon-pencil"/> Edit</h3>
                                         </div>
                                     </div>
                                     <div className={"edit-img-input-" + this.state.editProfilePic}>
@@ -341,7 +335,7 @@ class Profile extends React.Component {
                                         value={this.state.profile_picture == '/images/default_user_img.png' ? '' : this.state.profile_picture} placeholder="Enter Image URL"
                                         type="text"
                                         onChange={ this.handleProfilePicChange }
-                                        ></input>
+                                        />
                                         <button onClick={this.handleSaveProfilePic} type="button" className="btn btn-sm btn-primary">Save</button>
                                     </div>
                                 </div>
@@ -349,7 +343,7 @@ class Profile extends React.Component {
                                     <div className="profile-info">
                                         <h3 className="tutor-profile-name">{ this.props.user.first_name + ' ' + this.props.user.last_name }</h3>
                                         <small><cite title="Atlanta, USA">
-                                            Atlanta, USA <i className="glyphicon glyphicon-map-marker"></i>
+                                            Atlanta, USA <i className="glyphicon glyphicon-map-marker"/>
                                         </cite></small>
                                         <h4 className="tutor-username">{ this.props.user._id }</h4>
                                     </div>
@@ -358,13 +352,13 @@ class Profile extends React.Component {
                                     <div className="form-group">
                                         <div className="row tutor-profile-input">
                                             <div className="col-xs-12">
-                                                <h5><i className="glyphicon glyphicon-calendar"></i> Join Date:</h5>
+                                                <h5><i className="glyphicon glyphicon-calendar"/> Join Date:</h5>
                                                 <p>{ (new Date(this.props.user.join_date)).toDateString() }</p>
                                             </div>
                                         </div>
                                         <div className="row tutor-profile-input">
                                             <div className="col-xs-12">
-                                                <h5><i className="glyphicon glyphicon-envelope"></i> Email:</h5>
+                                                <h5><i className="glyphicon glyphicon-envelope"/> Email:</h5>
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
@@ -375,7 +369,7 @@ class Profile extends React.Component {
                                         </div>
                                         <div className="row tutor-profile-input">
                                             <div className="col-xs-12">
-                                                <h5><i className="glyphicon glyphicon-envelope"></i> Gmail:</h5>
+                                                <h5><i className="glyphicon glyphicon-envelope"/> Gmail:</h5>
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
@@ -387,7 +381,7 @@ class Profile extends React.Component {
 
                                         <div className="row">
                                             <div className="col-xs-12 tutor-profile-input">
-                                                <h5><i className="glyphicon glyphicon-home"></i> Bio:</h5>
+                                                <h5><i className="glyphicon glyphicon-home"/> Bio:</h5>
                                                 <textarea
                                                     type="text"
                                                     className="form-control"
@@ -399,7 +393,7 @@ class Profile extends React.Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-xs-12">
-                                            <h5><i className="glyphicon glyphicon-apple"></i> Subjects:</h5>
+                                            <h5><i className="glyphicon glyphicon-apple"/> Subjects:</h5>
                                             { subjectItems }
                                             <button
                                                 className="btn btn-success add-subject"
@@ -411,7 +405,7 @@ class Profile extends React.Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-xs-12">
-                                            <h5><i className="glyphicon glyphicon-apple"></i> Favorites:</h5>
+                                            <h5><i className="glyphicon glyphicon-apple"/> Favorites:</h5>
                                             { favoriteItems }
                                             <button
                                                 className="btn btn-success add-subject"
@@ -423,7 +417,7 @@ class Profile extends React.Component {
                                     </div>
                                     <div className="row">
                                         <div className="col-xs-12">
-                                            <h5><i className="glyphicon glyphicon-time"></i> Schedule:</h5>
+                                            <h5><i className="glyphicon glyphicon-time"/> Schedule:</h5>
                                             { availabilityItems }
                                             <button
                                                 className="btn btn-success add-time"
@@ -458,7 +452,6 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         saveUser : (user) => dispatch(saveTutor(user)),
-        getSubjects: () => dispatch(getSubjects)
     };
 };
 
