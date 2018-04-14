@@ -75,6 +75,7 @@ class UpcomingEvents extends React.Component {
             <div className="col-xs-12">{renEvents}</div>
           </div>
         </div>
+        <div>asdfasdf</div>
       </div>
     );
   }
