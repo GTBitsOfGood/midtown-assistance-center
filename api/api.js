@@ -28,7 +28,7 @@ app.get('/onlineTutors', (req, res) => {
       ) {
         if (err) {
           reject(err);
-        } else if (response.length == 0) {
+        } else if (response.length === 0) {
           return_tutor.session = undefined;
           return_tutor.has_session = false;
           resolve(return_tutor);
