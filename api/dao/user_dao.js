@@ -6,6 +6,7 @@
 
 const Tutor = require('../../models/Tutor');
 const Student = require('../../models/Student');
+const Admin = require('../../models/Admin');
 
 import config from 'config';
 
@@ -49,6 +50,8 @@ module.exports = {
             }
         });
 
+        //CHECK IF ADMINS HAVE SAME USERNAME TOO IN THE FUTURE
+
         // We could not find a tutor or a student with this username.
         callback(null, false);
         return;
@@ -87,6 +90,8 @@ module.exports = {
             }
         });
 
+        //CHECK IF ADMINS HAVE SAME EMAIL TOO IN THE FUTURE
+
         // No student or tutor found with this email!
         callback(null, false);
         return;
@@ -96,7 +101,7 @@ module.exports = {
     createStudent: function(student, callback) {
         Student.create(student, function (err, student_instance) {
             if (err) {
-                console.error('Error creating a new student:', err);
+                console.error('Error creating a new student in database:', err);
                 callback(err);
             } else {
                 callback(null, student_instance);
@@ -107,10 +112,21 @@ module.exports = {
     createTutor: function(tutor, callback) {
         Tutor.create(tutor, function (err, tutor_instance) {
             if (err) {
-                console.error('Error creating a new tutor AND THIS IS WHY DUDE:', err);
+                console.error('Error creating a new tutor in database:', err);
                 callback(err);
             } else {
                 callback(null, tutor_instance);
+            }
+        });
+    },
+
+    createAdmin: function(admin, callback) {
+        Admin.create(admin, function (err, admin_instance) {
+            if (err) {
+                console.error('Error creating a new admin in database:', err);
+                callback(err);
+            } else {
+                callback(null, admin_instance);
             }
         });
     },
