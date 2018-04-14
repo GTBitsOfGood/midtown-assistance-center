@@ -25,37 +25,34 @@ module.exports = {
             if (err) {
                 console.error('Error checking if username is taken:', err);
                 callback(err);
-                return;
-            }
-            if (docs.length > 0) {
+            } else if (docs.length > 0) {
                 // Found a tutor with the same username so return true for found
                 callback(null, true);
-                return;
-
+            } else {
+                // Look for students with the same username
+                Student.find({_id: username}, function (err, docs) {
+                    if (err) {
+                        console.error('Error checking if username is taken:', err);
+                        callback(err);
+                    } else if (docs.length > 0) {
+                        // Found a student with the same username
+                        callback(null, true);
+                    } else {
+                        Admin.find({_id: username}, function(err, docs) {
+                            if (err) {
+                                console.error('Error checking if username is taken:', err);
+                                callback(err);
+                            } else if (docs.length > 0) {
+                                // Found an admin with the same username
+                                callback(null, true);
+                            } else {
+                                callback(null, false);
+                            }
+                        });
+                    }
+                });
             }
         });
-
-        // Look for students with the same username
-        Student.find({_id: username}, function (err, docs) {
-            if (err) {
-                console.error('Error checking if username is taken:', err);
-                callback(err);
-                return;
-
-            }
-            if (docs.length > 0) {
-                // Found a student with the same username
-                callback(null, true);
-                return;
-            }
-        });
-
-        //CHECK IF ADMINS HAVE SAME USERNAME TOO IN THE FUTURE
-
-        // We could not find a tutor or a student with this username.
-        callback(null, false);
-        return;
-
     },
 
     checkIfEmailIsTaken: function(email, callback) {
@@ -64,37 +61,37 @@ module.exports = {
             if (err) {
                 console.error('Error checking if email is taken:', err);
                 callback(err);
-                return;
-            }
-            if (docs.length > 0) {
+            } else if (docs.length > 0) {
                 // Found a tutor with the same email
                 callback(null, true);
-                return;
+            } else {
+                // Look for students with the same email
+                Student.find({email: email}, function (err, docs) {
+                    if (err) {
+                        console.error('Error checking if email is taken:', err);
+                        callback(err);
+
+                    } else if (docs.length > 0) {
+                        // Found a student with the same email
+                        callback(null, true);
+
+                    } else {
+                        Admin.find({email: email}, function(err, docs) {
+                            if (err) {
+                                console.error('Error checking if email is taken:', err);
+                                callback(err);
+
+                            } else if (docs.length > 0) {
+                                // Found a student with the same email
+                                callback(null, true);
+                            } else {
+                                callback(null, false);
+                            }
+                        });
+                    }
+                });
             }
         });
-
-
-        // Look for students with the same email
-        Student.find({email: email}, function (err, docs) {
-            if (err) {
-                console.error('Error checking if email is taken:', err);
-                callback(err);
-                return;
-
-            }
-            if (docs.length > 0) {
-                // Found a student with the same email
-                callback(null, true);
-                return;
-
-            }
-        });
-
-        //CHECK IF ADMINS HAVE SAME EMAIL TOO IN THE FUTURE
-
-        // No student or tutor found with this email!
-        callback(null, false);
-        return;
 
     },
 
@@ -132,99 +129,94 @@ module.exports = {
         });
     },
 
-    // getUser: function(username, callback) {
-    //
-    //     // Look for tutors with the same username
-    //     Tutor.find({_id: username}, function (err, docs) {
-    //         if (err) {
-    //             console.error('Error checking if Tutor username is taken', err);
-    //             callback(err);
-    //             return;
-    //
-    //         }
-    //         if (docs.length > 1) {
-    //             console.error('Multiple tutors with same username!', username);
-    //         }
-    //         if (docs.length === 1) {
-    //             // Found a tutor with the same username
-    //             callback(null, docs[0]);
-    //             return;
-    //         }
-    //         //Notice that if docs.length == 0, then we couldn't find a tutor and move on to check for student
-    //     });
-    //
-    //     // Look for students with the same username
-    //     Student.find({_id: username}, function (err, docs) {
-    //         if (err) {
-    //             console.error('Error checking if Student username is taken:', err);
-    //             callback(err);
-    //             return;
-    //         }
-    //         if (docs.length > 1) {
-    //             console.error('Multiple students with same username!', username);
-    //         }
-    //         if (docs.length === 1) {
-    //             // Found a student with the same username
-    //             callback(null, docs[0]);
-    //             return;
-    //         }
-    //     });
-    //
-    //     Admin.find({_id: username}, function (err, docs) {
-    //         if(err) {
-    //             console.error('Error checking if Admin username is taken');
-    //             callback(err);
-    //             return;
-    //         }
-    //         if(docs.length > 1) {
-    //             console.error('Multiple Admins with same username!')
-    //         }
-    //         if(docs.length === 1) {
-    //             // Found an admin with the same username
-    //             callback(null, docs[0]);
-    //             return;
-    //         }
-    //     });
-    //
-    //     // No tutors/students/admins with that username!
-    //     callback('No tutors/students/Admins found', null);
-    //
-    // },
-
-
     getUser: function(username, callback) {
+
         // Look for tutors with the same username
         Tutor.find({_id: username}, function (err, docs) {
             if (err) {
-                console.error('Error checking if username is taken:', err);
+                console.error('Error checking if Tutor username is taken', err);
                 callback(err);
 
-            } else if (docs.length === 1) {
+            } else if (docs.length > 0) {
                 // Found a tutor with the same username
-
+                if(docs.length > 1) {
+                    console.error('Multiple tutors with same username!', username);
+                }
                 callback(null, docs[0]);
-            } else if (docs.length > 1) {
-                console.error('Multiple tutors with username', username);
             } else {
+
                 // Look for students with the same username
                 Student.find({_id: username}, function (err, docs) {
                     if (err) {
-                        console.error('Error checking if username is taken:', err);
+                        console.error('Error checking if Student username is taken:', err);
                         callback(err);
+                        return;
+                    } else if (docs.length > 0) {
 
-                    } else if (docs.length === 1) {
+                        if (docs.length > 1) {
+                            console.error('Multiple students with same username!', username);
+                        }
                         // Found a student with the same username
                         callback(null, docs[0]);
-                    } else if (docs.length > 1) {
-                        console.error('Multiple students with username', username);
+                        return;
                     } else {
-                        // No tutors or students with that username!
-                        callback('No tutors or students found', null);
+
+                        Admin.find({_id: username}, function (err, docs) {
+                            if(err) {
+                                console.error('Error checking if Admin username is taken');
+                                callback(err);
+                            } else if(docs.length > 0) {
+
+                                if(docs.length > 1) {
+                                    console.error('Multiple Admins with same username!')
+                                }
+                                callback(null, docs[0]);
+                            } else {
+                                callback('No users found', null);
+                            }
+                        });
+
                     }
                 });
             }
         });
+
     },
+
+    //
+    // getUser: function(username, callback) {
+    //     // Look for tutors with the same username
+    //     Tutor.find({_id: username}, function (err, docs) {
+    //         if (err) {
+    //             console.error('Error checking if username is taken:', err);
+    //             callback(err);
+    //
+    //         } else if (docs.length === 1) {
+    //             // Found a tutor with the same username
+    //
+    //             callback(null, docs[0]);
+    //         } else if (docs.length > 1) {
+    //             console.error('Multiple tutors with username', username);
+    //         } else {
+    //             // Look for students with the same username
+    //             Student.find({_id: username}, function (err, docs) {
+    //                 if (err) {
+    //                     console.error('Error checking if username is taken:', err);
+    //                     callback(err);
+    //
+    //                 } else if (docs.length === 1) {
+    //                     // Found a student with the same username
+    //                     callback(null, docs[0]);
+    //                 } else if (docs.length > 1) {
+    //                     console.error('Multiple students with username', username);
+    //                 } else {
+    //                     // No tutors or students with that username!
+    //                     callback('No tutors or students found', null);
+    //                 }
+    //             });
+    //         }
+    //     });
+    // },
 
     getAllAvailableTutors: function(subject, availability, callback) {
         let todayDate = new Date();
