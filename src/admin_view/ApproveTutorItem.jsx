@@ -8,7 +8,7 @@ class ApproveTutorItem extends React.Component {
   }
   render() {
     return (
-      <div className="approve-tutor-item text-center container col-md-3">
+      <div className="approve-tutor-item text-center container col-md-4">
       {/** 
         <h3>{this.props.data.first_name + " " + this.props.data.last_name}</h3>
         <h4 className="lighter-text">{this.props.data.email}</h4>
@@ -17,11 +17,11 @@ class ApproveTutorItem extends React.Component {
         <button className="btn  btn-danger reject-button">REJECT</button>
       **/}
 
-        <h3>Jane Doe</h3>
-        <h4 className="lighter-text">jane.doe@gmail.com</h4>
-        <h4 className="lighter-text">Georgia Tech</h4>
+        <h2>Jane Doe</h2>
+        <h4 className="lighter-text gold_text">jane.doe@gmail.com</h4>
+        <h4 className="lighter-text gold_text">Georgia Tech</h4>
 
-        <div className={styles.admin_application_bio}>
+        <div className={styles.approve_tutor_bio}>
           <p>
             Tutor Bio goes here
           </p>

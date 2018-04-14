@@ -156,11 +156,23 @@
     height:80px;
 }
 
+.approve_tutor_bio {
+    background-color:#5f6462;
+    display: block;
+    margin:0 auto;
+    text-align: left;
+    margin: 3;
+    width:90%;
+    height:100px;
+    border-radius: 2px;
+    border-color: var(--black);
+}
+
 .view_more {
     margin-top: 45px;
     background-color: var(--gold);
     border-radius: 2px;
-    border-color: var(--gold);
+    border-color: var(--black);
     text-decoration-color: var(--black);
 }
 
