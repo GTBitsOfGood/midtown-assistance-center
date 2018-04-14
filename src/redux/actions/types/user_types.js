@@ -1,10 +1,14 @@
 export const fetchUserFromDb = 'FETCH_USER_FROM_DB';
-export const saveStudentToDb = 'SAVE_STUDENT_TO_DB';
 export const saveTutorToDb = 'SAVE_TUTOR_TO_DB';
 export const saveAdminToDb = 'SAVE_ADMIN_TO_DB';
 
 export const typeStudent = 'TYPE_STUDENT';
 export const typeTutor = 'TYPE_TUTOR';
+
+export const saveStudent = 'SAVE_STUDENT';
+export const saveStudentPending = 'SAVE_STUDENT_PENDING';
+export const saveStudentRejected = 'SAVE_STUDENT_REJECTED';
+export const saveStudentFulfilled = 'SAVE_STUDENT_FULFILLED';
 
 export const logoutUser = 'LOGOUT_USER';
 export const logoutUserPending = 'LOGOUT_USER_PENDING';

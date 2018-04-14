@@ -1,15 +1,17 @@
 const config = require('config');
 const fs = require('fs');
-const path = require("path");
+const path = require('path');
 
-fs.writeFileSync(path.resolve(__dirname, 'config/client.json'), JSON.stringify(config));
+fs.writeFileSync(
+  path.resolve(__dirname, 'config/client.json'),
+  JSON.stringify(config)
+);
 
 module.exports = {
   entry: {
     entry1: './src/home/HomePage.jsx',
     entry2: './src/dash/Dashboard.jsx',
     entry3: './src/admin_view/AdminDash.jsx'
-
   },
   output: {
     path: __dirname + '/public/js',
