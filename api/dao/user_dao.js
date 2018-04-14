@@ -10,38 +10,49 @@ const Student = require('../../models/Student');
 import config from 'config';
 
 module.exports = {
-
+    /**
+     * This functions checks if a username string is already in the database
+     * @param username: string for username
+     * @param callback: takes two parameters: error and boolean which represents if a tutor exists already
+     */
     checkIfUsernameIsTaken: function(username, callback) {
 
-    // Look for tutors with the same username
+        // Look for tutors with the same username
         Tutor.find({_id: username}, function (err, docs) {
             if (err) {
                 console.error('Error checking if username is taken:', err);
                 callback(err);
+                return;
 
-            } else if (docs.length > 0) {
-                // Found a tutor with the same username
+            }
+            if (docs.length > 0) {
+                // Found a tutor with the same username so return true for found
                 callback(null, true);
+                return;
 
-            } else {
-
-                // Look for students with the same username
-                Student.find({_id: username}, function (err, docs) {
-                    if (err) {
-                        console.error('Error checking if username is taken:', err);
-                        callback(err);
-
-                    } else if (docs.length > 0) {
-                        // Found a student with the same username
-                        callback(null, true);
-
-                    } else {
-                        // No student or tutor found with that username!
-                        callback(null, false);
-                    }
-                });
             }
         });
+
+        // Look for students with the same username
+        Student.find({_id: username}, function (err, docs) {
+            if (err) {
+                console.error('Error checking if username is taken:', err);
+                callback(err);
+                return;
+
+            } else if (docs.length > 0) {
+                // Found a student with the same username
+                callback(null, true);
+                return;
+
+            } else {
+                // No student or tutor found with that username!
+                callback(null, false);
+                return;
+            }
+        });
+
+
     },
 
     checkIfEmailIsTaken: function(email, callback) {

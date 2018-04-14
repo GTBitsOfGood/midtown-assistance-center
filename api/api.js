@@ -139,11 +139,14 @@ app.post('/registerStudent', (req, res) => {
     /**
      * 1. Query the Mongo database to see if the username already exists so we don't overwrite existing users
      * 2. req.body contains all of the fields from the form, including username.
-     * 3. CheckIfUserNameIsTaken has two parameters (Username, funct
+     * 3. CheckIfUserNameIsTaken has two parameters (Username, callback function)
      */
 
     data_access.users.checkIfUsernameIsTaken(req.body.username,
-        function(err, resultUsername){
+
+        //resultUsername is a boolean that represents if a username was found in the database
+
+        function(err, resultUsername){                                  //this function is the callback in dao_user.js
 
             //If we get an error trying to call a method in user_dao.js, throw it
             if (err) {
