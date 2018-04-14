@@ -32,6 +32,7 @@ class TutorUpcomingEvent extends React.Component {
         this.handleAccessHangoutLink = this.handleAccessHangoutLink.bind(this);
         this.submitReview = this.submitReview.bind(this);
         this.updateSession = this.updateSession.bind(this);
+        this.setNewState = this.setNewState.bind(this);
     }
 
     /**
@@ -50,14 +51,12 @@ class TutorUpcomingEvent extends React.Component {
             }
         };
         let self = this;
+        console.log("BOUT TO GET SESSION")
         axios.post('/api/getTutorSession', sessionRequestBody)
             .then(function(response){
                 if (response.data.success) {
-                    self.setState({
-                        hangoutsLink: response.data.link,
-                        eventId: response.data.id,
-                        session: response.data.session
-                    });
+                    self.setNewState(response.data.link, response.data.id, response.data.session);
+                    console.log(response.data.session);
                 } else {
                     console.log(response.data.error);
                 }
@@ -65,6 +64,21 @@ class TutorUpcomingEvent extends React.Component {
             .catch(function(err) {
                 console.log(err);
             });
+    }
+
+    /**
+     * Update the session in the current state
+     * @param link
+     * @param id
+     * @param session
+     */
+    setNewState(link, id, session) {
+        this.setState({
+            hangoutsLink: link,
+            eventId: id,
+            session: session
+        });
+        this.forceUpdate();
     }
 
     /**
@@ -185,7 +199,7 @@ class TutorUpcomingEvent extends React.Component {
                 <div className="tutorUpcomingEventContent">
                     {renLogo}
                 </div>
-                <SessionReviewModal onSubmit={this.submitReview} tutorId={this.props.tutorId} id={this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} session={this.state.session}/>
+                <SessionReviewModal updateSession={this.setNewState} onSubmit={this.submitReview} tutorId={this.props.tutorId} id={this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} session={this.state.session}/>
             </div>
         );
     }

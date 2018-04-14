@@ -39,6 +39,8 @@ class SessionModal extends React.Component {
         this.changeStarOut = this.changeStarOut.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleCommentChange = this.handleCommentChange.bind(this);
+        this.approveStudent = this.approveStudent.bind(this);
+        this.denyStudent = this.denyStudent.bind(this);
     }
 
     /**
@@ -140,6 +142,56 @@ class SessionModal extends React.Component {
         }
     }
 
+    approveStudent(join_request) {
+        join_request.status = 'approved';
+        let requestBody = {
+            _id: this.props.session._id,
+            join_request: join_request
+        };
+        let self = this;
+        axios.post('/api/updateJoinRequest', requestBody)
+            .then(function(response){
+                if (response.data.success) {
+                    console.log(response.data);
+                    self.props.updateSession(response.data.session.hangouts_link, response.data.session.eventId, response.data.session);
+                    //self.props.socket.emit('student-request', {'session':response.data.session.eventId, 'student': self.props.username, 'topic': self.state.topic, 'request': self.state.request});
+                } else {
+                    console.log(response.data.error);
+                }
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
+
+    }
+
+    denyStudent(join_request) {
+        var deny = prompt('Are you sure you want to reject this join request? If so, please enter a reason. If not, please click Cancel.');
+        if (deny != null) {
+            join_request.status = 'rejected';
+            join_request.tutor_comment = deny;
+            let requestBody = {
+                _id: this.props.session._id,
+                join_request: join_request
+            };
+            let self = this;
+            axios.post('/api/updateJoinRequest', requestBody)
+                .then(function(response){
+                    if (response.data.success) {
+                        console.log(response.data);
+                        self.props.updateSession(response.data.session.hangouts_link, response.data.session.eventId, response.data.session);
+                        //self.props.socket.emit('student-request', {'session':response.data.session.eventId, 'student': self.props.username, 'topic': self.state.topic, 'request': self.state.request});
+                    } else {
+                        console.log(response.data.error);
+                    }
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
+        }
+
+    }
+
     /**
      * Render the TutorModal
      * @returns {HTML}
@@ -153,19 +205,21 @@ class SessionModal extends React.Component {
         }
 
         for (let student in this.props.session.join_requests) {
-            renRequests.push(<div className="student-join-request col-sm-12">
-                <h5 className="col-sm-3">
-                    {this.props.session.join_requests[student].student_id}
-                </h5>
-                <h5 className="col-sm-3">
-                    {this.props.session.join_requests[student].topic}
-                </h5>
-                <h5 className="lighter-text col-sm-4">
-                    {this.props.session.join_requests[student].student_comment ? this.props.session.join_requests[student].student_comment : 'No Request Description'}
-                </h5>
-                <span className="col-sm-1 glyphicon glyphicon-ok approve-student"></span>
-                <span className="col-sm-1 glyphicon glyphicon-remove deny-student"></span>
-            </div>);
+            if (this.props.session.join_requests[student].status === "pending") {
+                renRequests.push(<div className="student-join-request col-sm-12">
+                    <h5 className="col-sm-3">
+                        {this.props.session.join_requests[student].student_id}
+                    </h5>
+                    <h5 className="col-sm-3">
+                        {this.props.session.join_requests[student].topic}
+                    </h5>
+                    <h5 className="lighter-text col-sm-4">
+                        {this.props.session.join_requests[student].student_comment ? this.props.session.join_requests[student].student_comment : 'No Request Description'}
+                    </h5>
+                    <span onClick={() => this.approveStudent(this.props.session.join_requests[student])} className="col-sm-1 glyphicon glyphicon-ok approve-student"></span>
+                    <span onClick={() => this.denyStudent(this.props.session.join_requests[student])} className="col-sm-1 glyphicon glyphicon-remove deny-student"></span>
+                </div>);
+            }
         }
 
         return (

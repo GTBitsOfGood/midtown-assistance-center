@@ -56,9 +56,9 @@ io.on('connection', socket => {
 
     socket.on('student-request', (data) => {
         console.log(data);
-        console.log('student joined session');
-        io.emit('session-update-' + data.session, {user:data.student});
-    })
+        console.log('student requested to join session');
+        io.emit('session-update-' + data.session, data);
+    });
 
     socket.on('error', function () {
         console.log('socket error');

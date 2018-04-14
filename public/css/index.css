@@ -525,6 +525,11 @@ body {
     color: var(--error_red);
 }
 
+.approve-student:hover, .deny-student:hover {
+    cursor: pointer;
+    opacity: 0.8;
+}
+
 .tutor-approval-msg {
     margin-top: 10%;
     font-weight: 300;

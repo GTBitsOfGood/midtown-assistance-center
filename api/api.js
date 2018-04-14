@@ -303,6 +303,25 @@ app.post('/addJoinRequest', (req, res) => {
     });
 });
 
+// when a tutor updates a join request (accept/deny), update it in the db
+app.post('/updateJoinRequest', (req, res) => {
+    data_access.tutor_sessions.updateJoinRequest({_id: req.body._id, update: {'join_requests': req.body.join_request}}, function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            res.json({
+                success: true,
+                error: null,
+                session: response
+            });
+        }
+    });
+});
+
 // when a student submits a review, update the session accordingly
 app.post('/studentSubmitReview', (req, res) => {
     data_access.tutor_sessions.addStudentReview({_id: req.body._id, update: {'students_attended': req.body.review}}, function(err, response) {

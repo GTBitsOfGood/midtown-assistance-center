@@ -32,8 +32,8 @@ class TutorSearchResult extends React.Component {
 
     onHangoutsButton() {
         this.setState({hangoutsLink: this.props.data.session.hangouts_link});
-        window.open(this.props.data.session.hangouts_link, '_blank');
-        this.props.socket.emit('student-join', {'session':this.props.data.session.eventId, 'student': this.props.username});
+        //window.open(this.props.data.session.hangouts_link, '_blank');
+        //this.props.socket.emit('student-join', {'session':this.props.data.session.eventId, 'student': this.props.username});
     }
 
     render() {
