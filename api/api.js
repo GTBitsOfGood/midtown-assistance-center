@@ -73,50 +73,61 @@ app.get('/onlineTutors', (req, res) => {
 // register a new tutor, ensure that the tutor username and email don't already exist
 app.post('/registerTutor', (req, res) => {
     // Add this information to the database
-    data_access.users.checkIfUsernameIsTaken(req.body.username, function(err, resultUsername){
+    data_access.users.checkIfUsernameIsTaken(req.body.username, function(err, duplicateUsernameFound){
+
+        //If we find an error querying the database using the api, throw the error
         if (err) {
             console.log(err);
+            return;
         }
-        if (!resultUsername) {
-            console.log(resultUsername);
-            data_access.users.checkIfEmailIsTaken(req.body.email, function(err, resultEmail){
+
+
+        if (!duplicateUsernameFound) {
+
+            //Query the database now for email to make sure there are no duplicates as we did for username above
+            data_access.users.checkIfEmailIsTaken(req.body.email, function(err, duplicateEmailFound){
+
+                //If we find an error querying the database using the api, throw the error
                 if (err) {
                     console.error(err);
-                } else {
-                    if (!resultEmail) {
-                        data_access.users.createTutor({
-                            first_name: req.body.firstName,
-                            last_name: req.body.lastName,
-                            email: req.body.email,
-                            gmail: req.body.gmail,
-                            _id: req.body.username,
-                            password: req.body.password,
-                            profile_picture: '/images/default_user_img.png',
-                            join_date: Date.now(),
-                            status: true,
-                            availability: req.body.availability,
-                            approved: false
-                        }, function(err, user_instance){
-                            if (err) {
-                                console.error(err);
-                                res.send({
-                                    success: false,
-                                    error_message: 'Unknown error'
-                                });
-                            } else {
-                                res.send({
-                                    success: true,
-                                    error_message: null
-                                });
-                            }
-                        });
-                    } else {
-                        res.send({
-                            success: false,
-                            error_message: 'Email already exists'
-                        });
-                    }
+                    return;
                 }
+
+                //If we could not find an existing user with the same user
+                if (!duplicateEmailFound) {
+                    data_access.users.createTutor({
+                        first_name: req.body.firstName,
+                        last_name: req.body.lastName,
+                        email: req.body.email,
+                        gmail: req.body.gmail,
+                        _id: req.body.username,
+                        password: req.body.password,
+                        profile_picture: '/images/default_user_img.png',
+                        join_date: Date.now(),
+                        status: true,
+                        availability: req.body.availability,
+                        approved: false
+                    }, function(err, user_instance){
+                        if (err) {
+                            console.error(err);
+                            res.send({
+                                success: false,
+                                error_message: 'Unknown error'
+                            });
+                        } else {
+                            res.send({
+                                success: true,
+                                error_message: null
+                            });
+                        }
+                    });
+                } else {
+                    res.send({
+                        success: false,
+                        error_message: 'Email already exists'
+                    });
+                }
+
             });
         } else {
             res.send({
