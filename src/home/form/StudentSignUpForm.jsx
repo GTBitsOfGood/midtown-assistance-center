@@ -127,6 +127,13 @@ class StudentSignUpForm extends React.Component {
         this.setState({grade_level: event.target.value});
     }
 
+    /**
+     * 1. This function will ask the backend to add the tutor or student (called "user_instance") to the database
+     * 2. We check on the backend if the user_instance is null
+     * 3.
+     * @param event:
+     */
+
     handleSubmit(event) {
         event.preventDefault();
         if (this.state.firstNameValidation === 'input-error' ||
@@ -138,7 +145,7 @@ class StudentSignUpForm extends React.Component {
             this.setState({inputErrorMessage:'error-message'});
             this.setState({errorMessage:'error-message-hide'});
         } else {
-            var self = this;
+            let self = this;
             axios.post('/api/registerStudent', this.state)
                 .then(function (response) {
                     console.log(response);

@@ -127,56 +127,75 @@ app.post('/registerTutor', (req, res) => {
     });
 });
 
-// register a new student, ensure that the student's username and email do not already exist
+/**
+ * 1. Purpose: Register a new student. This method is called from StudentSignUpForm.JSX
+ * 2. Axios from the frontend file sent the data to here in the parameter req
+ * 3. Ensures that the student's username and email do not already exist
+ * @param req: This contains the form data sent from the front end. There are a lot of things here. Check the
+ *             StudentSignUpForm.jsx to see all of the fields.
+ */
 app.post('/registerStudent', (req, res) => {
-    //Add this information to the database
-    console.log(req.body);
-    data_access.users.checkIfUsernameIsTaken(req.body.username, function(err, resultUsername){
-        if (err) {
-            console.log(err);
-        }
-        if (!resultUsername) {
-            console.log(resultUsername);
-            data_access.users.checkIfEmailIsTaken(req.body.email, function(err, resultEmail){
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log(resultEmail);
-                    if (!resultEmail) {
-                        data_access.users.createStudent({
-                            first_name: req.body.firstName,
-                            last_name: req.body.lastName,
-                            email: req.body.email,
-                            _id: req.body.username,
-                            password: req.body.password,
-                            join_date: Date.now(),
-                            classroom: req.body.access_code,
-                            grade_level: req.body.grade_level
-                        }, function(err, user_instance){
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                res.send({
-                                    success: true,
-                                    error_message: null,
-                                });
-                            }
-                        });
+
+    /**
+     * 1. Query the Mongo database to see if the username already exists so we don't overwrite existing users
+     * 2. req.body contains all of the fields from the form, including username.
+     * 3. CheckIfUserNameIsTaken has two parameters (Username, funct
+     */
+
+    data_access.users.checkIfUsernameIsTaken(req.body.username,
+        function(err, resultUsername){
+
+            //If we get an error trying to call a method in user_dao.js, throw it
+            if (err) {
+                console.log(err);
+            }
+
+            //
+            if (!resultUsername) {
+                console.log(resultUsername);
+
+                //Careful: We are defined this function, not extending checkIfEmailIsTaken!
+                //resultEmail is the callback function
+                data_access.users.checkIfEmailIsTaken(req.body.email, function(err, resultEmail) {
+                    if (err) {
+                        console.log(err);
                     } else {
-                        res.json({
-                            success: false,
-                            error_message: 'Email already exists'
-                        });
+                        console.log(resultEmail);
+                        if (!resultEmail) {
+                            data_access.users.createStudent({
+                                first_name: req.body.firstName,
+                                last_name: req.body.lastName,
+                                email: req.body.email,
+                                _id: req.body.username,
+                                password: req.body.password,
+                                join_date: Date.now(),
+                                classroom: req.body.access_code,
+                                grade_level: req.body.grade_level
+                            }, function(err, user_instance){
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    res.send({
+                                        success: true,
+                                        error_message: null,
+                                    });
+                                }
+                            });
+                        } else {
+                            res.json({
+                                success: false,
+                                error_message: 'Email already exists'
+                            });
+                        }
                     }
-                }
-            });
-        } else {
-            res.json({
-                success: false,
-                error_message: 'Username already exists'
-            });
-        }
-    });
+                });
+            } else {
+                res.json({
+                    success: false,
+                    error_message: 'Username already exists'
+                });
+            }
+        });
 });
 
 // update student in database

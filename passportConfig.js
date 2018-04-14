@@ -45,11 +45,13 @@ passport.use(
 
             data_access.users.getUser(username, function (err, user_instance) {
 
+                //If we have an error accessing user_dao, throw it.
                 if (err) {
                     console.log('ERROR: logging in');
                     return done(err);
                 }
 
+                //If we were passed a null user_instance for some reason, throw an error
                 if (user_instance === null) {
                     console.log('ERROR: user instance is null');
                     return done(null, false, { message: 'Incorrect username or password!' });
@@ -65,6 +67,8 @@ passport.use(
         }
     )
 );
+
+
 
 passport.serializeUser(
     function(user, done) {
