@@ -43,9 +43,10 @@ const adminRoutes = (
       <Route path="/dash" component={Navigation} />
       <Switch>
         <div className={adminStyles.body_wrapper}>
+          <Redirect exact from="/dash" to="/dash/dashboard" />
+          <Route exact path="/dash/dashboard" component={Dashboard} />
           <Route exact path="/dash/approve" component={Approve} />
           <Route exact path="/dash/add_admin" component={AddAdmin} />
-          <Route path="/dash/*" component={Dashboard} />
         </div>
       </Switch>
     </div>

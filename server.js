@@ -79,10 +79,6 @@ server.get('/dash*', allowIfLoggedIn, (req, res) => {
   res.render('dash');
 });
 
-server.get('/admin*', allowIfLoggedOut, (req, res) => {
-  res.render('dash');
-});
-
 function allowIfLoggedOut(req, res, next) {
   if (!req.user) {
     next();

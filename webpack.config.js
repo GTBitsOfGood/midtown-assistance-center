@@ -11,7 +11,6 @@ module.exports = {
   entry: {
     entry1: './src/home/HomePage.jsx',
     entry2: './src/dash/Dashboard.jsx'
-    // entry3: './src/admin_view/AdminDash.jsx'
   },
   output: {
     path: __dirname + '/public/js',
