@@ -120,6 +120,7 @@ module.exports = {
         });
     },
 
+    //Not being used right now, but could be if we choose to allow superadmins to create lowerlevel admins
     createAdmin: function(admin, callback) {
         Admin.create(admin, function (err, admin_instance) {
             if (err) {
@@ -132,37 +133,63 @@ module.exports = {
     },
 
     getUser: function(username, callback) {
+
         // Look for tutors with the same username
         Tutor.find({_id: username}, function (err, docs) {
             if (err) {
-                console.error('Error checking if username is taken:', err);
+                console.error('Error finding Tutor username in database', err);
                 callback(err);
+                return;
 
-            } else if (docs.length === 1) {
+            }
+            if (docs.length === 1) {
                 // Found a tutor with the same username
-
                 callback(null, docs[0]);
-            } else if (docs.length > 1) {
-                console.error('Multiple tutors with username', username);
-            } else {
-                // Look for students with the same username
-                Student.find({_id: username}, function (err, docs) {
-                    if (err) {
-                        console.error('Error checking if username is taken:', err);
-                        callback(err);
-
-                    } else if (docs.length === 1) {
-                    // Found a student with the same username
-                        callback(null, docs[0]);
-                    } else if (docs.length > 1) {
-                        console.error('Multiple students with username', username);
-                    } else {
-                        // No tutors or students with that username!
-                        callback('No tutors or students found', null);
-                    }
-                });
+                return;
+            }
+            if (docs.length > 1) {
+                console.error('Multiple tutors with same username!', username);
+                return;
             }
         });
+
+        // Look for students with the same username
+        Student.find({_id: username}, function (err, docs) {
+            if (err) {
+                console.error('Error finding Student username in database:', err);
+                callback(err);
+                return;
+            }
+            if (docs.length > 1) {
+                console.error('Multiple students with same username!', username);
+            }
+            if (docs.length === 1) {
+                // Found a student with the same username
+                callback(null, docs[0]);
+                return;
+            }
+        });
+
+        Admin.find({_id: username}, function (err, docs) {
+            if(err) {
+                console.error('Error finding Admin username in database');
+                callback(err);
+                return;
+            }
+            if(docs.length > 1) {
+                console.error('Multiple Admins with same username!')
+            }
+            if(docs.length === 1) {
+                // Found an admin with the same username
+                callback(null, docs[0]);
+                return;
+            }
+        });
+
+
+        // No tutors/students/admins with that username!
+        callback('No tutors/students/Admins found', null);
+
     },
 
     getAllAvailableTutors: function(subject, availability, callback) {

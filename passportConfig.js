@@ -150,6 +150,7 @@ app.post('/login', function(req, res, next){
                 console.log(session_instance);
             });
 
+            //We tell LoginForm.jsx that a user has been properly authenticated
             return res.send(user);
         });
 
