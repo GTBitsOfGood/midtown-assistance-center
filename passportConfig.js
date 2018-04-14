@@ -99,8 +99,7 @@ app.get('/logout', (req, res) => {
     let session_obj = {type: 'Logout', username: req.body.username, time: Date.now()};
     session_dao.createSession(session_obj, function (err, session_instance) {
         if(err) {
-            console.log("ERR");
-            console.log(err);
+            console.error(err);
         }
         console.log('Logout session successfully created');
         console.log(session_instance);

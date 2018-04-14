@@ -134,6 +134,7 @@ module.exports = {
 
     getUser: function(username, callback) {
 
+
         // Look for tutors with the same username
         Tutor.find({_id: username}, function (err, docs) {
             if (err) {
@@ -151,6 +152,7 @@ module.exports = {
                 console.error('Multiple tutors with same username!', username);
                 return;
             }
+            //Notice that if docs.length == 0, then we couldn't find a tutor and move on to check for student
         });
 
         // Look for students with the same username
@@ -185,7 +187,6 @@ module.exports = {
                 return;
             }
         });
-
 
         // No tutors/students/admins with that username!
         callback('No tutors/students/Admins found', null);

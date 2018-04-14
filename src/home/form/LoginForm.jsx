@@ -39,6 +39,7 @@ class Loginpage extends React.Component {
             password: this.state.password,
             logInTime: Date.now()
         };
+        //Look at passportConfig.js /login endpoint
         axios.post('/login', userDetails)
             .then(function (response) {
                 if (response.data !== '') {
