@@ -1,4 +1,4 @@
-import * as types from './types/student_view_types'
+import * as types from './types/student_view_types';
 
 export function changeTutorsAction(tutors) {
   return {
@@ -17,5 +17,5 @@ export function onSearchAction(search_type, search_subject, search_time) {
       searchSubject: search_subject,
       searchTime: search_time
     }
-  }
+  };
 }
