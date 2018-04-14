@@ -33,6 +33,7 @@ class TutorModal extends React.Component {
         this.handleSubmitRequest = this.handleSubmitRequest.bind(this);
         this.handleRequestChange = this.handleRequestChange.bind(this);
         this.handleTopicChange = this.handleTopicChange.bind(this);
+        this.handleJoinSession = this.handleJoinSession.bind(this);
     }
 
     initTutorModal() {
@@ -163,6 +164,7 @@ class TutorModal extends React.Component {
                 if (response.data.success) {
                     console.log(response.data);
                     self.props.socket.emit('student-request', {'session':response.data.session.eventId, 'student': self.props.username, 'topic': self.state.topic, 'request': self.state.request});
+                    self.setState({approval:'pending'});
                 } else {
                     console.log(response.data.error);
                 }
@@ -201,18 +203,16 @@ class TutorModal extends React.Component {
         if (this.state.rating === 0) {
             this.setState({error_message: 'show'});
         } else {
-            let now = new Date();
             let studentRatingObj = {
                 student_id: this.props.username,
                 student_rating: this.state.rating,
                 student_comment: this.state.comment,
-                time: now
             };
             let request = {
                 _id: this.props.session._id,
                 review: studentRatingObj
             };
-            axios.post('/api/studentSubmitReview', request)
+            axios.post('/api/studentUpdateReview', request)
                 .then(function(response){
                     if (response.data.success) {
                         console.log(response.data);
@@ -228,6 +228,36 @@ class TutorModal extends React.Component {
         }
     }
 
+    handleJoinSession() {
+        let now = new Date();
+        let studentRatingObj = {
+            student_id: this.props.username,
+            student_rating: this.state.rating,
+            student_comment: this.state.comment,
+            time: now
+        };
+        let request = {
+            _id: this.props.session._id,
+            review: studentRatingObj
+        };
+        let self = this;
+        axios.post('/api/studentSubmitReview', request)
+            .then(function(response){
+                if (response.data.success) {
+                    console.log(response.data);
+                    self.setState({error_message:'hide', approval: 'in_session'});
+                    self.props.socket.emit('student-join', {'session':self.props.session.eventId, 'student': self.props.username});
+                    self.props.updateTutors();
+                } else {
+                    console.log(response.data.error);
+                }
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
+    }
+
+
     render() {
         let subject_select = this.props.subjects.map((subject, num) => {
             return <option>{subject.subject}</option>;
@@ -235,6 +265,17 @@ class TutorModal extends React.Component {
         let favorite_select = this.props.favorites.map((fav, num) => {
             return <option>{fav.favorite}</option>;
         });
+        this.props.socket.on('student-session-update-' + (this.props.session ? this.props.session.eventId : 'unused'), (data) => {
+            console.log("Session update!");
+            console.log(data);
+            if (data.approved) {
+                this.setState({approval:'approved'});
+            } else {
+                this.setState({approval:'rejected', rejection_reason:data.reason});
+            }
+            //this.props.updateTutors();
+        });
+
         const in_session_html = <div>
             {this.props.session ? <h5><a href={this.props.session.hangouts_link} target="_blank">Click here to re-enter the hangouts</a></h5> : '' }
             <h4>How was your tutoring session with {this.props.firstName}?</h4>
@@ -250,7 +291,7 @@ class TutorModal extends React.Component {
         </div>;
         const approved_html = <div>
             <h4>Your Request to join the session with {this.props.firstName} was approved</h4>
-            {this.props.session ? <h5><a href={this.props.session.hangouts_link} target="_blank">Click here to enter the hangouts</a></h5> : '' }
+            {this.props.session ? <h5><a href={this.props.session.hangouts_link} target="_blank" onClick={this.handleJoinSession}>Click here to enter the hangouts</a></h5> : '' }
         </div>
         const pending_html = <div>
             <h5>What can {this.props.firstName} help you with?</h5>
@@ -265,7 +306,7 @@ class TutorModal extends React.Component {
         const rejected_html = <div>
             <h4>REJECTED U NOOB BC {this.state.rejection_reason}</h4>
         </div>;
-        const submitButton = <button type="submit" onClick={this.state.approval === 'approved' ? this.handleSubmit : this.handleSubmitRequest} className="btn btn-default mac_button_inverse">Submit</button>
+        const submitButton = <button type="submit" onClick={this.state.approval === 'in_session' ? this.handleSubmit : this.handleSubmitRequest} className="btn btn-default mac_button_inverse">Submit</button>
         return (
             <div>
                 <div className="modal" id={'Modal_' + this.props.firstName} tabIndex="1000" role="dialog" aria-labelledby={'#Modal_' + this.props.firstName + 'Label'} aria-hidden="true" autoFocus>
@@ -285,7 +326,7 @@ class TutorModal extends React.Component {
                             </div>
                             <div className="review-modal-footer modal-footer">
                                 <button type="button" onClick={this.state.approval === 'approved' ? this.handleCancel : this.handleCloseModal} className="btn btn-default mac_button">Cancel</button>
-
+                                { this.state.approval === 'in_session' || this.state.approval === 'new' ? submitButton : '' }
                             </div>
                         </div>
                     </div>

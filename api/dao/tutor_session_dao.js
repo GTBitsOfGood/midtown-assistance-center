@@ -107,6 +107,22 @@ module.exports = {
             }
             callback(null, updatedSession);
         });
+    },
+
+    /**
+     * Update a student's current review
+     * @param session the session object (must contain _id: the session id,
+     * update: the new info)
+     * @param callback
+     */
+    updateStudentReview: function (session, callback) {
+        TutorSession.findOneAndUpdate({'_id.tutor_id':session._id.tutor_id, '_id.expected_start_time':session._id.expected_start_time, 'students_attended.student_id': session.update.students_attended.student_id}, {$set: {'students_attended.$.student_rating':session.update.students_attended.student_rating, 'students_attended.$.student_comment':session.update.students_attended.student_comment}}, {new: true}, function (err, updatedSession) {
+            if (err) {
+                console.log('Error saving session');
+                callback(err);
+            }
+            callback(null, updatedSession);
+        });
         let new_stat = 0;
         module.exports.getTutorAvgRating(session._id.tutor_id, function(err, res) {
             if (err) {

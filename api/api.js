@@ -322,7 +322,7 @@ app.post('/updateJoinRequest', (req, res) => {
     });
 });
 
-// when a student submits a review, update the session accordingly
+// when a student joins a session for the first time, submit a review, update the session accordingly
 app.post('/studentSubmitReview', (req, res) => {
     data_access.tutor_sessions.addStudentReview({_id: req.body._id, update: {'students_attended': req.body.review}}, function(err, response) {
         if (err) {
@@ -332,6 +332,26 @@ app.post('/studentSubmitReview', (req, res) => {
                 error: err
             });
         } else {
+            res.json({
+                success: true,
+                error: null,
+                session: response
+            });
+        }
+    });
+});
+
+// when a student submits a review, update the review in the session accordingly
+app.post('/studentUpdateReview', (req, res) => {
+    data_access.tutor_sessions.updateStudentReview({_id: req.body._id, update: {'students_attended': req.body.review}}, function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            console.log(response);
             res.json({
                 success: true,
                 error: null,

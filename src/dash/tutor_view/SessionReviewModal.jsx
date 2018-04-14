@@ -154,7 +154,7 @@ class SessionModal extends React.Component {
                 if (response.data.success) {
                     console.log(response.data);
                     self.props.updateSession(response.data.session.hangouts_link, response.data.session.eventId, response.data.session);
-                    //self.props.socket.emit('student-request', {'session':response.data.session.eventId, 'student': self.props.username, 'topic': self.state.topic, 'request': self.state.request});
+                    self.props.socket.emit('tutor-approve', {'session':response.data.session.eventId});
                 } else {
                     console.log(response.data.error);
                 }
@@ -180,7 +180,7 @@ class SessionModal extends React.Component {
                     if (response.data.success) {
                         console.log(response.data);
                         self.props.updateSession(response.data.session.hangouts_link, response.data.session.eventId, response.data.session);
-                        //self.props.socket.emit('student-request', {'session':response.data.session.eventId, 'student': self.props.username, 'topic': self.state.topic, 'request': self.state.request});
+                        self.props.socket.emit('tutor-deny', {'session':response.data.session.eventId, reason: deny});
                     } else {
                         console.log(response.data.error);
                     }
@@ -201,7 +201,7 @@ class SessionModal extends React.Component {
         const renRequests = [];
 
         for (let student in this.props.session.students_attended) {
-            renStudents.push(<h5 className="lighter-text">{this.props.session.students_attended[student].student_id}</h5>);
+            renStudents.push(<h5>{this.props.session.students_attended[student].student_id}</h5>);
         }
 
         for (let student in this.props.session.join_requests) {
@@ -242,7 +242,7 @@ class SessionModal extends React.Component {
                                         {renStudents.length === 0 ? <h5 className="lighter-text">No Students in Session</h5> : renStudents}
                                     </div>
                                     <div className="modal-body-session-rating">
-                                        <h5>How was your tutoring session?</h5>
+                                        <h4><small>How was your tutoring session?</small></h4>
                                         <h5 className={'text-uppercase modal-error-' + this.state.error_message}>Rating must be nonzero</h5>
                                         <span onMouseOver = {() => this.changeStar(1)} onMouseOut = {this.changeStarOut} onClick={() => this.setRating(1)}><img className="star" src={this.state.first_star ? '/images/full-star.png' : '/images/empty-star.png'} width="25" height="25"/></span>
                                         <span onMouseOver = {() => this.changeStar(2)} onMouseOut = {this.changeStarOut}  onClick={() => this.setRating(2)}><img className="star" src={this.state.second_star ? '/images/full-star.png' : '/images/empty-star.png'} width="25" height="25"/></span>

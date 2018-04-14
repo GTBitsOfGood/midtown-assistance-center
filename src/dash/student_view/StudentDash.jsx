@@ -13,9 +13,9 @@ class StudentDashboard extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-          searchType: 'online',
-          subject: undefined,
-          time: undefined
+            searchType: 'online',
+            subject: undefined,
+            time: undefined
         };
 
         this.handleSearchClicked = this.handleSearchClicked.bind(this);
@@ -29,9 +29,9 @@ class StudentDashboard extends React.Component {
     handleSearchClicked(subject, time) {
         // NOTE don't use this.setState because we don't want to re-render here
         this.state = {
-          searchType: 'searchResults',
-          subject: subject,
-          time: time
+            searchType: 'searchResults',
+            subject: subject,
+            time: time
         };
         this.updateTutors();
     }
@@ -43,28 +43,28 @@ class StudentDashboard extends React.Component {
 
         let self = this;
         let data = {};
-        if (searchType !== "online") {
-          data = {subject: subject, availability: time};
+        if (searchType !== 'online') {
+            data = {subject: subject, availability: time};
         }
 
         axios.get('/api/onlineTutors', {params: data})
-          .then(function (response) {
-            if (response.data) {
-              self.props.changeTutors(response.data);
-              self.props.changeSearchDisplay(searchType, subject, time);
-            } else {
-              console.log(response);
-            }
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
+            .then(function (response) {
+                if (response.data) {
+                    self.props.changeTutors(response.data);
+                    self.props.changeSearchDisplay(searchType, subject, time);
+                } else {
+                    console.log(response);
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
     }
 
     render() {
 
         socket.on('update-tutors', () => {
-            console.log("Tutor update!");
+            console.log('Tutor update!');
             window.location.reload();
         });
         return (
@@ -72,27 +72,27 @@ class StudentDashboard extends React.Component {
                 <div className="col-md-12 atlanta">
                     <DashSearchBar handleSearchClicked={this.handleSearchClicked}/>
                 </div>
-                <TutorSearchList socket={socket}/>
+                <TutorSearchList socket={socket} updateTutors={this.updateTutors}/>
             </div>
         );
     }
 }
 
 function mapStateToProps (state) {
-  // Note we don't use the redux state in this component
-  return {};
+    // Note we don't use the redux state in this component
+    return {};
 }
 
 function mapDispatchToProps (dispatch) {
-  return {
-    changeTutors: (tutors) => dispatch(changeTutorsAction(tutors)),
-    changeSearchDisplay: (search_type, search_subject, search_time) => dispatch(onSearchAction(search_type, search_subject, search_time))
-  };
+    return {
+        changeTutors: (tutors) => dispatch(changeTutorsAction(tutors)),
+        changeSearchDisplay: (search_type, search_subject, search_time) => dispatch(onSearchAction(search_type, search_subject, search_time))
+    };
 }
 
 const StudentDash = connect(
-  mapStateToProps,
-  mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
 )(StudentDashboard);
 
 export default StudentDash;

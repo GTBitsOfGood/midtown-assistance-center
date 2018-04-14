@@ -199,7 +199,7 @@ class TutorUpcomingEvent extends React.Component {
                 <div className="tutorUpcomingEventContent">
                     {renLogo}
                 </div>
-                <SessionReviewModal updateSession={this.setNewState} onSubmit={this.submitReview} tutorId={this.props.tutorId} id={this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} session={this.state.session}/>
+                <SessionReviewModal socket={this.props.socket} updateSession={this.setNewState} onSubmit={this.submitReview} tutorId={this.props.tutorId} id={this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} session={this.state.session}/>
             </div>
         );
     }

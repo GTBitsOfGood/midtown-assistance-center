@@ -108,7 +108,7 @@ class TutorSearchResult extends React.Component {
                         </div>
                     </div>
                 </div>
-                <TutorReviewModal socket={this.props.socket} username={this.props.username} subjects={this.props.data.subjects} favorites={this.props.data.favorites} firstName={this.props.data.first_name} session={this.props.data.session}/>
+                <TutorReviewModal updateTutors={this.props.updateTutors} socket={this.props.socket} username={this.props.username} subjects={this.props.data.subjects} favorites={this.props.data.favorites} firstName={this.props.data.first_name} session={this.props.data.session}/>
             </div>
 
         );

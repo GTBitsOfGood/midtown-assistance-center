@@ -32,12 +32,15 @@ class Review extends React.Component {
         for (let y = this.props.rating; y < 5; y++) {
             empty_stars.push(<span key={y} className="glyphicon glyphicon-star-empty"/>);
         }
+        const review = <div className="tutor-review">
+            <button onClick={this.reportReview} className="btn btn-sm report-btn">Report</button>
+            <h5>{stars}{empty_stars}</h5>
+            <h5 className="review-date">{date.toLocaleString('en-US')}</h5>
+            <h5>{this.props.comment}</h5>
+        </div>
         return (
-            <div className="tutor-review">
-                <button onClick={this.reportReview} className="btn btn-sm report-btn">Report</button>
-                <h5>{stars}{empty_stars}</h5>
-                <h5 className="review-date">{date.toLocaleString('en-US')}</h5>
-                <h5>{this.props.comment}</h5>
+            <div>
+                {this.props.rating === 0 ? '' : review }
             </div>
         );
     }
