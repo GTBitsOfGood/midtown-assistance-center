@@ -37,6 +37,8 @@ export default function change_user(state = initial_state, action) {
         type = types.typeStudent;
       } else if (new_state.approved !== undefined) {
         type = types.typeTutor;
+      } else if (new_state.isSuperAdmin !== undefined) {
+        type = types.typeAdmin;
       }
       new_state = { ...new_state, type: type };
       break;

@@ -1,7 +1,7 @@
 import React from 'react';
 import { LineChart } from 'react-easy-chart';
 import { DropdownButton, MenuItem, Panel, Col } from 'react-bootstrap';
-import styles from '../../public/css/admin.css';
+import styles from '../../../public/css/admin.css';
 
 class LoginStatistics extends React.Component {
   constructor(props) {

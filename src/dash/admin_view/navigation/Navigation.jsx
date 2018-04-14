@@ -1,4 +1,4 @@
-import styles from '../../../public/css/admin.css';
+import styles from '../../../../public/css/admin.css';
 import React from 'react';
 import NavigationHeader from './NavigationHeader.jsx';
 import NavigationItem from './NavigationItem.jsx';

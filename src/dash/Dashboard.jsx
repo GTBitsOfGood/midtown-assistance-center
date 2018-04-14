@@ -17,6 +17,9 @@ import { GridLoader } from 'halogen';
 import styles from '../../public/css/index.css';
 import socketIOClient from 'socket.io-client';
 import { fetchUserAndInfo } from '../redux/actions/user_actions';
+import Approve from './admin_view/pages/Approve.jsx';
+import AddAdmin from './admin_view/pages/AddAdmin.jsx';
+import Dashboard from './admin_view/pages/Dashboard.jsx';
 
 // TODO: use global const
 const SOCKETIO_ENDPOINT =
@@ -36,6 +39,14 @@ const tutorRoutes = (
   <div>
     <Route exact path="/dash" component={TutorDash} />
     <Route exact path="/dash/about" component={AboutUs} />
+  </div>
+);
+
+const adminRoutes = (
+  <div>
+    <Route exact path="/dash" component={Dashboard} />
+    <Route exact path="/dash/approve" component={Approve} />
+    <Route exact path="/dash/add_admin" component={AddAdmin} />
   </div>
 );
 
@@ -92,6 +103,9 @@ class DashComp extends React.Component {
       console.log('Tutor logged in');
       routes = tutorRoutes;
       socket.emit('tutor-login');
+    } else if (this.props.user.type === types.typeAdmin) {
+      console.log('Admin logged in');
+      routes = adminRoutes;
     }
     return (
       <div className="animated fadeInDown">

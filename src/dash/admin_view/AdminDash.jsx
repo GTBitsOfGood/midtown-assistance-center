@@ -5,12 +5,12 @@ import Navigation from './navigation/Navigation.jsx';
 import Members from './Members.jsx';
 import AddAdmin from './pages/AddAdmin.jsx';
 import { Provider } from 'react-redux';
-import store from '../redux/store.js';
+import store from '../../redux/store.js';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import ReactDOM from 'react-dom';
-import styles from '../../public/css/admin.css';
+import styles from '../../../public/css/admin.css';
 
 class DefaultAdminDash extends React.Component {
   constructor(props) {

@@ -1,4 +1,4 @@
-import styles from '../../../public/css/admin.css';
+import styles from '../../../../public/css/admin.css';
 import React from 'react';
 import ApproveTutorItem from '../ApproveTutorItem.jsx';
 

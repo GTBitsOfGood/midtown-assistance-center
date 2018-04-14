@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import styles from '../../public/css/admin.css';
+import styles from '../../../public/css/admin.css';
 
 class ApproveTutorItem extends React.Component {
   constructor(props) {
