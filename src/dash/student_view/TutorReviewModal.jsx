@@ -15,10 +15,10 @@ class TutorModal extends React.Component {
             third_star:false,
             fourth_star:false,
             fifth_star:false,
-            rating: 0,
+            rating: init.rating,
             satisfaction: '',
             error_message:'hide',
-            comment: '',
+            comment: init.comment,
             request: init.request,
             topic: init.topic,
             rejection_reason: init.rejection_reason
@@ -41,6 +41,8 @@ class TutorModal extends React.Component {
         let join_request_comment = '';
         let topic = this.props.subjects ? this.props.subjects[0].subject : '';
         let rejection_reason = '';
+        let rating = 0;
+        let comment = '';
         if (this.props.session) {
             for (let request in this.props.session.join_requests) {
                 let join_request = this.props.session.join_requests[request];
@@ -61,10 +63,12 @@ class TutorModal extends React.Component {
                 let student_attended = this.props.session.students_attended[student];
                 if (student_attended.student_id === this.props.username) {
                     status = 'in_session';
+                    rating = student_attended.student_rating;
+                    comment = student_attended.student_comment;
                 }
             }
         }
-        return {status:status, request:join_request_comment, topic:topic, rejection_reason:rejection_reason};
+        return {status:status, request:join_request_comment, topic:topic, rejection_reason:rejection_reason, rating: rating, comment: comment};
     }
 
     changeStar(number) {
@@ -175,26 +179,26 @@ class TutorModal extends React.Component {
     }
 
     handleCancel() {
-        let now = new Date();
-        let studentRatingObj = {
-            student_id: this.props.username,
-            time: now
-        };
-        let request = {
-            _id: this.props.session._id,
-            review: studentRatingObj
-        };
-        axios.post('/api/studentSubmitReview', request)
-            .then(function(response){
-                if (response.data.success) {
-                    console.log(response.data);
-                } else {
-                    console.log(response.data.error);
-                }
-            })
-            .catch(function(err) {
-                console.log(err);
-            });
+        // let now = new Date();
+        // let studentRatingObj = {
+        //     student_id: this.props.username,
+        //     time: now
+        // };
+        // let request = {
+        //     _id: this.props.session._id,
+        //     review: studentRatingObj
+        // };
+        // axios.post('/api/studentSubmitReview', request)
+        //     .then(function(response){
+        //         if (response.data.success) {
+        //             console.log(response.data);
+        //         } else {
+        //             console.log(response.data.error);
+        //         }
+        //     })
+        //     .catch(function(err) {
+        //         console.log(err);
+        //     });
         this.setState({error_message:'hide'});
         $('.modal').modal('hide');
     }
@@ -313,7 +317,7 @@ class TutorModal extends React.Component {
                     <div className="modal-dialog" role="document">
                         <div className="modal-content review-modal">
                             <div className="modal-header text-center">
-                                <h4 className="modal-title rate-session-header text-uppercase" id="exampleModalLabel">{this.state.approval === 'approved' ? 'Rate your session' : 'Submit Request to Join Session'}</h4>
+                                <h4 className="modal-title rate-session-header text-uppercase" id="exampleModalLabel">{this.state.approval === 'in_session' ? 'Rate your session' : 'Submit Request to Join Session'}</h4>
                             </div>
                             <div className="modal-body text-center">
                                 <div id={'ModalBody_' + this.props.firstName}>

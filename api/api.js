@@ -375,8 +375,8 @@ app.post('/getTutorSession', (req, res) => {
         return res.json({
             success: true,
             session: response[0],
-            link: response[0].hangouts_link,
-            id: response[0].eventId,
+            link: response[0] ? response[0].hangouts_link : '',
+            id: response[0] ? response[0].eventId : '',
         });
 
     });

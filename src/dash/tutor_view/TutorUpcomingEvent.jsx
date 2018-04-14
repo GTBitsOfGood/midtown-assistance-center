@@ -26,13 +26,63 @@ class TutorUpcomingEvent extends React.Component {
             hangoutsLink: '',
             hangoutsLinkExpires: '',
             eventId: '',
-            session: {}
+            session: {},
+            display: true
         };
 
         this.handleAccessHangoutLink = this.handleAccessHangoutLink.bind(this);
         this.submitReview = this.submitReview.bind(this);
         this.updateSession = this.updateSession.bind(this);
         this.setNewState = this.setNewState.bind(this);
+        this.initUpcomingEvent = this.initUpcomingEvent.bind(this);
+    }
+
+    componentWillMount() {
+        this.initUpcomingEvent();
+    }
+
+    componentWillUpdate() {
+        //this.initUpcomingEvent();
+    }
+
+    /**
+     * Check if this session has already ended
+     */
+    initUpcomingEvent() {
+        let now = new Date();
+        let startTimeHour = parseInt(this.props.startTime.split(':')[0]);
+        let active = (startTimeHour - now.getHours() <= 1 && this.props.today);
+        let startTimeSplit = this.props.startTime.split(":");
+        now.setHours(parseInt(startTimeSplit[0]), parseInt(startTimeSplit[1]), 0, 0);
+        let sessionRequestBody = {
+            _id: {
+                expected_start_time: now,
+                tutor_id: this.props.tutorId,
+            }
+        };
+        if (active) {
+            let self = this;
+            axios.post('/api/getTutorSession', sessionRequestBody)
+                .then(function(response){
+                    if (response.data.success) {
+                        console.log(response.data.session);
+                        if (response.data.session && response.data.session.end_time) {
+                            console.log(startTimeSplit);
+                            self.setState({display: false});
+                        } else {
+                            console.log(startTimeSplit);
+                            self.setState({display:true});
+                        }
+                    } else {
+                        console.log(response.data.error);
+                    }
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
+        } else {
+            this.setState({display:true});
+        }
     }
 
     /**
@@ -51,7 +101,6 @@ class TutorUpcomingEvent extends React.Component {
             }
         };
         let self = this;
-        console.log("BOUT TO GET SESSION")
         axios.post('/api/getTutorSession', sessionRequestBody)
             .then(function(response){
                 if (response.data.success) {
@@ -78,7 +127,6 @@ class TutorUpcomingEvent extends React.Component {
             eventId: id,
             session: session
         });
-        this.forceUpdate();
     }
 
     /**
@@ -105,6 +153,7 @@ class TutorUpcomingEvent extends React.Component {
             .then(function(response){
                 if (response.data.success) {
                     console.log(response.data);
+                    window.location.reload();
                 } else {
                     console.log(response.data.error);
                 }
@@ -131,44 +180,41 @@ class TutorUpcomingEvent extends React.Component {
         start.setHours(parseInt(startTimeSplit[0]), parseInt(startTimeSplit[1]), 0, 0);
         end.setHours(parseInt(endTimeSplit[0]), parseInt(endTimeSplit[1]), 0, 0);
 
-        if (this.state.session.hangouts_link && time.localeCompare(this.props.endTime) < 0) {
-            window.open(this.state.session.hangouts_link, "_blank");
-        } else {
-            let sessionRequestBody = {
-                _id: {
-                    tutor_id: this.props.tutorId,
-                    expected_start_time: start,
-                },
-                start_time: now,
-                expected_end_time: end
-            };
-            let requestBody = {
-                sessionRequestBody: sessionRequestBody,
-                tutorId: this.props.tutorId,
-                calId: this.props.calId,
-                startTime: this.props.startTime,
-                endTime: this.props.endTime,
-                email: this.props.gmail
-            };
+        let sessionRequestBody = {
+            _id: {
+                tutor_id: this.props.tutorId,
+                expected_start_time: start,
+            },
+            start_time: now,
+            expected_end_time: end
+        };
+        let requestBody = {
+            sessionRequestBody: sessionRequestBody,
+            tutorId: this.props.tutorId,
+            calId: this.props.calId,
+            startTime: this.props.startTime,
+            endTime: this.props.endTime,
+            email: this.props.gmail
+        };
 
-            let self = this;
-            axios.post('/calendar/createEvent', requestBody)
-                .then(function(response){
-                    if (response.data.success) {
-                        self.setState({
-                            hangoutsLink: response.data.link,
-                            eventId: response.data.id,
-                            session: response.data.session
-                        });
-                        window.open(response.data.link, '_blank');
-                    } else {
-                        console.log(response.data.error);
-                    }
-                })
-                .catch(function(err) {
-                    console.log(err);
-                });
-        }
+        let self = this;
+        axios.post('/calendar/createEvent', requestBody)
+            .then(function(response){
+                if (response.data.success) {
+                    self.setState({
+                        hangoutsLink: response.data.link,
+                        eventId: response.data.id,
+                        session: response.data.session
+                    });
+                    window.open(response.data.link, '_blank');
+                } else {
+                    console.log(response.data.error);
+                }
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
+
     }
 
     /**
@@ -189,17 +235,21 @@ class TutorUpcomingEvent extends React.Component {
             console.log(data);
             this.updateSession();
         });
-        return (
-            <div className="tutorUpcomingEvent">
-                <div className="tutorUpcomingEventContent">
-                    <h4 className="upcoming-event-desc">{this.props.today ? 'Today' : this.props.dayName}<span className="upcoming-event-light lighter-text"> from </span>{startTime}<span className="upcoming-event-light lighter-text"> to </span>{endTime}
-                    </h4>
 
-                </div>
-                <div className="tutorUpcomingEventContent">
-                    {renLogo}
-                </div>
-                <SessionReviewModal socket={this.props.socket} updateSession={this.setNewState} onSubmit={this.submitReview} tutorId={this.props.tutorId} id={this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} session={this.state.session}/>
+        const upcomingEvent = <div className="tutorUpcomingEvent">
+            <div className="tutorUpcomingEventContent">
+                <h4 className="upcoming-event-desc">{this.props.today ? 'Today' : this.props.dayName}<span className="upcoming-event-light lighter-text"> from </span>{startTime}<span className="upcoming-event-light lighter-text"> to </span>{endTime}
+                </h4>
+
+            </div>
+            <div className="tutorUpcomingEventContent">
+                {renLogo}
+            </div>
+            <SessionReviewModal socket={this.props.socket} updateSession={this.setNewState} onSubmit={this.submitReview} tutorId={this.props.tutorId} id={this.props.dayName + "_" + this.props.startTime.split(':')[0] + "_" + this.props.endTime.split(':')[0]} session={this.state.session}/>
+        </div>
+        return (
+            <div>
+                {this.state.display ? upcomingEvent : ''}
             </div>
         );
     }
