@@ -8,9 +8,9 @@ class StudentProfile extends React.Component {
     this.state = {
       is_edit: false,
       button_text: 'Edit',
-      email: undefined,
-      bio: undefined,
-      isFirst: true
+      email: this.props.user.email,
+      bio: this.props.user.bio
+      // isFirst: true
     };
 
     this.handleSave = this.handleSave.bind(this);
@@ -21,7 +21,6 @@ class StudentProfile extends React.Component {
 
   handleSave() {
     // TODO field validation + better checking of what changed
-
     let new_user = Object.assign({}, this.props.user);
     new_user.email = this.state.email;
     new_user.bio = this.state.bio;
@@ -51,13 +50,6 @@ class StudentProfile extends React.Component {
   }
 
   render() {
-    if (this.state.isFirst) {
-      // FIXME don't call setState here, we don't need the component to re-render!!
-      this.state.email = this.props.user.email;
-      this.state.bio = this.props.user.bio;
-      this.state.isFirst = false;
-    }
-
     return (
       <div className="container">
         <br />
