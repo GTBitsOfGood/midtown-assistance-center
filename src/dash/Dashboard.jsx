@@ -16,113 +16,113 @@ import axios from 'axios';
 import { GridLoader } from 'halogen';
 import styles from '../../public/css/index.css';
 import socketIOClient from 'socket.io-client';
-import { fetchUserAndInfo } from "../redux/actions/user_actions";
+import { fetchUserAndInfo } from '../redux/actions/user_actions';
 
 // TODO: use global const
-const SOCKETIO_ENDPOINT = window.location.hostname + (window.location.port ? ':' + window.location.port : '');
+const SOCKETIO_ENDPOINT =
+  window.location.hostname +
+  (window.location.port ? ':' + window.location.port : '');
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 const studentRoutes = (
-    <div>
-        <Route exact path="/dash" component={StudentDash}/>
-        <Route exact path="/dash/about" component={AboutUs}/>
-        <Route exact path="/dash/profile" component={StudentProfile}/>
-    </div>
+  <div>
+    <Route exact path="/dash" component={StudentDash} />
+    <Route exact path="/dash/about" component={AboutUs} />
+    <Route exact path="/dash/profile" component={StudentProfile} />
+  </div>
 );
 
 const tutorRoutes = (
-    <div>
-        <Route exact path="/dash" component={TutorDash}/>
-        <Route exact path="/dash/about" component={AboutUs}/>
-    </div>
+  <div>
+    <Route exact path="/dash" component={TutorDash} />
+    <Route exact path="/dash/about" component={AboutUs} />
+  </div>
 );
 
 const loading = (
-    <div className="animated fadeInDown">
-        <BrowserRouter>
-            <div>
-                <Route path="/dash" component={DashMenuBar}/>
-                <div className={styles.loading}>
-                    <GridLoader color="#EEB211" size="150px"/>
-                </div>
-            </div>
-        </BrowserRouter>
-    </div>
+  <div className="animated fadeInDown">
+    <BrowserRouter>
+      <div>
+        <Route path="/dash" component={DashMenuBar} />
+        <div className={styles.loading}>
+          <GridLoader color="#EEB211" size="150px" />
+        </div>
+      </div>
+    </BrowserRouter>
+  </div>
 );
 
 class DashComp extends React.Component {
-    constructor(props) {
-        super(props);
-    }
+  constructor(props) {
+    super(props);
+  }
 
-    componentDidMount() {
-        this.props.fetchUserAndInfo();
-    }
+  componentDidMount() {
+    this.props.fetchUserAndInfo();
+  }
 
-    componentWillUnmount() {
-        socket.close();
-    }
+  componentWillUnmount() {
+    socket.close();
+  }
 
-    render() {
-        if (this.props.user.fetching || !this.props.user.fetched) {
-            return loading;
-        }
-        if (this.props.user.logging_out) {
-            console.log('LOGGING OUT');
-            axios.get('/logout', {params: {username: this.props.user._id}}).then(function (response) {
-                console.log(response.data);
-                if (response.data) {
-                    document.location.href = '/';
-                }
-            }).catch(function (error) {
-                console.log(error);
-            });
-            return loading;
-        }
-        let routes;
-        if (this.props.user.type === types.typeStudent) {
-            console.log('Student logged in');
-            routes = studentRoutes;
-        } else if (this.props.user.type === types.typeTutor) {
-            console.log('Tutor logged in');
-            routes = tutorRoutes;
-            socket.emit('tutor-login');
-        }
-        return (
-            <div className="animated fadeInDown">
-                <BrowserRouter>
-                    <div>
-                        <Route path="/dash" component={DashMenuBar}/>
-                        <Switch>
-                            {routes}
-                        </Switch>
-                    </div>
-                </BrowserRouter>
-            </div>
-        );
+  render() {
+    if (this.props.user.fetching || !this.props.user.fetched) {
+      return loading;
     }
+    if (this.props.user.logging_out) {
+      console.log('LOGGING OUT');
+      axios
+        .get('/logout', { params: { username: this.props.user._id } })
+        .then(function(response) {
+          console.log(response.data);
+          if (response.data) {
+            document.location.href = '/';
+          }
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+      return loading;
+    }
+    let routes;
+    if (this.props.user.type === types.typeStudent) {
+      console.log('Student logged in');
+      routes = studentRoutes;
+    } else if (this.props.user.type === types.typeTutor) {
+      console.log('Tutor logged in');
+      routes = tutorRoutes;
+      socket.emit('tutor-login');
+    }
+    return (
+      <div className="animated fadeInDown">
+        <BrowserRouter>
+          <div>
+            <Route path="/dash" component={DashMenuBar} />
+            <Switch>{routes}</Switch>
+          </div>
+        </BrowserRouter>
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        user: state.user
-    };
+const mapStateToProps = state => {
+  return {
+    user: state.user
+  };
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        fetchUserAndInfo: () => dispatch(fetchUserAndInfo())
-    };
+const mapDispatchToProps = dispatch => {
+  return {
+    fetchUserAndInfo: () => dispatch(fetchUserAndInfo())
+  };
 };
 
-const DashComponent = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(DashComp);
+const DashComponent = connect(mapStateToProps, mapDispatchToProps)(DashComp);
 
 ReactDOM.render(
-    <Provider store={store}>
-        <DashComponent/>
-    </Provider>,
-    document.getElementById('root')
+  <Provider store={store}>
+    <DashComponent />
+  </Provider>,
+  document.getElementById('root')
 );

@@ -1,1 +1,12 @@
-{"installed":{"client_id":"394452235359-goce0qbjbcrif4d5op2656dn5jg7nd4m.apps.googleusercontent.com","project_id":"useful-sunup-197121","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://accounts.google.com/o/oauth2/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs","client_secret":"m7H95YwhS7F8e9TgbV0ktvbT","redirect_uris":["urn:ietf:wg:oauth:2.0:oob","http://localhost"]}}
+{
+  "installed": {
+    "client_id":
+      "394452235359-goce0qbjbcrif4d5op2656dn5jg7nd4m.apps.googleusercontent.com",
+    "project_id": "useful-sunup-197121",
+    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+    "token_uri": "https://accounts.google.com/o/oauth2/token",
+    "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+    "client_secret": "m7H95YwhS7F8e9TgbV0ktvbT",
+    "redirect_uris": ["urn:ietf:wg:oauth:2.0:oob", "http://localhost"]
+  }
+}
