@@ -109,23 +109,37 @@ app.get('/logout', (req, res) => {
     res.send(true);
 });
 
+/**
+ * 1. This function will login in a user of type: Tutor, Student, and Admin
+ * 2. This method is called using axios in LoginForm.jsx
+ * @param req: This contains the information from the frontend (namely: username, password, logInTime).
+ * @param res: This contains the info being sent back to the frontend
+ * @param next: ???
+ */
 
 app.post('/login', function(req, res, next){
 
     passport.authenticate('local', function(err, user, info) {
+
+        // If you find an error authenticating, print it
         if (err) {
+            console.error(err);
             return next(err);
         }
 
+        // If authentication failed, user will be set to false. (http://www.passportjs.org/docs/authenticate/)
+        //This if statement tells frontend in LoginForm that authentication failed.
         if (!user) {
             return res.send(null);
         }
 
+
+        //At this point, we have that authentication is successful.
         req.logIn(user, function(err) {
+
             if (err) {
                 return next(err);
             }
-
 
             let session_obj = {type: 'Login', username: req.body.username, time: Date.now()};
             session_dao.createSession(session_obj, function (err, session_instance) {
@@ -138,7 +152,9 @@ app.post('/login', function(req, res, next){
 
             return res.send(user);
         });
-    })(req, res, next);
+
+
+    })(req, res, next); //Passport's API uses this anonymous function calling notation, don't change it.
 });
 
 export default app;
