@@ -7,29 +7,26 @@ class DashSearchBar extends React.Component {
       time: 'ASAP',
       subject: undefined
     };
-    this.handleTimeChange = this.handleTimeChange.bind(this);
-    this.handleSubjectChange = this.handleSubjectChange.bind(this);
+    this.handleGeneralChange = this.handleGeneralChange.bind(this);
   }
 
-  handleTimeChange(e) {
-    this.setState({ time: e.target.value });
-  }
-
-  handleSubjectChange(e) {
-    this.setState({ subject: e.target.value });
+  handleGeneralChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
   }
 
   render() {
     return (
       <div className="col-xs-12 col-sm-8 col-sm-offset-2 search-items">
         <input
-          onChange={this.handleSubjectChange}
+          onChange={this.handleGeneralChange}
           type="text"
+          name="subject"
           className="col-xs-12 col-sm-6 col-md-8 input-lg search-input"
           placeholder="What subject do you need help with?"
         />
         <select
-          onChange={this.handleTimeChange}
+          name="time"
+          onChange={this.handleGeneralChange}
           className="col-xs-12 col-sm-2 col-md-3 input input-lg search-select search-input"
         >
           <option value="ASAP">ASAP</option>
