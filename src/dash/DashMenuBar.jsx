@@ -6,6 +6,7 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { setTutorOnline, saveTutor } from '../redux/actions/user_actions';
 import styles from '../../public/css/index.css';
 import socketIOClient from 'socket.io-client';
+import * as types from '../redux/actions/types/user_types';
 
 const SOCKETIO_ENDPOINT =
   window.location.hostname +
@@ -21,7 +22,9 @@ export class MenuBar extends React.Component {
   logout() {
     console.warn('Logging out user');
     // this.props.setTutorOnline(this.props.user, {online: false, logging_out: true});
-    socket.emit('tutor-logout');
+    if (this.props.user.type === types.typeTutor) {
+      socket.emit('tutor-logout');
+    }
     let new_tutor = Object.assign({}, this.props.user);
     new_tutor.online = false;
     new_tutor.logging_out = true;
