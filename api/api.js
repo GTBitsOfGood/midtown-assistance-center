@@ -81,7 +81,7 @@ app.post('/registerTutor', (req, res) => {
             console.log(resultUsername);
             data_access.users.checkIfEmailIsTaken(req.body.email, function(err, resultEmail){
                 if (err) {
-                    console.log(err);
+                    console.error(err);
                 } else {
                     if (!resultEmail) {
                         data_access.users.createTutor({
@@ -98,7 +98,7 @@ app.post('/registerTutor', (req, res) => {
                             approved: false
                         }, function(err, user_instance){
                             if (err) {
-                                console.log(err);
+                                console.error(err);
                                 res.send({
                                     success: false,
                                     error_message: 'Unknown error'
@@ -161,6 +161,7 @@ app.post('/registerStudent', (req, res) => {
                 data_access.users.checkIfEmailIsTaken(req.body.email, function(err, resultEmail) {
                     if (err) {
                         console.log(err);
+                        return;
                     } else {
                         console.log(resultEmail);
                         if (!resultEmail) {
@@ -191,10 +192,9 @@ app.post('/registerStudent', (req, res) => {
                         }
                     }
                 });
-            }
-            // We found a username that matches this one, so we don't create a new user and overwrite the old one.
-            // We alert that the username already exists to the front end!
-            else {
+            } else {
+                // We found a username that matches this one, so we don't create a new user and overwrite the old one.
+                // We alert that the username already exists to the front end!
                 res.json({
                     success: false,
                     error_message: 'Username already exists'
