@@ -21,7 +21,22 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+/**
+ * Configure Passport to use the Local strategy. Passport-local is
+ * "A module lets you authenticate using a username and password in your Node.js applications."
+ * https://github.com/jaredhanson/passport-local
+ * @param Strategy
+ */
+
 passport.use(new LocalStrategy(
+
+    /**
+     *
+     * @param username: Username
+     * @param password: Non-hashed Password
+     * @param done: A callback that has parameters (error, user object (or false if failure))
+     */
+
     function(username, password, done) {
     // Fill in the access to MongoDB and the users within that
 
@@ -44,6 +59,8 @@ passport.use(new LocalStrategy(
             return done(null, false, { message: 'Incorrect username or password!' });
         });
     }
+
+
 ));
 
 passport.serializeUser(function(user, done) {
