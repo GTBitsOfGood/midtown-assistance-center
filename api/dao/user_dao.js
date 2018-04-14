@@ -1,3 +1,9 @@
+/**
+ * This file contains methods for adding/removing/modifying items in the database for users.
+ * Currently There are two types of users: Tutors and Students
+ * We need to add some for Admins!!
+ */
+
 const Tutor = require('../../models/Tutor');
 const Student = require('../../models/Student');
 

@@ -28,44 +28,49 @@ app.use(passport.session());
  * @param Strategy
  */
 
-passport.use(new LocalStrategy(
+passport.use(
+    new LocalStrategy(
 
-    /**
-     *
-     * @param username: Username
-     * @param password: Non-hashed Password
-     * @param done: A callback that has parameters (error, user object (or false if failure))
-     */
+        /**
+         * 1. We check to see if this user exists in the database.
+         * 2. We must do this to handle login in.
+         * 3. We must query the mongo-database using the user_dao.js file (we defined the interface methods here)
+         * 4. If the user doesn't exist, then we return an error or report that password was false
+         * @param username: Username
+         * @param password: Non-hashed Password
+         * @param done: A callback that has parameters (error, user object (or false if failure))
+         */
 
-    function(username, password, done) {
-    // Fill in the access to MongoDB and the users within that
+        function(username, password, done) {
 
-        data_access.users.getUser(username, function (err, user_instance) {
-            if (err) {
-                console.log('ERROR: logging in');
-                return done(err);
-            }
+            data_access.users.getUser(username, function (err, user_instance) {
 
-            if (user_instance === null) {
-                console.log('ERROR: user instance is null');
+                if (err) {
+                    console.log('ERROR: logging in');
+                    return done(err);
+                }
+
+                if (user_instance === null) {
+                    console.log('ERROR: user instance is null');
+                    return done(null, false, { message: 'Incorrect username or password!' });
+                }
+
+                // FIXME hashing passwords
+                if (user_instance.password === password) {
+                    return done(null, user_instance);
+                }
+
                 return done(null, false, { message: 'Incorrect username or password!' });
-            }
+            });
+        }
+    )
+);
 
-            // FIXME hashing passwords
-            if (user_instance.password === password) {
-                return done(null, user_instance);
-            }
-
-            return done(null, false, { message: 'Incorrect username or password!' });
-        });
+passport.serializeUser(
+    function(user, done) {
+        return done(null, user.username);
     }
-
-
-));
-
-passport.serializeUser(function(user, done) {
-    done(null, user.username);
-});
+);
 
 passport.deserializeUser(function(id, done) {
 
