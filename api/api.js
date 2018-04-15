@@ -428,5 +428,33 @@ app.patch('/admin', (req, res) => {
     });
 });
 
+// check if a tutor has an active session
+app.post('/checkActiveSession', (req, res) => {
+    console.log(req.body.username);
+    data_access.tutor_sessions.getActiveSession(req.body.username, function(err, response) {
+        if (err) {
+            res.json({
+                success: false,
+                error: err
+            });
+        } else if (response.length === 0) {
+            console.log(response);
+            res.json({
+                success: true,
+                error: null,
+                has_open_session: false
+            });
+        } else {
+            console.log(response);
+            res.json({
+                success: true,
+                error: null,
+                has_open_session: true,
+                session: response[0]
+            });
+        }
+    });
+});
+
 
 export default app;

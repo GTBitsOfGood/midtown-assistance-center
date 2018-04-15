@@ -107,6 +107,27 @@ module.exports = {
             }
             callback(null, updatedSession);
         });
+        let new_stat = 0;
+        module.exports.getTutorAvgRating(session._id.tutor_id, function(err, res) {
+            if (err) {
+                console.error(err);
+            }
+            new_stat = res;
+        });
+        Tutor.findOne({'_id': session._id.tutor_id}, function (err, tutor) {
+            if (err) {
+                console.error(err);
+            }
+            tutor.rating = new_stat.avgRating;
+            tutor.num_ratings = new_stat.totalRatings;
+            tutor.num_sessions = new_stat.totalSessions;
+            tutor.save(function(err) {
+                if (err) {
+                    console.error(err);
+                }
+            });
+            console.log(tutor);
+        });
     },
 
     /**
