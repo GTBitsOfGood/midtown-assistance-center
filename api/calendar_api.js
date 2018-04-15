@@ -1,10 +1,23 @@
+/**
+ * @file
+ * calendar_api.js
+ *
+ * @fileoverview
+ * Routes to handle events using the google calendar API
+ *
+ * @type {*|createApplication}
+ */
 var express = require('express');
 var app = express();
 var google = require('./google_hangouts.js');
 var moment = require('moment');
 import data_access from './data_access';
 
-
+/**
+ * Add a calendar ACL Role. This route is used
+ * to make the tutor an co-owner of their calendar
+ * when they sign up.
+ */
 app.post('/addCalendarACL', function(req, res) {
     let tutorId = req.body.id;
     let email = req.body.email;
@@ -47,6 +60,10 @@ app.post('/addCalendarACL', function(req, res) {
     });
 });
 
+/**
+ * Create a new google calendar. This is used to create a new
+ * calendar for the tutor during sign up.
+ */
 app.post('/createNewCalendar', function(req, res){
     let tutorId = req.body.id;
     let email = req.body.email;
@@ -115,6 +132,10 @@ app.post('/createNewCalendar', function(req, res){
     });
 });
 
+/**
+ * Create a new calendar event. This is used when the tutor
+ * starts a tutoring session.
+ */
 app.post('/createEvent', function(req, res){
     let tutorId = req.body.tutorId;
     let calId = req.body.calId;
@@ -132,12 +153,12 @@ app.post('/createEvent', function(req, res){
     currDateEnd.hour(endTime.split(':')[0]);
     currDateEnd.minute(endTime.split(':')[1]);
 
-	
-
-
     let startDateString = currDateStart.format('YYYY-MM-DDTHH:mm:ss');
     let endDateString = currDateEnd.format('YYYY-MM-DDTHH:mm:ss');
 
+    // First check if a session already exists for that time and if so, return
+    // the session instead of creating a new one. If not, the add_new_session
+    // function will create a new calendar event and tutor session object.
     var check_event_exists = new Promise(function(resolve, reject) {
         data_access.tutor_sessions.getSessionByTutor(_id, function(err, response) {
             if (err) {
@@ -293,6 +314,11 @@ app.post('/createEvent', function(req, res){
 
 });
 
+/**
+ * Get the google hangouts link for an event. This function
+ * may not be necessary anymore since the hangouts link
+ * is part of the tutor session object.
+ */
 app.post('/studentGetHangoutLink', function(req, res){
     let eventId = req.body.eventId;
     let email = req.body.email;
@@ -352,6 +378,10 @@ app.post('/studentGetHangoutLink', function(req, res){
 
 });
 
+/**
+ * End the calendar event. This is used to end the event
+ * once the tutor ends the session.
+ */
 app.post('/endCalendarEvent', function(req, res){
     let tutorId = req.body.tutorId;
     data_access.users.getUser(tutorId, function(err, tutor) {

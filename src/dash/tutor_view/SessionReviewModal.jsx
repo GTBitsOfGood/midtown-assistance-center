@@ -142,6 +142,12 @@ class SessionModal extends React.Component {
         }
     }
 
+    /**
+     * Approve the student by updating the join
+     * request in the database and sending a signal through
+     * the socket to approve the student
+     * @param join_request
+     */
     approveStudent(join_request) {
         join_request.status = 'approved';
         let requestBody = {
@@ -165,6 +171,12 @@ class SessionModal extends React.Component {
 
     }
 
+    /**
+     * Deny the student by updating the join
+     * request in the database and sending a signal through
+     * the socket to deny the student
+     * @param join_request
+     */
     denyStudent(join_request) {
         var deny = prompt('Are you sure you want to reject this join request? If so, please enter a reason. If not, please click Cancel.');
         if (deny != null) {
