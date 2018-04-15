@@ -1,8 +1,7 @@
 {
   "name": "midtown-assistance-center",
   "version": "1.0.0",
-  "description":
-    "The midtown assistance non profit tutor to student connection project.",
+  "description": "The midtown assistance non profit tutor to student connection project.",
   "main": "index.js",
   "scripts": {
     "precommit": "lint-staged",
@@ -19,12 +18,15 @@
   "bugs": {
     "url": "https://github.com/GTBitsOfGood/midtown-assistance-center/issues"
   },
-  "homepage":
-    "https://github.com/GTBitsOfGood/midtown-assistance-center#readme",
+  "homepage": "https://github.com/GTBitsOfGood/midtown-assistance-center#readme",
   "lint-staged": {
-    "**/*.{js,jsx,json,css}": ["prettier --single-quote --write", "git add"]
+    "**/*.{js,jsx,json,css}": [
+      "prettier --single-quote --write",
+      "git add"
+    ]
   },
   "dependencies": {
+    "@sendgrid/mail": "^6.2.1",
     "animate.css": "^3.5.2",
     "axios": "^0.16.2",
     "babel-cli": "^6.26.0",
