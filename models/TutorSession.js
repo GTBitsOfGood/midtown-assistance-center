@@ -26,31 +26,35 @@ let studentReview = new Schema({
 });
 
 let joinRequest = new Schema({
-    student_id: {type: String, required: true},
-    topic: {type: String, required: true},
-    student_comment: {type: String, required: false},
-    create_time: {type: Date, default: Date.now()},
-    status: {type: String, required: true, enum: ['pending', 'approved', 'rejected'], default: 'pending'},
-    tutor_comment: {type: String, required: false}
+  student_id: { type: String, required: true },
+  topic: { type: String, required: true },
+  student_comment: { type: String, required: false },
+  create_time: { type: Date, default: Date.now() },
+  status: {
+    type: String,
+    required: true,
+    enum: ['pending', 'approved', 'rejected'],
+    default: 'pending'
+  },
+  tutor_comment: { type: String, required: false }
 });
 
 let schema = new Schema({
-    _id: {type:
-            {
-                tutor_id: {type: Schema.Types.ObjectId, ref:'Tutor', required: true},
-                expected_start_time: {type: Date, required: true}
-            }
-    },
-    students_attended: {type: [studentReview], default: []},
-    join_requests: {type:[joinRequest], default: []},
-    eventId: {type: String, required: true},
-    hangouts_link: {type: String, required: false},
-    tutor_rating: {type: Number, required: false},
-    tutor_comment: {type: String, required: false},
-    end_time: {type: Date, required: false},
-    start_time: {type: Date, required: true},
-    expected_end_time: {type: Date, required:true},
-
+  _id: {
+    type: {
+      tutor_id: { type: Schema.Types.ObjectId, ref: 'Tutor', required: true },
+      expected_start_time: { type: Date, required: true }
+    }
+  },
+  students_attended: { type: [studentReview], default: [] },
+  join_requests: { type: [joinRequest], default: [] },
+  eventId: { type: String, required: true },
+  hangouts_link: { type: String, required: false },
+  tutor_rating: { type: Number, required: false },
+  tutor_comment: { type: String, required: false },
+  end_time: { type: Date, required: false },
+  start_time: { type: Date, required: true },
+  expected_end_time: { type: Date, required: true }
 });
 
 // get the average rating for this session

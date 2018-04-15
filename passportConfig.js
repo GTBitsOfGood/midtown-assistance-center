@@ -8,7 +8,6 @@ const data_access = require('./api/data_access');
 import config from 'config';
 import session_dao from './api/dao/session_dao';
 
-
 app.use(require('cookie-parser')());
 
 app.use(

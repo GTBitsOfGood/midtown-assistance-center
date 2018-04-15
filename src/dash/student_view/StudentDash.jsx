@@ -15,14 +15,13 @@ const SOCKETIO_ENDPOINT =
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 class StudentDashboard extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            searchType: 'online',
-            subject: undefined,
-            time: undefined
-        };
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      searchType: 'online',
+      subject: undefined,
+      time: undefined
+    };
 
     this.handleSearchClicked = this.handleSearchClicked.bind(this);
     this.updateTutors = this.updateTutors.bind(this);
@@ -32,41 +31,40 @@ class StudentDashboard extends React.Component {
     this.updateTutors();
   }
 
-    handleSearchClicked(subject, time) {
-        // NOTE don't use this.setState because we don't want to re-render here
-        this.state = {
-            searchType: 'searchResults',
-            subject: subject,
-            time: time
-        };
-        this.updateTutors();
-    }
-
+  handleSearchClicked(subject, time) {
+    // NOTE don't use this.setState because we don't want to re-render here
+    this.state = {
+      searchType: 'searchResults',
+      subject: subject,
+      time: time
+    };
+    this.updateTutors();
+  }
 
   updateTutors() {
     let searchType = this.state.searchType;
     let subject = this.state.subject;
     let time = this.state.time;
-        let self = this;
-        let data = {};
-        if (searchType !== 'online') {
-            data = {subject: subject, availability: time};
-        }
-
-        axios.get('/api/onlineTutors', {params: data})
-            .then(function (response) {
-                if (response.data) {
-                    self.props.changeTutors(response.data);
-                    self.props.changeSearchDisplay(searchType, subject, time);
-                } else {
-                    console.log(response);
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
+    let self = this;
+    let data = {};
+    if (searchType !== 'online') {
+      data = { subject: subject, availability: time };
     }
 
+    axios
+      .get('/api/onlineTutors', { params: data })
+      .then(function(response) {
+        if (response.data) {
+          self.props.changeTutors(response.data);
+          self.props.changeSearchDisplay(searchType, subject, time);
+        } else {
+          console.log(response);
+        }
+      })
+      .catch(function(error) {
+        console.log(error);
+      });
+  }
 
   render() {
     socket.on('update-tutors', () => {

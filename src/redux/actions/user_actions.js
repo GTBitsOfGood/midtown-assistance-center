@@ -10,19 +10,18 @@ export function fetchUser() {
 }
 
 export function fetchUserAndInfo() {
-    return (dispatch, getState) => {
-        return dispatch(fetchUser()).then(() => {
-            const user = getState().user;
-            if (user.type === types.typeTutor) {
-                return dispatch(setTutorOnline(user, {online: true}))
-                    .then(dispatch(getStat(user)))
-                    .then(dispatch(getSessions(user)))
-                    .then(dispatch(getSubjects()));
-            } else if (user.type === types.typeStudent) {
-
-            }
-        });
-    }
+  return (dispatch, getState) => {
+    return dispatch(fetchUser()).then(() => {
+      const user = getState().user;
+      if (user.type === types.typeTutor) {
+        return dispatch(setTutorOnline(user, { online: true }))
+          .then(dispatch(getStat(user)))
+          .then(dispatch(getSessions(user)))
+          .then(dispatch(getSubjects()));
+      } else if (user.type === types.typeStudent) {
+      }
+    });
+  };
 }
 
 export function setTutorOnline(user, status) {
@@ -40,10 +39,10 @@ export function setTutorOnline(user, status) {
 }
 
 export function logoutUser(user) {
-    return {
-        type: types.logoutUser,
-        payload: axios.get('/logout', {params: {username: user._id}})
-    };
+  return {
+    type: types.logoutUser,
+    payload: axios.get('/logout', { params: { username: user._id } })
+  };
 }
 
 export function saveStudent(student) {

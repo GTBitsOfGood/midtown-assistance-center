@@ -1,20 +1,20 @@
 @charset "utf-8";
 
 :root {
-    /*--gold: #d4af37;*/
-    --gold: #EEB211;
-    --gray: #aeb7b3;
-    --ltgray: #f1f6f7;
-    --dkgray: #5f6462;
-    --purple: #160c28;
-    --black: #000411;
-    --blackhover: #222633;
-    --lighterblack: #383B47;
-    --tutorBorderColor: var(--gray);
-    --primaryLight: #EEEEEE;
-    --primary: #AAA;
-    --error_red: #D8000C;
-    --success_green: #4F8A10;
+  /*--gold: #d4af37;*/
+  --gold: #eeb211;
+  --gray: #aeb7b3;
+  --ltgray: #f1f6f7;
+  --dkgray: #5f6462;
+  --purple: #160c28;
+  --black: #000411;
+  --blackhover: #222633;
+  --lighterblack: #383b47;
+  --tutorBorderColor: var(--gray);
+  --primaryLight: #eeeeee;
+  --primary: #aaa;
+  --error_red: #d8000c;
+  --success_green: #4f8a10;
 }
 
 body {
@@ -126,14 +126,14 @@ body {
 }
 
 .star {
-    margin-bottom: 5px;
-    opacity: 0.8;
-    width: 25px;
-    height: 25px;
+  margin-bottom: 5px;
+  opacity: 0.8;
+  width: 25px;
+  height: 25px;
 }
 
 .tutor-star {
-    margin-bottom: 5px;
+  margin-bottom: 5px;
 }
 
 .tutor-name,
@@ -250,7 +250,7 @@ body {
 }
 
 .rating-span {
-    margin-top: 2%;
+  margin-top: 2%;
 }
 
 .rate-session-header {
@@ -515,35 +515,38 @@ body {
 }
 
 .tutor-modal-body {
-    height: 50vh;
-    min-height: 300px;
-    overflow-y: scroll;
-    text-align: left;
-    padding: 20px 40px 20px 40px;
+  height: 50vh;
+  min-height: 300px;
+  overflow-y: scroll;
+  text-align: left;
+  padding: 20px 40px 20px 40px;
 }
 
-.modal-body-session-info, .modal-body-session-rating {
-    margin-bottom: 20px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid var(--primaryLight);
-    overflow: auto;
+.modal-body-session-info,
+.modal-body-session-rating {
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--primaryLight);
+  overflow: auto;
 }
 
-.approve-student, .deny-student {
-    margin-top: 10px;
+.approve-student,
+.deny-student {
+  margin-top: 10px;
 }
 
 .approve-student {
-    color: var(--success_green);
+  color: var(--success_green);
 }
 
 .deny-student {
-    color: var(--error_red);
+  color: var(--error_red);
 }
 
-.approve-student:hover, .deny-student:hover {
-    cursor: pointer;
-    opacity: 0.8;
+.approve-student:hover,
+.deny-student:hover {
+  cursor: pointer;
+  opacity: 0.8;
 }
 
 .tutor-approval-msg {

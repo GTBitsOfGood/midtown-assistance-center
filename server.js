@@ -38,52 +38,54 @@ server.use(function(req, res, next) {
 });
 
 io.on('connection', socket => {
-    console.log('User connected');
+  console.log('User connected');
 
-    socket.on('disconnect', () => {
-        console.log('user disconnected');
-        socket.disconnect();
+  socket.on('disconnect', () => {
+    console.log('user disconnected');
+    socket.disconnect();
+  });
+
+  socket.on('tutor-login', () => {
+    console.log('tutor just logged in...');
+    io.emit('update-tutors');
+  });
+
+  socket.on('tutor-logout', () => {
+    console.log('tutor just logged out...');
+    io.emit('update-tutors');
+  });
+
+  socket.on('student-join', data => {
+    console.log(data);
+    console.log('student joined session');
+    io.emit('session-update-' + data.session, { user: data.student });
+  });
+
+  socket.on('student-request', data => {
+    console.log(data);
+    console.log('student requested to join session');
+    io.emit('session-update-' + data.session, data);
+  });
+
+  socket.on('tutor-approve', data => {
+    console.log(data);
+    console.log('tutor approved student in session');
+    io.emit('student-session-update-' + data.session, { approved: true });
+  });
+
+  socket.on('tutor-deny', data => {
+    console.log(data);
+    console.log('tutor denied student in session');
+    io.emit('student-session-update-' + data.session, {
+      approved: false,
+      reason: data.reason
     });
+  });
 
-    socket.on('tutor-login', () => {
-        console.log('tutor just logged in...');
-        io.emit('update-tutors');
-    });
-
-    socket.on('tutor-logout', () => {
-        console.log('tutor just logged out...');
-        io.emit('update-tutors');
-    });
-
-    socket.on('student-join', (data) => {
-        console.log(data);
-        console.log('student joined session');
-        io.emit('session-update-' + data.session, {user:data.student});
-    });
-
-    socket.on('student-request', (data) => {
-        console.log(data);
-        console.log('student requested to join session');
-        io.emit('session-update-' + data.session, data);
-    });
-
-    socket.on('tutor-approve', (data) => {
-        console.log(data);
-        console.log('tutor approved student in session');
-        io.emit('student-session-update-' + data.session, {'approved':true});
-    });
-
-    socket.on('tutor-deny', (data) => {
-        console.log(data);
-        console.log('tutor denied student in session');
-        io.emit('student-session-update-' + data.session, {'approved':false, 'reason':data.reason});
-    });
-
-    socket.on('error', function () {
-        console.log('socket error');
-        socket.disconnect();
-    });
-
+  socket.on('error', function() {
+    console.log('socket error');
+    socket.disconnect();
+  });
 });
 
 server.get('/', allowIfLoggedOut, (req, res) => {
