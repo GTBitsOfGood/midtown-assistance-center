@@ -84,7 +84,7 @@ module.exports = {
      * @param callback
      */
     updateTutorSession: function (session, callback) {
-        TutorSession.findByIdAndUpdate(session._id, {$set: session.update}, {new: true}, function (err, updatedSession) {
+        TutorSession.findOneAndUpdate({'_id.tutor_id':session._id.tutor_id, '_id.expected_start_time':session._id.expected_start_time}, {$set: session.update}, {new: true}, function (err, updatedSession) {
             if (err) {
                 console.log('Error saving session');
                 return callback(err);

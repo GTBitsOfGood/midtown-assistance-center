@@ -265,6 +265,29 @@ app.post('/tutorSubmitReview', (req, res) => {
     });
 });
 
+// endpoint to forcefully end tutor session on logout
+app.post('/endTutorSession', (req, res) => {
+    let data = {};
+    data.update = {};
+    data._id = req.body._id;
+    data.update.end_time = new Date();
+    data_access.tutor_sessions.updateTutorSession(data, function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            res.json({
+                success: true,
+                error: null,
+                session: response
+            });
+        }
+    });
+});
+
 // when a student joins a session, add them
 app.post('/addStudentToSession', (req, res) => {
     data_access.tutor_sessions.addStudentReview({_id: req.body._id, update: {'students_attended': req.body.review}}, function(err, response) {

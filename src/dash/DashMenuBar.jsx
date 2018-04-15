@@ -28,7 +28,24 @@ export class MenuBar extends React.Component {
                 .then(function(response){
                     if (response.data.success) {
                         if (response.data.has_open_session) {
-                            alert('Please end your active session before logging out!');
+                            let endSession = confirm('Would you like to end your tutoring session that started at ' + response.data.session.start_time.toString());
+                            if (endSession) {
+                                axios.post('/api/endTutorSession', {_id:response.data.session._id})
+                                    .then(function(res){
+                                        if (res.data.success) {
+                                            let new_tutor = Object.assign({}, self.props.user);
+                                            new_tutor.online = false;
+                                            new_tutor.logging_out = true;
+                                            self.props.setTutorOffline(new_tutor);
+                                            socket.emit('tutor-logout');
+                                        } else {
+                                            console.log(res.data.error);
+                                        }
+                                    })
+                                    .catch(function(err) {
+                                        console.log(err);
+                                    });
+                            }
                         } else {
                             let new_tutor = Object.assign({}, self.props.user);
                             new_tutor.online = false;
