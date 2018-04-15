@@ -16,17 +16,10 @@
 import express from 'express';
 import data_access from './data_access';
 const app = express();
-let SENDGRID_API_KEY = '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';
 // using SendGrid's v3 Node.js Library
 // https://github.com/sendgrid/sendgrid-nodejs
 const sgMail = require('@sendgrid/mail');
-// TODO: actually use the environment variable for this
-// sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-sgMail.setApiKey(SENDGRID_API_KEY);
-
-// TODO: change this
-const MAC_ENDPOINT = 'http://127.0.0.1:3000';
-
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // get all online tutors for search page
 app.get('/onlineTutors', (req, res) => {
