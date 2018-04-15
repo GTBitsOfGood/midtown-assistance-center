@@ -30,7 +30,8 @@ export class MenuBar extends React.Component {
                 .then(function(response){
                     if (response.data.success) {
                         if (response.data.has_open_session) {
-                            let endSession = confirm('Would you like to end your tutoring session that started at ' + response.data.session.start_time.toString());
+                            let session_date = new Date(response.data.session.start_time);
+                            let endSession = confirm('Would you like to end your tutoring session that started at ' + session_date.toLocaleString('en-US'));
                             if (endSession) {
                                 axios.post('/api/endTutorSession', {_id:response.data.session._id})
                                     .then(function(res){
