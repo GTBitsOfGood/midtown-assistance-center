@@ -1,6 +1,6 @@
 /**
  * @file
- * TutorUpcomingEvent.jsx
+ * SessionReviewModal.jsx
  *
  * @fileoverview
  * React Component for the Session Review Modal
@@ -14,32 +14,6 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 
 class SessionModal extends React.Component {
-  /**
-   * SessionModal constructor
-   * set up rating stars
-   * @param props
-   */
-  constructor(props) {
-    super(props);
-    this.state = {
-      first_star: false,
-      second_star: false,
-      third_star: false,
-      fourth_star: false,
-      fifth_star: false,
-      rating: 0,
-      satisfaction: '',
-      error_message: 'hide',
-      comment: '',
-      students_in_session: []
-    };
-    this.changeStar = this.changeStar.bind(this);
-    this.setRating = this.setRating.bind(this);
-    this.changeStarOut = this.changeStarOut.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-    this.handleCommentChange = this.handleCommentChange.bind(this);
-    this.updateStudentInSession = this.updateStudentInSession.bind(this);
-  }
 
     /**
      * SessionModal constructor
@@ -69,180 +43,106 @@ class SessionModal extends React.Component {
         this.denyStudent = this.denyStudent.bind(this);
     }
 
-
-  /**
-   * Change the colored stars when the mouse hovers over
-   * a new star
-   * @param number
-   */
-  changeStar(number) {
-    if (number === 1) {
-      this.setState({
-        first_star: true,
-        second_star: false,
-        third_star: false,
-        fourth_star: false,
-        fifth_star: false
-      });
-    } else if (number === 2) {
-      this.setState({
-        first_star: true,
-        second_star: true,
-        third_star: false,
-        fourth_star: false,
-        fifth_star: false
-      });
-    } else if (number === 3) {
-      this.setState({
-        first_star: true,
-        second_star: true,
-        third_star: true,
-        fourth_star: false,
-        fifth_star: false
-      });
-    } else if (number === 4) {
-      this.setState({
-        first_star: true,
-        second_star: true,
-        third_star: true,
-        fourth_star: true,
-        fifth_star: false
-      });
-    } else if (number === 5) {
-      this.setState({
-        first_star: true,
-        second_star: true,
-        third_star: true,
-        fourth_star: true,
-        fifth_star: true
-      });
-    }
-  }
-
-  /**
-   * Empty colored stars when the mouse hovers away
-   * from a star
-   */
-  changeStarOut() {
-    if (this.state.rating == 0) {
-      this.setState({
-        first_star: false,
-        second_star: false,
-        third_star: false,
-        fourth_star: false,
-        fifth_star: false
-      });
-    } else if (this.state.rating == 1) {
-      this.setState({
-        first_star: true,
-        second_star: false,
-        third_star: false,
-        fourth_star: false,
-        fifth_star: false
-      });
-    } else if (this.state.rating == 2) {
-      this.setState({
-        first_star: true,
-        second_star: true,
-        third_star: false,
-        fourth_star: false,
-        fifth_star: false
-      });
-    } else if (this.state.rating == 3) {
-      this.setState({
-        first_star: true,
-        second_star: true,
-        third_star: true,
-        fourth_star: false,
-        fifth_star: false
-      });
-    } else if (this.state.rating == 4) {
-      this.setState({
-        first_star: true,
-        second_star: true,
-        third_star: true,
-        fourth_star: true,
-        fifth_star: false
-      });
-    } else if (this.state.rating == 5) {
-      this.setState({
-        first_star: true,
-        second_star: true,
-        third_star: true,
-        fourth_star: true,
-        fifth_star: true
-      });
-    }
-  }
-
-  /**
-   * Set the rating to a specific number and
-   * set the satisfaction accordingly
-   * @param number
-   */
-  setRating(number) {
-    if (number == 1) {
-      this.setState({ rating: 1, satisfaction: 'poor' });
-    } else if (number == 2) {
-      this.setState({ rating: 2, satisfaction: 'below average' });
-    } else if (number == 3) {
-      this.setState({ rating: 3, satisfaction: 'average' });
-    } else if (number == 4) {
-      this.setState({ rating: 4, satisfaction: 'very good' });
-    } else if (number == 5) {
-      this.setState({ rating: 5, satisfaction: 'excellent' });
-    }
-  }
-
-  /**
-   * When the comments/ratings are submitted,
-   * end the calendar event and delete the google
-   * hangouts event while adding the rating/comment/
-   * end time to the tutor session
-   */
-  // FIXME handle through redux
-  handleSubmit() {
-    if (this.state.rating == 0) {
-      this.setState({ error_message: 'show' });
-    } else {
-      let onSubmit = this.props.onSubmit;
-      let rating = this.state.rating;
-      let comment = this.state.comment;
-      axios
-        .post('/calendar/endCalendarEvent', {
-          tutorId: this.props.tutorId
-        })
-        .then(function(response) {
-          if (response.data.success) {
-            //this.setState({error_message:'hide'});
-            $('.modal').modal('hide');
-            onSubmit(rating, comment);
-          } else {
-            console.log(response.data.error);
-          }
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-    }
-  }
-
-  /**
-   * Render the TutorModal
-   * @returns {HTML}
-   */
-  render() {
-    const renStudents = [];
-    this.props.socket.on('session-update-' + this.props.eventId, data => {
-      console.log('Session update!');
-      this.updateStudentInSession(data);
-    });
-    for (let student in this.state.students_in_session) {
-      console.log(this.state.students_in_session[student]);
-      renStudents.push(<h5>{this.state.students_in_session[student].user}</h5>);
+    /**
+     * Handle a change in the comments textarea
+     * @param e
+     */
+    handleCommentChange(e) {
+        this.setState({comment: e.target.value});
     }
 
-  approveStudent(join_request) {
+    /**
+     * Change the colored stars when the mouse hovers over
+     * a new star
+     * @param number
+     */
+    changeStar(number) {
+        if (number === 1) {
+            this.setState({first_star:true,second_star:false,third_star:false,fourth_star:false,fifth_star:false});
+        } else if (number === 2) {
+            this.setState({first_star:true,second_star:true,third_star:false,fourth_star:false,fifth_star:false});
+        } else if (number === 3) {
+            this.setState({first_star:true,second_star:true,third_star:true,fourth_star:false,fifth_star:false});
+        } else if (number === 4) {
+            this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:false});
+        } else if (number === 5) {
+            this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:true});
+        }
+    }
+
+    /**
+     * Empty colored stars when the mouse hovers away
+     * from a star
+     */
+    changeStarOut() {
+        if (this.state.rating == 0) {
+            this.setState({first_star:false,second_star:false,third_star:false,fourth_star:false,fifth_star:false});
+        } else if (this.state.rating == 1) {
+            this.setState({first_star:true,second_star:false,third_star:false,fourth_star:false,fifth_star:false});
+        } else if (this.state.rating == 2) {
+            this.setState({first_star:true,second_star:true,third_star:false,fourth_star:false,fifth_star:false});
+        } else if (this.state.rating == 3) {
+            this.setState({first_star:true,second_star:true,third_star:true,fourth_star:false,fifth_star:false});
+        } else if (this.state.rating == 4) {
+            this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:false});
+        } else if (this.state.rating == 5) {
+            this.setState({first_star:true,second_star:true,third_star:true,fourth_star:true,fifth_star:true});
+        }
+
+    }
+
+    /**
+     * Set the rating to a specific number and
+     * set the satisfaction accordingly
+     * @param number
+     */
+    setRating(number) {
+        if (number == 1) {
+            this.setState({rating:1, satisfaction:'poor'});
+        } else if (number == 2) {
+            this.setState({rating:2, satisfaction:'below average'});
+        } else if (number == 3) {
+            this.setState({rating:3, satisfaction:'average'});
+        } else if (number == 4) {
+            this.setState({rating:4, satisfaction:'very good'});
+        } else if (number == 5) {
+            this.setState({rating:5, satisfaction:'excellent'});
+        }
+    }
+
+    /**
+     * When the comments/ratings are submitted,
+     * end the calendar event and delete the google
+     * hangouts event while adding the rating/comment/
+     * end time to the tutor session
+     */
+    // FIXME handle through redux
+    handleSubmit() {
+        if (this.state.rating == 0) {
+            this.setState({error_message:'show'});
+        } else {
+            let onSubmit = this.props.onSubmit;
+            let rating = this.state.rating;
+            let comment = this.state.comment;
+            axios.post('/calendar/endCalendarEvent', {
+                tutorId: this.props.tutorId
+            })
+                .then(function(response){
+                    if (response.data.success) {
+                        //this.setState({error_message:'hide'});
+                        $('.modal').modal('hide');
+                        onSubmit(rating, comment);
+                    } else {
+                        console.log(response.data.error);
+                    }
+                })
+                .catch(function(error){
+                    console.log(error);
+                });
+        }
+    }
+
+    approveStudent(join_request) {
         join_request.status = 'approved';
         let requestBody = {
             _id: this.props.session._id,
@@ -362,43 +262,27 @@ class SessionModal extends React.Component {
                         </div>
                     </div>
                 </div>
-              </div>
-              <div className="review-modal-footer modal-footer">
-                <button
-                  type="button"
-                  className="btn btn-default mac_button"
-                  data-dismiss="modal"
-                >
-                  Close
-                </button>
-                <button
-                  type="button"
-                  onClick={this.handleSubmit}
-                  className="btn btn-default mac_button_inverse"
-                >
-                  End Session
-                </button>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+        );
+    }
+
 }
 
-const mapStateToProps = state => {
-  return {
-    studentView: state.studentView
-  };
+const mapStateToProps = (state) => {
+    return {
+        studentView: state.studentView
+    };
 };
 
-const mapDispatchToProps = dispatch => {
-  return {};
+const mapDispatchToProps = (dispatch) => {
+    return {
+
+    };
 };
 
-const SessionReviewModal = connect(mapStateToProps, mapDispatchToProps)(
-  SessionModal
-);
+const SessionReviewModal = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(SessionModal);
 
 export default SessionReviewModal;

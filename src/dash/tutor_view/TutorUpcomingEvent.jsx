@@ -49,9 +49,13 @@ class TutorUpcomingEvent extends React.Component {
     }
 
     /**
-     * Check if this session has already ended
+     * Check if this session has already ended and if it has, set display to none
+     * This is buggy af
      */
     initUpcomingEvent() {
+        // TODO: do this in the TutorUpcomingEvents component in the for loop instead of here.
+        // TODO: this causes a bug where if new times are added, the state of this component does not
+        // TODO: change and it hides new times.
         let now = new Date();
         let startTimeHour = parseInt(this.props.startTime.split(':')[0]);
         let active = (startTimeHour - now.getHours() <= 1 && this.props.today);
@@ -125,6 +129,8 @@ class TutorUpcomingEvent extends React.Component {
      * @param session
      */
     setNewState(link, id, session) {
+        // TODO: There is no reason to store hangoutsLink and eventId in the state
+        // TODO: since they are part of the session object itself.
         this.setState({
             hangoutsLink: link,
             eventId: id,
@@ -221,7 +227,9 @@ class TutorUpcomingEvent extends React.Component {
     }
 
     /**
-     * Render the tutor upcoming event component
+     * Render the tutor upcoming event component. If the socket gets a session-update signal,
+     * retrieve the new session from the database and set the state again. This happens when
+     * a student either requests to join the session, or joins the session.
      * @returns {HTML}
      */
     render() {

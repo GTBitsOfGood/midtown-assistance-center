@@ -1,3 +1,14 @@
+/**
+ * @file
+ * TutorUpcomingEvents.jsx
+ *
+ * @fileoverview
+ * Iterate through the list of
+ * upcoming events for the tutor and create
+ * TutorUpcomingEvent components for each of them.
+ *
+ */
+
 import React from 'react';
 import TutorUpcomingEvent from './TutorUpcomingEvent.jsx';
 import { connect } from 'react-redux';
@@ -5,14 +16,24 @@ import { connect } from 'react-redux';
 const NUM_OF_EVENTS = 5;
 
 class UpcomingEvents extends React.Component {
+
+    /**
+     * Constructor
+     * @param props
+     */
     constructor(props) {
         super(props);
     }
 
+    /**
+     * Iterate through the times in the tutor's availability.
+     * Create TutorUpcomingEvent components for each time, and display
+     * NUM_OF_EVENTS number of events on the dashboard.
+     * @returns {*}
+     */
     render() {
         let todayDate = new Date();
         let today = todayDate.getDay();
-        let todayHours = todayDate.getHours() + ':' + todayDate.getMinutes();
         const days = [
             'Sunday',
             'Monday',
@@ -28,13 +49,15 @@ class UpcomingEvents extends React.Component {
         let totalCount = 0;
         let renEvents = [];
         let events = [];
-        // TODO: get past sessions (store in redux) in dash component and check here if the session is one that just ended
-        // by checking the start time and today's date along with tutor id (primary key)
         if (this.props.user.availability) {
             let keyId = 0;
             while (count < NUM_OF_EVENTS && totalCount < 7) {
                 events = this.props.user.availability[dayName];
                 for (let event in events) {
+                    // NOTE: I am no longer checking if the event's end time is less than the current end time
+                    // because if the tutor has ended the session, it shouldn't display it
+                    // TODO: It would be better to add the 'session already ended' check here instead of in the
+                    // TODO: TutorUpcomingEvent component
                     //if (!(day === today && todayHours > events[event].end_time)) {
                     renEvents.push(
                         <TutorUpcomingEvent

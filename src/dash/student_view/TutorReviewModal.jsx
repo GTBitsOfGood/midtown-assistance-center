@@ -7,7 +7,6 @@ class TutorModal extends React.Component {
         super(props);
         this.initTutorModal = this.initTutorModal.bind(this);
         let init = this.initTutorModal();
-        console.log(init);
         this.state = {
             approval: init.status,
             first_star: false,
@@ -113,7 +112,6 @@ class TutorModal extends React.Component {
             break;
         }
     }
-  }
 
     setRating(number) {
         switch(number) {
@@ -135,28 +133,10 @@ class TutorModal extends React.Component {
         }
         this.setState({rating: number});
     }
-  }
 
-  setRating(number) {
-    switch (number) {
-      case 1:
-        this.setState({ satisfaction: 'poor' });
-        break;
-      case 2:
-        this.setState({ satisfaction: 'below average' });
-        break;
-      case 3:
-        this.setState({ satisfaction: 'average' });
-        break;
-      case 4:
-        this.setState({ satisfaction: 'very good' });
-        break;
-      case 5:
-        this.setState({ satisfaction: 'excellent' });
-        break;
+    handleCommentChange(e) {
+        this.setState({comment: e.target.value});
     }
-    this.setState({ rating: number });
-  }
 
     handleTopicChange(e) {
         this.setState({topic: e.target.value});
@@ -222,25 +202,9 @@ class TutorModal extends React.Component {
         $('.modal').modal('hide');
     }
 
-  handleCommentChange(e) {
-    this.setState({ comment: e.target.value });
-  }
-
-  handleCancel() {
-    let now = new Date();
-    let studentRatingObj = {
-      student_id: this.props.username,
-      time: now
-    };
-    let request = {
-      _id: this.props.session._id,
-      review: studentRatingObj
-    };
-    axios
-      .post('/api/studentSubmitReview', request)
-      .then(function(response) {
-        if (response.data.success) {
-          console.log(response.data);
+    handleSubmit() {
+        if (this.state.rating === 0) {
+            this.setState({error_message: 'show'});
         } else {
             let studentRatingObj = {
                 student_id: this.props.username,
@@ -265,47 +229,9 @@ class TutorModal extends React.Component {
             this.setState({error_message:'hide'});
             $('.modal').modal('hide');
         }
-      })
-      .catch(function(err) {
-        console.log(err);
-      });
-    this.setState({ error_message: 'hide' });
-    $('.modal').modal('hide');
-  }
-
-  handleSubmit() {
-    if (this.state.rating === 0) {
-      this.setState({ error_message: 'show' });
-    } else {
-      let now = new Date();
-      let studentRatingObj = {
-        student_id: this.props.username,
-        student_rating: this.state.rating,
-        student_comment: this.state.comment,
-        time: now
-      };
-      let request = {
-        _id: this.props.session._id,
-        review: studentRatingObj
-      };
-      axios
-        .post('/api/studentSubmitReview', request)
-        .then(function(response) {
-          if (response.data.success) {
-            console.log(response.data);
-          } else {
-            console.log(response.data.error);
-          }
-        })
-        .catch(function(err) {
-          console.log(err);
-        });
-      this.setState({ error_message: 'hide' });
-      $('.modal').modal('hide');
     }
-  }
 
-handleJoinSession() {
+    handleJoinSession() {
         let now = new Date();
         let studentRatingObj = {
             student_id: this.props.username,
@@ -343,7 +269,7 @@ handleJoinSession() {
             return <option>{fav.favorite}</option>;
         });
         this.props.socket.on('student-session-update-' + (this.props.session ? this.props.session.eventId : 'unused'), (data) => {
-            console.log("Session update!");
+            console.log('Session update!');
             console.log(data);
             if (data.approved) {
                 this.setState({approval:'approved'});
@@ -369,7 +295,7 @@ handleJoinSession() {
         const approved_html = <div>
             <h4>Your Request to join the session with {this.props.firstName} was approved</h4>
             {this.props.session ? <h5><a href={this.props.session.hangouts_link} target="_blank" onClick={this.handleJoinSession}>Click here to enter the hangouts</a></h5> : '' }
-        </div>
+        </div>;
         const pending_html = <div>
             <h5>What can {this.props.firstName} help you with?</h5>
             <select onChange={this.handleTopicChange} defaultValue={this.state.topic} className="input input-sm">
@@ -383,7 +309,7 @@ handleJoinSession() {
         const rejected_html = <div>
             <h4>REJECTED U NOOB BC {this.state.rejection_reason}</h4>
         </div>;
-        const submitButton = <button type="submit" onClick={this.state.approval === 'in_session' ? this.handleSubmit : this.handleSubmitRequest} className="btn btn-default mac_button_inverse">Submit</button>
+        const submitButton = <button type="submit" onClick={this.state.approval === 'in_session' ? this.handleSubmit : this.handleSubmitRequest} className="btn btn-default mac_button_inverse">Submit</button>;
         return (
             <div>
                 <div className="modal" id={'Modal_' + this.props.firstName} tabIndex="1000" role="dialog" aria-labelledby={'#Modal_' + this.props.firstName + 'Label'} aria-hidden="true" autoFocus>
@@ -408,29 +334,10 @@ handleJoinSession() {
                         </div>
                     </div>
                 </div>
-              </div>
-              <div className="review-modal-footer modal-footer">
-                <button
-                  type="button"
-                  onClick={this.handleCancel}
-                  className="btn btn-default mac_button"
-                >
-                  Cancel
-                </button>
-                <button
-                  type="submit"
-                  onClick={this.handleSubmit}
-                  className="btn btn-default mac_button_inverse"
-                >
-                  Submit
-                </button>
-              </div>
             </div>
-          </div>
-        </div>
-      </div>
-    );
-  }
+        );
+    }
+
 }
 
 const mapStateToProps = (state) => {
@@ -447,6 +354,5 @@ const TutorReviewModal = connect(
     mapStateToProps,
     mapDispatchToProps
 )(TutorModal);
-
 
 export default TutorReviewModal;
