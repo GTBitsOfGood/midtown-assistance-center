@@ -37,6 +37,9 @@ class TutorUpcomingEvent extends React.Component {
         this.initUpcomingEvent = this.initUpcomingEvent.bind(this);
     }
 
+    /**
+     * Initialize the display variable before mounting
+     */
     componentWillMount() {
         this.initUpcomingEvent();
     }
