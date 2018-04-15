@@ -103,6 +103,7 @@ app.post('/registerTutor', (req, res) => {
                 } else {
                     if (!resultEmail) {
                         let confirm_key = Math.random().toString(36).substring(7);
+                        let endpoint = req.headers.host + (req.headers.port ? ':'+ req.headers.port : '');
                         data_access.users.createTutor(
                             {
                                 first_name: req.body.firstName,
@@ -131,8 +132,8 @@ app.post('/registerTutor', (req, res) => {
                                         to: req.body.email,
                                         from: 'mac@mactutoring.com',
                                         subject: 'Confirm your MAC Tutoring account',
-                                        text: 'Click here to confirm your MAC tutoring account ' + MAC_ENDPOINT + '/api/confirmEmail?confirm_key=' + confirm_key + '&tutor_id=' + req.body.username,
-                                        html: 'Click here to confirm your MAC tutoring account <strong>' + MAC_ENDPOINT + '/api/confirmEmail?confirm_key=' + confirm_key + '&tutor_id=' + req.body.username + '</strong>',
+                                        text: 'Click here to confirm your MAC tutoring account ' + endpoint + '/api/confirmEmail?confirm_key=' + confirm_key + '&tutor_id=' + req.body.username,
+                                        html: 'Click here to confirm your MAC tutoring account <strong>' + endpoint + '/api/confirmEmail?confirm_key=' + confirm_key + '&tutor_id=' + req.body.username + '</strong>',
                                     };
                                     sgMail.send(msg);
                                     res.send({
