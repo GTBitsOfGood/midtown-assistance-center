@@ -113,6 +113,7 @@ class TutorModal extends React.Component {
             break;
         }
     }
+  }
 
     setRating(number) {
         switch(number) {
@@ -134,10 +135,28 @@ class TutorModal extends React.Component {
         }
         this.setState({rating: number});
     }
+  }
 
-    handleCommentChange(e) {
-        this.setState({comment: e.target.value});
+  setRating(number) {
+    switch (number) {
+      case 1:
+        this.setState({ satisfaction: 'poor' });
+        break;
+      case 2:
+        this.setState({ satisfaction: 'below average' });
+        break;
+      case 3:
+        this.setState({ satisfaction: 'average' });
+        break;
+      case 4:
+        this.setState({ satisfaction: 'very good' });
+        break;
+      case 5:
+        this.setState({ satisfaction: 'excellent' });
+        break;
     }
+    this.setState({ rating: number });
+  }
 
     handleTopicChange(e) {
         this.setState({topic: e.target.value});
@@ -203,9 +222,25 @@ class TutorModal extends React.Component {
         $('.modal').modal('hide');
     }
 
-    handleSubmit() {
-        if (this.state.rating === 0) {
-            this.setState({error_message: 'show'});
+  handleCommentChange(e) {
+    this.setState({ comment: e.target.value });
+  }
+
+  handleCancel() {
+    let now = new Date();
+    let studentRatingObj = {
+      student_id: this.props.username,
+      time: now
+    };
+    let request = {
+      _id: this.props.session._id,
+      review: studentRatingObj
+    };
+    axios
+      .post('/api/studentSubmitReview', request)
+      .then(function(response) {
+        if (response.data.success) {
+          console.log(response.data);
         } else {
             let studentRatingObj = {
                 student_id: this.props.username,
@@ -230,9 +265,47 @@ class TutorModal extends React.Component {
             this.setState({error_message:'hide'});
             $('.modal').modal('hide');
         }
-    }
+      })
+      .catch(function(err) {
+        console.log(err);
+      });
+    this.setState({ error_message: 'hide' });
+    $('.modal').modal('hide');
+  }
 
-    handleJoinSession() {
+  handleSubmit() {
+    if (this.state.rating === 0) {
+      this.setState({ error_message: 'show' });
+    } else {
+      let now = new Date();
+      let studentRatingObj = {
+        student_id: this.props.username,
+        student_rating: this.state.rating,
+        student_comment: this.state.comment,
+        time: now
+      };
+      let request = {
+        _id: this.props.session._id,
+        review: studentRatingObj
+      };
+      axios
+        .post('/api/studentSubmitReview', request)
+        .then(function(response) {
+          if (response.data.success) {
+            console.log(response.data);
+          } else {
+            console.log(response.data.error);
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+      this.setState({ error_message: 'hide' });
+      $('.modal').modal('hide');
+    }
+  }
+
+handleJoinSession() {
         let now = new Date();
         let studentRatingObj = {
             student_id: this.props.username,
@@ -335,10 +408,29 @@ class TutorModal extends React.Component {
                         </div>
                     </div>
                 </div>
+              </div>
+              <div className="review-modal-footer modal-footer">
+                <button
+                  type="button"
+                  onClick={this.handleCancel}
+                  className="btn btn-default mac_button"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  onClick={this.handleSubmit}
+                  className="btn btn-default mac_button_inverse"
+                >
+                  Submit
+                </button>
+              </div>
             </div>
-        );
-    }
-
+          </div>
+        </div>
+      </div>
+    );
+  }
 }
 
 const mapStateToProps = (state) => {
@@ -355,5 +447,6 @@ const TutorReviewModal = connect(
     mapStateToProps,
     mapDispatchToProps
 )(TutorModal);
+
 
 export default TutorReviewModal;

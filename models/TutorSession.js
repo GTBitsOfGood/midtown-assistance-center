@@ -17,12 +17,12 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 let studentReview = new Schema({
-    student_id: {type: String, required: true},
-    student_rating: {type: Number, default: null},
-    student_comment: {type: String, default: null},
-    time: {type: Date, required: true},
-    reported: {type: Boolean, default: false},
-    reason_for_report: {type: String, required: false}
+  student_id: { type: String, required: true },
+  student_rating: { type: Number, default: null },
+  student_comment: { type: String, default: null },
+  time: { type: Date, required: true },
+  reported: { type: Boolean, default: false },
+  reason_for_report: { type: String, required: false }
 });
 
 let joinRequest = new Schema({
@@ -50,46 +50,59 @@ let schema = new Schema({
     end_time: {type: Date, required: false},
     start_time: {type: Date, required: true},
     expected_end_time: {type: Date, required:true},
+
 });
 
 // get the average rating for this session
 schema.methods.getRating = function() {
-    var numRatings = this.students_attended.reduce(function(accumulator, current) {
-        if (current.student_rating) {
-            return accumulator + 1;
-        }
-        return accumulator;
-    }, 0);
-    var sumRatings = this.students_attended.reduce(function(accumulator, current) {
-        if (current.student_rating) {
-            return accumulator + current.student_rating;
-        }
-        return accumulator;
-    }, 0);
+  var numRatings = this.students_attended.reduce(function(
+    accumulator,
+    current
+  ) {
+    if (current.student_rating) {
+      return accumulator + 1;
+    }
+    return accumulator;
+  },
+  0);
+  var sumRatings = this.students_attended.reduce(function(
+    accumulator,
+    current
+  ) {
+    if (current.student_rating) {
+      return accumulator + current.student_rating;
+    }
+    return accumulator;
+  },
+  0);
 
-    return numRatings != 0 ? sumRatings/numRatings : null;
+  return numRatings != 0 ? sumRatings / numRatings : null;
 };
 
 // get the total number of ratings for this session
 schema.methods.getNumRatings = function() {
-    var numRatings = this.students_attended.reduce(function(accumulator, current) {
-        if (current.student_rating) {
-            return accumulator + 1;
-        }
-        return accumulator;
-    }, 0);
+  var numRatings = this.students_attended.reduce(function(
+    accumulator,
+    current
+  ) {
+    if (current.student_rating) {
+      return accumulator + 1;
+    }
+    return accumulator;
+  },
+  0);
 
-    return numRatings;
+  return numRatings;
 };
 
 // get the duration of this session
 schema.methods.getDuration = function() {
-    return this.end_time - this.start_time;
+  return this.end_time - this.start_time;
 };
 
 // get the total number of students that attended this session
 schema.methods.getNumStudents = function() {
-    return this.students_attended.length;
-}
+  return this.students_attended.length;
+};
 
 module.exports = mongoose.model('TutorSession', schema);

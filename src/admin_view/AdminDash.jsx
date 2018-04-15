@@ -5,7 +5,7 @@ import Navigation from './navigation/Navigation.jsx';
 import Members from './Members.jsx';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
-import {BrowserRouter, Route, Switch} from 'react-router-dom';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import ReactDOM from 'react-dom';
@@ -19,13 +19,13 @@ class DefaultAdminDash extends React.Component {
     return (
       <BrowserRouter>
         <div className={styles.body}>
-            <Route path="/admin" component={Navigation}/>
-            <Switch>
-                <div className={styles.body_wrapper}>
-                    <Route exact path="/admin/dashboard" component={Dashboard}/>
-                    <Route exact path="/admin/approve" component={Approve} />
-                </div>
-            </Switch>
+          <Route path="/admin" component={Navigation} />
+          <Switch>
+            <div className={styles.body_wrapper}>
+              <Route exact path="/admin/dashboard" component={Dashboard} />
+              <Route exact path="/admin/approve" component={Approve} />
+            </div>
+          </Switch>
         </div>
       </BrowserRouter>
     );
@@ -35,8 +35,8 @@ class DefaultAdminDash extends React.Component {
 export default DefaultAdminDash;
 
 ReactDOM.render(
-    <Provider store={store}>
-        <DefaultAdminDash/>
-    </Provider>,
-    document.getElementById('root')
+  <Provider store={store}>
+    <DefaultAdminDash />
+  </Provider>,
+  document.getElementById('root')
 );

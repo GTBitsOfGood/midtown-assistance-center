@@ -1,13 +1,12 @@
-import * as types from './types/user_types'
+import * as types from './types/user_types';
 import axios from 'axios';
-import { getSubjects } from "./subject_actions";
-
+import { getSubjects } from './subject_actions';
 
 export function fetchUser() {
-    return {
-        type: types.fetchUser,
-        payload: axios.get('/user')
-    }
+  return {
+    type: types.fetchUser,
+    payload: axios.get('/user')
+  };
 }
 
 export function fetchUserAndInfo() {
@@ -27,14 +26,17 @@ export function fetchUserAndInfo() {
 }
 
 export function setTutorOnline(user, status) {
-    return (dispatch) => {
-        return dispatch({type: types.setTutorOnline, status: {...status}, payload: axios.patch('/api/tutor', {...user, ...status})})
-            .then(() => {
-                if (status.logging_out) {
-                    dispatch(logoutUser(user));
-                }
-            });
-    }
+  return dispatch => {
+    return dispatch({
+      type: types.setTutorOnline,
+      status: { ...status },
+      payload: axios.patch('/api/tutor', { ...user, ...status })
+    }).then(() => {
+      if (status.logging_out) {
+        dispatch(logoutUser(user));
+      }
+    });
+  };
 }
 
 export function logoutUser(user) {
@@ -44,39 +46,37 @@ export function logoutUser(user) {
     };
 }
 
-
-export function saveStudent(user) {
-    return {
-        type: types.saveStudentToDb,
-        payload: user
-    };
+export function saveStudent(student) {
+  return {
+    type: types.saveStudent,
+    payload: axios.patch('/api/student', student)
+  };
 }
 
 export function saveTutor(user) {
-    return {
-        type: types.saveTutorToDb,
-        payload: user
-    };
+  return {
+    type: types.saveTutorToDb,
+    payload: user
+  };
 }
 
 export function getStat(user) {
-    return {
-        type: types.getRating,
-        payload: axios.post('/api/getTutorStats', {username: user._id})
-    }
+  return {
+    type: types.getRating,
+    payload: axios.post('/api/getTutorStats', { username: user._id })
+  };
 }
 
 export function getSessions(user) {
-    return {
-        type: types.getSessions,
-        payload: axios.post('/api/getTutorSessions', {username: user._id})
-    }
+  return {
+    type: types.getSessions,
+    payload: axios.post('/api/getTutorSessions', { username: user._id })
+  };
 }
 
-
 export function saveAdmin(user) {
-    return {
-        type: types.saveAdminToDb,
-        payload: user
-    };
+  return {
+    type: types.saveAdminToDb,
+    payload: user
+  };
 }

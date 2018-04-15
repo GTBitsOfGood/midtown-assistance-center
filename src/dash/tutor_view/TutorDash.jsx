@@ -3,7 +3,7 @@ import TutorUpcomingEvents from './TutorUpcomingEvents.jsx';
 import Feedback from './Feedback.jsx';
 import { connect } from 'react-redux';
 import TutorProfile from './Profile.jsx';
-import socketIOClient from "socket.io-client";
+import socketIOClient from 'socket.io-client';
 import Statistics from './Statistics.jsx';
 
 const SOCKETIO_ENDPOINT = window.location.hostname + (window.location.port ? ':'+ window.location.port : '');
@@ -32,23 +32,27 @@ class TutorDash extends React.Component {
                         <h4 className="tutor-approval-msg">Your profile is awaiting approval. Edit your profile and check back soon!</h4>
                     }
                 </div>
+
             </div>
-        );
-    }
+          ) : (
+            <h4 className="tutor-approval-msg">
+              Your profile is awaiting approval. Edit your profile and check
+              back soon!
+            </h4>
+          )}
+        </div>
+      </div>
+    );
+  }
 }
 
-const mapStateToProps = (state) => {
-    // Since we never use the redux state here
-    return state;
+const mapStateToProps = state => {
+  // Since we never use the redux state here
+  return state;
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-
-    };
+const mapDispatchToProps = dispatch => {
+  return {};
 };
 
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(TutorDash);
+export default connect(mapStateToProps, mapDispatchToProps)(TutorDash);

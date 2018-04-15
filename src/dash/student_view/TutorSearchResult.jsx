@@ -6,17 +6,17 @@ import Availability from './Availability.jsx';
 import socketIOClient from 'socket.io-client';
 
 class TutorSearchResult extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            fullStars:0,
-            halfStars:0,
-            emptyStars:0,
-        };
+  constructor(props) {
+    super(props);
+    this.state = {
+      fullStars: 0,
+      halfStars: 0,
+      emptyStars: 0
+    };
 
-        this.updateRating = this.updateRating.bind(this);
-        this.onHangoutsButton = this.onHangoutsButton.bind(this);
-    }
+    this.updateRating = this.updateRating.bind(this);
+    this.onHangoutsButton = this.onHangoutsButton.bind(this);
+  }
 
     componentDidMount() {
         this.updateRating();
@@ -110,8 +110,15 @@ class TutorSearchResult extends React.Component {
                 </div>
                 <TutorReviewModal updateTutors={this.props.updateTutors} socket={this.props.socket} username={this.props.username} subjects={this.props.data.subjects} favorites={this.props.data.favorites} firstName={this.props.data.first_name} session={this.props.data.session}/>
             </div>
-
-        );
-    }
+          </div>
+        </div>
+        <TutorReviewModal
+          username={this.props.username}
+          firstName={this.props.data.first_name}
+          session={this.props.data.session}
+        />
+      </div>
+    );
+  }
 }
 export default TutorSearchResult;

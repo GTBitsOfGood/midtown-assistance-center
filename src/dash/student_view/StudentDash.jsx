@@ -1,12 +1,17 @@
 import React from 'react';
 import DashSearchBar from './SearchBar.jsx';
 import TutorSearchList from './TutorSearchList.jsx';
-import {changeTutorsAction, onSearchAction} from '../../redux/actions/student_view_actions';
+import {
+  changeTutorsAction,
+  onSearchAction
+} from '../../redux/actions/student_view_actions';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import socketIOClient from 'socket.io-client';
 
-const SOCKETIO_ENDPOINT = window.location.hostname+(window.location.port ? ':'+window.location.port: '');
+const SOCKETIO_ENDPOINT =
+  window.location.hostname +
+  (window.location.port ? ':' + window.location.port : '');
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 class StudentDashboard extends React.Component {
@@ -18,13 +23,14 @@ class StudentDashboard extends React.Component {
             time: undefined
         };
 
-        this.handleSearchClicked = this.handleSearchClicked.bind(this);
-        this.updateTutors = this.updateTutors.bind(this);
-    }
 
-    componentWillMount() {
-        this.updateTutors();
-    }
+    this.handleSearchClicked = this.handleSearchClicked.bind(this);
+    this.updateTutors = this.updateTutors.bind(this);
+  }
+
+  componentWillMount() {
+    this.updateTutors();
+  }
 
     handleSearchClicked(subject, time) {
         // NOTE don't use this.setState because we don't want to re-render here
@@ -36,11 +42,11 @@ class StudentDashboard extends React.Component {
         this.updateTutors();
     }
 
-    updateTutors() {
-        let searchType = this.state.searchType;
-        let subject = this.state.subject;
-        let time = this.state.time;
 
+  updateTutors() {
+    let searchType = this.state.searchType;
+    let subject = this.state.subject;
+    let time = this.state.time;
         let self = this;
         let data = {};
         if (searchType !== 'online') {
@@ -61,38 +67,38 @@ class StudentDashboard extends React.Component {
             });
     }
 
-    render() {
 
-        socket.on('update-tutors', () => {
-            console.log('Tutor update!');
-            window.location.reload();
-        });
-        return (
-            <div>
-                <div className="col-md-12 atlanta">
-                    <DashSearchBar handleSearchClicked={this.handleSearchClicked}/>
-                </div>
-                <TutorSearchList socket={socket} updateTutors={this.updateTutors}/>
-            </div>
-        );
-    }
+  render() {
+    socket.on('update-tutors', () => {
+      console.log('Tutor update!');
+      window.location.reload();
+    });
+    return (
+      <div>
+        <div className="col-md-12 atlanta">
+          <DashSearchBar handleSearchClicked={this.handleSearchClicked} />
+        </div>
+        <TutorSearchList socket={socket} />
+      </div>
+    );
+  }
 }
 
-function mapStateToProps (state) {
-    // Note we don't use the redux state in this component
-    return {};
+function mapStateToProps(state) {
+  // Note we don't use the redux state in this component
+  return {};
 }
 
-function mapDispatchToProps (dispatch) {
-    return {
-        changeTutors: (tutors) => dispatch(changeTutorsAction(tutors)),
-        changeSearchDisplay: (search_type, search_subject, search_time) => dispatch(onSearchAction(search_type, search_subject, search_time))
-    };
+function mapDispatchToProps(dispatch) {
+  return {
+    changeTutors: tutors => dispatch(changeTutorsAction(tutors)),
+    changeSearchDisplay: (search_type, search_subject, search_time) =>
+      dispatch(onSearchAction(search_type, search_subject, search_time))
+  };
 }
 
-const StudentDash = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(StudentDashboard);
+const StudentDash = connect(mapStateToProps, mapDispatchToProps)(
+  StudentDashboard
+);
 
 export default StudentDash;

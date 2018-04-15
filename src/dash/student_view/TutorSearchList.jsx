@@ -3,7 +3,6 @@ import TutorSearchResult from './TutorSearchResult.jsx';
 import { connect } from 'react-redux';
 
 class TutorList extends React.Component {
-
     render() {
         const renData = this.props.studentView.filteredTutors.length > 0 ? this.props.studentView.filteredTutors.map((obj, num) => {
             return <TutorSearchResult updateTutors={this.props.updateTutors} socket={this.props.socket} data={obj} id={num} studentEmail={this.props.user.email} username={this.props.user._id}/>;
@@ -21,23 +20,19 @@ class TutorList extends React.Component {
           </div>
         );
     }
-
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = state => {
   return {
     studentView: state.studentView,
     user: state.user
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = dispatch => {
   return {};
 };
 
-const TutorSearchList = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(TutorList);
+const TutorSearchList = connect(mapStateToProps, mapDispatchToProps)(TutorList);
 
 export default TutorSearchList;
