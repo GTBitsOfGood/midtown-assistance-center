@@ -76,7 +76,8 @@
         "redux-thunk": "^2.2.0",
         "socket.io": "^2.0.4",
         "socket.io-client": "^2.0.4",
-        "style-loader": "^0.18.2"
+        "style-loader": "^0.18.2",
+        "web-notification": "^1.0.3"
     },
     "devDependencies": {
         "babel-cli": "^6.26.0",
