@@ -12,31 +12,39 @@ import ReactDOM from 'react-dom';
 import styles from '../../public/css/admin.css';
 
 class DefaultAdminDash extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <BrowserRouter>
-        <div className={styles.body}>
-          <Route path="/admin" component={Navigation} />
-          <Switch>
-            <div className={styles.body_wrapper}>
-              <Route exact path="/admin/dashboard" component={Dashboard} />
-              <Route exact path="/admin/approve" component={Approve} />
-            </div>
-          </Switch>
-        </div>
-      </BrowserRouter>
-    );
-  }
+    constructor(props) {
+        super(props);
+    }
+    render() {
+        return (
+            <BrowserRouter>
+                <div className={styles.body}>
+                    <Route path="/admin" component={Navigation} />
+                    <Switch>
+                        <div className={styles.body_wrapper}>
+                            <Route
+                                exact
+                                path="/admin/dashboard"
+                                component={Dashboard}
+                            />
+                            <Route
+                                exact
+                                path="/admin/approve"
+                                component={Approve}
+                            />
+                        </div>
+                    </Switch>
+                </div>
+            </BrowserRouter>
+        );
+    }
 }
 
 export default DefaultAdminDash;
 
 ReactDOM.render(
-  <Provider store={store}>
-    <DefaultAdminDash />
-  </Provider>,
-  document.getElementById('root')
+    <Provider store={store}>
+        <DefaultAdminDash />
+    </Provider>,
+    document.getElementById('root')
 );
