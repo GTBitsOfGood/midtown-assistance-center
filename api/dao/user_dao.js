@@ -88,6 +88,7 @@ module.exports = {
       if (err) {
         console.error('Error confirming email :(');
         callback(err);
+        return;
       } else {
         console.log(docs);
         if (docs.length > 0) {

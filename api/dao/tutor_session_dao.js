@@ -80,6 +80,7 @@ module.exports = {
           err
         );
         callback(err);
+        return;
       } else {
         callback(null, session_instance);
       }
@@ -131,6 +132,7 @@ module.exports = {
         if (err) {
           console.log('Error saving session');
           callback(err);
+          return;
         }
         callback(null, updatedSession);
       }
@@ -139,6 +141,8 @@ module.exports = {
     module.exports.getTutorAvgRating(session._id.tutor_id, function(err, res) {
       if (err) {
         console.error(err);
+        callback(err);
+        return;
       }
       new_stat = res;
     });
@@ -152,6 +156,8 @@ module.exports = {
       tutor.save(function(err) {
         if (err) {
           console.error(err);
+          callback(err);
+          return;
         }
       });
       console.log(tutor);
@@ -185,6 +191,7 @@ module.exports = {
         if (err) {
           console.log('Error saving session');
           callback(err);
+          return;
         }
         callback(null, updatedSession);
       }
@@ -193,12 +200,16 @@ module.exports = {
     module.exports.getTutorAvgRating(session._id.tutor_id, function(err, res) {
       if (err) {
         console.error(err);
+        callback(err);
+        return;
       }
       new_stat = res;
     });
     Tutor.findOne({ _id: session._id.tutor_id }, function(err, tutor) {
       if (err) {
         console.error(err);
+        callback(err);
+        return;
       }
       tutor.rating = new_stat.avgRating;
       tutor.num_ratings = new_stat.totalRatings;
@@ -206,6 +217,8 @@ module.exports = {
       tutor.save(function(err) {
         if (err) {
           console.error(err);
+          callback(err);
+          return;
         }
       });
       console.log(tutor);
@@ -233,6 +246,7 @@ module.exports = {
         if (err) {
           console.log('Error saving session');
           callback(err);
+          return;
         }
         callback(null, updatedSession);
       }
@@ -263,6 +277,7 @@ module.exports = {
         if (err) {
           console.log('Error saving session');
           callback(err);
+          return;
         }
         callback(null, updatedSession);
       }
@@ -279,6 +294,7 @@ module.exports = {
       if (err) {
         console.log(err);
         callback(err);
+        return;
       } else {
         var new_docs = JSON.parse(JSON.stringify(docs));
         for (var doc in docs) {
@@ -304,6 +320,7 @@ module.exports = {
         if (err) {
           console.log(err);
           callback(err);
+          return;
         } else {
           callback(null, docs);
         }
@@ -341,6 +358,7 @@ module.exports = {
       if (err) {
         console.error(err);
         callback(err);
+        return;
       } else {
         let sum = docs.reduce(sumRatings, 0);
         let num = docs.reduce(numRatings, 0);
@@ -365,6 +383,7 @@ module.exports = {
       if (err) {
         console.log(err);
         callback(err);
+        return;
       } else {
         var avgSessionTime = docs.reduce(sumSessionTimes) / docs.length;
         callback(null, { time: avgSessionTime });
@@ -388,6 +407,7 @@ module.exports = {
       if (err) {
         console.log(err);
         callback(err);
+        return;
       } else {
         docs = docs.filter(filterBySessionDate);
         var totalDiscrepancy = docs.reduce(getSessionDiscrepancy);
@@ -412,6 +432,7 @@ module.exports = {
       if (err) {
         console.log(err);
         callback(err);
+        return;
       } else {
         docs = docs.filter(filterBySessionDate);
         var sumRatings = docs.reduce(sumRatings);
@@ -438,6 +459,7 @@ module.exports = {
       if (err) {
         console.log(err);
         callback(err);
+        return;
       } else {
         docs = docs.filter(filterByMaxRating);
         docs = docs.map(getComments);
@@ -459,6 +481,7 @@ module.exports = {
       if (err) {
         console.log(err);
         callback(err);
+        return;
       } else {
         docs = docs.filter(hasEndTime);
         callback(null, docs);
@@ -480,6 +503,7 @@ module.exports = {
       if (err) {
         console.log(err);
         callback(err);
+        return;
       } else {
         docs = docs.filter(hasEndTime);
         callback(null, docs);
