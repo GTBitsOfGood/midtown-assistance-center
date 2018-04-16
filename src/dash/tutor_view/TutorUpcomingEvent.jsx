@@ -33,6 +33,7 @@ class TutorUpcomingEvent extends React.Component {
         this.updateSession = this.updateSession.bind(this);
         this.setNewState = this.setNewState.bind(this);
         this.initUpcomingEvent = this.initUpcomingEvent.bind(this);
+        this.onUnload = this.onUnload.bind(this);
     }
 
     /**
@@ -42,8 +43,33 @@ class TutorUpcomingEvent extends React.Component {
         this.initUpcomingEvent();
     }
 
-    componentWillUpdate() {
-        //this.initUpcomingEvent();
+    /**
+     * Add an unload listener to prevent user from closing tab when
+     * a session is open
+     */
+    componentDidMount() {
+        //window.addEventListener("beforeunload", this.onUnload);
+    }
+
+    /**
+     * Remove the listener on unmount so that there isn't a confirmation
+     * window each time the user refreshes the page
+     */
+    componentWillUnmount() {
+        //window.removeEventListener("beforeunload", this.onUnload);
+    }
+
+    /**
+     * Check for an open session on unload
+     * TODO: figure out how to get this to work
+     * @param e
+     * @returns {string}
+     */
+    onUnload(e) {
+        if (this.state.session !== {} && this.state.display) {
+            e.returnValue = "oh no open session";
+            return "oh no open session";
+        }
     }
 
     /**
@@ -84,7 +110,11 @@ class TutorUpcomingEvent extends React.Component {
                         } else {
                             self.setState({ display: true });
                             if (response.data.session) {
-                                self.setNewState(response.data.session.hangouts_link, response.data.session.eventId, response.data.session);
+                                self.setNewState(
+                                    response.data.session.hangouts_link,
+                                    response.data.session.eventId,
+                                    response.data.session
+                                );
                             }
                         }
                     } else {
@@ -129,13 +159,15 @@ class TutorUpcomingEvent extends React.Component {
                         response.data.id,
                         response.data.session
                     );
-                    $('#Modal_' +
-                        self.props.dayName +
-                        '_' +
-                        self.props.startTime.split(':')[0] +
-                        '_' +
-                        self.props.endTime.split(':')[0]).modal('show');
-                    console.log("showing modal...");
+                    $(
+                        '#Modal_' +
+                            self.props.dayName +
+                            '_' +
+                            self.props.startTime.split(':')[0] +
+                            '_' +
+                            self.props.endTime.split(':')[0]
+                    ).modal('show');
+                    console.log('showing modal...');
                     console.log(response.data.session);
                 } else {
                     console.log(response.data.error);
