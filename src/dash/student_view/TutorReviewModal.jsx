@@ -358,7 +358,7 @@ class TutorModal extends React.Component {
         });
         this.props.socket.on(
             'student-session-update-' +
-                (this.props.session ? this.props.session.eventId : 'unused'),
+                (this.props.session ? this.props.session.eventId : 'unused') + this.props.username,
             data => {
                 console.log('Session update!');
                 console.log(data);

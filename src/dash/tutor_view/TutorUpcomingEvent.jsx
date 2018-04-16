@@ -67,8 +67,8 @@ class TutorUpcomingEvent extends React.Component {
      */
     onUnload(e) {
         if (this.state.session !== {} && this.state.display) {
-            e.returnValue = "oh no open session";
-            return "oh no open session";
+            e.returnValue = 'oh no open session';
+            return 'oh no open session';
         }
     }
 

@@ -70,13 +70,13 @@ io.on('connection', socket => {
     socket.on('tutor-approve', data => {
         console.log(data);
         console.log('tutor approved student in session');
-        io.emit('student-session-update-' + data.session, { approved: true });
+        io.emit('student-session-update-' + data.session + data.student_id, { approved: true });
     });
 
     socket.on('tutor-deny', data => {
         console.log(data);
         console.log('tutor denied student in session');
-        io.emit('student-session-update-' + data.session, {
+        io.emit('student-session-update-' + data.session + data.student_id, {
             approved: false,
             reason: data.reason
         });

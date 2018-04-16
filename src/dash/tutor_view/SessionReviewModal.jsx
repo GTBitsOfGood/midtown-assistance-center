@@ -231,7 +231,8 @@ class SessionModal extends React.Component {
                         response.data.session
                     );
                     self.props.socket.emit('tutor-approve', {
-                        session: response.data.session.eventId
+                        session: response.data.session.eventId,
+                        student_id: join_request.student_id
                     });
                 } else {
                     console.log(response.data.error);
@@ -272,7 +273,8 @@ class SessionModal extends React.Component {
                         );
                         self.props.socket.emit('tutor-deny', {
                             session: response.data.session.eventId,
-                            reason: deny
+                            reason: deny,
+                            student_id: join_request.student_id
                         });
                     } else {
                         console.log(response.data.error);
