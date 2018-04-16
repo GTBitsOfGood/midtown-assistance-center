@@ -16,6 +16,10 @@
 import express from 'express';
 import data_access from './data_access';
 const app = express();
+// using SendGrid's v3 Node.js Library
+// https://github.com/sendgrid/sendgrid-nodejs
+const sgMail = require('@sendgrid/mail');
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // get all online tutors for search page
 app.get('/onlineTutors', (req, res) => {
@@ -91,6 +95,12 @@ app.post('/registerTutor', (req, res) => {
           console.log(err);
         } else {
           if (!resultEmail) {
+            let confirm_key = Math.random()
+              .toString(36)
+              .substring(7);
+            let endpoint =
+              req.headers.host +
+              (req.headers.port ? ':' + req.headers.port : '');
             data_access.users.createTutor(
               {
                 first_name: req.body.firstName,
@@ -103,7 +113,9 @@ app.post('/registerTutor', (req, res) => {
                 join_date: Date.now(),
                 status: true,
                 availability: req.body.availability,
-                approved: false
+                approved: false,
+                confirmed: false,
+                confirm_key: confirm_key
               },
               function(err, user_instance) {
                 if (err) {
@@ -113,6 +125,27 @@ app.post('/registerTutor', (req, res) => {
                     error_message: 'Unknown error'
                   });
                 } else {
+                  const msg = {
+                    to: req.body.email,
+                    from: 'mac@mactutoring.com',
+                    subject: 'Confirm your MAC Tutoring account',
+                    text:
+                      'Click here to confirm your MAC tutoring account ' +
+                      endpoint +
+                      '/api/confirmEmail?confirm_key=' +
+                      confirm_key +
+                      '&tutor_id=' +
+                      req.body.username,
+                    html:
+                      'Click here to confirm your MAC tutoring account <strong>' +
+                      endpoint +
+                      '/api/confirmEmail?confirm_key=' +
+                      confirm_key +
+                      '&tutor_id=' +
+                      req.body.username +
+                      '</strong>'
+                  };
+                  sgMail.send(msg);
                   res.send({
                     success: true,
                     error_message: null
@@ -196,6 +229,35 @@ app.post('/registerStudent', (req, res) => {
       });
     }
   });
+});
+
+app.get('/confirmEmail', (req, res) => {
+  let confirm_key = req.query.confirm_key;
+  let tutor_id = req.query.tutor_id;
+  data_access.users.confirmEmail(
+    { _id: tutor_id, confirm_key: confirm_key },
+    function(err, resultTutor) {
+      if (err) {
+        console.error(err);
+        return res.json({
+          success: false,
+          error_message: 'Error confirming email'
+        });
+      }
+      if (resultTutor.length === 0) {
+        return res.json({
+          success: false,
+          error_message: 'Failed to confirm tutor, no tutor found'
+        });
+      } else {
+        return res.json({
+          success: true,
+          error_message: null,
+          message: 'Successfully confirmed email'
+        });
+      }
+    }
+  );
 });
 
 // update student in database
@@ -297,7 +359,96 @@ app.post('/tutorSubmitReview', (req, res) => {
   });
 });
 
-// when a student submits a review, update the session accordingly
+// endpoint to forcefully end tutor session on logout
+app.post('/endTutorSession', (req, res) => {
+  let data = {};
+  data.update = {};
+  data._id = req.body._id;
+  data.update.end_time = new Date();
+  data_access.tutor_sessions.updateTutorSession(data, function(err, response) {
+    if (err) {
+      console.log(err);
+      res.json({
+        success: false,
+        error: err
+      });
+    } else {
+      res.json({
+        success: true,
+        error: null,
+        session: response
+      });
+    }
+  });
+});
+
+// when a student joins a session, add them
+app.post('/addStudentToSession', (req, res) => {
+  data_access.tutor_sessions.addStudentReview(
+    { _id: req.body._id, update: { students_attended: req.body.review } },
+    function(err, response) {
+      if (err) {
+        console.log(err);
+        res.json({
+          success: false,
+          error: err
+        });
+      } else {
+        res.json({
+          success: true,
+          error: null,
+          session: response
+        });
+      }
+    }
+  );
+});
+
+// when a student requests to join the session, add the request
+app.post('/addJoinRequest', (req, res) => {
+  data_access.tutor_sessions.addJoinRequest(
+    { _id: req.body._id, update: { join_requests: req.body.join_request } },
+    function(err, response) {
+      if (err) {
+        console.log(err);
+        res.json({
+          success: false,
+          error: err
+        });
+      } else {
+        res.json({
+          success: true,
+          error: null,
+          session: response
+        });
+      }
+    }
+  );
+});
+
+// when a tutor updates a join request (accept/deny), update it in the db
+app.post('/updateJoinRequest', (req, res) => {
+  data_access.tutor_sessions.updateJoinRequest(
+    { _id: req.body._id, update: { join_requests: req.body.join_request } },
+    function(err, response) {
+      if (err) {
+        console.log(err);
+        res.json({
+          success: false,
+          error: err
+        });
+      } else {
+        res.json({
+          success: true,
+          error: null,
+          session: response
+        });
+      }
+    }
+  );
+});
+
+// when a student joins a session for the first time, submit a review, update the session accordingly
 app.post('/studentSubmitReview', (req, res) => {
   data_access.tutor_sessions.addStudentReview(
     { _id: req.body._id, update: { students_attended: req.body.review } },
@@ -317,6 +468,52 @@ app.post('/studentSubmitReview', (req, res) => {
       }
     }
   );
+});
+
+// when a student submits a review, update the review in the session accordingly
+app.post('/studentUpdateReview', (req, res) => {
+  data_access.tutor_sessions.updateStudentReview(
+    { _id: req.body._id, update: { students_attended: req.body.review } },
+    function(err, response) {
+      if (err) {
+        console.log(err);
+        res.json({
+          success: false,
+          error: err
+        });
+      } else {
+        console.log(response);
+        res.json({
+          success: true,
+          error: null,
+          session: response
+        });
+      }
+    }
+  );
+});
+
+app.post('/getTutorSession', (req, res) => {
+  console.log(req.body._id);
+  data_access.tutor_sessions.getSessionByTutor(req.body._id, function(
+    err,
+    response
+  ) {
+    if (err) {
+      console.log(err);
+      res.json({
+        success: false,
+        link: false,
+        error: err
+      });
+    }
+    return res.json({
+      success: true,
+      session: response[0],
+      link: response[0] ? response[0].hangouts_link : '',
+      id: response[0] ? response[0].eventId : ''
+    });
+  });
 });
 
 // get all tutoring sessions for a tutor
@@ -368,6 +565,37 @@ app.patch('/admin', (req, res) => {
   res.json({
     success: false,
     error_message: 'Update failed because admin dao does not exist yet'
+  });
+});
+
+// check if a tutor has an active session
+app.post('/checkActiveSession', (req, res) => {
+  console.log(req.body.username);
+  data_access.tutor_sessions.getActiveSession(req.body.username, function(
+    err,
+    response
+  ) {
+    if (err) {
+      res.json({
+        success: false,
+        error: err
+      });
+    } else if (response.length === 0) {
+      console.log(response);
+      res.json({
+        success: true,
+        error: null,
+        has_open_session: false
+      });
+    } else {
+      console.log(response);
+      res.json({
+        success: true,
+        error: null,
+        has_open_session: true,
+        session: response[0]
+      });
+    }
   });
 });
 

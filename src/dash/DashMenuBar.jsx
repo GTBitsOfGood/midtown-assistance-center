@@ -6,6 +6,8 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { setTutorOnline, saveTutor } from '../redux/actions/user_actions';
 import styles from '../../public/css/index.css';
 import socketIOClient from 'socket.io-client';
+import * as types from '../redux/actions/types/user_types';
+import axios from 'axios';
 
 const SOCKETIO_ENDPOINT =
   window.location.hostname +
@@ -21,11 +23,59 @@ export class MenuBar extends React.Component {
   logout() {
     console.warn('Logging out user');
     // this.props.setTutorOnline(this.props.user, {online: false, logging_out: true});
-    socket.emit('tutor-logout');
-    let new_tutor = Object.assign({}, this.props.user);
-    new_tutor.online = false;
-    new_tutor.logging_out = true;
-    this.props.setTutorOffline(new_tutor);
+    console.log(this.props.user.type);
+    if (this.props.user.type === types.typeTutor) {
+      let self = this;
+      axios
+        .post('/api/checkActiveSession', { username: this.props.user._id })
+        .then(function(response) {
+          if (response.data.success) {
+            if (response.data.has_open_session) {
+              let session_date = new Date(response.data.session.start_time);
+              let endSession = confirm(
+                'Would you like to end your tutoring session that started at ' +
+                  session_date.toLocaleString('en-US')
+              );
+              if (endSession) {
+                axios
+                  .post('/api/endTutorSession', {
+                    _id: response.data.session._id
+                  })
+                  .then(function(res) {
+                    if (res.data.success) {
+                      let new_tutor = Object.assign({}, self.props.user);
+                      new_tutor.online = false;
+                      new_tutor.logging_out = true;
+                      self.props.setTutorOffline(new_tutor);
+                      socket.emit('tutor-logout');
+                    } else {
+                      console.log(res.data.error);
+                    }
+                  })
+                  .catch(function(err) {
+                    console.log(err);
+                  });
+              }
+            } else {
+              let new_tutor = Object.assign({}, self.props.user);
+              new_tutor.online = false;
+              new_tutor.logging_out = true;
+              self.props.setTutorOffline(new_tutor);
+              socket.emit('tutor-logout');
+            }
+          } else {
+            console.log(response.data.error);
+          }
+        })
+        .catch(function(err) {
+          console.log(err);
+        });
+    } else {
+      let new_tutor = Object.assign({}, this.props.user);
+      new_tutor.online = false;
+      new_tutor.logging_out = true;
+      this.props.setTutorOffline(new_tutor);
+    }
   }
 
   render() {

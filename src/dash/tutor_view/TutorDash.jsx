@@ -14,7 +14,7 @@ const socket = socketIOClient(SOCKETIO_ENDPOINT);
 class TutorDash extends React.Component {
   // TODO:
   componentWillUnmount() {
-    socket.close();
+    //socket.close();
   }
 
   render() {
@@ -24,16 +24,20 @@ class TutorDash extends React.Component {
           <TutorProfile />
         </div>
         <div className="col-md-6 upcoming-events-list">
-          {this.props.user.approved ? (
+          {this.props.user.approved && this.props.user.confirmed ? (
             <div>
               <TutorUpcomingEvents socket={socket} />
               <Statistics />
               <Feedback />
             </div>
-          ) : (
+          ) : this.props.user.confirmed ? (
             <h4 className="tutor-approval-msg">
               Your profile is awaiting approval. Edit your profile and check
               back soon!
+            </h4>
+          ) : (
+            <h4 className="tutor-approval-msg">
+              Please confirm your email address
             </h4>
           )}
         </div>

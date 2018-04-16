@@ -32,7 +32,7 @@ class Statistics extends React.Component {
       stars.push(
         <span key={keyId++}>
           <img
-            className="star"
+            className="tutor-star"
             src="/images/full-star.png"
             width="20"
             height="20"
@@ -44,7 +44,7 @@ class Statistics extends React.Component {
       stars.push(
         <span key={keyId++}>
           <img
-            className="star"
+            className="tutor-star"
             src="/images/half-star.png"
             width="20"
             height="20"
@@ -56,7 +56,7 @@ class Statistics extends React.Component {
       stars.push(
         <span key={keyId++}>
           <img
-            className="star"
+            className="tutor-star"
             src="/images/empty-star.png"
             width="20"
             height="20"

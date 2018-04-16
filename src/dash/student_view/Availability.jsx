@@ -25,7 +25,7 @@ class AvailabilityComp extends React.Component {
                     time.end_time.split(':')[0] % 12 +
                     ':' +
                     time.end_time.split(':')[1] +
-                    (time.end_time.split(':')[0] >= 12 ? ' PM' : ' AM')
+                    (time.end_time.split(':')[0] >= 12 ? ' PM ' : ' AM ')
                   );
                 })}
               </td>
@@ -44,7 +44,7 @@ class AvailabilityComp extends React.Component {
                     time.end_time.split(':')[0] % 12 +
                     ':' +
                     time.end_time.split(':')[1] +
-                    (time.end_time.split(':')[0] >= 12 ? ' PM' : ' AM')
+                    (time.end_time.split(':')[0] >= 12 ? ' PM ' : ' AM ')
                   );
                 })}
               </td>
@@ -63,7 +63,7 @@ class AvailabilityComp extends React.Component {
                     time.end_time.split(':')[0] % 12 +
                     ':' +
                     time.end_time.split(':')[1] +
-                    (time.end_time.split(':')[0] >= 12 ? ' PM' : ' AM')
+                    (time.end_time.split(':')[0] >= 12 ? ' PM ' : ' AM ')
                   );
                 })}
               </td>
@@ -84,7 +84,7 @@ class AvailabilityComp extends React.Component {
                     time.end_time.split(':')[0] % 12 +
                     ':' +
                     time.end_time.split(':')[1] +
-                    (time.end_time.split(':')[0] >= 12 ? ' PM' : ' AM')
+                    (time.end_time.split(':')[0] >= 12 ? ' PM ' : ' AM ')
                   );
                 })}
               </td>
@@ -103,7 +103,7 @@ class AvailabilityComp extends React.Component {
                     time.end_time.split(':')[0] % 12 +
                     ':' +
                     time.end_time.split(':')[1] +
-                    (time.end_time.split(':')[0] >= 12 ? ' PM' : ' AM')
+                    (time.end_time.split(':')[0] >= 12 ? ' PM ' : ' AM ')
                   );
                 })}
               </td>
@@ -122,7 +122,7 @@ class AvailabilityComp extends React.Component {
                     time.end_time.split(':')[0] % 12 +
                     ':' +
                     time.end_time.split(':')[1] +
-                    (time.end_time.split(':')[0] >= 12 ? ' PM' : ' AM')
+                    (time.end_time.split(':')[0] >= 12 ? ' PM ' : ' AM ')
                   );
                 })}
               </td>
@@ -141,7 +141,7 @@ class AvailabilityComp extends React.Component {
                     time.end_time.split(':')[0] % 12 +
                     ':' +
                     time.end_time.split(':')[1] +
-                    (time.end_time.split(':')[0] >= 12 ? ' PM' : ' AM')
+                    (time.end_time.split(':')[0] >= 12 ? ' PM ' : ' AM ')
                   );
                 })}
               </td>

@@ -45,7 +45,6 @@ class StudentDashboard extends React.Component {
     let searchType = this.state.searchType;
     let subject = this.state.subject;
     let time = this.state.time;
-
     let self = this;
     let data = {};
     if (searchType !== 'online') {

@@ -61,6 +61,27 @@ io.on('connection', socket => {
     io.emit('session-update-' + data.session, { user: data.student });
   });
 
+  socket.on('student-request', data => {
+    console.log(data);
+    console.log('student requested to join session');
+    io.emit('session-update-' + data.session, data);
+  });
+
+  socket.on('tutor-approve', data => {
+    console.log(data);
+    console.log('tutor approved student in session');
+    io.emit('student-session-update-' + data.session, { approved: true });
+  });
+
+  socket.on('tutor-deny', data => {
+    console.log(data);
+    console.log('tutor denied student in session');
+    io.emit('student-session-update-' + data.session, {
+      approved: false,
+      reason: data.reason
+    });
+  });
+
   socket.on('error', function() {
     console.log('socket error');
     socket.disconnect();

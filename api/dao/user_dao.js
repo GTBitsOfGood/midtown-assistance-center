@@ -80,6 +80,31 @@ module.exports = {
     });
   },
 
+  confirmEmail: function(data, callback) {
+    Tutor.find({ _id: data._id, confirm_key: data.confirm_key }, function(
+      err,
+      docs
+    ) {
+      if (err) {
+        console.error('Error confirming email :(');
+        callback(err);
+        return;
+      } else {
+        console.log(docs);
+        if (docs.length > 0) {
+          let tutor_obj = docs[0];
+          tutor_obj.confirmed = true;
+          tutor_obj.save(function(err) {
+            if (err) {
+              console.error(err);
+            }
+          });
+        }
+        callback(null, docs);
+      }
+    });
+  },
+
   getUser: function(username, callback) {
     // Look for tutors with the same username
     Tutor.find({ _id: username }, function(err, docs) {
@@ -134,6 +159,10 @@ module.exports = {
       return tutor.approved;
     }
 
+    function filterByConfirmed(tutor) {
+      return tutor.confirmed;
+    }
+
     function filterBySubject(tutor) {
       for (let i = 0; i < tutor.subjects.length; i++) {
         let subject_json = tutor.subjects[i];
@@ -176,6 +205,7 @@ module.exports = {
         tutors = tutors.filter(filterByOnline);
       }
       tutors = tutors.filter(filterByApproved);
+      tutors = tutors.filter(filterByConfirmed);
       if (subject) {
         tutors = tutors.filter(filterBySubject);
       }

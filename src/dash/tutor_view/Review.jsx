@@ -31,7 +31,7 @@ class Review extends React.Component {
         <span key={y} className="glyphicon glyphicon-star-empty" />
       );
     }
-    return (
+    const review = (
       <div className="tutor-review">
         <button onClick={this.reportReview} className="btn btn-sm report-btn">
           Report
@@ -44,6 +44,7 @@ class Review extends React.Component {
         <h5>{this.props.comment}</h5>
       </div>
     );
+    return <div>{this.props.rating === 0 ? '' : review}</div>;
   }
 }
 
