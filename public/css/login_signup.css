@@ -1,170 +1,170 @@
 /* Signup Tutor Form */
 :root {
-  /*--gold: #d4af37;*/
-  --gold: #eeb211;
-  --gray: #aeb7b3;
-  --ltgray: #f1f6f7;
-  --dkgray: #5f6462;
-  --purple: #160c28;
-  --black: #000411;
-  --blackhover: #222633;
-  --error_red: #d8000c;
-  --success_green: #4f8a10;
-  --warning_yellow: #9f6000;
+    /*--gold: #d4af37;*/
+    --gold: #eeb211;
+    --gray: #aeb7b3;
+    --ltgray: #f1f6f7;
+    --dkgray: #5f6462;
+    --purple: #160c28;
+    --black: #000411;
+    --blackhover: #222633;
+    --error_red: #d8000c;
+    --success_green: #4f8a10;
+    --warning_yellow: #9f6000;
 }
 
 body {
-  font-family: 'Lato', sans-serif;
+    font-family: 'Lato', sans-serif;
 }
 
 .bkgrd {
-  height: calc(100vh - 50px);
-  width: 100vw;
-  background: url('/images/atlanta_home.png');
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: auto 100vh;
-  opacity: 0.3;
-  position: fixed;
-  z-index: -10;
-  background-color: #ccc;
+    height: calc(100vh - 50px);
+    width: 100vw;
+    background: url('/images/atlanta_home.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: auto 100vh;
+    opacity: 0.3;
+    position: fixed;
+    z-index: -10;
+    background-color: #ccc;
 }
 
 .signup-form,
 .login-form {
-  position: fixed;
-  margin-top: calc(50vh - 200px);
-  min-height: 300px;
-  max-width: 500px;
-  padding: 2%;
-  overflow-y: scroll;
-  background-color: #fff;
-  /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
-  /*border-top: 3px solid var(--gold);*/
-  border: 1px solid var(--gray);
-  padding-right: 0;
-  padding-left: 1.5%;
+    position: fixed;
+    margin-top: calc(50vh - 200px);
+    min-height: 300px;
+    max-width: 500px;
+    padding: 2%;
+    overflow-y: scroll;
+    background-color: #fff;
+    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
+    /*border-top: 3px solid var(--gold);*/
+    border: 1px solid var(--gray);
+    padding-right: 0;
+    padding-left: 1.5%;
 }
 
 .signup-form {
-  height: 70vh;
-  min-height: 300px;
-  margin-top: 15vh;
+    height: 70vh;
+    min-height: 300px;
+    margin-top: 15vh;
 }
 
 .signup-form .signup-header,
 .login-form .login-header {
-  color: var(--dkgray);
-  font-weight: 300;
-  text-transform: none;
+    color: var(--dkgray);
+    font-weight: 300;
+    text-transform: none;
 }
 
 .signup-form .signup-header {
-  margin-bottom: 10px;
-  margin-top: 5px;
+    margin-bottom: 10px;
+    margin-top: 5px;
 }
 
 .signup-form .input-error,
 .login-form .input-error {
-  border-bottom: 1px solid var(--error_red);
+    border-bottom: 1px solid var(--error_red);
 }
 
 .error-message {
-  display: block;
-  color: var(--error_red);
-  padding-left: 0;
+    display: block;
+    color: var(--error_red);
+    padding-left: 0;
 }
 
 .error-message-hide {
-  display: none;
+    display: none;
 }
 
 .signup-form input:not(.input-error),
 .signup-form select,
 .login-form input:not(.input-error) {
-  /*border-bottom: 1px solid var(--gray);*/
+    /*border-bottom: 1px solid var(--gray);*/
 }
 
 .signup-form input,
 .signup-form select,
 .login-form input {
-  border-top: 0;
-  border-left: 0;
-  border-right: 0;
-  border-radius: 0px;
-  margin-top: 2%;
-  /*background-color: var(--ltgray);*/
-  font-weight: 300;
-  color: var(--gray);
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0px;
+    margin-top: 2%;
+    /*background-color: var(--ltgray);*/
+    font-weight: 300;
+    color: var(--gray);
 }
 
 .signup-form input:focus,
 .login-form input:focus {
-  outline: none;
+    outline: none;
 }
 
 .signup-form select {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  background-image: url('/images/select-down-arrow.png');
-  background-repeat: no-repeat;
-  background-position: right center;
-  background-size: 10px 10px;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    background-image: url('/images/select-down-arrow.png');
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 10px 10px;
 }
 
 .login-form input {
-  margin-top: 5%;
+    margin-top: 5%;
 }
 
 .signup-form .signup-button,
 .login-form .login-button {
-  background-color: var(--gold);
-  color: var(--ltgray);
-  margin-top: 5%;
-  border-radius: 3px;
-  font-weight: 400;
-  border-bottom: 0;
+    background-color: var(--gold);
+    color: var(--ltgray);
+    margin-top: 5%;
+    border-radius: 3px;
+    font-weight: 400;
+    border-bottom: 0;
 }
 
 .login-form .login-button {
-  margin-bottom: 5%;
+    margin-bottom: 5%;
 }
 
 .signup-form .signup-button {
-  margin-bottom: 2%;
+    margin-bottom: 2%;
 }
 
 .bootstrap-select.btn-group .dropdown-menu li a {
-  color: var(--dkgray) !important;
+    color: var(--dkgray) !important;
 }
 
 .signup-form .signup-button:hover,
 .login-form .login-button:hover {
-  background-color: var(--gray);
+    background-color: var(--gray);
 }
 
 .login-anchor,
 .signup-anchor {
-  color: var(--gray);
+    color: var(--gray);
 }
 
 .login-anchor:hover,
 .signup-anchor:hover {
-  color: var(--black);
-  text-decoration: none;
+    color: var(--black);
+    text-decoration: none;
 }
 
 .hide-error {
-  display: none;
+    display: none;
 }
 
 .show-error {
-  display: block;
+    display: block;
 }
 
 .signup-dialogue {
-  margin-bottom: 5%;
-  text-transform: none;
-  font-weight: 400;
+    margin-bottom: 5%;
+    text-transform: none;
+    font-weight: 400;
 }

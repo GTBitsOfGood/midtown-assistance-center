@@ -1,11 +1,11 @@
 const initialState = {
-  // TODO stats
-  new_tutors: []
+    // TODO stats
+    new_tutors: []
 };
 
 export default function change_tutors(state = initialState, action) {
-  switch (action.type) {
-    default:
-      return state;
-  }
+    switch (action.type) {
+        default:
+            return state;
+    }
 }

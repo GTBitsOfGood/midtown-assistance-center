@@ -6,11 +6,11 @@ import adminView from './reducers/admin_view';
 import subjects from './reducers/subject';
 
 const root = combineReducers({
-  user,
-  studentView,
-  tutorView,
-  adminView,
-  subjects
+    user,
+    studentView,
+    tutorView,
+    adminView,
+    subjects
 });
 
 export default root;
