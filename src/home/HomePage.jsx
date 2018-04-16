@@ -8,21 +8,25 @@ import AboutUs from '../AboutUs.jsx';
 import styles from '../../public/css/login_signup.css';
 
 const HomeComp = function() {
-  return (
-    <div>
-      <BrowserRouter>
+    return (
         <div>
-          <Route path="/home" component={HomeMenuBar} />
-          <Switch>
-            <Route exact path="/home/about" component={AboutUs} />
-            <Route exact path="/home/login" component={LoginPage} />
-            <Route exact path="/home/signUp" component={SignUpTabs} />
-            <Route path="/home" component={AboutUs} />
-          </Switch>
+            <BrowserRouter>
+                <div>
+                    <Route path="/home" component={HomeMenuBar} />
+                    <Switch>
+                        <Route exact path="/home/about" component={AboutUs} />
+                        <Route exact path="/home/login" component={LoginPage} />
+                        <Route
+                            exact
+                            path="/home/signUp"
+                            component={SignUpTabs}
+                        />
+                        <Route path="/home" component={AboutUs} />
+                    </Switch>
+                </div>
+            </BrowserRouter>
         </div>
-      </BrowserRouter>
-    </div>
-  );
+    );
 };
 
 ReactDOM.render(<HomeComp />, document.getElementById('root'));

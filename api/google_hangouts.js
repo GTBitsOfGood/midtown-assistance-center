@@ -16,11 +16,11 @@ var redirectUrl = secrets.installed.redirect_uris[0];
 var auth = new googleAuth();
 var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 oauth2Client.credentials.refresh_token =
-  '1/5NsatDnRYj8CM8Xj6sH5-hAYUCN1iFhunGO7ldjog6U';
+    '1/5NsatDnRYj8CM8Xj6sH5-hAYUCN1iFhunGO7ldjog6U';
 
 module.exports = {
-  auth: oauth2Client,
-  calendar: calendar
+    auth: oauth2Client,
+    calendar: calendar
 };
 
 /**

@@ -5,12 +5,12 @@
  */
 
 p {
-  font-size: 16px;
+    font-size: 16px;
 }
 
 hr {
-  height: 1px;
-  background-color: #ffffff;
+    height: 1px;
+    background-color: #ffffff;
 }
 
 a,
@@ -18,8 +18,8 @@ a.active,
 a:active,
 a:focus,
 a:hover {
-  color: #eeb211;
-  outline: none;
+    color: #eeb211;
+    outline: none;
 }
 
 h1,
@@ -28,23 +28,23 @@ h3,
 h4,
 h5,
 h6 {
-  font-weight: 700;
-  text-transform: uppercase;
+    font-weight: 700;
+    text-transform: uppercase;
 }
 
 section {
-  padding: 100px 0;
+    padding: 100px 0;
 }
 section h2 {
-  font-size: 3em;
-  margin: 0;
+    font-size: 3em;
+    margin: 0;
 }
 
 section.who-we-are {
-  color: white;
-  background: #eeb211;
+    color: white;
+    background: #eeb211;
 }
 
 .text-left {
-  text-align: left;
+    text-align: left;
 }

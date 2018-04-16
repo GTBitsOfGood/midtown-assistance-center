@@ -9,97 +9,104 @@ import socketIOClient from 'socket.io-client';
 import * as types from '../redux/actions/types/user_types';
 
 const SOCKETIO_ENDPOINT =
-  window.location.hostname +
-  (window.location.port ? ':' + window.location.port : '');
+    window.location.hostname +
+    (window.location.port ? ':' + window.location.port : '');
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 export class MenuBar extends React.Component {
-  constructor(props) {
-    super(props);
-    this.logout = this.logout.bind(this);
-  }
-
-  logout() {
-    console.warn('Logging out user');
-    // this.props.setTutorOnline(this.props.user, {online: false, logging_out: true});
-    if (this.props.user.type === types.typeTutor) {
-      socket.emit('tutor-logout');
+    constructor(props) {
+        super(props);
+        this.logout = this.logout.bind(this);
     }
-    let new_tutor = Object.assign({}, this.props.user);
-    new_tutor.online = false;
-    new_tutor.logging_out = true;
-    this.props.setTutorOffline(new_tutor);
-  }
 
-  render() {
-    return (
-      <Navbar collapseOnSelect className={styles.navigationbar}>
-        <Navbar.Header>
-          <Navbar.Brand className={styles.navbarheader}>
-            <Link to="/dash">Midtown Assistance Center</Link>
-          </Navbar.Brand>
-          <Navbar.Toggle />
-        </Navbar.Header>
-        <Navbar.Collapse>
-          <Nav pullLeft>
-            {window.location.pathname === '/dash/about' ? (
-              <LinkContainer to="/dash">
-                <MenuItem className={styles.navbartext}>Dashboard</MenuItem>
-              </LinkContainer>
-            ) : (
-              <LinkContainer to="/dash/about">
-                <MenuItem className={styles.navbartext}>About us</MenuItem>
-              </LinkContainer>
-            )}
-          </Nav>
-          <Nav pullRight>
-            <span>
-              <img
-                className="nav-prof-pic"
-                src={
-                  this.props.user.profile_picture
-                    ? this.props.user.profile_picture
-                    : '/images/user.png'
-                }
-              />
-            </span>
-            <DropdownButton
-              className="btn btn-sm dropdown-menu-button"
-              title={this.props.user._id}
-            >
-              <LinkContainer to="#">
-                <MenuItem>Messages</MenuItem>
-              </LinkContainer>
-              {window.location.pathname === '/dash/profile' ? (
-                <LinkContainer to="/dash">
-                  <MenuItem>Dashboard</MenuItem>
-                </LinkContainer>
-              ) : (
-                <LinkContainer to="/dash/profile">
-                  <MenuItem>Edit Profile</MenuItem>
-                </LinkContainer>
-              )}
-              <MenuItem divider />
-              <MenuItem onClick={() => this.logout()}>Log Out</MenuItem>
-            </DropdownButton>
-          </Nav>
-        </Navbar.Collapse>
-      </Navbar>
-    );
-  }
+    logout() {
+        console.warn('Logging out user');
+        // this.props.setTutorOnline(this.props.user, {online: false, logging_out: true});
+        if (this.props.user.type === types.typeTutor) {
+            socket.emit('tutor-logout');
+        }
+        let new_tutor = Object.assign({}, this.props.user);
+        new_tutor.online = false;
+        new_tutor.logging_out = true;
+        this.props.setTutorOffline(new_tutor);
+    }
+
+    render() {
+        return (
+            <Navbar collapseOnSelect className={styles.navigationbar}>
+                <Navbar.Header>
+                    <Navbar.Brand className={styles.navbarheader}>
+                        <Link to="/dash">Midtown Assistance Center</Link>
+                    </Navbar.Brand>
+                    <Navbar.Toggle />
+                </Navbar.Header>
+                <Navbar.Collapse>
+                    <Nav pullLeft>
+                        {window.location.pathname === '/dash/about' ? (
+                            <LinkContainer to="/dash">
+                                <MenuItem className={styles.navbartext}>
+                                    Dashboard
+                                </MenuItem>
+                            </LinkContainer>
+                        ) : (
+                            <LinkContainer to="/dash/about">
+                                <MenuItem className={styles.navbartext}>
+                                    About us
+                                </MenuItem>
+                            </LinkContainer>
+                        )}
+                    </Nav>
+                    <Nav pullRight>
+                        <span>
+                            <img
+                                className="nav-prof-pic"
+                                src={
+                                    this.props.user.profile_picture
+                                        ? this.props.user.profile_picture
+                                        : '/images/user.png'
+                                }
+                            />
+                        </span>
+                        <DropdownButton
+                            className="btn btn-sm dropdown-menu-button"
+                            title={this.props.user._id}
+                        >
+                            <LinkContainer to="#">
+                                <MenuItem>Messages</MenuItem>
+                            </LinkContainer>
+                            {window.location.pathname === '/dash/profile' ? (
+                                <LinkContainer to="/dash">
+                                    <MenuItem>Dashboard</MenuItem>
+                                </LinkContainer>
+                            ) : (
+                                <LinkContainer to="/dash/profile">
+                                    <MenuItem>Edit Profile</MenuItem>
+                                </LinkContainer>
+                            )}
+                            <MenuItem divider />
+                            <MenuItem onClick={() => this.logout()}>
+                                Log Out
+                            </MenuItem>
+                        </DropdownButton>
+                    </Nav>
+                </Navbar.Collapse>
+            </Navbar>
+        );
+    }
 }
 
 const mapStateToProps = state => {
-  return {
-    user: state.user
-  };
+    return {
+        user: state.user
+    };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    setTutorOffline: tutor => dispatch(saveTutor(tutor)),
-    setTutorOnline: (tutor, status) => dispatch(setTutorOnline(tutor, status))
-  };
+    return {
+        setTutorOffline: tutor => dispatch(saveTutor(tutor)),
+        setTutorOnline: (tutor, status) =>
+            dispatch(setTutorOnline(tutor, status))
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuBar);

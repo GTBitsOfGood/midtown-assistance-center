@@ -25,128 +25,128 @@ import Navigation from './admin_view/navigation/Navigation.jsx';
 
 // TODO: use global const
 const SOCKETIO_ENDPOINT =
-  window.location.hostname +
-  (window.location.port ? ':' + window.location.port : '');
+    window.location.hostname +
+    (window.location.port ? ':' + window.location.port : '');
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 const studentRoutes = (
-  <div>
-    <Route exact path="/dash" component={StudentDash} />
-    <Route exact path="/dash/about" component={AboutUs} />
-    <Route exact path="/dash/profile" component={StudentProfile} />
-  </div>
+    <div>
+        <Route exact path="/dash" component={StudentDash} />
+        <Route exact path="/dash/about" component={AboutUs} />
+        <Route exact path="/dash/profile" component={StudentProfile} />
+    </div>
 );
 
 const adminRoutes = (
-  <BrowserRouter>
-    <div className={adminStyles.body}>
-      <Route path="/dash" component={Navigation} />
-      <Switch>
-        <div className={adminStyles.body_wrapper}>
-          <Redirect exact from="/dash" to="/dash/dashboard" />
-          <Route exact path="/dash/dashboard" component={Dashboard} />
-          <Route exact path="/dash/approve" component={Approve} />
-          <Route exact path="/dash/add_admin" component={AddAdmin} />
+    <BrowserRouter>
+        <div className={adminStyles.body}>
+            <Route path="/dash" component={Navigation} />
+            <Switch>
+                <div className={adminStyles.body_wrapper}>
+                    <Redirect exact from="/dash" to="/dash/dashboard" />
+                    <Route exact path="/dash/dashboard" component={Dashboard} />
+                    <Route exact path="/dash/approve" component={Approve} />
+                    <Route exact path="/dash/add_admin" component={AddAdmin} />
+                </div>
+            </Switch>
         </div>
-      </Switch>
-    </div>
-  </BrowserRouter>
+    </BrowserRouter>
 );
 
 const tutorRoutes = (
-  <div>
-    <Route exact path="/dash" component={TutorDash} />
-    <Route exact path="/dash/about" component={AboutUs} />
-  </div>
+    <div>
+        <Route exact path="/dash" component={TutorDash} />
+        <Route exact path="/dash/about" component={AboutUs} />
+    </div>
 );
 
 const loading = (
-  <div className="animated fadeInDown">
-    <BrowserRouter>
-      <div>
-        <Route path="/dash" component={DashMenuBar} />
-        <div className={styles.loading}>
-          <GridLoader color="#EEB211" size="150px" />
-        </div>
-      </div>
-    </BrowserRouter>
-  </div>
+    <div className="animated fadeInDown">
+        <BrowserRouter>
+            <div>
+                <Route path="/dash" component={DashMenuBar} />
+                <div className={styles.loading}>
+                    <GridLoader color="#EEB211" size="150px" />
+                </div>
+            </div>
+        </BrowserRouter>
+    </div>
 );
 
 class DashComp extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-
-  componentDidMount() {
-    this.props.fetchUserAndInfo();
-  }
-
-  componentWillUnmount() {
-    socket.close();
-  }
-
-  render() {
-    if (this.props.user.fetching || !this.props.user.fetched) {
-      return loading;
+    constructor(props) {
+        super(props);
     }
-    if (this.props.user.logging_out) {
-      console.log('LOGGING OUT');
-      axios
-        .get('/logout', { params: { username: this.props.user._id } })
-        .then(function(response) {
-          console.log(response.data);
-          if (response.data) {
-            document.location.href = '/';
-          }
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
-      return loading;
+
+    componentDidMount() {
+        this.props.fetchUserAndInfo();
     }
-    let routes;
-    if (this.props.user.type === types.typeStudent) {
-      console.log('Student logged in');
-      routes = studentRoutes;
-    } else if (this.props.user.type === types.typeTutor) {
-      console.log('Tutor logged in');
-      routes = tutorRoutes;
-      socket.emit('tutor-login');
-    } else if (this.props.user.type === types.typeAdmin) {
-      console.log('Admin logged in');
-      return adminRoutes;
+
+    componentWillUnmount() {
+        socket.close();
     }
-    return (
-      <div className="animated fadeInDown">
-        <BrowserRouter>
-          <div>
-            <Route path="/dash" component={DashMenuBar} />
-            <Switch>{routes}</Switch>
-          </div>
-        </BrowserRouter>
-      </div>
-    );
-  }
+
+    render() {
+        if (this.props.user.fetching || !this.props.user.fetched) {
+            return loading;
+        }
+        if (this.props.user.logging_out) {
+            console.log('LOGGING OUT');
+            axios
+                .get('/logout', { params: { username: this.props.user._id } })
+                .then(function(response) {
+                    console.log(response.data);
+                    if (response.data) {
+                        document.location.href = '/';
+                    }
+                })
+                .catch(function(error) {
+                    console.log(error);
+                });
+            return loading;
+        }
+        let routes;
+        if (this.props.user.type === types.typeStudent) {
+            console.log('Student logged in');
+            routes = studentRoutes;
+        } else if (this.props.user.type === types.typeTutor) {
+            console.log('Tutor logged in');
+            routes = tutorRoutes;
+            socket.emit('tutor-login');
+        } else if (this.props.user.type === types.typeAdmin) {
+            console.log('Admin logged in');
+            return adminRoutes;
+        }
+        return (
+            <div className="animated fadeInDown">
+                <BrowserRouter>
+                    <div>
+                        <Route path="/dash" component={DashMenuBar} />
+                        <Switch>{routes}</Switch>
+                    </div>
+                </BrowserRouter>
+            </div>
+        );
+    }
 }
 
 const mapStateToProps = state => {
-  return {
-    user: state.user
-  };
+    return {
+        user: state.user
+    };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    fetchUserAndInfo: () => dispatch(fetchUserAndInfo())
-  };
+    return {
+        fetchUserAndInfo: () => dispatch(fetchUserAndInfo())
+    };
 };
 
 const DashComponent = connect(mapStateToProps, mapDispatchToProps)(DashComp);
 
 ReactDOM.render(
-  <Provider store={store}>
-    <DashComponent />
-  </Provider>,
-  document.getElementById('root')
+    <Provider store={store}>
+        <DashComponent />
+    </Provider>,
+    document.getElementById('root')
 );

@@ -8,7 +8,7 @@ const tutor_sessions = require('./dao/tutor_session_dao');
 // Set up default mongoose connection
 const mongoDB = process.env.DB_CONNECTION_STRING;
 mongoose.connect(mongoDB, {
-  useMongoClient: true
+    useMongoClient: true
 });
 
 // Get the default connection
@@ -18,10 +18,10 @@ let db = mongoose.connection;
 db.on('error', console.error.bind(console, 'MongoDB connection error:'));
 
 module.exports = {
-  users,
-  access_codes,
-  session,
-  subjects,
-  tutor_sessions,
-  mongoDB
+    users,
+    access_codes,
+    session,
+    subjects,
+    tutor_sessions,
+    mongoDB
 };
