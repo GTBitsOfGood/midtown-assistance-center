@@ -76,16 +76,16 @@ class TutorUpcomingEvent extends React.Component {
                 .post('/api/getTutorSession', sessionRequestBody)
                 .then(function(response) {
                     if (response.data.success) {
-                        console.log(response.data.session);
                         if (
                             response.data.session &&
                             response.data.session.end_time
                         ) {
-                            console.log(startTimeSplit);
                             self.setState({ display: false });
                         } else {
-                            console.log(startTimeSplit);
                             self.setState({ display: true });
+                            if (response.data.session) {
+                                self.setNewState(response.data.session.hangouts_link, response.data.session.eventId, response.data.session);
+                            }
                         }
                     } else {
                         console.log(response.data.error);
@@ -129,6 +129,13 @@ class TutorUpcomingEvent extends React.Component {
                         response.data.id,
                         response.data.session
                     );
+                    $('#Modal_' +
+                        self.props.dayName +
+                        '_' +
+                        self.props.startTime.split(':')[0] +
+                        '_' +
+                        self.props.endTime.split(':')[0]).modal('show');
+                    console.log("showing modal...");
                     console.log(response.data.session);
                 } else {
                     console.log(response.data.error);
