@@ -201,7 +201,9 @@ class SignUpTutor extends React.Component {
                   })
                   .catch(function(error) {
                     console.log(error);
-                    self.setState({ disabledSubmit: false });
+                    self.setState({
+                      disabledSubmit: false
+                    });
                   });
               })
               .catch(function(error) {
@@ -211,8 +213,12 @@ class SignUpTutor extends React.Component {
           } else {
             //registration failed
             self.setState({ errorMessage: 'error-message' });
-            self.setState({ inputErrorMessage: 'error-message-hide' });
-            self.setState({ errorMessageContent: response.data.error_message });
+            self.setState({
+              inputErrorMessage: 'error-message-hide'
+            });
+            self.setState({
+              errorMessageContent: response.data.error_message
+            });
             self.setState({ disabledSubmit: false });
           }
         })

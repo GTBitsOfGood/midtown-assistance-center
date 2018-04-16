@@ -126,7 +126,10 @@ class StudentProfile extends React.Component {
                   <button
                     className="btn btn-primary"
                     type="submit"
-                    style={{ float: 'right', margin: '5px' }}
+                    style={{
+                      float: 'right',
+                      margin: '5px'
+                    }}
                     onClick={this.handleEdit}
                   >
                     {this.state.button_text}

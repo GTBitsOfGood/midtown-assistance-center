@@ -14,7 +14,12 @@ class LoginStatistics extends React.Component {
           <h2 className={styles.admin_statistics_title}>Usage</h2>
           <Col md={8}>
             <LineChart
-              margin={{ top: 10, right: 10, bottom: 50, left: 50 }}
+              margin={{
+                top: 10,
+                right: 10,
+                bottom: 50,
+                left: 50
+              }}
               xType={'time'}
               axes
               lineColors={['#222633', '#EEB211']}

@@ -18,7 +18,12 @@ class GPAImprovementStatistics extends React.Component {
           <Col md={8}>
             <LineChart
               axes
-              margin={{ top: 10, right: 10, bottom: 40, left: 60 }}
+              margin={{
+                top: 10,
+                right: 10,
+                bottom: 40,
+                left: 60
+              }}
               axisLabels={{ x: 'Time', y: 'GPA Percent Change' }}
               width={300}
               height={265}

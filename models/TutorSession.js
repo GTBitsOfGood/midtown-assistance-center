@@ -28,7 +28,11 @@ let studentReview = new Schema({
 let schema = new Schema({
   _id: {
     type: {
-      tutor_id: { type: Schema.Types.ObjectId, ref: 'Tutor', required: true },
+      tutor_id: {
+        type: Schema.Types.ObjectId,
+        ref: 'Tutor',
+        required: true
+      },
       expected_start_time: { type: Date, required: true }
     }
   },

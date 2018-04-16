@@ -91,7 +91,11 @@ class Statistics extends React.Component {
                   size={80}
                   innerHoleSize={40}
                   data={[
-                    { key: 'A', value: 97, color: '#EEB211' },
+                    {
+                      key: 'A',
+                      value: 97,
+                      color: '#EEB211'
+                    },
                     { key: 'B', value: 3, color: '#aeb7b3' }
                   ]}
                 />
