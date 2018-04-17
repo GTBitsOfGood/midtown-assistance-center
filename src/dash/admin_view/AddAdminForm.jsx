@@ -1,17 +1,16 @@
 import styles from '../../../public/css/admin.css';
 import React from 'react';
-import ApproveTutorItem from '../ApproveTutorItem.jsx';
 
-class Approve extends React.Component {
+class AddAdminForm extends React.Component {
     constructor(props) {
         super(props);
     }
     render() {
         return (
             <div>
-                <ApproveTutorItem />
+                <h1>test</h1>
             </div>
         );
     }
 }
-export default Approve;
+export default AddAdminForm;

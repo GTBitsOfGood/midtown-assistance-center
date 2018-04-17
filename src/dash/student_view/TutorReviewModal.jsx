@@ -38,7 +38,9 @@ class TutorModal extends React.Component {
     initTutorModal() {
         let status = 'new';
         let join_request_comment = '';
-        let topic = this.props.subjects ? this.props.subjects[0].subject : '';
+        let topic = this.props.subjects[0]
+            ? this.props.subjects[0].subject
+            : '';
         let rejection_reason = '';
         let rating = 0;
         let comment = '';
@@ -358,7 +360,8 @@ class TutorModal extends React.Component {
         });
         this.props.socket.on(
             'student-session-update-' +
-                (this.props.session ? this.props.session.eventId : 'unused') + this.props.username,
+                (this.props.session ? this.props.session.eventId : 'unused') +
+                this.props.username,
             data => {
                 console.log('Session update!');
                 console.log(data);

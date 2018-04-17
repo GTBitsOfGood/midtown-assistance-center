@@ -16,7 +16,7 @@ const Tutor = require('../../models/Tutor.js');
  * @returns {number}
  */
 function sumRatings(accumulator, currentValue) {
-    var rating = currentValue.getRating();
+    let rating = currentValue.getRating();
     return (
         accumulator +
         (rating == null ? 0 : rating * currentValue.getNumRatings())
@@ -68,6 +68,34 @@ function getComments(doc) {
 }
 
 module.exports = {
+    /**
+     * Get all the tutor sessions for the previous month
+     * @param session: {}
+     * @param callback
+     * @author RM
+     */
+
+    getTutorSessions: function(session, callback) {
+        //Get Today's date
+        let d = new Date();
+        let m = d.getMonth();
+        d.setMonth(d.getMonth() - 1);
+
+        //Get Start date for sessions 1 month prior
+        let oneMonthAgoDate = d;
+
+        //TO DO: Query the TutorSessionDao to get all sessions 1 month ago
+        //Look at http://mongoosejs.com/docs/queries.html
+
+        TutoringSessionsList = TutorSession.find()
+            .where('start_time')
+            .gt(oneMonthAgoDate);
+
+        //Return the list of tutor sessions
+
+        return TutoringSessionsList;
+    },
+
     /**
      * add a tutor session object
      * @param session
@@ -149,22 +177,22 @@ module.exports = {
                 return;
             }
             new_stat = res;
-        });
-        Tutor.findOne({ _id: session._id.tutor_id }, function(err, tutor) {
-            if (err) {
-                console.error(err);
-            }
-            tutor.rating = new_stat.avgRating;
-            tutor.num_ratings = new_stat.totalRatings;
-            tutor.num_sessions = new_stat.totalSessions;
-            tutor.save(function(err) {
+            Tutor.findOne({ _id: session._id.tutor_id }, function(err, tutor) {
                 if (err) {
                     console.error(err);
-                    callback(err);
-                    return;
                 }
+                tutor.rating = new_stat.avgRating;
+                tutor.num_ratings = new_stat.totalRatings;
+                tutor.num_sessions = new_stat.totalSessions;
+                tutor.save(function(err) {
+                    if (err) {
+                        console.error(err);
+                        callback(err);
+                        return;
+                    }
+                });
+                console.log(tutor);
             });
-            console.log(tutor);
         });
     },
 
@@ -211,24 +239,24 @@ module.exports = {
                 return;
             }
             new_stat = res;
-        });
-        Tutor.findOne({ _id: session._id.tutor_id }, function(err, tutor) {
-            if (err) {
-                console.error(err);
-                callback(err);
-                return;
-            }
-            tutor.rating = new_stat.avgRating;
-            tutor.num_ratings = new_stat.totalRatings;
-            tutor.num_sessions = new_stat.totalSessions;
-            tutor.save(function(err) {
+            Tutor.findOne({ _id: session._id.tutor_id }, function(err, tutor) {
                 if (err) {
                     console.error(err);
                     callback(err);
                     return;
                 }
+                tutor.rating = new_stat.avgRating;
+                tutor.num_ratings = new_stat.totalRatings;
+                tutor.num_sessions = new_stat.totalSessions;
+                tutor.save(function(err) {
+                    if (err) {
+                        console.error(err);
+                        callback(err);
+                        return;
+                    }
+                });
+                console.log(tutor);
             });
-            console.log(tutor);
         });
     },
 
@@ -305,8 +333,8 @@ module.exports = {
                 callback(err);
                 return;
             } else {
-                var new_docs = JSON.parse(JSON.stringify(docs));
-                for (var doc in docs) {
+                let new_docs = JSON.parse(JSON.stringify(docs));
+                for (let doc in docs) {
                     new_docs[doc].rating = docs[doc].getRating();
                 }
                 callback(null, new_docs);
@@ -394,7 +422,7 @@ module.exports = {
                 callback(err);
                 return;
             } else {
-                var avgSessionTime = docs.reduce(sumSessionTimes) / docs.length;
+                let avgSessionTime = docs.reduce(sumSessionTimes) / docs.length;
                 callback(null, { time: avgSessionTime });
             }
         });
@@ -421,8 +449,8 @@ module.exports = {
                 return;
             } else {
                 docs = docs.filter(filterBySessionDate);
-                var totalDiscrepancy = docs.reduce(getSessionDiscrepancy);
-                var avgDiscrepancy = totalDiscrepancy / docs.length;
+                let totalDiscrepancy = docs.reduce(getSessionDiscrepancy);
+                let avgDiscrepancy = totalDiscrepancy / docs.length;
                 callback(null, { time: avgDiscrepancy });
             }
         });
@@ -448,8 +476,8 @@ module.exports = {
                 return;
             } else {
                 docs = docs.filter(filterBySessionDate);
-                var sumRatings = docs.reduce(sumRatings);
-                var numRatings = docs.reduce(numRatings);
+                let sumRatings = docs.reduce(sumRatings);
+                let numRatings = docs.reduce(numRatings);
                 callback(null, {
                     avgRating: sumRatings / numRatings,
                     totalRatings: numRatings

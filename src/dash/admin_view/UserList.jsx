@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../public/css/admin.css';
+import styles from '../../../public/css/admin.css';
 import { Table, Tabs, Tab } from 'react-bootstrap';
 
 class UserList extends React.Component {

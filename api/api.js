@@ -21,11 +21,20 @@ const app = express();
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-// get all online tutors for search page
+/*
+    1. This is a route for the admin dash to get the N most recent tutoring sessions
+    2.
+*/
+
+app.get('/getRecentSessions', (req, res) => {
+    // TO DO: Add method in Session Dao
+    //
+});
+
 app.get('/onlineTutors', (req, res) => {
     function addActiveSession(tutor) {
-        var return_tutor = JSON.parse(JSON.stringify(tutor));
-        var getSession = new Promise(function(resolve, reject) {
+        let return_tutor = JSON.parse(JSON.stringify(tutor));
+        let getSession = new Promise(function(resolve, reject) {
             data_access.tutor_sessions.getActiveSession(
                 return_tutor._id,
                 function(err, response) {
@@ -52,7 +61,7 @@ app.get('/onlineTutors', (req, res) => {
             console.error(err);
             return res.send([]);
         }
-        var tutor_promises = tutors.map(addActiveSession);
+        let tutor_promises = tutors.map(addActiveSession);
         Promise.all(tutor_promises).then(
             function(values) {
                 res.send(values);
@@ -171,7 +180,13 @@ app.post('/registerTutor', (req, res) => {
     });
 });
 
-// register a new student, ensure that the student's username and email do not already exist
+/**
+ * 1. Purpose: Register a new student. This method is called from StudentSignUpForm.JSX
+ * 2. Axios from the frontend file sent the data to here in the parameter req
+ * 3. Ensures that the student's username and email do not already exist
+ * @param req: This contains the form data sent from the front end. There are a lot of things here. Check the
+ *             StudentSignUpForm.jsx to see all of the fields.
+ */
 app.post('/registerStudent', (req, res) => {
     //Add this information to the database
     console.log(req.body);
@@ -559,6 +574,25 @@ app.post('/getTutorStats', (req, res) => {
                 success: true,
                 error: null,
                 statistics: response
+            });
+        }
+    });
+});
+
+app.get('/unapprovedTutors', (req, res) => {
+    data_access.users.getUnapprovedTutors(function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            console.log(err);
+            res.json({
+                success: true,
+                error: null,
+                tutors: response
             });
         }
     });

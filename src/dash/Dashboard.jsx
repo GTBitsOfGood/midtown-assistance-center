@@ -9,14 +9,19 @@ import TutorDash from './tutor_view/TutorDash.jsx';
 import { Provider } from 'react-redux';
 import store from '../redux/store.js';
 import AboutUs from '../AboutUs.jsx';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { fetchUser, saveTutor } from '../redux/actions/user_actions.js';
 import { connect } from 'react-redux';
 import axios from 'axios';
 import { GridLoader } from 'halogen';
 import styles from '../../public/css/index.css';
+import adminStyles from '../../public/css/admin.css';
 import socketIOClient from 'socket.io-client';
 import { fetchUserAndInfo } from '../redux/actions/user_actions';
+import Approve from './admin_view/pages/Approve.jsx';
+import AddAdmin from './admin_view/pages/AddAdmin.jsx';
+import Dashboard from './admin_view/pages/Dashboard.jsx';
+import Navigation from './admin_view/navigation/Navigation.jsx';
 
 // TODO: use global const
 const SOCKETIO_ENDPOINT =
@@ -30,6 +35,22 @@ const studentRoutes = (
         <Route exact path="/dash/about" component={AboutUs} />
         <Route exact path="/dash/profile" component={StudentProfile} />
     </div>
+);
+
+const adminRoutes = (
+    <BrowserRouter>
+        <div className={adminStyles.body}>
+            <Route path="/dash" component={Navigation} />
+            <Switch>
+                <div className={adminStyles.body_wrapper}>
+                    <Redirect exact from="/dash" to="/dash/dashboard" />
+                    <Route exact path="/dash/dashboard" component={Dashboard} />
+                    <Route exact path="/dash/approve" component={Approve} />
+                    <Route exact path="/dash/add_admin" component={AddAdmin} />
+                </div>
+            </Switch>
+        </div>
+    </BrowserRouter>
 );
 
 const tutorRoutes = (
@@ -92,6 +113,9 @@ class DashComp extends React.Component {
             console.log('Tutor logged in');
             routes = tutorRoutes;
             socket.emit('tutor-login');
+        } else if (this.props.user.type === types.typeAdmin) {
+            console.log('Admin logged in');
+            return adminRoutes;
         }
         return (
             <div className="animated fadeInDown">
