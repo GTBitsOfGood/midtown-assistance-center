@@ -23,11 +23,11 @@ body {
     background: url('/images/atlanta_home.png');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: auto 100vh;
+    background-size: 100vw auto;
     /*opacity: 0.3;*/
     position: fixed;
     z-index: -10;
-    background-color: #ccc;
+    background-color: var(--black);
 }
 
 .signup-form,
