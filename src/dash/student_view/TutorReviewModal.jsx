@@ -38,7 +38,9 @@ class TutorModal extends React.Component {
     initTutorModal() {
         let status = 'new';
         let join_request_comment = '';
-        let topic = this.props.subjects[0] ? this.props.subjects[0].subject : '';
+        let topic = this.props.subjects[0]
+            ? this.props.subjects[0].subject
+            : '';
         let rejection_reason = '';
         let rating = 0;
         let comment = '';
