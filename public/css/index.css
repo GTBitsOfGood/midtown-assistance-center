@@ -355,11 +355,18 @@ body {
 }
 
 .approve-tutor-item {
-    box-shadow: 0 0 2px 0 var(--black), 0 0px 5px 0 var(--lighterblack);
-    padding: 0px 5px 15px 5px;
+    padding: 0px 30px 15px 30px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     margin-bottom: 1%;
-    background-color: var(--lighterblack);
-    color: var(--ltgray);
+    background-color: white;
+    color: var(--dkgray);
+    height: 50vh;
+    min-height: 300px;
+    overflow-y: scroll;
+}
+
+.approve-tutor-header {
+    margin-bottom: 25px;
 }
 
 .approve-tutors-list {
@@ -777,6 +784,12 @@ body {
 
 .col-no-padding {
     padding: 0;
+}
+
+.tutor-ic-admin {
+    color: var(--gold);
+    transform: translateY(1px);
+
 }
 
 @keyframes hoverFadeIn {

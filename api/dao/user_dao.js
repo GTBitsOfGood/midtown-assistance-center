@@ -355,6 +355,16 @@ module.exports = {
         );
     },
 
+    getUnapprovedTutors: function(callback) {
+        Tutor.find({approved:false}, function(err, docs) {
+            if (err) {
+                console.log(err);
+                return callback(err);
+            }
+            callback(null, docs);
+        });
+    },
+
     saveTutor: function(tutor, callback) {
         if (tutor.password === config.get('hidden_password')) {
             callback('The tutor password is masked! Not saving this to db');

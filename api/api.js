@@ -579,6 +579,25 @@ app.post('/getTutorStats', (req, res) => {
     });
 });
 
+app.get('/unapprovedTutors', (req, res) => {
+    data_access.users.getUnapprovedTutors(function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            console.log(err);
+            res.json({
+                success: true,
+                error: null,
+                tutors: response
+            });
+        }
+    })
+});
+
 // update the administrator
 app.patch('/admin', (req, res) => {
     res.json({
