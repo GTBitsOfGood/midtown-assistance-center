@@ -24,7 +24,7 @@ body {
     background-repeat: no-repeat;
     background-position: center;
     background-size: auto 100vh;
-    opacity: 0.3;
+    /*opacity: 0.3;*/
     position: fixed;
     z-index: -10;
     background-color: #ccc;
