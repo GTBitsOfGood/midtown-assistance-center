@@ -60,7 +60,7 @@ class Loginpage extends React.Component {
             <div>
                 <div className="bkgrd" />
                 <div className="animated fadeInRight">
-                    <div className="login-form-bkgrd col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4"></div>
+                    <div className="login-form-bkgrd col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4" />
                     <div className="animated fadeInRight col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center login-form container">
                         <div className="vert-center">
                             <h3 className="login-header">Login</h3>
@@ -93,7 +93,11 @@ class Loginpage extends React.Component {
                                         value="SUBMIT"
                                     />
                                 </div>
-                                <h5 className={'col-xs-12 ' + this.state.errorMessage}>
+                                <h5
+                                    className={
+                                        'col-xs-12 ' + this.state.errorMessage
+                                    }
+                                >
                                     username or password incorrect
                                 </h5>
                                 <div className="row col-xs-12">

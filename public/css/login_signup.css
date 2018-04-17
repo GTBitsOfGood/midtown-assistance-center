@@ -11,9 +11,9 @@
     --error_red: #d8000c;
     --success_green: #4f8a10;
     --warning_yellow: #9f6000;
-    --login_signup: #C8B9BE;
+    --login_signup: #c8b9be;
     --login_signup: #223641;
-    --login_signup: #1C272B;
+    --login_signup: #1c272b;
     --accent: var(--gold);
 }
 
@@ -46,7 +46,7 @@ input:-webkit-autofill {
     background-color: var(--login_signup);
     z-index: 0;
     height: 60vh;
-    opacity: 0.5;
+    opacity: 0.6;
 }
 
 .signup-form-bkgrd {
@@ -55,7 +55,7 @@ input:-webkit-autofill {
     background-color: var(--login_signup);
     z-index: 0;
     height: 70vh;
-    opacity: 0.5;
+    opacity: 0.6;
     min-height: 300px;
     margin-top: 15vh;
 }
@@ -72,10 +72,12 @@ input:-webkit-autofill {
     background-color: transparent;
 }
 
-.nav-tabs>li.active>a, .nav-tabs>li.active>a:focus, .nav-tabs>li.active>a:hover {
-    background-color: transparent ! important;
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+    background-color: transparent !important;
     color: var(--ltgray);
-    border-bottom: 0 ! important;
+    border-bottom: 0 !important;
 }
 
 .signup-form,
@@ -203,7 +205,7 @@ input:-webkit-autofill {
     font-weight: 400;
     border-radius: 3px;
     /*border: 1px solid var(--gray);*/
-    border-bottom: 0 ! important;
+    border-bottom: 0 !important;
 }
 
 .login-form .login-button {
@@ -251,10 +253,8 @@ input:-webkit-autofill {
 }
 
 .login-form {
-
     /*background-color: var(--gold);
     -webkit-border-radius: 3%;
     -moz-border-radius: 3%;
     border-radius: 3%;*/
 }
-
