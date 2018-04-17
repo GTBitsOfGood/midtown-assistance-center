@@ -28,7 +28,14 @@ class TutorSearchResult extends React.Component {
                 (this.props.data.rating - Math.floor(this.props.data.rating)) /
                     0.5
             ),
-            emptyStars: 5 - Math.ceil(this.props.data.rating),
+            emptyStars:
+                5 -
+                Math.floor(this.props.data.rating) -
+                Math.floor(
+                    (this.props.data.rating -
+                        Math.floor(this.props.data.rating)) /
+                        0.5
+                ),
             fullStars: Math.floor(this.props.data.rating)
         });
     }
