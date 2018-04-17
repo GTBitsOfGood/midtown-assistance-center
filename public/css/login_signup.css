@@ -11,10 +11,18 @@
     --error_red: #d8000c;
     --success_green: #4f8a10;
     --warning_yellow: #9f6000;
+    --login_signup: #c8b9be;
+    --login_signup: #223641;
+    --login_signup: #1c272b;
+    --accent: var(--gold);
 }
 
 body {
     font-family: 'Lato', sans-serif;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px var(--ltgray) inset;
 }
 
 .bkgrd {
@@ -23,11 +31,53 @@ body {
     background: url('/images/atlanta_home.png');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: auto 100vh;
-    opacity: 0.3;
+    background-size: 100vw auto;
+    /*opacity: 0.3;*/
     position: fixed;
     z-index: -10;
-    background-color: #ccc;
+    background-color: var(--black);
+}
+
+.login-form-bkgrd {
+    position: fixed;
+    margin-top: calc(50vh - 200px);
+    min-height: 300px;
+    max-width: 500px;
+    background-color: var(--login_signup);
+    z-index: 0;
+    height: 60vh;
+    opacity: 0.6;
+}
+
+.signup-form-bkgrd {
+    position: fixed;
+    max-width: 500px;
+    background-color: var(--login_signup);
+    z-index: 0;
+    height: 70vh;
+    opacity: 0.6;
+    min-height: 300px;
+    margin-top: 15vh;
+}
+
+.signup-tabs {
+    background-color: transparent;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid var(--gray);
+}
+
+.signup-tab {
+    background-color: transparent;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+    background-color: transparent !important;
+    color: var(--ltgray);
+    border-bottom: 0 !important;
 }
 
 .signup-form,
@@ -37,13 +87,17 @@ body {
     min-height: 300px;
     max-width: 500px;
     padding: 2%;
+    height: 60vh;
+    z-index: 1;
     overflow-y: scroll;
-    background-color: #fff;
+    /*background-color: #fff;*/
     /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
     /*border-top: 3px solid var(--gold);*/
-    border: 1px solid var(--gray);
+    /*border: 1px solid var(--gray);*/
     padding-right: 0;
     padding-left: 1.5%;
+    background-color: transparent;
+    color: var(--ltgray);
 }
 
 .signup-form {
@@ -52,9 +106,19 @@ body {
     margin-top: 15vh;
 }
 
+.login-form {
+    display: table;
+}
+
+.vert-center {
+    display: table-cell;
+    vertical-align: middle;
+}
+
 .signup-form .signup-header,
 .login-form .login-header {
-    color: var(--dkgray);
+    /*color: var(--dkgray);*/
+    /*color: black;*/
     font-weight: 300;
     text-transform: none;
 }
@@ -82,7 +146,7 @@ body {
 .signup-form input:not(.input-error),
 .signup-form select,
 .login-form input:not(.input-error) {
-    /*border-bottom: 1px solid var(--gray);*/
+    border-bottom: 1px solid var(--gray);
 }
 
 .signup-form input,
@@ -93,14 +157,27 @@ body {
     border-right: 0;
     border-radius: 0px;
     margin-top: 2%;
-    /*background-color: var(--ltgray);*/
+    /*background-color: var(--login_signup);*/
+    background-color: transparent;
     font-weight: 300;
-    color: var(--gray);
+    color: var(--ltgray);
+    /*border-radius: 3px;*/
+    /*color: green;*/
+}
+
+.signup-form input::placeholder,
+.signup-form select,
+.login-form input::placeholder {
+    color: var(--ltgray);
 }
 
 .signup-form input:focus,
 .login-form input:focus {
     outline: none;
+}
+
+.help-block {
+    color: var(--error_red);
 }
 
 .signup-form select {
@@ -119,12 +196,16 @@ body {
 
 .signup-form .signup-button,
 .login-form .login-button {
-    background-color: var(--gold);
+    /*background-color: var(--gold);*/
+    background-color: var(--accent);
+    /*border: 1px solid var(--ltgray) ! important;*/
     color: var(--ltgray);
+    /*color: black;*/
     margin-top: 5%;
-    border-radius: 3px;
     font-weight: 400;
-    border-bottom: 0;
+    border-radius: 3px;
+    /*border: 1px solid var(--gray);*/
+    border-bottom: 0 !important;
 }
 
 .login-form .login-button {
@@ -141,11 +222,13 @@ body {
 
 .signup-form .signup-button:hover,
 .login-form .login-button:hover {
-    background-color: var(--gray);
+    opacity: 0.7;
+    /*background-color: lightgoldenrodyellow;*/
 }
 
 .login-anchor,
 .signup-anchor {
+    /*color: var(--gray);*/
     color: var(--gray);
 }
 
@@ -167,4 +250,11 @@ body {
     margin-bottom: 5%;
     text-transform: none;
     font-weight: 400;
+}
+
+.login-form {
+    /*background-color: var(--gold);
+    -webkit-border-radius: 3%;
+    -moz-border-radius: 3%;
+    border-radius: 3%;*/
 }

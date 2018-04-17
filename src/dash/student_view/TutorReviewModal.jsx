@@ -531,7 +531,11 @@ class TutorModal extends React.Component {
         );
         const rejected_html = (
             <div>
-                <h4>REJECTED U NOOB BC {this.state.rejection_reason}</h4>
+                <h5>
+                    Unfortunately, your request to join this session was
+                    rejected by the tutor because of the following reason
+                </h5>
+                <h4>{this.state.rejection_reason}</h4>
             </div>
         );
         const submitButton = (
@@ -595,7 +599,9 @@ class TutorModal extends React.Component {
                                     }
                                     className="btn btn-default mac_button"
                                 >
-                                    Cancel
+                                    {this.state.approval !== 'rejected'
+                                        ? 'Cancel'
+                                        : 'Close'}
                                 </button>
                                 {this.state.approval === 'in_session' ||
                                 this.state.approval === 'new'
