@@ -177,22 +177,22 @@ module.exports = {
                 return;
             }
             new_stat = res;
-        });
-        Tutor.findOne({ _id: session._id.tutor_id }, function(err, tutor) {
-            if (err) {
-                console.error(err);
-            }
-            tutor.rating = new_stat.avgRating;
-            tutor.num_ratings = new_stat.totalRatings;
-            tutor.num_sessions = new_stat.totalSessions;
-            tutor.save(function(err) {
+            Tutor.findOne({ _id: session._id.tutor_id }, function(err, tutor) {
                 if (err) {
                     console.error(err);
-                    callback(err);
-                    return;
                 }
+                tutor.rating = new_stat.avgRating;
+                tutor.num_ratings = new_stat.totalRatings;
+                tutor.num_sessions = new_stat.totalSessions;
+                tutor.save(function(err) {
+                    if (err) {
+                        console.error(err);
+                        callback(err);
+                        return;
+                    }
+                });
+                console.log(tutor);
             });
-            console.log(tutor);
         });
     },
 
@@ -239,24 +239,24 @@ module.exports = {
                 return;
             }
             new_stat = res;
-        });
-        Tutor.findOne({ _id: session._id.tutor_id }, function(err, tutor) {
-            if (err) {
-                console.error(err);
-                callback(err);
-                return;
-            }
-            tutor.rating = new_stat.avgRating;
-            tutor.num_ratings = new_stat.totalRatings;
-            tutor.num_sessions = new_stat.totalSessions;
-            tutor.save(function(err) {
+            Tutor.findOne({ _id: session._id.tutor_id }, function(err, tutor) {
                 if (err) {
                     console.error(err);
                     callback(err);
                     return;
                 }
+                tutor.rating = new_stat.avgRating;
+                tutor.num_ratings = new_stat.totalRatings;
+                tutor.num_sessions = new_stat.totalSessions;
+                tutor.save(function(err) {
+                    if (err) {
+                        console.error(err);
+                        callback(err);
+                        return;
+                    }
+                });
+                console.log(tutor);
             });
-            console.log(tutor);
         });
     },
 
