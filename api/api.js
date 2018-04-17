@@ -595,7 +595,7 @@ app.get('/unapprovedTutors', (req, res) => {
                 tutors: response
             });
         }
-    })
+    });
 });
 
 // update the administrator

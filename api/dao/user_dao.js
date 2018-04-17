@@ -356,7 +356,7 @@ module.exports = {
     },
 
     getUnapprovedTutors: function(callback) {
-        Tutor.find({approved:false}, function(err, docs) {
+        Tutor.find({ approved: false }, function(err, docs) {
             if (err) {
                 console.log(err);
                 return callback(err);

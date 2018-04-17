@@ -5,7 +5,8 @@
         "The midtown assistance non profit tutor to student connection project.",
     "main": "index.js",
     "scripts": {
-        "precommit": "./node_modules/.bin/prettier --tab-width 4 --single-quote --write '**/*.{js,jsx,json,css}'",
+        "precommit":
+            "./node_modules/.bin/prettier --tab-width 4 --single-quote --write '**/*.{js,jsx,json,css}'",
         "start": "nodemon --exec babel-node server.js --ignore public/",
         "dev": "webpack -wd",
         "postinstall": "webpack -p --config ./webpack.config.js --progress"

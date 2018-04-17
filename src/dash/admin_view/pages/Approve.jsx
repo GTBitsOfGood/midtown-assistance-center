@@ -14,27 +14,33 @@ class Approve extends React.Component {
 
     componentWillMount() {
         this.initUnapprovedTutors();
-    };
+    }
 
     initUnapprovedTutors() {
         let self = this;
-        axios.get('/api/unapprovedTutors')
+        axios
+            .get('/api/unapprovedTutors')
             .then(function(response) {
-                self.setState({tutors: response.data.tutors});
-            }).catch(function(err) {
+                self.setState({ tutors: response.data.tutors });
+            })
+            .catch(function(err) {
                 console.log(err);
             });
     }
 
     render() {
         const renTutors = this.state.tutors.map((obj, num) => {
-            return obj.confirmed ? <ApproveTutorItem refreshTutors={this.initUnapprovedTutors} tutor={obj} id={num} /> : '';
+            return obj.confirmed ? (
+                <ApproveTutorItem
+                    refreshTutors={this.initUnapprovedTutors}
+                    tutor={obj}
+                    id={num}
+                />
+            ) : (
+                ''
+            );
         });
-        return (
-            <div>
-                {renTutors}
-            </div>
-        );
+        return <div>{renTutors}</div>;
     }
 }
 export default Approve;

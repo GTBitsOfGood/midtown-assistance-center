@@ -789,7 +789,6 @@ body {
 .tutor-ic-admin {
     color: var(--gold);
     transform: translateY(1px);
-
 }
 
 @keyframes hoverFadeIn {

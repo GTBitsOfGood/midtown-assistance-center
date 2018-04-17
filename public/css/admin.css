@@ -182,7 +182,8 @@
     width: 75px;
 }
 
-.approve_btn:hover, .deny_btn:hover {
+.approve_btn:hover,
+.deny_btn:hover {
     opacity: 0.8;
 }
 
@@ -198,5 +199,4 @@
     padding: 15px;
     width: 33.3%;
     display: inline-block;
-
 }

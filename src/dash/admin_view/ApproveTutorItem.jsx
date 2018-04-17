@@ -1,7 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import styles from '../../../public/css/admin.css';
-import axios from "axios/index";
+import axios from 'axios/index';
 
 class ApproveTutorItem extends React.Component {
     constructor(props) {
@@ -10,20 +10,21 @@ class ApproveTutorItem extends React.Component {
     }
 
     approveOrDeny(bool) {
-        this.props.tutor.approved =  true;
+        this.props.tutor.approved = true;
         if (bool) {
             this.props.tutor.status = 'approved';
         } else {
             this.props.tutor.status = 'denied';
         }
         let self = this;
-        axios.patch('/api/tutor', this.props.tutor)
+        axios
+            .patch('/api/tutor', this.props.tutor)
             .then(function(response) {
                 self.props.refreshTutors();
-            }).catch(function(err) {
+            })
+            .catch(function(err) {
                 console.log(err);
             });
-
     }
 
     render() {
@@ -38,16 +39,65 @@ class ApproveTutorItem extends React.Component {
                      <button className="btn  btn-danger reject-button">REJECT</button>
                      **/}
 
-                    <h3 className="text-center approve-tutor-header">{this.props.tutor.first_name + ' ' + this.props.tutor.last_name}</h3>
-                    <h5><span className="tutor-ic-admin glyphicon glyphicon-envelope"></span><span className={styles.lighter_text}> Email: </span>{this.props.tutor.email}</h5>
-                    <h5><span className="tutor-ic-admin glyphicon glyphicon-envelope"></span><span className={styles.lighter_text}> Gmail: </span>{this.props.tutor.gmail}</h5>
-                    <h5><span className="tutor-ic-admin glyphicon glyphicon-tree-deciduous"></span><span className={styles.lighter_text}> University: </span>Georgia Tech</h5>
-                    <h5><span className="tutor-ic-admin glyphicon glyphicon-apple"></span><span className={styles.lighter_text}> Subjects: </span>{this.props.tutor.subjects.map((subj) => subj.subject + ' ')}</h5>
-                    <h5><span className="tutor-ic-admin glyphicon glyphicon-star"></span><span className={styles.lighter_text}> Favorites: </span>{this.props.tutor.favorites.map((fav) => fav.favorite + ' ')}</h5>
-                    <h5><span className="tutor-ic-admin glyphicon glyphicon-pencil"></span><span className={styles.lighter_text}> Bio: </span>{this.props.tutor.bio ? this.props.tutor.bio : 'This tutor has not entered a bio'}</h5>
+                    <h3 className="text-center approve-tutor-header">
+                        {this.props.tutor.first_name +
+                            ' ' +
+                            this.props.tutor.last_name}
+                    </h3>
+                    <h5>
+                        <span className="tutor-ic-admin glyphicon glyphicon-envelope" />
+                        <span className={styles.lighter_text}> Email: </span>
+                        {this.props.tutor.email}
+                    </h5>
+                    <h5>
+                        <span className="tutor-ic-admin glyphicon glyphicon-envelope" />
+                        <span className={styles.lighter_text}> Gmail: </span>
+                        {this.props.tutor.gmail}
+                    </h5>
+                    <h5>
+                        <span className="tutor-ic-admin glyphicon glyphicon-tree-deciduous" />
+                        <span className={styles.lighter_text}>
+                            {' '}
+                            University:{' '}
+                        </span>Georgia Tech
+                    </h5>
+                    <h5>
+                        <span className="tutor-ic-admin glyphicon glyphicon-apple" />
+                        <span className={styles.lighter_text}> Subjects: </span>
+                        {this.props.tutor.subjects.map(
+                            subj => subj.subject + ' '
+                        )}
+                    </h5>
+                    <h5>
+                        <span className="tutor-ic-admin glyphicon glyphicon-star" />
+                        <span className={styles.lighter_text}>
+                            {' '}
+                            Favorites:{' '}
+                        </span>
+                        {this.props.tutor.favorites.map(
+                            fav => fav.favorite + ' '
+                        )}
+                    </h5>
+                    <h5>
+                        <span className="tutor-ic-admin glyphicon glyphicon-pencil" />
+                        <span className={styles.lighter_text}> Bio: </span>
+                        {this.props.tutor.bio
+                            ? this.props.tutor.bio
+                            : 'This tutor has not entered a bio'}
+                    </h5>
                     <div className="col-sm-12 text-center">
-                        <button onClick={() => this.approveOrDeny(true)} className={styles.approve_btn}>Approve</button>
-                        <button onClick={() => this.approveOrDeny(false)} className={styles.deny_btn}>Deny</button>
+                        <button
+                            onClick={() => this.approveOrDeny(true)}
+                            className={styles.approve_btn}
+                        >
+                            Approve
+                        </button>
+                        <button
+                            onClick={() => this.approveOrDeny(false)}
+                            className={styles.deny_btn}
+                        >
+                            Deny
+                        </button>
                     </div>
                 </div>
             </div>
