@@ -12,7 +12,7 @@ const secrets = require('./client_sec2.json');
 
 const clientSecret = secrets.installed.client_secret;
 const clientId = secrets.installed.client_id;
-const edirectUrl = secrets.installed.redirect_uris[0];
+const redirectUrl = secrets.installed.redirect_uris[0];
 const auth = new googleAuth();
 const oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 oauth2Client.credentials.refresh_token =
