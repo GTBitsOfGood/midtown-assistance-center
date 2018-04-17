@@ -2,7 +2,7 @@ import React from 'react';
 import { PieChart } from 'react-easy-chart';
 import { Legend } from 'react-easy-chart';
 import { DropdownButton, MenuItem, Panel, Col } from 'react-bootstrap';
-import styles from '../../public/css/admin.css';
+import styles from '../../../public/css/admin.css';
 
 class SubjectPieStatistics extends React.Component {
     constructor(props) {

@@ -7,10 +7,10 @@
  *
  * @type {*|createApplication}
  */
-var express = require('express');
-var app = express();
-var google = require('./google_hangouts.js');
-var moment = require('moment');
+const express = require('express');
+const app = express();
+const google = require('./google_hangouts.js');
+const moment = require('moment');
 import data_access from './data_access';
 
 /**
@@ -168,7 +168,7 @@ app.post('/createEvent', function(req, res) {
     // First check if a session already exists for that time and if so, return
     // the session instead of creating a new one. If not, the add_new_session
     // function will create a new calendar event and tutor session object.
-    var check_event_exists = new Promise(function(resolve, reject) {
+    let check_event_exists = new Promise(function(resolve, reject) {
         data_access.tutor_sessions.getSessionByTutor(_id, function(
             err,
             response

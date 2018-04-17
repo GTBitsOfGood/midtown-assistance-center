@@ -4,6 +4,7 @@ export const saveAdminToDb = 'SAVE_ADMIN_TO_DB';
 
 export const typeStudent = 'TYPE_STUDENT';
 export const typeTutor = 'TYPE_TUTOR';
+export const typeAdmin = 'TYPE_ADMIN';
 
 export const saveStudent = 'SAVE_STUDENT';
 export const saveStudentPending = 'SAVE_STUDENT_PENDING';

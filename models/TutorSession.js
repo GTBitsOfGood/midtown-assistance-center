@@ -63,7 +63,7 @@ let schema = new Schema({
 
 // get the average rating for this session
 schema.methods.getRating = function() {
-    var numRatings = this.students_attended.reduce(function(
+    let numRatings = this.students_attended.reduce(function(
         accumulator,
         current
     ) {
@@ -73,7 +73,7 @@ schema.methods.getRating = function() {
         return accumulator;
     },
     0);
-    var sumRatings = this.students_attended.reduce(function(
+    let sumRatings = this.students_attended.reduce(function(
         accumulator,
         current
     ) {
@@ -89,7 +89,7 @@ schema.methods.getRating = function() {
 
 // get the total number of ratings for this session
 schema.methods.getNumRatings = function() {
-    var numRatings = this.students_attended.reduce(function(
+    let numRatings = this.students_attended.reduce(function(
         accumulator,
         current
     ) {

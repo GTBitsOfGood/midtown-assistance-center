@@ -1,9 +1,23 @@
+/**
+ * This file contains methods for adding/removing/modifying items in the database for users.
+ * Currently There are two types of users: Tutors and Students
+ * We need to add some for Admins!!
+ */
+
 const Tutor = require('../../models/Tutor');
 const Student = require('../../models/Student');
+const Admin = require('../../models/Admin');
 
 import config from 'config';
 
 module.exports = {
+    /**
+     * 1. This functions checks if a username string is already in the database
+     * 2. This function is called in api.js when creating a new tutor or student
+     * 3. Look at the post(/registerStudent) endpoint in api.js
+     * @param username: string for username
+     * @param callback: takes two parameters: error and boolean which represents if a tutor exists already
+     */
     checkIfUsernameIsTaken: function(username, callback) {
         // Look for tutors with the same username
         Tutor.find({ _id: username }, function(err, docs) {
@@ -11,7 +25,7 @@ module.exports = {
                 console.error('Error checking if username is taken:', err);
                 callback(err);
             } else if (docs.length > 0) {
-                // Found a tutor with the same username
+                // Found a tutor with the same username so return true for found
                 callback(null, true);
             } else {
                 // Look for students with the same username
@@ -26,8 +40,20 @@ module.exports = {
                         // Found a student with the same username
                         callback(null, true);
                     } else {
-                        // No student or tutor found with that username!
-                        callback(null, false);
+                        Admin.find({ _id: username }, function(err, docs) {
+                            if (err) {
+                                console.error(
+                                    'Error checking if username is taken:',
+                                    err
+                                );
+                                callback(err);
+                            } else if (docs.length > 0) {
+                                // Found an admin with the same username
+                                callback(null, true);
+                            } else {
+                                callback(null, false);
+                            }
+                        });
                     }
                 });
             }
@@ -53,8 +79,20 @@ module.exports = {
                         // Found a student with the same email
                         callback(null, true);
                     } else {
-                        // No student or tutor found with that email!
-                        callback(null, false);
+                        Admin.find({ email: email }, function(err, docs) {
+                            if (err) {
+                                console.error(
+                                    'Error checking if email is taken:',
+                                    err
+                                );
+                                callback(err);
+                            } else if (docs.length > 0) {
+                                // Found a student with the same email
+                                callback(null, true);
+                            } else {
+                                callback(null, false);
+                            }
+                        });
                     }
                 });
             }
@@ -111,43 +149,111 @@ module.exports = {
         });
     },
 
+    //Not being used right now, but could be if we choose to allow superadmins to create lowerlevel admins
+    createAdmin: function(admin, callback) {
+        Admin.create(admin, function(err, admin_instance) {
+            if (err) {
+                console.error('Error creating a new admin in database:', err);
+                callback(err);
+            } else {
+                callback(null, admin_instance);
+            }
+        });
+    },
+
     getUser: function(username, callback) {
         // Look for tutors with the same username
         Tutor.find({ _id: username }, function(err, docs) {
             if (err) {
-                console.error('Error checking if username is taken:', err);
+                console.error('Error checking if Tutor username is taken', err);
                 callback(err);
-            } else if (docs.length === 1) {
+            } else if (docs.length > 0) {
                 // Found a tutor with the same username
-
+                if (docs.length > 1) {
+                    console.error(
+                        'Multiple tutors with same username!',
+                        username
+                    );
+                }
                 callback(null, docs[0]);
-            } else if (docs.length > 1) {
-                console.error('Multiple tutors with username', username);
             } else {
                 // Look for students with the same username
                 Student.find({ _id: username }, function(err, docs) {
                     if (err) {
                         console.error(
-                            'Error checking if username is taken:',
+                            'Error checking if Student username is taken:',
                             err
                         );
                         callback(err);
-                    } else if (docs.length === 1) {
+                        return;
+                    } else if (docs.length > 0) {
+                        if (docs.length > 1) {
+                            console.error(
+                                'Multiple students with same username!',
+                                username
+                            );
+                        }
                         // Found a student with the same username
                         callback(null, docs[0]);
-                    } else if (docs.length > 1) {
-                        console.error(
-                            'Multiple students with username',
-                            username
-                        );
+                        return;
                     } else {
-                        // No tutors or students with that username!
-                        callback('No tutors or students found', null);
+                        Admin.find({ _id: username }, function(err, docs) {
+                            if (err) {
+                                console.error(
+                                    'Error checking if Admin username is taken'
+                                );
+                                callback(err);
+                            } else if (docs.length > 0) {
+                                if (docs.length > 1) {
+                                    console.error(
+                                        'Multiple Admins with same username!'
+                                    );
+                                }
+                                callback(null, docs[0]);
+                            } else {
+                                callback('No users found', null);
+                            }
+                        });
                     }
                 });
             }
         });
     },
+
+    //
+    // getUser: function(username, callback) {
+    //     // Look for tutors with the same username
+    //     Tutor.find({_id: username}, function (err, docs) {
+    //         if (err) {
+    //             console.error('Error checking if username is taken:', err);
+    //             callback(err);
+    //
+    //         } else if (docs.length === 1) {
+    //             // Found a tutor with the same username
+    //
+    //             callback(null, docs[0]);
+    //         } else if (docs.length > 1) {
+    //             console.error('Multiple tutors with username', username);
+    //         } else {
+    //             // Look for students with the same username
+    //             Student.find({_id: username}, function (err, docs) {
+    //                 if (err) {
+    //                     console.error('Error checking if username is taken:', err);
+    //                     callback(err);
+    //
+    //                 } else if (docs.length === 1) {
+    //                     // Found a student with the same username
+    //                     callback(null, docs[0]);
+    //                 } else if (docs.length > 1) {
+    //                     console.error('Multiple students with username', username);
+    //                 } else {
+    //                     // No tutors or students with that username!
+    //                     callback('No tutors or students found', null);
+    //                 }
+    //             });
+    //         }
+    //     });
+    // },
 
     getAllAvailableTutors: function(subject, availability, callback) {
         let todayDate = new Date();
@@ -247,6 +353,16 @@ module.exports = {
                 callback(null, updatedStudent);
             }
         );
+    },
+
+    getUnapprovedTutors: function(callback) {
+        Tutor.find({ approved: false }, function(err, docs) {
+            if (err) {
+                console.log(err);
+                return callback(err);
+            }
+            callback(null, docs);
+        });
     },
 
     saveTutor: function(tutor, callback) {

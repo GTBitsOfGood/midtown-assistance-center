@@ -250,7 +250,7 @@ class SessionModal extends React.Component {
      * @param join_request
      */
     denyStudent(join_request) {
-        var deny = prompt(
+        let deny = prompt(
             'Are you sure you want to reject this join request? If so, please enter a reason. If not, please click Cancel.'
         );
         if (deny != null) {

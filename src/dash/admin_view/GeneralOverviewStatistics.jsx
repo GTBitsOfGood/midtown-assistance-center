@@ -1,6 +1,6 @@
 import React from 'react';
 import { DropdownButton, MenuItem, Panel, Col, Row } from 'react-bootstrap';
-import styles from '../../public/css/admin.css';
+import styles from '../../../public/css/admin.css';
 
 class GeneralOverviewStatistics extends React.Component {
     constructor(props) {

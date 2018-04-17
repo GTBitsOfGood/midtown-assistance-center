@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 const AboutUs = () => {
     return (
         <div className="animated fadeInDown">
+            <br />
+            <br />
+            <br />
             <section className="about">
                 <div className="container">
                     <div className="ro">
@@ -28,7 +31,7 @@ const AboutUs = () => {
 
             <section className="who-we-are">
                 <div className="container">
-                    <h2 className="text-center">Who we are</h2>
+                    <h2 className="text-center">Who We Are</h2>
                     <div className="">
                         <div className="row">
                             <br />

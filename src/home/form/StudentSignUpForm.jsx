@@ -142,7 +142,7 @@ class StudentSignUpForm extends React.Component {
             this.setState({ inputErrorMessage: 'error-message' });
             this.setState({ errorMessage: 'error-message-hide' });
         } else {
-            var self = this;
+            let self = this;
             axios
                 .post('/api/registerStudent', this.state)
                 .then(function(response) {
