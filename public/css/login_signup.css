@@ -54,7 +54,8 @@ body {
 
 .signup-form .signup-header,
 .login-form .login-header {
-    color: var(--dkgray);
+    /*color: var(--dkgray);*/
+    color: black;
     font-weight: 300;
     text-transform: none;
 }
@@ -96,6 +97,7 @@ body {
     /*background-color: var(--ltgray);*/
     font-weight: 300;
     color: var(--gray);
+    /*color: green;*/
 }
 
 .signup-form input:focus,
@@ -119,8 +121,10 @@ body {
 
 .signup-form .signup-button,
 .login-form .login-button {
-    background-color: var(--gold);
+    /*background-color: var(--gold);*/
+    background-color: #1f222e;
     color: var(--ltgray);
+    /*color: black;*/
     margin-top: 5%;
     border-radius: 3px;
     font-weight: 400;
@@ -142,11 +146,13 @@ body {
 .signup-form .signup-button:hover,
 .login-form .login-button:hover {
     background-color: var(--gray);
+    /*background-color: lightgoldenrodyellow;*/
 }
 
 .login-anchor,
 .signup-anchor {
-    color: var(--gray);
+    /*color: var(--gray);*/
+    color: white;
 }
 
 .login-anchor:hover,
@@ -167,4 +173,16 @@ body {
     margin-bottom: 5%;
     text-transform: none;
     font-weight: 400;
+}
+
+.login-form {
+    background-color: var(--gold);
+    -webkit-border-radius: 3%;
+    -moz-border-radius: 3%;
+    border-radius: 3%;
+}
+
+.login-button {
+    color: black;
+    background-color: #4f8a10;
 }
