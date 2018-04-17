@@ -1,20 +1,20 @@
-var fs = require('fs');
-var readline = require('readline');
-var google = require('googleapis');
-var calendar = google.calendar('v3');
-var googleAuth = require('google-auth-library');
-var SCOPES = ['https://www.googleapis.com/auth/calendar'];
-// var TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
+const fs = require('fs');
+const readline = require('readline');
+const google = require('googleapis');
+const calendar = google.calendar('v3');
+const googleAuth = require('google-auth-library');
+const SCOPES = ['https://www.googleapis.com/auth/calendar'];
+// const TOKEN_DIR = (process.env.HOME || process.env.HOMEPATH ||
 //     process.env.USERPROFILE) + '/.credentials/';
-// var TOKEN_PATH = TOKEN_DIR + 'calendar-nodejs-quickstart.json';
+// const TOKEN_PATH = TOKEN_DIR + 'calendar-nodejs-quickstart.json';
 
-var secrets = require('./client_sec2.json');
+const secrets = require('./client_sec2.json');
 
-var clientSecret = secrets.installed.client_secret;
-var clientId = secrets.installed.client_id;
-var redirectUrl = secrets.installed.redirect_uris[0];
-var auth = new googleAuth();
-var oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
+const clientSecret = secrets.installed.client_secret;
+const clientId = secrets.installed.client_id;
+const edirectUrl = secrets.installed.redirect_uris[0];
+const auth = new googleAuth();
+const oauth2Client = new auth.OAuth2(clientId, clientSecret, redirectUrl);
 oauth2Client.credentials.refresh_token =
     '1/5NsatDnRYj8CM8Xj6sH5-hAYUCN1iFhunGO7ldjog6U';
 
@@ -32,7 +32,7 @@ module.exports = {
  */
 
 // function getNewToken(callback) {
-//   // var authUrl = oauth2Client.generateAuthUrl({
+//   // const authUrl = oauth2Client.generateAuthUrl({
 //   //   access_type: 'offline',
 //   //   prompt: 'consent',
 //   //   scope: SCOPES
@@ -77,7 +77,7 @@ module.exports = {
 //   //   if (err) {
 //   //     console.log(err);
 //   //   } else {
-//   //     var events = response.items;
+//   //     let events = response.items;
 //   //     console.log(response);
 //   //   }
 //   // });
