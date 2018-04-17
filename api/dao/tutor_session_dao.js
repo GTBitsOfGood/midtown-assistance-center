@@ -16,7 +16,7 @@ const Tutor = require('../../models/Tutor.js');
  * @returns {number}
  */
 function sumRatings(accumulator, currentValue) {
-    let rating = currentValue.getRating();
+    var rating = currentValue.getRating();
     return (
         accumulator +
         (rating == null ? 0 : rating * currentValue.getNumRatings())
@@ -109,6 +109,7 @@ module.exports = {
                     err
                 );
                 callback(err);
+                return;
             } else {
                 callback(null, session_instance);
             }
@@ -122,8 +123,11 @@ module.exports = {
      * @param callback
      */
     updateTutorSession: function(session, callback) {
-        TutorSession.findByIdAndUpdate(
-            session._id,
+        TutorSession.findOneAndUpdate(
+            {
+                '_id.tutor_id': session._id.tutor_id,
+                '_id.expected_start_time': session._id.expected_start_time
+            },
             { $set: session.update },
             { new: true },
             function(err, updatedSession) {
@@ -157,6 +161,7 @@ module.exports = {
                 if (err) {
                     console.log('Error saving session');
                     callback(err);
+                    return;
                 }
                 callback(null, updatedSession);
             }
@@ -168,6 +173,8 @@ module.exports = {
         ) {
             if (err) {
                 console.error(err);
+                callback(err);
+                return;
             }
             new_stat = res;
         });
@@ -181,10 +188,137 @@ module.exports = {
             tutor.save(function(err) {
                 if (err) {
                     console.error(err);
+                    callback(err);
+                    return;
                 }
             });
             console.log(tutor);
         });
+    },
+
+    /**
+     * Update a student's current review
+     * @param session the session object (must contain _id: the session id,
+     * update: the new info)
+     * @param callback
+     */
+    updateStudentReview: function(session, callback) {
+        TutorSession.findOneAndUpdate(
+            {
+                '_id.tutor_id': session._id.tutor_id,
+                '_id.expected_start_time': session._id.expected_start_time,
+                'students_attended.student_id':
+                    session.update.students_attended.student_id
+            },
+            {
+                $set: {
+                    'students_attended.$.student_rating':
+                        session.update.students_attended.student_rating,
+                    'students_attended.$.student_comment':
+                        session.update.students_attended.student_comment
+                }
+            },
+            { new: true },
+            function(err, updatedSession) {
+                if (err) {
+                    console.log('Error saving session');
+                    callback(err);
+                    return;
+                }
+                callback(null, updatedSession);
+            }
+        );
+        let new_stat = 0;
+        module.exports.getTutorAvgRating(session._id.tutor_id, function(
+            err,
+            res
+        ) {
+            if (err) {
+                console.error(err);
+                callback(err);
+                return;
+            }
+            new_stat = res;
+        });
+        Tutor.findOne({ _id: session._id.tutor_id }, function(err, tutor) {
+            if (err) {
+                console.error(err);
+                callback(err);
+                return;
+            }
+            tutor.rating = new_stat.avgRating;
+            tutor.num_ratings = new_stat.totalRatings;
+            tutor.num_sessions = new_stat.totalSessions;
+            tutor.save(function(err) {
+                if (err) {
+                    console.error(err);
+                    callback(err);
+                    return;
+                }
+            });
+            console.log(tutor);
+        });
+    },
+
+    /**
+     * add a student join request to the session
+     * @param session the session object (must contain _id: the session id,
+     * update: the new info)
+     * @param callback
+     */
+    addJoinRequest: function(session, callback) {
+        TutorSession.findOneAndUpdate(
+            {
+                '_id.tutor_id': session._id.tutor_id,
+                '_id.expected_start_time': session._id.expected_start_time,
+                'join_requests.student_id': {
+                    $ne: session.update.join_requests.student_id
+                }
+            },
+            { $push: session.update },
+            { new: true },
+            function(err, updatedSession) {
+                if (err) {
+                    console.log('Error saving session');
+                    callback(err);
+                    return;
+                }
+                callback(null, updatedSession);
+            }
+        );
+    },
+
+    /**
+     * Update the join request once a tutor approves/denies it
+     * @param session
+     * @param callback
+     */
+    updateJoinRequest: function(session, callback) {
+        TutorSession.findOneAndUpdate(
+            {
+                '_id.tutor_id': session._id.tutor_id,
+                '_id.expected_start_time': session._id.expected_start_time,
+                'join_requests.student_id':
+                    session.update.join_requests.student_id
+            },
+            {
+                $set: {
+                    'join_requests.$.status':
+                        session.update.join_requests.status,
+                    'join_requests.$.tutor_comment':
+                        session.update.join_requests.tutor_comment
+                }
+            },
+            { new: true },
+            function(err, updatedSession) {
+                if (err) {
+                    console.log('Error saving session');
+                    callback(err);
+                    return;
+                }
+                callback(null, updatedSession);
+            }
+        );
     },
 
     /**
@@ -197,6 +331,7 @@ module.exports = {
             if (err) {
                 console.log(err);
                 callback(err);
+                return;
             } else {
                 var new_docs = JSON.parse(JSON.stringify(docs));
                 for (var doc in docs) {
@@ -222,6 +357,7 @@ module.exports = {
                 if (err) {
                     console.log(err);
                     callback(err);
+                    return;
                 } else {
                     callback(null, docs);
                 }
@@ -259,6 +395,7 @@ module.exports = {
             if (err) {
                 console.error(err);
                 callback(err);
+                return;
             } else {
                 let sum = docs.reduce(sumRatings, 0);
                 let num = docs.reduce(numRatings, 0);
@@ -283,6 +420,7 @@ module.exports = {
             if (err) {
                 console.log(err);
                 callback(err);
+                return;
             } else {
                 var avgSessionTime = docs.reduce(sumSessionTimes) / docs.length;
                 callback(null, { time: avgSessionTime });
@@ -308,6 +446,7 @@ module.exports = {
             if (err) {
                 console.log(err);
                 callback(err);
+                return;
             } else {
                 docs = docs.filter(filterBySessionDate);
                 var totalDiscrepancy = docs.reduce(getSessionDiscrepancy);
@@ -334,6 +473,7 @@ module.exports = {
             if (err) {
                 console.log(err);
                 callback(err);
+                return;
             } else {
                 docs = docs.filter(filterBySessionDate);
                 var sumRatings = docs.reduce(sumRatings);
@@ -360,6 +500,7 @@ module.exports = {
             if (err) {
                 console.log(err);
                 callback(err);
+                return;
             } else {
                 docs = docs.filter(filterByMaxRating);
                 docs = docs.map(getComments);
@@ -381,6 +522,7 @@ module.exports = {
             if (err) {
                 console.log(err);
                 callback(err);
+                return;
             } else {
                 docs = docs.filter(hasEndTime);
                 callback(null, docs);
@@ -402,6 +544,7 @@ module.exports = {
             if (err) {
                 console.log(err);
                 callback(err);
+                return;
             } else {
                 docs = docs.filter(hasEndTime);
                 callback(null, docs);

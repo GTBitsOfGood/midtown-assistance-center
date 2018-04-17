@@ -31,8 +31,8 @@ class AvailabilityComp extends React.Component {
                                             ':' +
                                             time.end_time.split(':')[1] +
                                             (time.end_time.split(':')[0] >= 12
-                                                ? ' PM'
-                                                : ' AM')
+                                                ? ' PM '
+                                                : ' AM ')
                                         );
                                     }
                                 )}
@@ -58,8 +58,8 @@ class AvailabilityComp extends React.Component {
                                             ':' +
                                             time.end_time.split(':')[1] +
                                             (time.end_time.split(':')[0] >= 12
-                                                ? ' PM'
-                                                : ' AM')
+                                                ? ' PM '
+                                                : ' AM ')
                                         );
                                     }
                                 )}
@@ -85,8 +85,8 @@ class AvailabilityComp extends React.Component {
                                             ':' +
                                             time.end_time.split(':')[1] +
                                             (time.end_time.split(':')[0] >= 12
-                                                ? ' PM'
-                                                : ' AM')
+                                                ? ' PM '
+                                                : ' AM ')
                                         );
                                     }
                                 )}
@@ -113,8 +113,8 @@ class AvailabilityComp extends React.Component {
                                             ':' +
                                             time.end_time.split(':')[1] +
                                             (time.end_time.split(':')[0] >= 12
-                                                ? ' PM'
-                                                : ' AM')
+                                                ? ' PM '
+                                                : ' AM ')
                                         );
                                     }
                                 )}
@@ -141,8 +141,8 @@ class AvailabilityComp extends React.Component {
                                             ':' +
                                             time.end_time.split(':')[1] +
                                             (time.end_time.split(':')[0] >= 12
-                                                ? ' PM'
-                                                : ' AM')
+                                                ? ' PM '
+                                                : ' AM ')
                                         );
                                     }
                                 )}
@@ -168,8 +168,8 @@ class AvailabilityComp extends React.Component {
                                             ':' +
                                             time.end_time.split(':')[1] +
                                             (time.end_time.split(':')[0] >= 12
-                                                ? ' PM'
-                                                : ' AM')
+                                                ? ' PM '
+                                                : ' AM ')
                                         );
                                     }
                                 )}
@@ -196,8 +196,8 @@ class AvailabilityComp extends React.Component {
                                             ':' +
                                             time.end_time.split(':')[1] +
                                             (time.end_time.split(':')[0] >= 12
-                                                ? ' PM'
-                                                : ' AM')
+                                                ? ' PM '
+                                                : ' AM ')
                                         );
                                     }
                                 )}

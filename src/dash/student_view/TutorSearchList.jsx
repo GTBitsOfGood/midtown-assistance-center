@@ -9,6 +9,7 @@ class TutorList extends React.Component {
                 this.props.studentView.filteredTutors.map((obj, num) => {
                     return (
                         <TutorSearchResult
+                            updateTutors={this.props.updateTutors}
                             socket={this.props.socket}
                             data={obj}
                             id={num}

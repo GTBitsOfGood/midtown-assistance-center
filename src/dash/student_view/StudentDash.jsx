@@ -73,7 +73,7 @@ class StudentDashboard extends React.Component {
             window.location.reload();
         });
         return (
-            <div className="animated fadeInDown">
+            <div>
                 <div className="col-md-12 atlanta">
                     <DashSearchBar
                         handleSearchClicked={this.handleSearchClicked}

@@ -21,7 +21,6 @@ class StudentProfile extends React.Component {
 
     handleSave() {
         // TODO field validation + better checking of what changed
-
         let new_user = Object.assign({}, this.props.user);
         new_user.email = this.state.email;
         new_user.bio = this.state.bio;

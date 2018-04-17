@@ -9,7 +9,7 @@
  * When? A Tutor Session object will be created when a tutor session starts (A student joins a session)
  * Who? Many students and a single tutor can be in a session and this object tracks that information
  * How? This session object will be stored in the database when the tutoring session ends
- * ~RM
+ *
  * @type {*|Mongoose}
  */
 
@@ -25,6 +25,20 @@ let studentReview = new Schema({
     reason_for_report: { type: String, required: false }
 });
 
+let joinRequest = new Schema({
+    student_id: { type: String, required: true },
+    topic: { type: String, required: true },
+    student_comment: { type: String, required: false },
+    create_time: { type: Date, default: Date.now() },
+    status: {
+        type: String,
+        required: true,
+        enum: ['pending', 'approved', 'rejected'],
+        default: 'pending'
+    },
+    tutor_comment: { type: String, required: false }
+});
+
 let schema = new Schema({
     _id: {
         type: {
@@ -37,6 +51,7 @@ let schema = new Schema({
         }
     },
     students_attended: { type: [studentReview], default: [] },
+    join_requests: { type: [joinRequest], default: [] },
     eventId: { type: String, required: true },
     hangouts_link: { type: String, required: false },
     tutor_rating: { type: Number, required: false },
@@ -48,7 +63,7 @@ let schema = new Schema({
 
 // get the average rating for this session
 schema.methods.getRating = function() {
-    var numRatings = this.students_attended.reduce(function(
+    let numRatings = this.students_attended.reduce(function(
         accumulator,
         current
     ) {
@@ -58,7 +73,7 @@ schema.methods.getRating = function() {
         return accumulator;
     },
     0);
-    var sumRatings = this.students_attended.reduce(function(
+    let sumRatings = this.students_attended.reduce(function(
         accumulator,
         current
     ) {

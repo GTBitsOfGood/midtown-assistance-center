@@ -25,11 +25,15 @@ class Feedback extends React.Component {
         let keyId = 0;
         if (this.props.user.sessions) {
             for (let session in sessions) {
-                for (let review in sessions[session].students_attended) {
+                for (
+                    let review = 0;
+                    review < sessions[session].students_attended.length;
+                    review++
+                ) {
                     let student_review =
                         sessions[session].students_attended[review];
                     if (student_review.student_rating !== null) {
-                        renSessions.push(
+                        renSessions.unshift(
                             <Review
                                 key={keyId++}
                                 time={student_review.time}

@@ -5,8 +5,6 @@ import axios from 'axios';
 import Availability from './Availability.jsx';
 import socketIOClient from 'socket.io-client';
 
-const favorites_lst = ['Algebra', 'Java', 'Python', 'Geometry'];
-
 class TutorSearchResult extends React.Component {
     constructor(props) {
         super(props);
@@ -37,11 +35,8 @@ class TutorSearchResult extends React.Component {
 
     onHangoutsButton() {
         this.setState({ hangoutsLink: this.props.data.session.hangouts_link });
-        window.open(this.props.data.session.hangouts_link, '_blank');
-        this.props.socket.emit('student-join', {
-            session: this.props.data.session.eventId,
-            student: this.props.username
-        });
+        //window.open(this.props.data.session.hangouts_link, '_blank');
+        //this.props.socket.emit('student-join', {'session':this.props.data.session.eventId, 'student': this.props.username});
     }
 
     render() {
@@ -163,10 +158,6 @@ class TutorSearchResult extends React.Component {
                                         <strong>{date}</strong> Join Date
                                     </h4>
                                     <h4 className="details">
-                                        <span className="details-ic glyphicon glyphicon-stats" />
-                                        <strong> 213</strong> Total Sessions
-                                    </h4>
-                                    <h4 className="details">
                                         <span className="details-ic glyphicon glyphicon-star" />
                                         <strong>
                                             {' '}
@@ -221,7 +212,11 @@ class TutorSearchResult extends React.Component {
                     </div>
                 </div>
                 <TutorReviewModal
+                    updateTutors={this.props.updateTutors}
+                    socket={this.props.socket}
                     username={this.props.username}
+                    subjects={this.props.data.subjects}
+                    favorites={this.props.data.favorites}
                     firstName={this.props.data.first_name}
                     session={this.props.data.session}
                 />
