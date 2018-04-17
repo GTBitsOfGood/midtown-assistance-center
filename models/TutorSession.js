@@ -89,7 +89,7 @@ schema.methods.getRating = function() {
 
 // get the total number of ratings for this session
 schema.methods.getNumRatings = function() {
-    var numRatings = this.students_attended.reduce(function(
+    let numRatings = this.students_attended.reduce(function(
         accumulator,
         current
     ) {

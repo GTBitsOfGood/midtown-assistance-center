@@ -67,7 +67,7 @@ class Profile extends React.Component {
         let availabilityItems = [];
         Object.keys(availability).map((date, index) => {
             let item = availability[date];
-            for (var event in availability[date]) {
+            for (let event in availability[date]) {
                 availabilityItems.push({
                     date: date,
                     start: availability[date][event]['start_time'],
