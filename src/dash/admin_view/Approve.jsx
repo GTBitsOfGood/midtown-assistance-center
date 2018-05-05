@@ -1,8 +1,8 @@
 import styles from '../../../public/css/admin.css';
 import React from 'react';
 import ApproveTutorItem from './ApproveTutorItem.jsx';
-import { connect } from "react-redux";
-import { getUnapprovedTutors } from "../../redux/actions/admin_actions";
+import { connect } from 'react-redux';
+import { getUnapprovedTutors } from '../../redux/actions/admin_actions';
 
 class Approve extends React.Component {
     constructor(props) {
@@ -10,17 +10,13 @@ class Approve extends React.Component {
     }
 
     componentWillMount() {
-      this.props.getTutors();
+        this.props.getTutors();
     }
 
     render() {
         const renTutors = this.props.unapprovedTutors.map((obj, num) => {
             return obj.confirmed ? (
-                <ApproveTutorItem
-                    key={num}
-                    tutor={obj}
-                    id={num}
-                />
+                <ApproveTutorItem key={num} tutor={obj} id={num} />
             ) : (
                 ''
             );
@@ -30,15 +26,15 @@ class Approve extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return {
-    unapprovedTutors: state.adminView.unapprovedTutors
-  };
+    return {
+        unapprovedTutors: state.adminView.unapprovedTutors
+    };
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    getTutors: () => dispatch(getUnapprovedTutors())
-  };
+    return {
+        getTutors: () => dispatch(getUnapprovedTutors())
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Approve);

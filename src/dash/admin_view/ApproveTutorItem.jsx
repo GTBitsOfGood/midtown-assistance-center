@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../../../public/css/admin.css';
-import { approveTutor } from "../../redux/actions/admin_actions";
-import { connect } from "react-redux";
+import { approveTutor } from '../../redux/actions/admin_actions';
+import { connect } from 'react-redux';
 
 class ApproveTutorItem extends React.Component {
     constructor(props) {
@@ -68,13 +68,23 @@ class ApproveTutorItem extends React.Component {
                     </h5>
                     <div className="col-sm-12 text-center">
                         <button
-                            onClick={() => this.props.approveTutor(this.props.tutor, 'approved')}
+                            onClick={() =>
+                                this.props.approveTutor(
+                                    this.props.tutor,
+                                    'approved'
+                                )
+                            }
                             className={styles.approve_btn}
                         >
                             Approve
                         </button>
                         <button
-                            onClick={() => this.props.approveTutor(this.props.tutor, 'denied')}
+                            onClick={() =>
+                                this.props.approveTutor(
+                                    this.props.tutor,
+                                    'denied'
+                                )
+                            }
                             className={styles.deny_btn}
                         >
                             Deny
@@ -87,15 +97,13 @@ class ApproveTutorItem extends React.Component {
 }
 
 const mapStateToProps = state => {
-  return {
-
-  };
+    return {};
 };
 
 const mapDispatchToProps = dispatch => {
-  return {
-    approveTutor: (tutor, status) => dispatch(approveTutor(tutor, status))
-  };
+    return {
+        approveTutor: (tutor, status) => dispatch(approveTutor(tutor, status))
+    };
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ApproveTutorItem);
