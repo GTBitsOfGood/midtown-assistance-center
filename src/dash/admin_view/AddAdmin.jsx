@@ -26,9 +26,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = dispatch => {
-    return {
-        // getTutors: () => dispatch(getUnapprovedTutors())
-    };
+    return {};
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(AddAdmin);

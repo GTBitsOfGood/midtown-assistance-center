@@ -1,8 +1,12 @@
 import styles from '../../../public/css/admin.css';
 import React from 'react';
+import { connect } from 'react-redux';
+
+import { addAdmin } from '../../redux/actions/admin_actions';
+import * as types from '../../redux/actions/types/admin_types';
 
 const initialState = {
-    id: '',
+    _id: '',
     first_name: '',
     last_name: '',
     email: '',
@@ -28,12 +32,20 @@ class AddAdminForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         const newAdmin = Object.assign({}, this.state, { isSuperAdmin: false });
-        console.log(newAdmin);
-
+        this.props.addAdmin(newAdmin);
         this.setState(initialState);
     }
 
     render() {
+        const error =
+            this.props.admin.error &&
+            this.props.admin.errorType === types.addNewAdminRejected ? (
+                <div className="alert alert-danger">
+                    <strong>Failed!</strong> {this.props.admin.error}
+                </div>
+            ) : (
+                ''
+            );
         return (
             <div className="container-fluid">
                 <div className="row text-center">
@@ -42,6 +54,7 @@ class AddAdminForm extends React.Component {
                 <br />
                 <div className="row">
                     <div className="col-md-12">
+                        {error}
                         <form className="form" onSubmit={this.handleSubmit}>
                             <div className="form-group row">
                                 <label className="col-md-2 col-form-label">
@@ -50,8 +63,8 @@ class AddAdminForm extends React.Component {
                                 <div className="col-md-9">
                                     <input
                                         type="text"
-                                        name="id"
-                                        value={this.state.id}
+                                        name="_id"
+                                        value={this.state._id}
                                         onChange={this.handleGeneral}
                                         required
                                         className="form-control"
@@ -162,4 +175,17 @@ class AddAdminForm extends React.Component {
         );
     }
 }
-export default AddAdminForm;
+
+const mapStateToProps = state => {
+    return {
+        admin: state.adminView
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        addAdmin: newAdmin => dispatch(addAdmin(newAdmin))
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddAdminForm);

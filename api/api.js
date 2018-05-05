@@ -247,6 +247,62 @@ app.post('/registerStudent', (req, res) => {
     });
 });
 
+app.post('/newAdmin', (req, res) => {
+    const newAdmin = req.body.newAdmin;
+
+    data_access.users.checkIfUsernameIsTaken(newAdmin._id, function(
+        err,
+        resultUsername
+    ) {
+        if (err) {
+            console.log('check username error:', err);
+        } else {
+            if (!resultUsername) {
+                data_access.users.checkIfEmailIsTaken(newAdmin.email, function(
+                    err,
+                    resultEmail
+                ) {
+                    if (err) {
+                        console.log('check email error:', err);
+                    } else {
+                        if (!resultEmail) {
+                            data_access.users.createAdmin(newAdmin, function(
+                                err,
+                                user_instance
+                            ) {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    console.log(
+                                        'created new admin',
+                                        newAdmin._id
+                                    );
+                                    res.send({
+                                        success: true,
+                                        error_message: null
+                                    });
+                                }
+                            });
+                        } else {
+                            console.log('Email exists');
+                            res.status(400).json({
+                                success: false,
+                                error_message: 'Email already exists'
+                            });
+                        }
+                    }
+                });
+            } else {
+                console.log('Username exists');
+                res.status(400).json({
+                    success: false,
+                    error_message: 'Username already exists'
+                });
+            }
+        }
+    });
+});
+
 app.get('/confirmEmail', (req, res) => {
     let confirm_key = req.query.confirm_key;
     let tutor_id = req.query.tutor_id;

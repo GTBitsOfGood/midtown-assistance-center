@@ -13,6 +13,7 @@ export function updateTutor(tutor, status) {
     new_tutor.approved = true;
     new_tutor.status = status;
     return {
+        // TODO: add reducer stuff
         type: types.approveTutor,
         payload: axios.patch('/api/tutor', new_tutor)
     };
@@ -23,5 +24,12 @@ export function approveTutor(tutor, status) {
         return dispatch(updateTutor(tutor, status)).then(() => {
             return dispatch(getUnapprovedTutors());
         });
+    };
+}
+
+export function addAdmin(newAdmin) {
+    return {
+        type: types.addNewAdmin,
+        payload: axios.post('/api/newAdmin', { newAdmin })
     };
 }
