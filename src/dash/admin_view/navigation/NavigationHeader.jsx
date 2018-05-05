@@ -1,7 +1,7 @@
 import styles from '../../../../public/css/admin.css';
 import React from 'react';
 import { connect } from 'react-redux';
-import { saveTutor } from "../../../redux/actions/user_actions";
+import { saveTutor } from '../../../redux/actions/user_actions';
 
 class NavigationHeader extends React.Component {
     constructor(props) {
@@ -34,7 +34,12 @@ class NavigationHeader extends React.Component {
                 <h5 className={styles.lighter_text}>
                     {this.props.user.school}
                 </h5>
-              <button className="btn btn-danger" onClick={() => this.logout()}>Logout</button>
+                <button
+                    className="btn btn-danger"
+                    onClick={() => this.logout()}
+                >
+                    Logout
+                </button>
             </div>
         );
     }
@@ -48,7 +53,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => {
     return {
-        setTutorOffline: tutor => dispatch(saveTutor(tutor)),
+        setTutorOffline: tutor => dispatch(saveTutor(tutor))
     };
 };
 

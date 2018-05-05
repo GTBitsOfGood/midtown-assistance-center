@@ -147,7 +147,7 @@ export default function change_user(state = initial_state, action) {
                 sessions: action.payload.data
             };
             break;
-      case types.setUserOffline:
+        case types.setUserOffline:
             new_state = { ...state, online: false, logging_out: true };
             break;
     }

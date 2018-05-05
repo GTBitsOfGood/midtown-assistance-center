@@ -83,6 +83,6 @@ export function saveAdmin(user) {
 
 export function setUserOffline() {
     return {
-        type: types.setUserOffline,
-    }
+        type: types.setUserOffline
+    };
 }
