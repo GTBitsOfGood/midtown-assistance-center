@@ -12,7 +12,8 @@ let initial_state = {
         }
     },
     sessions: [],
-    online: false
+    online: false,
+    logging_out: false
 };
 
 export default function change_user(state = initial_state, action) {
@@ -145,6 +146,9 @@ export default function change_user(state = initial_state, action) {
                 fetched: true,
                 sessions: action.payload.data
             };
+            break;
+      case types.setUserOffline:
+            new_state = { ...state, online: false, logging_out: true };
             break;
     }
 

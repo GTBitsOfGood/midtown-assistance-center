@@ -80,3 +80,9 @@ export function saveAdmin(user) {
         payload: user
     };
 }
+
+export function setUserOffline() {
+    return {
+        type: types.setUserOffline,
+    }
+}
