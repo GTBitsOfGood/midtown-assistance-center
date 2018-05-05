@@ -9,7 +9,7 @@ class ApproveTutorItem extends React.Component {
             <div className={styles.approve_tutor_item_wrapper}>
                 <div className="approve-tutor-item">
                     {/**
-                                <h3>{this.props.data.first_name + " " + this.props.data.last_name}</h3>
+                     <h3>{this.props.data.first_name + " " + this.props.data.last_name}</h3>
                      <h4 className="lighter-text">{this.props.data.email}</h4>
 
                      <button className="btn  btn-success approve-button">APPROVE</button>
