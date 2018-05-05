@@ -1,30 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import styles from '../../../public/css/admin.css';
-import axios from 'axios/index';
+import { approveTutor } from "../../redux/actions/admin_actions";
+import { connect } from "react-redux";
 
 class ApproveTutorItem extends React.Component {
     constructor(props) {
         super(props);
-        this.approveOrDeny = this.approveOrDeny.bind(this);
-    }
-
-    approveOrDeny(bool) {
-        this.props.tutor.approved = true;
-        if (bool) {
-            this.props.tutor.status = 'approved';
-        } else {
-            this.props.tutor.status = 'denied';
-        }
-        let self = this;
-        axios
-            .patch('/api/tutor', this.props.tutor)
-            .then(function(response) {
-                self.props.refreshTutors();
-            })
-            .catch(function(err) {
-                console.log(err);
-            });
     }
 
     render() {
@@ -87,13 +68,13 @@ class ApproveTutorItem extends React.Component {
                     </h5>
                     <div className="col-sm-12 text-center">
                         <button
-                            onClick={() => this.approveOrDeny(true)}
+                            onClick={() => this.props.approveTutor(this.props.tutor, 'approved')}
                             className={styles.approve_btn}
                         >
                             Approve
                         </button>
                         <button
-                            onClick={() => this.approveOrDeny(false)}
+                            onClick={() => this.props.approveTutor(this.props.tutor, 'denied')}
                             className={styles.deny_btn}
                         >
                             Deny
@@ -104,4 +85,17 @@ class ApproveTutorItem extends React.Component {
         );
     }
 }
-export default ApproveTutorItem;
+
+const mapStateToProps = state => {
+  return {
+
+  };
+};
+
+const mapDispatchToProps = dispatch => {
+  return {
+    approveTutor: (tutor, status) => dispatch(approveTutor(tutor, status))
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(ApproveTutorItem);
