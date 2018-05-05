@@ -1,4 +1,4 @@
-import styles from '../../../../public/css/admin.css';
+import styles from '../../../public/css/admin.css';
 import React from 'react';
 
 class AddAdmin extends React.Component {
@@ -8,7 +8,7 @@ class AddAdmin extends React.Component {
     render() {
         return (
             <div>
-                <h1>test</h1>
+                <h1>ADD ADMIN FORM</h1>
             </div>
         );
     }

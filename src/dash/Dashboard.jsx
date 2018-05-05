@@ -18,9 +18,9 @@ import styles from '../../public/css/index.css';
 import adminStyles from '../../public/css/admin.css';
 import socketIOClient from 'socket.io-client';
 import { fetchUserAndInfo } from '../redux/actions/user_actions';
-import Approve from './admin_view/pages/Approve.jsx';
-import AddAdmin from './admin_view/pages/AddAdmin.jsx';
-import Dashboard from './admin_view/pages/Dashboard.jsx';
+import Approve from './admin_view/Approve.jsx';
+import AddAdmin from './admin_view/AddAdmin.jsx';
+import Dashboard from './admin_view/Dashboard.jsx';
 import Navigation from './admin_view/navigation/Navigation.jsx';
 
 // TODO: use global const

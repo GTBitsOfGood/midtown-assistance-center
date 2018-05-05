@@ -1,6 +1,6 @@
-import styles from '../../../../public/css/admin.css';
+import styles from '../../../public/css/admin.css';
 import React from 'react';
-import ApproveTutorItem from '../ApproveTutorItem.jsx';
+import ApproveTutorItem from './ApproveTutorItem.jsx';
 import axios from 'axios';
 
 class Approve extends React.Component {
