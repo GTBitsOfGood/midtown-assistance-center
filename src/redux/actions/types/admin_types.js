@@ -12,3 +12,8 @@ export const addNewAdmin = 'ADD_NEW_ADMIN';
 export const addNewAdminPending = 'ADD_NEW_ADMIN_PENDING';
 export const addNewAdminRejected = 'ADD_NEW_ADMIN_REJECTED';
 export const addNewAdminFulfilled = 'ADD_NEW_ADMIN_FULFILLED';
+
+export const getAllTutors = 'GET_ALL_TUTORS';
+export const getAllTutorsPending = 'GET_ALL_TUTORS_PENDING';
+export const getAllTutorsRejected = 'GET_ALL_TUTORS_REJECTED';
+export const getAllTutorsFulfilled = 'GET_ALL_TUTORS_FULFILLED';

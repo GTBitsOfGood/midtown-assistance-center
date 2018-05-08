@@ -644,7 +644,7 @@ app.get('/unapprovedTutors', (req, res) => {
                 error: err
             });
         } else {
-            console.log(err);
+            console.log('Getting unapproved tutors');
             res.json({
                 success: true,
                 error: null,
@@ -688,6 +688,22 @@ app.post('/checkActiveSession', (req, res) => {
                 error: null,
                 has_open_session: true,
                 session: response[0]
+            });
+        }
+    });
+});
+
+app.get('/allTutors', (req, res) => {
+    data_access.users.getAllTutors(function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({ success: false, error: err });
+        } else {
+            console.log('Getting all tutors');
+            res.json({
+                success: true,
+                error: null,
+                tutors: response
             });
         }
     });

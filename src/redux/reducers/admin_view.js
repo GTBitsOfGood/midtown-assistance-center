@@ -5,7 +5,8 @@ const initialState = {
     fetched: false,
     error: null,
     errorType: null,
-    unapprovedTutors: []
+    unapprovedTutors: [],
+    allTutors: []
 };
 
 export default function change_admin(state = initialState, action) {
@@ -43,6 +44,24 @@ export default function change_admin(state = initialState, action) {
                 fetched: true,
                 error: null
             };
+        case types.getAllTutorsPending:
+            return { ...state, fetching: true, error: null };
+        case types.getAllTutorsRejected:
+            return {
+                ...state,
+                fetching: false,
+                error: action.payload,
+                errorType: types.getAllTutorsRejected
+            };
+        case types.getAllTutorsFulfilled:
+            return {
+                ...state,
+                fetching: false,
+                fetched: true,
+                error: null,
+                allTutors: action.payload.data.tutors
+            };
+
         default:
             return state;
     }

@@ -33,3 +33,10 @@ export function addAdmin(newAdmin) {
         payload: axios.post('/api/newAdmin', { newAdmin })
     };
 }
+
+export function getAllTutors() {
+    return {
+        type: types.getAllTutors,
+        payload: axios.get('/api/allTutors')
+    };
+}
