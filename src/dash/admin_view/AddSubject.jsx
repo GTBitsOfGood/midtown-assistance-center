@@ -2,8 +2,7 @@ import styles from '../../../public/css/admin.css';
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { getSubjects } from '../../redux/actions/subject_actions';
-import * as types from '../../redux/actions/types/admin_types';
+import { getSubjects, addSubject } from '../../redux/actions/subject_actions';
 
 class AddSubject extends React.Component {
     constructor(props) {
@@ -14,6 +13,8 @@ class AddSubject extends React.Component {
         this.state = {
             subject: ''
         };
+
+        this.props.getSubjects();
     }
 
     handleGeneral(e) {
@@ -24,18 +25,14 @@ class AddSubject extends React.Component {
         e.preventDefault();
         this.props.addSubject(this.state.subject);
         this.setState({ subject: '' });
+        this.props.getSubjects();
     }
 
     render() {
-        const error =
-            this.props.admin.error &&
-            this.props.admin.errorType === types.addSubjectRejected ? (
-                <div className="alert alert-danger">
-                    <strong>Failed!</strong> {this.props.admin.error}
-                </div>
-            ) : (
-                ''
-            );
+        const subjects = this.props.subjects.map((subj, index) => (
+            <div key={index}>{subj}</div>
+        ));
+
         return (
             <div className="container-fluid">
                 <div className="row text-center">
@@ -44,7 +41,6 @@ class AddSubject extends React.Component {
                 <br />
                 <div className="row">
                     <div className="col-md-12">
-                        {error}
                         <form className="form" onSubmit={this.handleSubmit}>
                             <div className="form-group row">
                                 <label className="col-md-2 col-form-label">
@@ -69,6 +65,10 @@ class AddSubject extends React.Component {
                                 Submit
                             </button>
                         </form>
+                        <div>
+                            <h3>Currently Available Subjects</h3>
+                        </div>
+                        {subjects}
                     </div>
                 </div>
             </div>
@@ -78,13 +78,14 @@ class AddSubject extends React.Component {
 
 const mapStateToProps = state => {
     return {
-        admin: state.adminView
+        subjects: state.subjects.availableSubjects
     };
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        addSubject: () => dispatch(getSubjects())
+        addSubject: subject => dispatch(addSubject(subject)),
+        getSubjects: () => dispatch(getSubjects())
     };
 };
 

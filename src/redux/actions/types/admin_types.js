@@ -17,8 +17,3 @@ export const getAllTutors = 'GET_ALL_TUTORS';
 export const getAllTutorsPending = 'GET_ALL_TUTORS_PENDING';
 export const getAllTutorsRejected = 'GET_ALL_TUTORS_REJECTED';
 export const getAllTutorsFulfilled = 'GET_ALL_TUTORS_FULFILLED';
-
-export const addSubject = 'ADD_SUBJECT';
-export const addSubjectPending = 'ADD_SUBJECT_PENDING';
-export const addSubjectRejected = 'ADD_SUBJECT_REJECTED';
-export const addSubjectFulfilled = 'ADD_SUBJECT_FULFILLED';

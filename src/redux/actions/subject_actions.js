@@ -7,3 +7,10 @@ export function getSubjects() {
         payload: axios.get('/api/subjects')
     };
 }
+
+export function addSubject(subject) {
+    return {
+        type: types.addSubject,
+        payload: axios.post('/api/subjects', { _id: subject })
+    };
+}

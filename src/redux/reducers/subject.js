@@ -24,6 +24,19 @@ export default function change_subject(state = initial_state, action) {
                     subject => subject._id
                 )
             };
+
+        case types.addSubjectPending:
+            return { ...state, fetching: true };
+
+        case types.addSubjectRejected:
+            return { ...state, fetching: false, error: action.payload };
+
+        case types.addSubjectFulfilled:
+            return {
+                ...state,
+                fetching: false,
+                fetched: true
+            };
     }
     return state;
 }

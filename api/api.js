@@ -385,7 +385,11 @@ app.get('/subjects', (req, res) => {
     });
 });
 
-// add new subject
+/**
+ * add a subject to the available subjects list
+ * @param req: body json to contain only one key-value item:
+ *              { _id: subject_name_here }
+ */
 app.post('/subjects', (req, res) => {
     data_access.subjects.addSubject(req.body, function(err, resultSubject) {
         if (err) {
