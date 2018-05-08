@@ -1,10 +1,7 @@
 import React from 'react';
 import styles from '../../../public/css/admin.css';
 import { Table, Tabs, Tab } from 'react-bootstrap';
-import {
-    getAllTutors,
-    getUnapprovedTutors
-} from '../../redux/actions/admin_actions';
+import { getAllTutors } from '../../redux/actions/admin_actions';
 import { connect } from 'react-redux';
 
 class UserList extends React.Component {

@@ -4,7 +4,7 @@ let initial_state = {
     fetching: false,
     fetched: false,
     error: null,
-    availableSubjects: null
+    availableSubjects: []
 };
 
 export default function change_subject(state = initial_state, action) {
@@ -20,7 +20,9 @@ export default function change_subject(state = initial_state, action) {
                 ...state,
                 fetching: false,
                 fetched: true,
-                availableSubjects: action.payload
+                availableSubjects: action.payload.data.map(
+                    subject => subject._id
+                )
             };
     }
     return state;
