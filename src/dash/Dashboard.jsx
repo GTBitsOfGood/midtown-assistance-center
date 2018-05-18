@@ -41,15 +41,16 @@ const adminRoutes = (
     <BrowserRouter>
         <div className={adminStyles.body}>
             <Route path="/dash" component={Navigation} />
-            <Switch>
-                <div className={adminStyles.body_wrapper}>
+
+            <div className={adminStyles.body_wrapper}>
+                <Switch>
                     <Redirect exact from="/dash" to="/dash/dashboard" />
                     <Route exact path="/dash/dashboard" component={Dashboard} />
                     <Route exact path="/dash/approve" component={Approve} />
                     <Route exact path="/dash/schools" component={Schools} />
                     <Route exact path="/dash/add_admin" component={AddAdmin} />
-                </div>
-            </Switch>
+                </Switch>
+            </div>
         </div>
     </BrowserRouter>
 );

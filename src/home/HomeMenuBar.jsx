@@ -28,6 +28,7 @@ export default class HomeMenuBar extends React.Component {
 
     render() {
         return (
+            // TODO: change from react-bootstrap to web bootstrap to get rid of warnings
             <Navbar collapseOnSelect className={styles.navigationbar}>
                 <Navbar.Header>
                     <Navbar.Brand className={styles.navbarheader}>
