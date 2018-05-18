@@ -210,8 +210,7 @@ class Profile extends React.Component {
             let temp = this.state.favorites;
             temp.push({
                 favorite: '',
-                // hardcoded subject, not from db
-                subject: this.props.subjects.availableSubjects.data[0]
+                subject: this.props.subjects.availableSubjects[0] || 'math'
             });
             this.setState({ favorites: temp });
         }
@@ -221,8 +220,7 @@ class Profile extends React.Component {
         if (this.state.is_edit) {
             let temp = this.state.subjects;
             temp.push({
-                // hardcoded subject, not from db
-                subject: this.props.subjects.availableSubjects.data[0],
+                subject: this.props.subjects.availableSubjects[0] || 'math',
                 start_grade: 6,
                 end_grade: 12
             });

@@ -336,6 +336,16 @@ module.exports = {
         });
     },
 
+    getAllTutors: function(callback) {
+        Tutor.find({}, function(err, tutors) {
+            if (err) {
+                console.log('Error getting all tutors');
+                callback(err);
+            }
+            callback(null, tutors);
+        });
+    },
+
     saveStudent: function(student, callback) {
         if (student.password === config.get('hidden_password')) {
             callback('The student password is masked! Not saving this to db');

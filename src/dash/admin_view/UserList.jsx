@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from '../../../public/css/admin.css';
 import { Table, Tabs, Tab } from 'react-bootstrap';
+import { getAllTutors } from '../../redux/actions/admin_actions';
+import { connect } from 'react-redux';
 
 class UserList extends React.Component {
     constructor(props, context) {
@@ -13,12 +15,28 @@ class UserList extends React.Component {
         };
     }
 
+    componentDidMount() {
+        this.props.getTutors();
+    }
+
     handleSelect(key) {
         //alert(`selected ${key}`);
         this.setState({ key });
     }
 
     render() {
+        const tutors = this.props.tutors.map((tutor, index) => {
+            return (
+                <tr key={index}>
+                    <td>{index + 1}</td>
+                    <td>{tutor.first_name}</td>
+                    <td>{tutor.last_name}</td>
+                    <td>
+                        {tutor.subjects.map(subj => subj.subject).join(', ')}
+                    </td>
+                </tr>
+            );
+        });
         return (
             <div>
                 <Tabs
@@ -37,30 +55,27 @@ class UserList extends React.Component {
                 <Table striped bordered>
                     <tr>
                         <th>#</th>
-                        <th>Name</th>
+                        <th>First Name</th>
+                        <th>Last Name</th>
                         <th>Tutored Subjects</th>
                     </tr>
-                    <tbody>
-                        <tr>
-                            <td>1</td>
-                            <td>Mark Otto</td>
-                            <td>Biology, Chemistry</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>Jacob Thornton</td>
-                            <td>Language Arts</td>
-                        </tr>
-                        <tr>
-                            <td>3</td>
-                            <td>John Doe </td>
-                            <td>Pre-Calculus</td>
-                        </tr>
-                    </tbody>
+                    <tbody>{tutors}</tbody>
                 </Table>
             </div>
         );
     }
 }
 
-export default UserList;
+const mapStateToProps = state => {
+    return {
+        tutors: state.adminView.allTutors
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    return {
+        getTutors: () => dispatch(getAllTutors())
+    };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserList);

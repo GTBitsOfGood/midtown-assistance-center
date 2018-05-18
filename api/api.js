@@ -247,6 +247,62 @@ app.post('/registerStudent', (req, res) => {
     });
 });
 
+app.post('/newAdmin', (req, res) => {
+    const newAdmin = req.body.newAdmin;
+
+    data_access.users.checkIfUsernameIsTaken(newAdmin._id, function(
+        err,
+        resultUsername
+    ) {
+        if (err) {
+            console.log('check username error:', err);
+        } else {
+            if (!resultUsername) {
+                data_access.users.checkIfEmailIsTaken(newAdmin.email, function(
+                    err,
+                    resultEmail
+                ) {
+                    if (err) {
+                        console.log('check email error:', err);
+                    } else {
+                        if (!resultEmail) {
+                            data_access.users.createAdmin(newAdmin, function(
+                                err,
+                                user_instance
+                            ) {
+                                if (err) {
+                                    console.log(err);
+                                } else {
+                                    console.log(
+                                        'created new admin',
+                                        newAdmin._id
+                                    );
+                                    res.send({
+                                        success: true,
+                                        error_message: null
+                                    });
+                                }
+                            });
+                        } else {
+                            console.log('Email exists');
+                            res.status(400).json({
+                                success: false,
+                                error_message: 'Email already exists'
+                            });
+                        }
+                    }
+                });
+            } else {
+                console.log('Username exists');
+                res.status(400).json({
+                    success: false,
+                    error_message: 'Username already exists'
+                });
+            }
+        }
+    });
+});
+
 app.get('/confirmEmail', (req, res) => {
     let confirm_key = req.query.confirm_key;
     let tutor_id = req.query.tutor_id;
@@ -329,7 +385,11 @@ app.get('/subjects', (req, res) => {
     });
 });
 
-// add new subject
+/**
+ * add a subject to the available subjects list
+ * @param req: body json to contain only one key-value item:
+ *              { _id: subject_name_here }
+ */
 app.post('/subjects', (req, res) => {
     data_access.subjects.addSubject(req.body, function(err, resultSubject) {
         if (err) {
@@ -588,7 +648,7 @@ app.get('/unapprovedTutors', (req, res) => {
                 error: err
             });
         } else {
-            console.log(err);
+            console.log('Getting unapproved tutors');
             res.json({
                 success: true,
                 error: null,
@@ -632,6 +692,22 @@ app.post('/checkActiveSession', (req, res) => {
                 error: null,
                 has_open_session: true,
                 session: response[0]
+            });
+        }
+    });
+});
+
+app.get('/allTutors', (req, res) => {
+    data_access.users.getAllTutors(function(err, response) {
+        if (err) {
+            console.log(err);
+            res.json({ success: false, error: err });
+        } else {
+            console.log('Getting all tutors');
+            res.json({
+                success: true,
+                error: null,
+                tutors: response
             });
         }
     });

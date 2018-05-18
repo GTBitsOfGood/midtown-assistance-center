@@ -25,17 +25,13 @@ class FavoritePicker extends React.Component {
     }
 
     render() {
-        let subjectOptions = [];
-        if (this.props.subjects.availableSubjects) {
-            let subjects = this.props.subjects.availableSubjects.data;
-            for (let ind in subjects) {
-                subjectOptions.push(
-                    <option key={ind} value={subjects[ind]._id}>
-                        {subjects[ind]._id}
-                    </option>
-                );
-            }
-        }
+        let subjectOptions = this.props.subjects.availableSubjects.map(subj => {
+            return (
+                <option value={subj} key={subj}>
+                    {subj}
+                </option>
+            );
+        });
 
         const renData = (
             <div className="row input-group">
