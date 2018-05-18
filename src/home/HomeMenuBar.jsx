@@ -5,10 +5,6 @@ import { LinkContainer } from 'react-router-bootstrap';
 import styles from '../../public/css/index.css';
 
 export default class HomeMenuBar extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         return (
             // TODO: change from react-bootstrap to web bootstrap to get rid of warnings
