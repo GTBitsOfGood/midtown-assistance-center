@@ -13,7 +13,9 @@ class AddSubject extends React.Component {
         this.state = {
             subject: ''
         };
+    }
 
+    componentDidMount() {
         this.props.getSubjects();
     }
 

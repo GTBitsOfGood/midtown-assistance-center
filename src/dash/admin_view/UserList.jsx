@@ -13,7 +13,9 @@ class UserList extends React.Component {
         this.state = {
             key: 1
         };
+    }
 
+    componentDidMount() {
         this.props.getTutors();
     }
 
