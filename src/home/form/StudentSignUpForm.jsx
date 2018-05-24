@@ -113,8 +113,10 @@ class StudentSignUpForm extends React.Component {
         let currentEmail = event.target.value;
         this.setState({ email: currentEmail });
 
-        // TODO email validation
-        if (currentEmail.includes('@')) {
+        /* checks for basic format: "..."@ "..." . "..."
+            where "..." can include any character
+         */
+        if (/\S+@\S+\.\S+/.test(currentEmail)) {
             this.setState({ emailValidation: 'input-success' });
         } else {
             this.setState({ emailValidation: 'input-error' });
@@ -361,7 +363,7 @@ StudentSignUpForm.propTypes = {
 };
 
 StudentSignUpForm.defaultProps = {
-    startingGrade: 6,
+    startingGrade: 1,
     endingGrade: 12
 };
 
