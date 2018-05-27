@@ -34,6 +34,7 @@
         "animate.css": "^3.5.2",
         "axios": "^0.16.2",
         "babel-cli": "^6.26.0",
+        "bcrypt": "^2.0.1",
         "body-parser": "^1.18.2",
         "config": "^1.27.0",
         "connect-flash": "^0.1.1",

@@ -13,7 +13,7 @@ import config from 'config';
 module.exports = {
     /**
      * 1. This functions checks if a username string is already in the database
-     * 2. This function is called in api.js when creating a new tutor or student
+     * 2. This function is called in api.js when creating a new tutor, student, or admin
      * 3. Look at the post(/registerStudent) endpoint in api.js
      * @param username: string for username
      * @param callback: takes two parameters: error and boolean which represents if a tutor exists already
