@@ -6,6 +6,8 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const data_access = require('./api/data_access');
 import config from 'config';
+const bcrypt = require('bcrypt');
+
 import session_dao from './api/dao/session_dao';
 
 app.use(require('cookie-parser')());
@@ -38,14 +40,68 @@ passport.use(
                 });
             }
 
-            // FIXME hashing passwords
+            //compare password w/ user.password
+            bcrypt.compare(password, user_instance.password, function(
+                err,
+                isMatch
+            ) {
+                if (err) {
+                    return done(err);
+                }
+                if (!isMatch) {
+                    /*
+                        Check if it is an old account w/ an unhashed password.
+                        If it is, update the account's password to be hashed
+                     */
+                    if (user_instance.password === password) {
+                        //generate a salt, then run callback
+                        bcrypt.genSalt(10, function(err, salt) {
+                            if (err) {
+                                return err;
+                            }
+
+                            //hash password using salt
+                            bcrypt.hash(password, salt, function(err, hash) {
+                                if (err) {
+                                    return err;
+                                }
+
+                                console.log('hash: ' + hash);
+                                //overwrite plain text pass w/ encrypted pass
+                                user_instance.update(
+                                    { password: hash },
+                                    function(err, raw) {
+                                        if (err) return err;
+                                        console.log(
+                                            'The raw response from Mongo was ',
+                                            raw
+                                        );
+                                    }
+                                );
+                            });
+                        });
+                        return done(null, user_instance);
+                    } else {
+                        return done(null, false, {
+                            message: 'Incorrect username or password'
+                        });
+                    }
+                }
+                return done(null, user_instance);
+            });
+
+            /* old accounts that don't have hashed passwords need to use
+            this for password checking
+
             if (user_instance.password === password) {
                 return done(null, user_instance);
             }
 
+
             return done(null, false, {
                 message: 'Incorrect username or password!'
             });
+            */
         });
     })
 );

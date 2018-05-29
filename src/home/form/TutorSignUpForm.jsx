@@ -120,10 +120,11 @@ class SignUpTutor extends React.Component {
         let currentEmail = event.target.value;
         this.setState({ email: currentEmail });
 
-        // TODO email validation
-        if (currentEmail.includes('@')) {
+        if (/@gatech.edu\s*$/.test(currentEmail)) {
+            console.log('valid email');
             this.setState({ emailValidation: 'input-success' });
         } else {
+            console.log('invalid email');
             this.setState({ emailValidation: 'input-error' });
         }
 
@@ -149,8 +150,7 @@ class SignUpTutor extends React.Component {
         let currentGmail = event.target.value;
         this.setState({ gmail: currentGmail });
 
-        // TODO gmail validation
-        if (currentGmail.includes('@gmail')) {
+        if (/@gmail.com\s*$/.test(currentGmail)) {
             this.setState({ gmailValidation: 'input-success' });
         } else {
             this.setState({ gmailValidation: 'input-error' });
@@ -169,11 +169,9 @@ class SignUpTutor extends React.Component {
             this.state.confirmEmailValidation === 'input-error' ||
             this.state.gmailValidation === 'input-error'
         ) {
-            console.log('YO FUCK');
             this.setState({ inputErrorMessage: 'error-message' });
             this.setState({ errorMessage: 'error-message-hide' });
         } else {
-            console.log('I AM HERE THEN');
             let self = this;
             this.setState({ disabledSubmit: true });
 
@@ -360,7 +358,7 @@ class SignUpTutor extends React.Component {
                                 : 'hide-error'
                         }
                     >
-                        Email must be valid.
+                        Must be a valid Georgia Tech email.
                     </HelpBlock>
                 </div>
                 <div className="row col-xs-12">

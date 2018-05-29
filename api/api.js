@@ -128,10 +128,11 @@ app.post('/registerTutor', (req, res) => {
                             },
                             function(err, user_instance) {
                                 if (err) {
-                                    console.log(err);
+                                    console.log('user instance ' + err);
+
                                     res.send({
                                         success: false,
-                                        error_message: 'Unknown error'
+                                        error_message: 'Did not create tutor'
                                     });
                                 } else {
                                     const msg = {
