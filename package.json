@@ -60,7 +60,7 @@
         "raven": "^2.2.1",
         "react": "^16.4.2",
         "react-bootstrap": "^0.31.3",
-        "react-dom": "^16.0.1",
+        "react-dom": "^16.4.2",
         "react-easy-chart": "^0.3.0",
         "react-faux-dom": "^2.7.1",
         "react-redux": "^5.0.6",
