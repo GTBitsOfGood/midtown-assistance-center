@@ -4,7 +4,7 @@ const path = require('path');
 
 fs.writeFileSync(
     path.resolve(__dirname, 'config/client.json'),
-    JSON.stringify(config)
+    JSON.stringify(config),
 );
 
 module.exports = {
@@ -23,7 +23,7 @@ module.exports = {
                 loader: 'babel-loader',
                 exclude: /node_modules/,
                 query: {
-                    presets: ['es2015', 'react']
+                    presets: ['es2016', 'react']
                 }
             },
             {
@@ -40,6 +40,18 @@ module.exports = {
             }
         ]
     },
+    rules: [
+        {
+            test: /\.(js|jsx)$/,
+            exclude: /node_modules/,
+            use: ['babel-loader']
+        },
+        {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            use: ['babel-loader', 'eslint-loader']
+        }
+    ],    
     resolve: {
         alias: {
             config: path.resolve(__dirname, 'config/client.json')

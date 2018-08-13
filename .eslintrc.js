@@ -6,8 +6,9 @@ module.exports = {
         es6: true,
         node: true
     },
-    extends: ['eslint:recommended', 'plugin:react/recommended'],
+    extends: ['airbnb'],
     parserOptions: {
+        ecmaVersion: 6,
         ecmaFeatures: {
             experimentalObjectRestSpread: true,
             jsx: true
@@ -19,6 +20,7 @@ module.exports = {
         indent: ['error', 4],
         quotes: ['error', 'single'],
         semi: ['error', 'always'],
+        'no-var': 2,
         'no-console': ['warn', { allow: ['info', 'warn', 'error'] }]
     }
 };
