@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 class FavoritePicker extends React.Component {
-        constructor(props) {
+    constructor(props) {
         super(props);
         this.state = {
             show: true
@@ -86,4 +86,7 @@ const mapDispatchToProps = dispatch => {
     return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(FavoritePicker);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(FavoritePicker);
