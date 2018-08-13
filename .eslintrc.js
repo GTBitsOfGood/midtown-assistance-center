@@ -8,7 +8,7 @@ module.exports = {
     },
     extends: [
         'airbnb',
-        'plugin:node/recommended',
+        // 'plugin:node/recommended',
         'prettier',
         'prettier/react'
     ],

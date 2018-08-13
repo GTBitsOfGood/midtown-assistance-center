@@ -23,7 +23,7 @@ module.exports = {
                 loader: 'babel-loader',
                 exclude: /node_modules/,
                 query: {
-                    presets: ['es2016', 'react']
+                    presets: ['es2015', 'react']
                 }
             },
             {
@@ -40,18 +40,6 @@ module.exports = {
             }
         ]
     },
-    rules: [
-        {
-            test: /\.(js|jsx)$/,
-            exclude: /node_modules/,
-            use: ['babel-loader']
-        },
-        {
-            test: /\.js$/,
-            exclude: /node_modules/,
-            use: ['babel-loader', 'eslint-loader']
-        }
-    ],
     resolve: {
         alias: {
             config: path.resolve(__dirname, 'config/client.json')
