@@ -4,7 +4,7 @@ const path = require('path');
 
 fs.writeFileSync(
     path.resolve(__dirname, 'config/client.json'),
-    JSON.stringify(config),
+    JSON.stringify(config)
 );
 
 module.exports = {
@@ -51,7 +51,7 @@ module.exports = {
             exclude: /node_modules/,
             use: ['babel-loader', 'eslint-loader']
         }
-    ],    
+    ],
     resolve: {
         alias: {
             config: path.resolve(__dirname, 'config/client.json')

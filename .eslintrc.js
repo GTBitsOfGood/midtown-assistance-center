@@ -6,7 +6,12 @@ module.exports = {
         es6: true,
         node: true
     },
-    extends: ['airbnb', 'prettier', 'prettier/react'],
+    extends: [
+        'airbnb',
+        'plugin:node/recommended',
+        'prettier',
+        'prettier/react'
+    ],
     parserOptions: {
         ecmaVersion: 6,
         ecmaFeatures: {
@@ -21,6 +26,7 @@ module.exports = {
         indent: ['error', 4],
         quotes: ['error', 'single'],
         semi: ['error', 'always'],
+        camelcase: 'off',
         'no-var': 2,
         'no-console': ['warn', { allow: ['info', 'warn', 'error'] }]
     }
