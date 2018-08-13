@@ -6,7 +6,7 @@ module.exports = {
         es6: true,
         node: true
     },
-    extends: ['airbnb'],
+    extends: ['airbnb', 'prettier', 'plugin:prettier/recommended'],
     parserOptions: {
         ecmaVersion: 6,
         ecmaFeatures: {
@@ -15,8 +15,9 @@ module.exports = {
         },
         sourceType: 'module'
     },
-    plugins: ['react'],
+    plugins: ['react', 'prettier'],
     rules: {
+        'prettier/prettier': 'error',
         indent: ['error', 4],
         quotes: ['error', 'single'],
         semi: ['error', 'always'],
