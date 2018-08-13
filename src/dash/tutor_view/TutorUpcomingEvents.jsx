@@ -110,8 +110,9 @@ const mapDispatchToProps = dispatch => {
     return {};
 };
 
-const TutorUpcomingEvents = connect(mapStateToProps, mapDispatchToProps)(
-    UpcomingEvents
-);
+const TutorUpcomingEvents = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(UpcomingEvents);
 
 export default TutorUpcomingEvents;

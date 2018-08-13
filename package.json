@@ -7,7 +7,6 @@
         "node": ">=6.0.0"
     },
     "scripts": {
-        "precommit": "lint-staged",
         "start": "nodemon --exec babel-node server.js --ignore public/",
         "dev": "webpack -wd",
         "postinstall": "webpack -p --config ./webpack.config.js --progress"
@@ -26,6 +25,11 @@
             "prettier --single-quote --write --tab-width 4",
             "git add"
         ]
+    },
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
     },
     "homepage": "https://github.com/GTBitsOfGood/midtown-assistance-center#readme",
     "dependencies": {
@@ -94,7 +98,7 @@
         "eslint-plugin-node": "^7.0.1",
         "eslint-plugin-prettier": "^2.6.2",
         "eslint-plugin-react": "^7.10.0",
-        "husky": "^0.14.3",
+        "husky": "^1.0.0-rc.13",
         "image-loader": "0.0.1",
         "lint-staged": "^7.2.2",
         "nodemon": "^1.17.5",
