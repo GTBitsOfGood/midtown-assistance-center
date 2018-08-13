@@ -18,11 +18,6 @@
     "bugs": {
         "url": "https://github.com/GTBitsOfGood/midtown-assistance-center/issues"
     },
-    "husky": {
-        "hooks": {
-            "pre-commit": "lint-staged"
-        }
-    },
     "lint-staged": {
         "**/*.{js,jsx,json,css}": [
             "prettier --single-quote --write --tab-width 4",
