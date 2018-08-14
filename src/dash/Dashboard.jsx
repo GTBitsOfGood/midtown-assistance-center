@@ -12,7 +12,7 @@ import AboutUs from '../AboutUs.jsx';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios';
-import { GridLoader } from 'halogen';
+import { GridLoader } from 'react-spinners'; 
 import styles from '../../public/css/index.css';
 import adminStyles from '../../public/css/admin.css';
 import socketIOClient from 'socket.io-client';
@@ -68,7 +68,7 @@ const loading = (
             <div>
                 <Route path="/dash" component={DashMenuBar} />
                 <div className={styles.loading}>
-                    <GridLoader color="#EEB211" size="150px" />
+                    <GridLoader color="#eeb211" size={150} />
                 </div>
             </div>
         </BrowserRouter>
