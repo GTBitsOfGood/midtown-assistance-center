@@ -20,7 +20,7 @@ schema.virtual('username').get(function() {
 //before saving a model, use bcypt to hash password
 schema.pre('save', function(next) {
     console.log('pre save');
-    //get access to user model
+    // get access to user model
     const user = this;
 
     //generate a salt, then run callback

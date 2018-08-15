@@ -80,4 +80,7 @@ const mapDispatchToProps = dispatch => {
     return {};
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Feedback);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Feedback);
