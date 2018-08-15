@@ -2,7 +2,7 @@ import config from 'config';
 import * as types from '../actions/types/user_types';
 import axios from 'axios';
 
-let initial_state = {
+export const initial_state = {
     fetched: false,
     fetching: false,
     stat: {

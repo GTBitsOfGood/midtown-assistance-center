@@ -18,6 +18,10 @@ class AdminLoginpage extends React.Component {
         this.sendToServer = this.sendToServer.bind(this);
     }
 
+    setErrorMessage() {
+        this.setState({ errorMessage: 'error-message' });
+    }
+
     handleUsernameChange(e) {
         this.setState({ username: e.target.value });
     }
@@ -26,36 +30,34 @@ class AdminLoginpage extends React.Component {
         this.setState({ password: e.target.value });
     }
 
-    setErrorMessage() {
-        this.setState({ errorMessage: 'error-message' });
-    }
-
     sendToServer(e) {
         e.preventDefault();
-        let self = this;
 
-        let userDetails = {
-            username: this.state.username,
-            password: this.state.password,
+        const { username, password } = this.state;
+
+        const userDetails = {
+            username,
+            password,
             logInTime: Date.now()
         };
         axios
             .post('/login', userDetails)
-            .then(function(response) {
+            .then(response => {
                 if (response.data !== '') {
                     document.location.href = '/dash';
                 } else {
                     console.log(response.data);
-                    self.setErrorMessage();
+                    this.setErrorMessage();
                 }
             })
-            .catch(function(error) {
+            .catch(error => {
                 console.log(error);
-                self.setErrorMessage();
+                this.setErrorMessage();
             });
     }
 
     render() {
+        const { username, password, errorMessage } = this.state;
         return (
             <div>
                 <div className="bkgrd" />
@@ -67,7 +69,7 @@ class AdminLoginpage extends React.Component {
                                 className="input-lg col-xs-10 col-xs-offset-1"
                                 type="text"
                                 name="fname"
-                                value={this.state.username}
+                                value={username}
                                 onChange={this.handleUsernameChange}
                                 placeholder="Enter Username"
                             />
@@ -77,7 +79,7 @@ class AdminLoginpage extends React.Component {
                                 className="input-lg col-xs-10 col-xs-offset-1"
                                 type="Password"
                                 name="lname"
-                                value={this.state.password}
+                                value={password}
                                 onChange={this.handlePasswordChange}
                                 placeholder="Enter Password"
                             />
@@ -90,11 +92,12 @@ class AdminLoginpage extends React.Component {
                                 value="SUBMIT"
                             />
                         </div>
-                        <h5 className={'col-xs-12 ' + this.state.errorMessage}>
+                        <h5 className={`col-xs-12 ${errorMessage}`}>
                             username or password incorrect
                         </h5>
                         <div className="row col-xs-12">
-                            <Link className="login-anchor" to="#">
+                            {/* TODO: implement forgot password */}
+                            <Link className="login-anchor" to="foobar">
                                 Forgot your password?
                             </Link>
                         </div>

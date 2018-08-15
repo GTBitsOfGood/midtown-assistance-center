@@ -9,8 +9,8 @@ module.exports = {
     extends: [
         'airbnb',
         // 'plugin:node/recommended',
+        'prettier/react',
         'prettier',
-        'prettier/react'
     ],
     parserOptions: {
         ecmaVersion: 6,
@@ -23,11 +23,20 @@ module.exports = {
     plugins: ['react', 'prettier'],
     rules: {
         'prettier/prettier': 'error',
-        indent: ['error', 4],
-        quotes: ['error', 'single'],
-        semi: ['error', 'always'],
-        camelcase: 'off',
+        'indent': ['error', 4],
+        'quotes': ['error', 'single'],
+        'semi': ['error', 'always'],
+        'camelcase': 'off',
         'no-var': 2,
-        'no-console': ['warn', { allow: ['info', 'warn', 'error'] }]
+        'no-console': ['warn', { 'allow': ['info', 'warn', 'error', 'log'] }],
+        'no-shadow': 'off',
+        'no-underscore-dangle': 'off',
+        'jsx-a11y/anchor-is-valid': [ 'error', {
+            'components': [ 'Link' ],
+            'specialLink': [ 'to' ]
+        }],
+        'no-unused-vars': ['error', {'varsIgnorePattern': 'styles'}],
+        // TODO: enable this later for more specific 'object' shape and 'array' contents
+        'react/forbid-prop-types': 'off'
     }
 };

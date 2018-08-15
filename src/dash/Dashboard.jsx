@@ -1,32 +1,32 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { connect, Provider } from 'react-redux';
+import PropTypes from 'prop-types';
+import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import axios from 'axios';
+import { GridLoader } from 'react-spinners';
+import socketIOClient from 'socket.io-client';
 
 import * as types from '../redux/actions/types/user_types';
-import DashMenuBar from './DashMenuBar.jsx';
-import StudentDash from './student_view/StudentDash.jsx';
-import StudentProfile from './student_view/Profile.jsx';
-import TutorDash from './tutor_view/TutorDash.jsx';
-import { Provider } from 'react-redux';
-import store from '../redux/store.js';
-import AboutUs from '../AboutUs.jsx';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import { connect } from 'react-redux';
-import axios from 'axios';
-import { GridLoader } from 'react-spinners'; 
+import DashMenuBar from './DashMenuBar';
+import StudentDash from './student_view/StudentDash';
+import StudentProfile from './student_view/Profile';
+import TutorDash from './tutor_view/TutorDash';
+import store from '../redux/store';
+import AboutUs from '../AboutUs';
 import styles from '../../public/css/index.css';
 import adminStyles from '../../public/css/admin.css';
-import socketIOClient from 'socket.io-client';
 import { fetchUserAndInfo } from '../redux/actions/user_actions';
-import Approve from './admin_view/Approve.jsx';
-import AddAdmin from './admin_view/AddAdmin.jsx';
-import Dashboard from './admin_view/Dashboard.jsx';
-import Schools from './admin_view/Schools.jsx';
-import Navigation from './admin_view/navigation/Navigation.jsx';
+import Approve from './admin_view/Approve';
+import AddAdmin from './admin_view/AddAdmin';
+import Dashboard from './admin_view/Dashboard';
+import Schools from './admin_view/Schools';
+import Navigation from './admin_view/navigation/Navigation';
 
 // TODO: use global const
 const SOCKETIO_ENDPOINT =
     window.location.hostname +
-    (window.location.port ? ':' + window.location.port : '');
+    (window.location.port ? `:${window.location.port}` : '');
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 const studentRoutes = (
@@ -76,12 +76,9 @@ const loading = (
 );
 
 class DashComp extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     componentDidMount() {
-        this.props.fetchUserAndInfo();
+        const { fetchUserAndInfo } = this.props;
+        fetchUserAndInfo();
     }
 
     componentWillUnmount() {
@@ -89,33 +86,34 @@ class DashComp extends React.Component {
     }
 
     render() {
-        if (this.props.user.fetching || !this.props.user.fetched) {
+        const { user } = this.props;
+        if (user.fetching || !user.fetched) {
             return loading;
         }
-        if (this.props.user.logging_out) {
+        if (user.logging_out) {
             console.log('LOGGING OUT');
             axios
-                .get('/logout', { params: { username: this.props.user._id } })
-                .then(function(response) {
+                .get('/logout', { params: { username: user._id } })
+                .then(response => {
                     console.log(response.data);
                     if (response.data) {
                         document.location.href = '/';
                     }
                 })
-                .catch(function(error) {
+                .catch(error => {
                     console.log(error);
                 });
             return loading;
         }
         let routes;
-        if (this.props.user.type === types.typeStudent) {
+        if (user.type === types.typeStudent) {
             console.log('Student logged in');
             routes = studentRoutes;
-        } else if (this.props.user.type === types.typeTutor) {
+        } else if (user.type === types.typeTutor) {
             console.log('Tutor logged in');
             routes = tutorRoutes;
             socket.emit('tutor-login');
-        } else if (this.props.user.type === types.typeAdmin) {
+        } else if (user.type === types.typeAdmin) {
             console.log('Admin logged in');
             return adminRoutes;
         }
@@ -132,19 +130,23 @@ class DashComp extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.user
-    };
+DashComp.propTypes = {
+    fetchUserAndInfo: PropTypes.func.isRequired,
+    user: PropTypes.object.isRequired
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        fetchUserAndInfo: () => dispatch(fetchUserAndInfo())
-    };
-};
+const mapStateToProps = state => ({
+    user: state.user
+});
 
-const DashComponent = connect(mapStateToProps, mapDispatchToProps)(DashComp);
+const mapDispatchToProps = dispatch => ({
+    fetchUserAndInfo: () => dispatch(fetchUserAndInfo())
+});
+
+const DashComponent = connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(DashComp);
 
 ReactDOM.render(
     <Provider store={store}>

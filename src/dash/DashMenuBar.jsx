@@ -3,15 +3,17 @@ import { DropdownButton, MenuItem, Nav, Navbar } from 'react-bootstrap';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { LinkContainer } from 'react-router-bootstrap';
+import socketIOClient from 'socket.io-client';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+
 import { setTutorOnline, saveTutor } from '../redux/actions/user_actions';
 import styles from '../../public/css/index.css';
-import socketIOClient from 'socket.io-client';
 import * as types from '../redux/actions/types/user_types';
-import axios from 'axios';
 
 const SOCKETIO_ENDPOINT =
     window.location.hostname +
-    (window.location.port ? ':' + window.location.port : '');
+    (window.location.port ? `:${window.location.port}` : '');
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 export class MenuBar extends React.Component {
@@ -21,33 +23,36 @@ export class MenuBar extends React.Component {
     }
 
     logout() {
+        const { user, setTutorOffline } = this.props;
         console.warn('Logging out user');
-        // this.props.setTutorOnline(this.props.user, {online: false, logging_out: true});
-        console.log(this.props.user.type);
-        if (this.props.user.type === types.typeTutor) {
-            let self = this;
+        // this.props.setTutorOnline(user, {online: false, logging_out: true});
+        console.log(user.type);
+        if (user.type === types.typeTutor) {
+            // TODO: remove self = this
+            const self = this;
             axios
                 .post('/api/checkActiveSession', {
-                    username: this.props.user._id
+                    username: user._id
                 })
-                .then(function(response) {
+                .then(response => {
                     if (response.data.success) {
                         if (response.data.has_open_session) {
-                            let session_date = new Date(
+                            const session_date = new Date(
                                 response.data.session.start_time
                             );
-                            let endSession = confirm(
-                                'Would you like to end your tutoring session that started at ' +
-                                    session_date.toLocaleString('en-US')
+                            // eslint-disable-next-line no-restricted-globals, no-alert
+                            const endSession = confirm(
+                                `Would you like to end your tutoring session that started at
+                                    ${session_date.toLocaleString('en-US')}`
                             );
                             if (endSession) {
                                 axios
                                     .post('/api/endTutorSession', {
                                         _id: response.data.session._id
                                     })
-                                    .then(function(res) {
+                                    .then(res => {
                                         if (res.data.success) {
-                                            let new_tutor = Object.assign(
+                                            const new_tutor = Object.assign(
                                                 {},
                                                 self.props.user
                                             );
@@ -61,12 +66,15 @@ export class MenuBar extends React.Component {
                                             console.log(res.data.error);
                                         }
                                     })
-                                    .catch(function(err) {
+                                    .catch(err => {
                                         console.log(err);
                                     });
                             }
                         } else {
-                            let new_tutor = Object.assign({}, self.props.user);
+                            const new_tutor = Object.assign(
+                                {},
+                                self.props.user
+                            );
                             new_tutor.online = false;
                             new_tutor.logging_out = true;
                             self.props.setTutorOffline(new_tutor);
@@ -76,18 +84,19 @@ export class MenuBar extends React.Component {
                         console.log(response.data.error);
                     }
                 })
-                .catch(function(err) {
+                .catch(err => {
                     console.log(err);
                 });
         } else {
-            let new_tutor = Object.assign({}, this.props.user);
+            const new_tutor = Object.assign({}, user);
             new_tutor.online = false;
             new_tutor.logging_out = true;
-            this.props.setTutorOffline(new_tutor);
+            setTutorOffline(new_tutor);
         }
     }
 
     render() {
+        const { user } = this.props;
         return (
             <Navbar collapseOnSelect className={styles.navigationbar}>
                 <Navbar.Header>
@@ -115,17 +124,18 @@ export class MenuBar extends React.Component {
                     <Nav pullRight>
                         <span>
                             <img
+                                alt="profile pic"
                                 className="nav-prof-pic"
                                 src={
-                                    this.props.user.profile_picture
-                                        ? this.props.user.profile_picture
+                                    user.profile_picture
+                                        ? user.profile_picture
                                         : '/images/user.png'
                                 }
                             />
                         </span>
                         <DropdownButton
                             className="btn btn-sm dropdown-menu-button"
-                            title={this.props.user._id}
+                            title={user._id}
                         >
                             <LinkContainer to="#">
                                 <MenuItem>Messages</MenuItem>
@@ -151,18 +161,21 @@ export class MenuBar extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.user
-    };
+MenuBar.propTypes = {
+    user: PropTypes.object.isRequired,
+    setTutorOffline: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        setTutorOffline: tutor => dispatch(saveTutor(tutor)),
-        setTutorOnline: (tutor, status) =>
-            dispatch(setTutorOnline(tutor, status))
-    };
-};
+const mapStateToProps = state => ({
+    user: state.user
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(MenuBar);
+const mapDispatchToProps = dispatch => ({
+    setTutorOffline: tutor => dispatch(saveTutor(tutor)),
+    setTutorOnline: (tutor, status) => dispatch(setTutorOnline(tutor, status))
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(MenuBar);

@@ -56,8 +56,8 @@ class SignUpTutor extends React.Component {
     }
 
     handleFirstNameChange(event) {
-        let firstName = event.target.value;
-        this.setState({ firstName: firstName });
+        const firstName = event.target.value;
+        this.setState({ firstName });
 
         if (firstName === '') {
             this.setState({ firstNameValidation: 'input-error' });
@@ -67,8 +67,8 @@ class SignUpTutor extends React.Component {
     }
 
     handleLastNameChange(event) {
-        let lastName = event.target.value;
-        this.setState({ lastName: lastName });
+        const lastName = event.target.value;
+        this.setState({ lastName });
 
         if (lastName === '') {
             this.setState({ lastNameValidation: 'input-error' });
@@ -78,7 +78,7 @@ class SignUpTutor extends React.Component {
     }
 
     handleUsernameChange(event) {
-        let currentUsername = event.target.value;
+        const currentUsername = event.target.value;
         this.setState({ username: currentUsername });
 
         if (currentUsername.length < 4) {
@@ -89,7 +89,8 @@ class SignUpTutor extends React.Component {
     }
 
     handlePasswordChange(event) {
-        let currentPassword = event.target.value;
+        const { confirmPassword } = this.state;
+        const currentPassword = event.target.value;
         this.setState({ password: currentPassword });
 
         if (currentPassword.length < 6) {
@@ -98,7 +99,7 @@ class SignUpTutor extends React.Component {
             this.setState({ passwordValidation: 'input-success' });
         }
 
-        if (currentPassword === this.state.confirmPassword) {
+        if (currentPassword === confirmPassword) {
             this.setState({ confirmPasswordValidation: 'input-success' });
         } else {
             this.setState({ confirmPasswordValidation: 'input-error' });
@@ -106,10 +107,11 @@ class SignUpTutor extends React.Component {
     }
 
     handleConfirmPasswordChange(event) {
-        let currentConfirmPassword = event.target.value;
+        const { password } = this.state;
+        const currentConfirmPassword = event.target.value;
         this.setState({ confirmPassword: currentConfirmPassword });
 
-        if (currentConfirmPassword === this.state.password) {
+        if (currentConfirmPassword === password) {
             this.setState({ confirmPasswordValidation: 'input-success' });
         } else {
             this.setState({ confirmPasswordValidation: 'input-error' });
@@ -117,7 +119,8 @@ class SignUpTutor extends React.Component {
     }
 
     handleEmailChange(event) {
-        let currentEmail = event.target.value;
+        const { confirmEmail } = this.state;
+        const currentEmail = event.target.value;
         this.setState({ email: currentEmail });
 
         if (/@gatech.edu\s*$/.test(currentEmail)) {
@@ -128,7 +131,7 @@ class SignUpTutor extends React.Component {
             this.setState({ emailValidation: 'input-error' });
         }
 
-        if (currentEmail === this.state.confirmEmail) {
+        if (currentEmail === confirmEmail) {
             this.setState({ confirmEmailValidation: 'input-success' });
         } else {
             this.setState({ confirmEmailValidation: 'input-error' });
@@ -136,10 +139,11 @@ class SignUpTutor extends React.Component {
     }
 
     handleConfirmEmailChange(event) {
-        let currentConfirmEmail = event.target.value;
+        const { email } = this.state;
+        const currentConfirmEmail = event.target.value;
         this.setState({ confirmEmail: currentConfirmEmail });
 
-        if (currentConfirmEmail === this.state.email) {
+        if (currentConfirmEmail === email) {
             this.setState({ confirmEmailValidation: 'input-success' });
         } else {
             this.setState({ confirmEmailValidation: 'input-error' });
@@ -147,7 +151,7 @@ class SignUpTutor extends React.Component {
     }
 
     handleGmailChange(event) {
-        let currentGmail = event.target.value;
+        const currentGmail = event.target.value;
         this.setState({ gmail: currentGmail });
 
         if (/@gmail.com\s*$/.test(currentGmail)) {
@@ -158,26 +162,37 @@ class SignUpTutor extends React.Component {
     }
 
     handleSubmit(event) {
+        const {
+            firstNameValidation,
+            lastNameValidation,
+            usernameValidation,
+            passwordValidation,
+            confirmPasswordValidation,
+            emailValidation,
+            confirmEmailValidation,
+            gmailValidation
+        } = this.state;
         event.preventDefault();
         if (
-            this.state.firstNameValidation === 'input-error' ||
-            this.state.lastNameValidation === 'input-error' ||
-            this.state.usernameValidation === 'input-error' ||
-            this.state.passwordValidation === 'input-error' ||
-            this.state.confirmPasswordValidation === 'input-error' ||
-            this.state.emailValidation === 'input-error' ||
-            this.state.confirmEmailValidation === 'input-error' ||
-            this.state.gmailValidation === 'input-error'
+            firstNameValidation === 'input-error' ||
+            lastNameValidation === 'input-error' ||
+            usernameValidation === 'input-error' ||
+            passwordValidation === 'input-error' ||
+            confirmPasswordValidation === 'input-error' ||
+            emailValidation === 'input-error' ||
+            confirmEmailValidation === 'input-error' ||
+            gmailValidation === 'input-error'
         ) {
             this.setState({ inputErrorMessage: 'error-message' });
             this.setState({ errorMessage: 'error-message-hide' });
         } else {
-            let self = this;
+            // TODO: remove self = this
+            const self = this;
             this.setState({ disabledSubmit: true });
 
             axios
                 .post('/api/registerTutor', this.state)
-                .then(function(response) {
+                .then(response => {
                     console.log(response);
                     console.log(self.state.username);
                     if (response.data.success) {
@@ -186,7 +201,7 @@ class SignUpTutor extends React.Component {
                                 id: self.state.username,
                                 email: self.state.gmail
                             })
-                            .then(function(response) {
+                            .then(response => {
                                 self.setState({ disabledSubmit: false });
                                 axios
                                     .post('/calendar/addCalendarACL', {
@@ -194,24 +209,24 @@ class SignUpTutor extends React.Component {
                                         email: self.state.gmail,
                                         calendarId: response.data.calId
                                     })
-                                    .then(function(res) {
+                                    .then(res => {
                                         console.log(res);
                                         console.log('registration successful');
                                         document.location.href = '/home/login';
                                     })
-                                    .catch(function(error) {
+                                    .catch(error => {
                                         console.log(error);
                                         self.setState({
                                             disabledSubmit: false
                                         });
                                     });
                             })
-                            .catch(function(error) {
+                            .catch(error => {
                                 console.log(error);
                                 self.setState({ disabledSubmit: false });
                             });
                     } else {
-                        //registration failed
+                        // registration failed
                         self.setState({ errorMessage: 'error-message' });
                         self.setState({
                             inputErrorMessage: 'error-message-hide'
@@ -222,7 +237,7 @@ class SignUpTutor extends React.Component {
                         self.setState({ disabledSubmit: false });
                     }
                 })
-                .catch(function(error) {
+                .catch(error => {
                     console.log(error);
                     self.setState({ errorMessage: 'error-message' });
                     self.setState({ inputErrorMessage: 'error-message-hide' });
@@ -232,22 +247,41 @@ class SignUpTutor extends React.Component {
     }
 
     render() {
+        const {
+            firstNameValidation,
+            firstName,
+            lastNameValidation,
+            lastName,
+            usernameValidation,
+            username,
+            passwordValidation,
+            password,
+            confirmPasswordValidation,
+            confirmPassword,
+            emailValidation,
+            email,
+            confirmEmailValidation,
+            confirmEmail,
+            gmailValidation,
+            gmail,
+            inputErrorMessage,
+            errorMessage,
+            errorMessageContent,
+            disabledSubmit
+        } = this.state;
         return (
             <form className="" onSubmit={this.handleSubmit}>
                 <div className="row col-xs-12">
                     <input
                         type="text"
-                        className={
-                            this.state.firstNameValidation +
-                            ' input-lg col-xs-10 col-xs-offset-1'
-                        }
+                        className={`${firstNameValidation} input-lg col-xs-10 col-xs-offset-1`}
                         placeholder="First Name"
-                        value={this.state.firstName}
+                        value={firstName}
                         onChange={this.handleFirstNameChange}
                     />
                     <HelpBlock
                         className={
-                            this.state.firstNameValidation === 'input-error'
+                            firstNameValidation === 'input-error'
                                 ? 'show-error'
                                 : 'hide-error'
                         }
@@ -258,17 +292,14 @@ class SignUpTutor extends React.Component {
                 <div className="row col-xs-12">
                     <input
                         type="text"
-                        className={
-                            this.state.lastNameValidation +
-                            ' input-lg col-xs-10 col-xs-offset-1'
-                        }
+                        className={`${lastNameValidation} input-lg col-xs-10 col-xs-offset-1`}
                         placeholder="Last Name"
-                        value={this.state.lastName}
+                        value={lastName}
                         onChange={this.handleLastNameChange}
                     />
                     <HelpBlock
                         className={
-                            this.state.lastNameValidation === 'input-error'
+                            lastNameValidation === 'input-error'
                                 ? 'show-error'
                                 : 'hide-error'
                         }
@@ -279,17 +310,14 @@ class SignUpTutor extends React.Component {
                 <div className="row col-xs-12">
                     <input
                         type="text"
-                        className={
-                            this.state.usernameValidation +
-                            ' input-lg col-xs-10 col-xs-offset-1'
-                        }
+                        className={`${usernameValidation} input-lg col-xs-10 col-xs-offset-1`}
                         placeholder="Create A Username"
-                        value={this.state.username}
+                        value={username}
                         onChange={this.handleUsernameChange}
                     />
                     <HelpBlock
                         className={
-                            this.state.usernameValidation === 'input-error'
+                            usernameValidation === 'input-error'
                                 ? 'show-error'
                                 : 'hide-error'
                         }
@@ -300,17 +328,14 @@ class SignUpTutor extends React.Component {
                 <div className="row col-xs-12">
                     <input
                         type="password"
-                        className={
-                            this.state.passwordValidation +
-                            ' input-lg col-xs-10 col-xs-offset-1'
-                        }
+                        className={`${passwordValidation} input-lg col-xs-10 col-xs-offset-1`}
                         placeholder="Create A Password"
-                        value={this.state.password}
+                        value={password}
                         onChange={this.handlePasswordChange}
                     />
                     <HelpBlock
                         className={
-                            this.state.passwordValidation === 'input-error'
+                            passwordValidation === 'input-error'
                                 ? 'show-error'
                                 : 'hide-error'
                         }
@@ -321,18 +346,14 @@ class SignUpTutor extends React.Component {
                 <div className="row col-xs-12">
                     <input
                         type="password"
-                        className={
-                            this.state.confirmPasswordValidation +
-                            ' input-lg col-xs-10 col-xs-offset-1'
-                        }
+                        className={`${confirmPasswordValidation} input-lg col-xs-10 col-xs-offset-1'`}
                         placeholder="Confirm Password"
-                        value={this.state.confirmPassword}
+                        value={confirmPassword}
                         onChange={this.handleConfirmPasswordChange}
                     />
                     <HelpBlock
                         className={
-                            this.state.confirmPasswordValidation ===
-                            'input-error'
+                            confirmPasswordValidation === 'input-error'
                                 ? 'show-error'
                                 : 'hide-error'
                         }
@@ -343,17 +364,14 @@ class SignUpTutor extends React.Component {
                 <div className="row col-xs-12">
                     <input
                         type="text"
-                        className={
-                            this.state.emailValidation +
-                            ' input-lg col-xs-10 col-xs-offset-1'
-                        }
+                        className={`${emailValidation} input-lg col-xs-10 col-xs-offset-1'`}
                         placeholder="Georgia Tech Email"
-                        value={this.state.email}
+                        value={email}
                         onChange={this.handleEmailChange}
                     />
                     <HelpBlock
                         className={
-                            this.state.emailValidation === 'input-error'
+                            emailValidation === 'input-error'
                                 ? 'show-error'
                                 : 'hide-error'
                         }
@@ -364,17 +382,14 @@ class SignUpTutor extends React.Component {
                 <div className="row col-xs-12">
                     <input
                         type="text"
-                        className={
-                            this.state.confirmEmailValidation +
-                            ' input-lg col-xs-10 col-xs-offset-1'
-                        }
+                        className={`${confirmEmailValidation} input-lg col-xs-10 col-xs-offset-1'`}
                         placeholder="Confirm Email"
-                        value={this.state.confirmEmail}
+                        value={confirmEmail}
                         onChange={this.handleConfirmEmailChange}
                     />
                     <HelpBlock
                         className={
-                            this.state.confirmEmailValidation === 'input-error'
+                            confirmEmailValidation === 'input-error'
                                 ? 'show-error'
                                 : 'hide-error'
                         }
@@ -385,17 +400,14 @@ class SignUpTutor extends React.Component {
                 <div className="row col-xs-12">
                     <input
                         type="text"
-                        className={
-                            this.state.gmailValidation +
-                            ' input-lg col-xs-10 col-xs-offset-1'
-                        }
+                        className={`${gmailValidation} input-lg col-xs-10 col-xs-offset-1'`}
                         placeholder="Gmail"
-                        value={this.state.gmail}
+                        value={gmail}
                         onChange={this.handleGmailChange}
                     />
                     <HelpBlock
                         className={
-                            this.state.gmailValidation === 'input-error'
+                            gmailValidation === 'input-error'
                                 ? 'show-error'
                                 : 'hide-error'
                         }
@@ -408,15 +420,15 @@ class SignUpTutor extends React.Component {
                         className="signup-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
                         type="submit"
                         value="SUBMIT"
-                        disabled={this.state.disabledSubmit}
+                        disabled={disabledSubmit}
                         onClick={this.handleSubmit}
                     />
                 </div>
-                <h5 className={'col-xs-12 ' + this.state.inputErrorMessage}>
+                <h5 className={`col-xs-12 ${inputErrorMessage}`}>
                     one or more fields invalid
                 </h5>
-                <h5 className={'col-xs-12 ' + this.state.errorMessage}>
-                    {this.state.errorMessageContent}
+                <h5 className={`col-xs-12 ${errorMessage}`}>
+                    {errorMessageContent}
                 </h5>
                 <div className="row col-xs-12">
                     <h5 className="signup-dialogue">
