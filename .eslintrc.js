@@ -35,8 +35,10 @@ module.exports = {
             'components': [ 'Link' ],
             'specialLink': [ 'to' ]
         }],
+        'jsx-a11y/label-has-for': 'off',
         'no-unused-vars': ['error', {'varsIgnorePattern': 'styles'}],
         // TODO: enable this later for more specific 'object' shape and 'array' contents
-        'react/forbid-prop-types': 'off'
+        'react/forbid-prop-types': 'off',
+        'no-plusplus': 'off'
     }
 };

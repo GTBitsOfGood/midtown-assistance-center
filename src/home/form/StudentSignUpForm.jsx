@@ -43,7 +43,6 @@ class StudentSignUpForm extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
 
         const grades = [];
-        // eslint-disable-next-line no-plusplus
         for (let i = props.startingGrade; i <= props.endingGrade; i++) {
             grades.push(i);
         }
