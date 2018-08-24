@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
 class SubjectPicker extends React.Component {
@@ -14,30 +15,36 @@ class SubjectPicker extends React.Component {
     }
 
     handleStartChange(event) {
-        this.props.handleEditStart(this.props.index, event.target.value);
+        const { handleEditStart, index } = this.props;
+        handleEditStart(index, event.target.value);
     }
 
     handleEndChange(event) {
-        this.props.handleEditEnd(this.props.index, event.target.value);
+        const { handleEditEnd, index } = this.props;
+        handleEditEnd(index, event.target.value);
     }
 
     handleSubjectChange(event) {
-        this.props.handleEditSubject(this.props.index, event.target.value);
+        const { handleEditSubject, index } = this.props;
+        handleEditSubject(index, event.target.value);
         console.log(event.target.value);
     }
 
+    // eslint-disable-next-line no-unused-vars
     handleRemoveClick(event) {
-        this.props.handleRemoveSubject(this.props.index);
+        const { handleRemoveSubject, index } = this.props;
+        handleRemoveSubject(index);
     }
 
     render() {
-        let subjectOptions = this.props.subjects.availableSubjects.map(subj => {
-            return (
-                <option value={subj} key={subj}>
-                    {subj}
-                </option>
-            );
-        });
+        const { subjects, subject, is_edit, start, end, key } = this.props;
+        const { show } = this.state;
+
+        const subjectOptions = subjects.availableSubjects.map(subj => (
+            <option value={subj} key={subj}>
+                {subj}
+            </option>
+        ));
 
         const renData = (
             <div className="row input-group col-md-12 col-no-padding">
@@ -46,10 +53,10 @@ class SubjectPicker extends React.Component {
                     <select
                         className="input input-sm subject-input"
                         name="subject"
-                        value={this.props.subject}
-                        defaultValue={this.props.subject}
+                        value={subject}
+                        defaultValue={subject}
                         onChange={this.handleSubjectChange}
-                        disabled={!this.props.is_edit}
+                        disabled={!is_edit}
                     >
                         {subjectOptions}
                     </select>
@@ -61,9 +68,9 @@ class SubjectPicker extends React.Component {
                         type="number"
                         min="6"
                         max="12"
-                        value={this.props.start}
+                        value={start}
                         onChange={this.handleStartChange}
-                        disabled={!this.props.is_edit}
+                        disabled={!is_edit}
                     />
                 </span>
                 <span className="subject-pick col-md-2">
@@ -73,36 +80,48 @@ class SubjectPicker extends React.Component {
                         type="number"
                         min="6"
                         max="12"
-                        value={this.props.end}
+                        value={end}
                         onChange={this.handleEndChange}
-                        disabled={!this.props.is_edit}
+                        disabled={!is_edit}
                     />
                 </span>
                 <span className="edit-subject-btn col-md-4">
                     <label className="white">: </label>
                     <button
-                        value={this.props.key}
+                        type="button"
+                        value={key}
                         className="btn btn-danger btn-sm subject-button"
                         onClick={this.handleRemoveClick}
-                        disabled={!this.props.is_edit}
+                        disabled={!is_edit}
                     >
                         Remove
                     </button>
                 </span>
             </div>
         );
-        return this.state.show ? renData : null;
+        return show ? renData : null;
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        subjects: state.subjects
-    };
+SubjectPicker.propTypes = {
+    handleEditEnd: PropTypes.func.isRequired,
+    handleEditStart: PropTypes.func.isRequired,
+    handleEditSubject: PropTypes.func.isRequired,
+    index: PropTypes.number.isRequired,
+    handleRemoveSubject: PropTypes.func.isRequired,
+    subjects: PropTypes.object.isRequired,
+    subject: PropTypes.string.isRequired,
+    is_edit: PropTypes.bool.isRequired,
+    start: PropTypes.number.isRequired,
+    end: PropTypes.number.isRequired,
+    key: PropTypes.string.isRequired
 };
 
-const mapDispatchToProps = dispatch => {
-    return {};
-};
+const mapStateToProps = state => ({
+    subjects: state.subjects
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubjectPicker);
+export default connect(
+    mapStateToProps,
+    null
+)(SubjectPicker);

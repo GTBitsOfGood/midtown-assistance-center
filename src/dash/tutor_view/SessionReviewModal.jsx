@@ -10,6 +10,7 @@
  */
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
 
@@ -30,8 +31,7 @@ class SessionModal extends React.Component {
             rating: 0,
             satisfaction: '',
             error_message: 'hide',
-            comment: '',
-            students_in_session: []
+            comment: ''
         };
         this.changeStar = this.changeStar.bind(this);
         this.setRating = this.setRating.bind(this);
@@ -43,11 +43,22 @@ class SessionModal extends React.Component {
     }
 
     /**
-     * Handle a change in the comments textarea
-     * @param e
+     * Set the rating to a specific number and
+     * set the satisfaction accordingly
+     * @param number
      */
-    handleCommentChange(e) {
-        this.setState({ comment: e.target.value });
+    setRating(number) {
+        if (number === 1) {
+            this.setState({ rating: 1, satisfaction: 'poor' });
+        } else if (number === 2) {
+            this.setState({ rating: 2, satisfaction: 'below average' });
+        } else if (number === 3) {
+            this.setState({ rating: 3, satisfaction: 'average' });
+        } else if (number === 4) {
+            this.setState({ rating: 4, satisfaction: 'very good' });
+        } else if (number === 5) {
+            this.setState({ rating: 5, satisfaction: 'excellent' });
+        }
     }
 
     /**
@@ -104,7 +115,8 @@ class SessionModal extends React.Component {
      * from a star
      */
     changeStarOut() {
-        if (this.state.rating == 0) {
+        const { rating } = this.state;
+        if (rating === 0) {
             this.setState({
                 first_star: false,
                 second_star: false,
@@ -112,7 +124,7 @@ class SessionModal extends React.Component {
                 fourth_star: false,
                 fifth_star: false
             });
-        } else if (this.state.rating == 1) {
+        } else if (rating === 1) {
             this.setState({
                 first_star: true,
                 second_star: false,
@@ -120,7 +132,7 @@ class SessionModal extends React.Component {
                 fourth_star: false,
                 fifth_star: false
             });
-        } else if (this.state.rating == 2) {
+        } else if (rating === 2) {
             this.setState({
                 first_star: true,
                 second_star: true,
@@ -128,7 +140,7 @@ class SessionModal extends React.Component {
                 fourth_star: false,
                 fifth_star: false
             });
-        } else if (this.state.rating == 3) {
+        } else if (rating === 3) {
             this.setState({
                 first_star: true,
                 second_star: true,
@@ -136,7 +148,7 @@ class SessionModal extends React.Component {
                 fourth_star: false,
                 fifth_star: false
             });
-        } else if (this.state.rating == 4) {
+        } else if (rating === 4) {
             this.setState({
                 first_star: true,
                 second_star: true,
@@ -144,7 +156,7 @@ class SessionModal extends React.Component {
                 fourth_star: true,
                 fifth_star: false
             });
-        } else if (this.state.rating == 5) {
+        } else if (rating === 5) {
             this.setState({
                 first_star: true,
                 second_star: true,
@@ -156,22 +168,11 @@ class SessionModal extends React.Component {
     }
 
     /**
-     * Set the rating to a specific number and
-     * set the satisfaction accordingly
-     * @param number
+     * Handle a change in the comments textarea
+     * @param e
      */
-    setRating(number) {
-        if (number == 1) {
-            this.setState({ rating: 1, satisfaction: 'poor' });
-        } else if (number == 2) {
-            this.setState({ rating: 2, satisfaction: 'below average' });
-        } else if (number == 3) {
-            this.setState({ rating: 3, satisfaction: 'average' });
-        } else if (number == 4) {
-            this.setState({ rating: 4, satisfaction: 'very good' });
-        } else if (number == 5) {
-            this.setState({ rating: 5, satisfaction: 'excellent' });
-        }
+    handleCommentChange(e) {
+        this.setState({ comment: e.target.value });
     }
 
     /**
@@ -182,26 +183,27 @@ class SessionModal extends React.Component {
      */
     // FIXME handle through redux
     handleSubmit() {
-        if (this.state.rating == 0) {
+        const { onSubmit, tutorId } = this.props;
+        const { rating, comment } = this.state;
+        if (rating === 0) {
             this.setState({ error_message: 'show' });
         } else {
-            let onSubmit = this.props.onSubmit;
-            let rating = this.state.rating;
-            let comment = this.state.comment;
             axios
                 .post('/calendar/endCalendarEvent', {
-                    tutorId: this.props.tutorId
+                    tutorId
                 })
-                .then(function(response) {
+                .then(response => {
                     if (response.data.success) {
-                        //this.setState({error_message:'hide'});
+                        // this.setState({error_message:'hide'});
+                        // TODO: What is this?
+                        // eslint-disable-next-line no-undef
                         $('.modal').modal('hide');
                         onSubmit(rating, comment);
                     } else {
                         console.log(response.data.error);
                     }
                 })
-                .catch(function(error) {
+                .catch(error => {
                     console.log(error);
                 });
         }
@@ -211,26 +213,26 @@ class SessionModal extends React.Component {
      * Approve the student by updating the join
      * request in the database and sending a signal through
      * the socket to approve the student
-     * @param join_request
+     * @param join_request_param
      */
-    approveStudent(join_request) {
-        join_request.status = 'approved';
-        let requestBody = {
-            _id: this.props.session._id,
-            join_request: join_request
+    approveStudent(join_request_param) {
+        const { session, updateSession, socket } = this.props;
+        const join_request = { ...join_request_param, status: 'approved' };
+        const requestBody = {
+            _id: session._id,
+            join_request
         };
-        let self = this;
         axios
             .post('/api/updateJoinRequest', requestBody)
-            .then(function(response) {
+            .then(response => {
                 if (response.data.success) {
                     console.log(response.data);
-                    self.props.updateSession(
+                    updateSession(
                         response.data.session.hangouts_link,
                         response.data.session.eventId,
                         response.data.session
                     );
-                    self.props.socket.emit('tutor-approve', {
+                    socket.emit('tutor-approve', {
                         session: response.data.session.eventId,
                         student_id: join_request.student_id
                     });
@@ -238,7 +240,7 @@ class SessionModal extends React.Component {
                     console.log(response.data.error);
                 }
             })
-            .catch(function(err) {
+            .catch(err => {
                 console.log(err);
             });
     }
@@ -249,29 +251,32 @@ class SessionModal extends React.Component {
      * the socket to deny the student
      * @param join_request
      */
-    denyStudent(join_request) {
-        let deny = prompt(
+    denyStudent(join_request_param) {
+        const { session, updateSession, socket } = this.props;
+        const deny = prompt(
             'Are you sure you want to reject this join request? If so, please enter a reason. If not, please click Cancel.'
         );
         if (deny != null) {
-            join_request.status = 'rejected';
-            join_request.tutor_comment = deny;
-            let requestBody = {
-                _id: this.props.session._id,
-                join_request: join_request
+            const join_request = {
+                ...join_request_param,
+                status: 'rejected',
+                tutor_comment: deny
             };
-            let self = this;
+            const requestBody = {
+                _id: session._id,
+                join_request
+            };
             axios
                 .post('/api/updateJoinRequest', requestBody)
-                .then(function(response) {
+                .then(response => {
                     if (response.data.success) {
                         console.log(response.data);
-                        self.props.updateSession(
+                        updateSession(
                             response.data.session.hangouts_link,
                             response.data.session.eventId,
                             response.data.session
                         );
-                        self.props.socket.emit('tutor-deny', {
+                        socket.emit('tutor-deny', {
                             session: response.data.session.eventId,
                             reason: deny,
                             student_id: join_request.student_id
@@ -280,7 +285,7 @@ class SessionModal extends React.Component {
                         console.log(response.data.error);
                     }
                 })
-                .catch(function(err) {
+                .catch(err => {
                     console.log(err);
                 });
         }
@@ -291,71 +296,58 @@ class SessionModal extends React.Component {
      * @returns {HTML}
      */
     render() {
-        const renStudents = [];
-        const renRequests = [];
-
-        for (let student in this.props.session.students_attended) {
-            renStudents.push(
-                <h5>
-                    {this.props.session.students_attended[student].student_id}
-                </h5>
-            );
-        }
-
-        for (let student in this.props.session.join_requests) {
-            if (
-                this.props.session.join_requests[student].status === 'pending'
-            ) {
-                renRequests.push(
-                    <div className="student-join-request col-sm-12">
-                        <h5 className="col-sm-3">
-                            {
-                                this.props.session.join_requests[student]
-                                    .student_id
-                            }
-                        </h5>
-                        <h5 className="col-sm-3">
-                            {this.props.session.join_requests[student].topic}
-                        </h5>
-                        <h5 className="lighter-text col-sm-4">
-                            {this.props.session.join_requests[student]
-                                .student_comment
-                                ? this.props.session.join_requests[student]
-                                      .student_comment
-                                : 'No Request Description'}
-                        </h5>
-                        <span
-                            onClick={() =>
-                                this.approveStudent(
-                                    this.props.session.join_requests[student]
-                                )
-                            }
-                            className="col-sm-1 glyphicon glyphicon-ok approve-student"
-                        />
-                        <span
-                            onClick={() =>
-                                this.denyStudent(
-                                    this.props.session.join_requests[student]
-                                )
-                            }
-                            className="col-sm-1 glyphicon glyphicon-remove deny-student"
-                        />
-                    </div>
-                );
-            }
-        }
+        const { session, id } = this.props;
+        const {
+            error_message,
+            first_star,
+            second_star,
+            third_star,
+            fourth_star,
+            fifth_star,
+            rating,
+            satisfaction,
+            comment
+        } = this.state;
+        const renStudents = (session.students_attended || []).map(student => (
+            <h5>{student.student_id}</h5>
+        ));
+        const renRequests = (session.join_requests || [])
+            .filter(student => student.status === 'pending')
+            .map(student => (
+                <div className="student-join-request col-sm-12">
+                    <h5 className="col-sm-3">{student.student_id}</h5>
+                    <h5 className="col-sm-3">
+                        {session.join_requests[student].topic}
+                    </h5>
+                    <h5 className="lighter-text col-sm-4">
+                        {student.student_comment
+                            ? student.student_comment
+                            : 'No Request Description'}
+                    </h5>
+                    <span
+                        onClick={() => this.approveStudent(student)}
+                        className="col-sm-1 glyphicon glyphicon-ok approve-student"
+                    />
+                    <span
+                        onClick={() => this.denyStudent(student)}
+                        className="col-sm-1 glyphicon glyphicon-remove deny-student"
+                    />
+                </div>
+            ));
 
         return (
             <div>
+                {/* eslint-disable jsx-a11y/tabindex-no-positive, jsx-a11y/no-noninteractive-tabindex, jsx-a11y/no-autofocus */}
                 <div
                     className="modal"
-                    id={'Modal_' + this.props.id}
+                    id={`Modal_${id}`}
                     tabIndex="1000"
                     role="dialog"
-                    aria-labelledby={'#Modal_' + this.props.id + 'Label'}
+                    aria-labelledby={`#Modal_${id}Label`}
                     aria-hidden="true"
                     autoFocus
                 >
+                    {/* eslint-enable */}
                     <div className="modal-dialog" role="document">
                         <div className="modal-content tutor-modal review-modal">
                             <div className="modal-header text-center">
@@ -367,7 +359,7 @@ class SessionModal extends React.Component {
                                 </h4>
                                 <h5>
                                     <a
-                                        href={this.props.session.hangouts_link}
+                                        href={session.hangouts_link}
                                         target="_blank"
                                     >
                                         Click here to re-enter the hangouts
@@ -375,7 +367,7 @@ class SessionModal extends React.Component {
                                 </h5>
                             </div>
                             <div className="modal-body tutor-modal-body">
-                                <div id={'ModalBody_' + this.props.id}>
+                                <div id={`ModalBody_${id}`}>
                                     <div className="modal-body-session-info">
                                         <h4>
                                             <small>Student Join Requests</small>
@@ -407,10 +399,7 @@ class SessionModal extends React.Component {
                                             </small>
                                         </h4>
                                         <h5
-                                            className={
-                                                'text-uppercase modal-error-' +
-                                                this.state.error_message
-                                            }
+                                            className={`text-uppercase modal-error-${error_message}`}
                                         >
                                             Rating must be nonzero
                                         </h5>
@@ -422,9 +411,10 @@ class SessionModal extends React.Component {
                                             onClick={() => this.setRating(1)}
                                         >
                                             <img
+                                                alt="first_star"
                                                 className="star"
                                                 src={
-                                                    this.state.first_star
+                                                    first_star
                                                         ? '/images/full-star.png'
                                                         : '/images/empty-star.png'
                                                 }
@@ -440,9 +430,10 @@ class SessionModal extends React.Component {
                                             onClick={() => this.setRating(2)}
                                         >
                                             <img
+                                                alt="second_star"
                                                 className="star"
                                                 src={
-                                                    this.state.second_star
+                                                    second_star
                                                         ? '/images/full-star.png'
                                                         : '/images/empty-star.png'
                                                 }
@@ -458,9 +449,10 @@ class SessionModal extends React.Component {
                                             onClick={() => this.setRating(3)}
                                         >
                                             <img
+                                                alt="third_star"
                                                 className="star"
                                                 src={
-                                                    this.state.third_star
+                                                    third_star
                                                         ? '/images/full-star.png'
                                                         : '/images/empty-star.png'
                                                 }
@@ -476,9 +468,10 @@ class SessionModal extends React.Component {
                                             onClick={() => this.setRating(4)}
                                         >
                                             <img
+                                                alt="fourth_star"
                                                 className="star"
                                                 src={
-                                                    this.state.fourth_star
+                                                    fourth_star
                                                         ? '/images/full-star.png'
                                                         : '/images/empty-star.png'
                                                 }
@@ -494,9 +487,10 @@ class SessionModal extends React.Component {
                                             onClick={() => this.setRating(5)}
                                         >
                                             <img
+                                                alt="fifth_star"
                                                 className="star"
                                                 src={
-                                                    this.state.fifth_star
+                                                    fifth_star
                                                         ? '/images/full-star.png'
                                                         : '/images/empty-star.png'
                                                 }
@@ -506,8 +500,8 @@ class SessionModal extends React.Component {
                                         </span>
                                         <span>
                                             <h5 className="rating-span">
-                                                ({this.state.rating}/5){' '}
-                                                {this.state.satisfaction}
+                                                {`${rating /
+                                                    5} ${satisfaction}`}
                                             </h5>
                                         </span>
                                         <h5>
@@ -516,7 +510,7 @@ class SessionModal extends React.Component {
                                         </h5>
                                         <textarea
                                             className="input-sm input feedback-text"
-                                            value={this.state.comment}
+                                            value={comment}
                                             onChange={this.handleCommentChange}
                                         />
                                     </div>
@@ -546,18 +540,22 @@ class SessionModal extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        studentView: state.studentView
-    };
+SessionModal.propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+    tutorId: PropTypes.string.isRequired,
+    id: PropTypes.string.isRequired,
+    session: PropTypes.object.isRequired,
+    updateSession: PropTypes.func.isRequired,
+    socket: PropTypes.object.isRequired
 };
 
-const mapDispatchToProps = dispatch => {
-    return {};
-};
+const mapStateToProps = state => ({
+    studentView: state.studentView
+});
 
-const SessionReviewModal = connect(mapStateToProps, mapDispatchToProps)(
-    SessionModal
-);
+const SessionReviewModal = connect(
+    mapStateToProps,
+    null
+)(SessionModal);
 
 export default SessionReviewModal;
