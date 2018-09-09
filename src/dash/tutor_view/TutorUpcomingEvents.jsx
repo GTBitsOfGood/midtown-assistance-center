@@ -42,7 +42,7 @@ class UpcomingEvents extends React.Component {
         let totalCount = 0;
         let renEvents = [];
         let events = [];
-        if (user.availability) {
+        if (user && user.availability) {
             let keyId = 0;
             while (count < NUM_OF_EVENTS && totalCount < 7) {
                 events = user.availability[dayName];
@@ -99,7 +99,7 @@ class UpcomingEvents extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    state
+    user:state.user
 });
 
 const TutorUpcomingEvents = connect(
