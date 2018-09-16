@@ -1,58 +1,70 @@
 import React from 'react';
-import TutorUpcomingEvents from './TutorUpcomingEvents.jsx';
-import Feedback from './Feedback.jsx';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import TutorProfile from './Profile.jsx';
 import socketIOClient from 'socket.io-client';
-import Statistics from './Statistics.jsx';
+import TutorUpcomingEvents from './TutorUpcomingEvents';
+import Feedback from './Feedback';
+import TutorProfile from './Profile';
+import Statistics from './Statistics';
 
 const SOCKETIO_ENDPOINT =
     window.location.hostname +
-    (window.location.port ? ':' + window.location.port : '');
+    (window.location.port ? `:${window.location.port}` : '');
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 class TutorDash extends React.Component {
-    // TODO:
+    // TODO: socket stuff
     componentWillUnmount() {
-        //socket.close();
+        // socket.close();
     }
 
     render() {
+        const { user } = this.props;
+        let dashDisplay = null;
+        if (user.approved && user.confirmed) {
+            dashDisplay = (
+                <div>
+                    <TutorUpcomingEvents socket={socket} />
+                    <Statistics />
+                    <Feedback />
+                </div>
+            );
+        } else if (user.confirmed) {
+            dashDisplay = (
+                <h4 className="tutor-approval-msg">
+                    Your profile is awaiting approval. Edit your profile and
+                    check back soon!
+                </h4>
+            );
+        } else {
+            dashDisplay = (
+                <h4 className="tutor-approval-msg">
+                    Please confirm your email address
+                </h4>
+            );
+        }
         return (
             <div className="tutor-dash container col-xs-12">
                 <div className="col-md-6">
                     <TutorProfile />
                 </div>
                 <div className="col-md-6 upcoming-events-list">
-                    {this.props.user.approved && this.props.user.confirmed ? (
-                        <div>
-                            <TutorUpcomingEvents socket={socket} />
-                            <Statistics />
-                            <Feedback />
-                        </div>
-                    ) : this.props.user.confirmed ? (
-                        <h4 className="tutor-approval-msg">
-                            Your profile is awaiting approval. Edit your profile
-                            and check back soon!
-                        </h4>
-                    ) : (
-                        <h4 className="tutor-approval-msg">
-                            Please confirm your email address
-                        </h4>
-                    )}
+                    {dashDisplay}
                 </div>
             </div>
         );
     }
 }
 
-const mapStateToProps = state => {
-    // Since we never use the redux state here
-    return state;
+TutorDash.propTypes = {
+    user: PropTypes.object.isRequired
 };
 
-const mapDispatchToProps = dispatch => {
-    return {};
-};
+const mapStateToProps = state => ({
+    user: state.user
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(TutorDash);
+export default connect(
+    mapStateToProps,
+    null
+)(TutorDash);

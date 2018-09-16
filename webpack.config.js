@@ -41,6 +41,7 @@ module.exports = {
         ]
     },
     resolve: {
+        extensions: ['.js', '.jsx'],
         alias: {
             config: path.resolve(__dirname, 'config/client.json')
         }

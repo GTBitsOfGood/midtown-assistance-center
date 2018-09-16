@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 class TimePicker extends React.Component {
     constructor(props) {
@@ -13,32 +14,39 @@ class TimePicker extends React.Component {
     }
 
     handleStartChange(event) {
-        this.props.handleEditStart(this.props.index, event.target.value);
+        const { handleEditStart, index } = this.props;
+        handleEditStart(index, event.target.value);
     }
 
     handleEndChange(event) {
-        this.props.handleEditEnd(this.props.index, event.target.value);
+        const { handleEditEnd, index } = this.props;
+        handleEditEnd(index, event.target.value);
     }
 
     handleDateChange(event) {
-        this.props.handleEditDate(this.props.index, event.target.value);
+        const { handleEditDate, index } = this.props;
+        handleEditDate(index, event.target.value);
     }
 
+    // eslint-disable-next-line no-unused-vars
     handleRemoveClick(event) {
-        this.props.handleRemoveSchedule(this.props.index);
+        const { handleRemoveSchedule, index } = this.props;
+        handleRemoveSchedule(index);
     }
 
     render() {
+        const { date, is_edit, start, end, key } = this.props;
+        const { show } = this.state;
         const renData = (
             <div className="row input-group">
                 <span className="col-md-4">
                     <label>Day:</label>
                     <select
                         className="time-input input"
-                        defaultValue={this.props.date}
-                        value={this.props.date}
+                        defaultValue={date}
+                        value={date}
                         onChange={this.handleDateChange}
-                        disabled={!this.props.is_edit}
+                        disabled={!is_edit}
                     >
                         <option value="Sunday">Sunday</option>
                         <option value="Monday">Monday</option>
@@ -54,9 +62,9 @@ class TimePicker extends React.Component {
                     <input
                         className="time-input input"
                         type="time"
-                        value={this.props.start}
+                        value={start}
                         onChange={this.handleStartChange}
-                        disabled={!this.props.is_edit}
+                        disabled={!is_edit}
                     />
                 </span>
                 <span className="time-pick col-md-3">
@@ -64,26 +72,40 @@ class TimePicker extends React.Component {
                     <input
                         className="time-input input"
                         type="time"
-                        value={this.props.end}
+                        value={end}
                         onChange={this.handleEndChange}
-                        disabled={!this.props.is_edit}
+                        disabled={!is_edit}
                     />
                 </span>
                 <span className="col-md-2">
                     <label className="white">:</label>
                     <button
-                        value={this.props.key}
+                        type="button"
+                        value={key}
                         className="btn btn-danger btn-sm time-button"
                         onClick={this.handleRemoveClick}
-                        disabled={!this.props.is_edit}
+                        disabled={!is_edit}
                     >
                         <span className="glyphicon glyphicon-remove" />
                     </button>
                 </span>
             </div>
         );
-        return this.state.show ? renData : null;
+        return show ? renData : null;
     }
 }
+
+TimePicker.propTypes = {
+    handleEditStart: PropTypes.func.isRequired,
+    handleEditEnd: PropTypes.func.isRequired,
+    handleEditDate: PropTypes.func.isRequired,
+    handleRemoveSchedule: PropTypes.func.isRequired,
+    index: PropTypes.number.isRequired,
+    date: PropTypes.string.isRequired,
+    is_edit: PropTypes.bool.isRequired,
+    start: PropTypes.number.isRequired,
+    end: PropTypes.number.isRequired,
+    key: PropTypes.string.isRequired
+};
 
 export default TimePicker;

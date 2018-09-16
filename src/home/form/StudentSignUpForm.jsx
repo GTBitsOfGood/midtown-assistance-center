@@ -25,7 +25,8 @@ class StudentSignUpForm extends React.Component {
             grade_level: 6,
             errorMessage: 'error-message-hide',
             inputErrorMessage: 'error-message-hide',
-            errorMessageContent: ''
+            errorMessageContent: '',
+            grades: []
         };
 
         // Bindings
@@ -41,16 +42,16 @@ class StudentSignUpForm extends React.Component {
         this.handleGradeChange = this.handleGradeChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
-        // Other logic
-        this.state.grades = [];
+        const grades = [];
         for (let i = props.startingGrade; i <= props.endingGrade; i++) {
-            this.state.grades.push(i);
+            grades.push(i);
         }
+        this.state.grades = grades;
     }
 
     handleFirstNameChange(event) {
-        let firstName = event.target.value;
-        this.setState({ firstName: firstName });
+        const firstName = event.target.value;
+        this.setState({ firstName });
 
         if (firstName === '') {
             this.setState({ firstNameValidation: 'input-error' });
@@ -60,8 +61,8 @@ class StudentSignUpForm extends React.Component {
     }
 
     handleLastNameChange(event) {
-        let lastName = event.target.value;
-        this.setState({ lastName: lastName });
+        const lastName = event.target.value;
+        this.setState({ lastName });
 
         if (lastName === '') {
             this.setState({ lastNameValidation: 'input-error' });
@@ -71,7 +72,7 @@ class StudentSignUpForm extends React.Component {
     }
 
     handleUsernameChange(event) {
-        let currentUsername = event.target.value;
+        const currentUsername = event.target.value;
         this.setState({ username: currentUsername });
 
         if (currentUsername.length < 4) {
@@ -82,7 +83,8 @@ class StudentSignUpForm extends React.Component {
     }
 
     handlePasswordChange(event) {
-        let currentPassword = event.target.value;
+        const { confirmPassword } = this.state;
+        const currentPassword = event.target.value;
         this.setState({ password: currentPassword });
 
         if (currentPassword.length < 6) {
@@ -91,7 +93,7 @@ class StudentSignUpForm extends React.Component {
             this.setState({ passwordValidation: 'input-success' });
         }
 
-        if (currentPassword === this.state.confirmPassword) {
+        if (currentPassword === confirmPassword) {
             this.setState({ confirmPasswordValidation: 'input-success' });
         } else {
             this.setState({ confirmPasswordValidation: 'input-error' });
@@ -99,10 +101,11 @@ class StudentSignUpForm extends React.Component {
     }
 
     handleConfirmPasswordChange(event) {
-        let currentConfirmPassword = event.target.value;
+        const { password } = this.state;
+        const currentConfirmPassword = event.target.value;
         this.setState({ confirmPassword: currentConfirmPassword });
 
-        if (currentConfirmPassword === this.state.password) {
+        if (currentConfirmPassword === password) {
             this.setState({ confirmPasswordValidation: 'input-success' });
         } else {
             this.setState({ confirmPasswordValidation: 'input-error' });
@@ -110,7 +113,7 @@ class StudentSignUpForm extends React.Component {
     }
 
     handleEmailChange(event) {
-        let currentEmail = event.target.value;
+        const currentEmail = event.target.value;
         this.setState({ email: currentEmail });
 
         /* checks for basic format: "..."@ "..." . "..."
@@ -132,28 +135,37 @@ class StudentSignUpForm extends React.Component {
     }
 
     handleSubmit(event) {
+        const {
+            firstNameValidation,
+            lastNameValidation,
+            usernameValidation,
+            passwordValidation,
+            confirmPasswordValidation,
+            emailValidation
+        } = this.state;
         event.preventDefault();
         if (
-            this.state.firstNameValidation === 'input-error' ||
-            this.state.lastNameValidation === 'input-error' ||
-            this.state.usernameValidation === 'input-error' ||
-            this.state.passwordValidation === 'input-error' ||
-            this.state.confirmPasswordValidation === 'input-error' ||
-            this.state.emailValidation === 'input-error'
+            firstNameValidation === 'input-error' ||
+            lastNameValidation === 'input-error' ||
+            usernameValidation === 'input-error' ||
+            passwordValidation === 'input-error' ||
+            confirmPasswordValidation === 'input-error' ||
+            emailValidation === 'input-error'
         ) {
             this.setState({ inputErrorMessage: 'error-message' });
             this.setState({ errorMessage: 'error-message-hide' });
         } else {
-            let self = this;
+            // TODO: remove self=this
+            const self = this;
             axios
                 .post('/api/registerStudent', this.state)
-                .then(function(response) {
+                .then(response => {
                     console.log(response);
                     if (response.data.success) {
                         document.location.href = '/home/login';
                         console.log('registration successful');
                     } else {
-                        //Registration error
+                        // Registration error
                         self.setState({ errorMessage: 'error-message' });
                         self.setState({
                             inputErrorMessage: 'error-message-hide'
@@ -163,7 +175,7 @@ class StudentSignUpForm extends React.Component {
                         });
                     }
                 })
-                .catch(function(error) {
+                .catch(error => {
                     console.log(error);
                     self.setState({ errorMessage: 'error-message' });
                     self.setState({ inputErrorMessage: 'error-message-hide' });
@@ -172,22 +184,39 @@ class StudentSignUpForm extends React.Component {
     }
 
     render() {
+        const {
+            firstNameValidation,
+            firstName,
+            lastNameValidation,
+            lastName,
+            usernameValidation,
+            username,
+            passwordValidation,
+            password,
+            confirmPasswordValidation,
+            confirmPassword,
+            emailValidation,
+            email,
+            access_code,
+            grade_level,
+            grades,
+            inputErrorMessage,
+            errorMessage,
+            errorMessageContent
+        } = this.state;
         return (
             <form className="" onSubmit={this.handleSubmit}>
                 <div className="row col-xs-12">
                     <input
                         type="text"
-                        className={
-                            this.state.firstNameValidation +
-                            ' input-lg col-xs-10 col-xs-offset-1'
-                        }
+                        className={`${firstNameValidation} input-lg col-xs-10 col-xs-offset-1`}
                         placeholder="First Name"
-                        value={this.state.firstName}
+                        value={firstName}
                         onChange={this.handleFirstNameChange}
                     />
                     <HelpBlock
                         className={
-                            this.state.firstNameValidation === 'input-error'
+                            firstNameValidation === 'input-error'
                                 ? 'show-error'
                                 : 'hide-error'
                         }
@@ -198,17 +227,14 @@ class StudentSignUpForm extends React.Component {
                 <div className="row col-xs-12">
                     <input
                         type="text"
-                        className={
-                            this.state.lastNameValidation +
-                            ' input-lg col-xs-10 col-xs-offset-1'
-                        }
+                        className={`${lastNameValidation} input-lg col-xs-10 col-xs-offset-1`}
                         placeholder="Last Name"
-                        value={this.state.lastName}
+                        value={lastName}
                         onChange={this.handleLastNameChange}
                     />
                     <HelpBlock
                         className={
-                            this.state.lastNameValidation === 'input-error'
+                            lastNameValidation === 'input-error'
                                 ? 'show-error'
                                 : 'hide-error'
                         }
@@ -219,17 +245,14 @@ class StudentSignUpForm extends React.Component {
                 <div className="row col-xs-12">
                     <input
                         type="text"
-                        className={
-                            this.state.usernameValidation +
-                            ' input-lg col-xs-10 col-xs-offset-1'
-                        }
+                        className={`${usernameValidation} input-lg col-xs-10 col-xs-offset-1`}
                         placeholder="Create A Username"
-                        value={this.state.username}
+                        value={username}
                         onChange={this.handleUsernameChange}
                     />
                     <HelpBlock
                         className={
-                            this.state.usernameValidation === 'input-error'
+                            usernameValidation === 'input-error'
                                 ? 'show-error'
                                 : 'hide-error'
                         }
@@ -240,17 +263,14 @@ class StudentSignUpForm extends React.Component {
                 <div className="row col-xs-12">
                     <input
                         type="password"
-                        className={
-                            this.state.passwordValidation +
-                            ' input-lg col-xs-10 col-xs-offset-1'
-                        }
+                        className={`${passwordValidation} input-lg col-xs-10 col-xs-offset-1`}
                         placeholder="Create A Password"
-                        value={this.state.password}
+                        value={password}
                         onChange={this.handlePasswordChange}
                     />
                     <HelpBlock
                         className={
-                            this.state.passwordValidation === 'input-error'
+                            passwordValidation === 'input-error'
                                 ? 'show-error'
                                 : 'hide-error'
                         }
@@ -261,18 +281,14 @@ class StudentSignUpForm extends React.Component {
                 <div className="row col-xs-12">
                     <input
                         type="password"
-                        className={
-                            this.state.confirmPasswordValidation +
-                            ' input-lg col-xs-10 col-xs-offset-1'
-                        }
+                        className={`${confirmPasswordValidation} input-lg col-xs-10 col-xs-offset-1`}
                         placeholder="Confirm Password"
-                        value={this.state.confirmPassword}
+                        value={confirmPassword}
                         onChange={this.handleConfirmPasswordChange}
                     />
                     <HelpBlock
                         className={
-                            this.state.confirmPasswordValidation ===
-                            'input-error'
+                            confirmPasswordValidation === 'input-error'
                                 ? 'show-error'
                                 : 'hide-error'
                         }
@@ -283,17 +299,14 @@ class StudentSignUpForm extends React.Component {
                 <div className="row col-xs-12">
                     <input
                         type="text"
-                        className={
-                            this.state.emailValidation +
-                            ' input-lg col-xs-10 col-xs-offset-1'
-                        }
+                        className={`${emailValidation} input-lg col-xs-10 col-xs-offset-1`}
                         placeholder="Your Email"
-                        value={this.state.email}
+                        value={email}
                         onChange={this.handleEmailChange}
                     />
                     <HelpBlock
                         className={
-                            this.state.emailValidation === 'input-error'
+                            emailValidation === 'input-error'
                                 ? 'show-error'
                                 : 'hide-error'
                         }
@@ -306,7 +319,7 @@ class StudentSignUpForm extends React.Component {
                         id="inputsAccessCode"
                         type="text"
                         label="Text"
-                        value={this.state.access_code}
+                        value={access_code}
                         onChange={this.handleAccessCodeChange}
                         className="input-lg col-xs-10 col-xs-offset-1"
                         placeholder="Classroom Access Code"
@@ -317,7 +330,7 @@ class StudentSignUpForm extends React.Component {
                         style={{ height: '60px' }}
                         className="select input-lg col-xs-10 col-xs-offset-1"
                         placeholder="select"
-                        defaultValue={this.state.grade_level}
+                        defaultValue={grade_level}
                         onChange={this.handleGradeChange}
                     >
                         <option>
@@ -325,7 +338,7 @@ class StudentSignUpForm extends React.Component {
                                 Select Grade Level
                             </span>
                         </option>
-                        {this.state.grades.map(grade => (
+                        {grades.map(grade => (
                             <option key={grade}>{grade}</option>
                         ))}
                     </select>
@@ -338,11 +351,11 @@ class StudentSignUpForm extends React.Component {
                         onClick={this.handleSubmit}
                     />
                 </div>
-                <h5 className={'col-xs-12 ' + this.state.inputErrorMessage}>
+                <h5 className={`col-xs-12 ${inputErrorMessage}`}>
                     one or more fields invalid
                 </h5>
-                <h5 className={'col-xs-12 ' + this.state.errorMessage}>
-                    {this.state.errorMessageContent}
+                <h5 className={`col-xs-12 ${errorMessage}`}>
+                    {errorMessageContent}
                 </h5>
                 <div className="row col-xs-12">
                     <h5 className="signup-dialogue">

@@ -10,7 +10,7 @@
 
 import React from 'react';
 import axios from 'axios';
-import SessionReviewModal from './SessionReviewModal.jsx';
+import SessionReviewModal from './SessionReviewModal';
 
 class TutorUpcomingEvent extends React.Component {
     /**
@@ -48,7 +48,7 @@ class TutorUpcomingEvent extends React.Component {
      * a session is open
      */
     componentDidMount() {
-        //window.addEventListener("beforeunload", this.onUnload);
+        // window.addEventListener("beforeunload", this.onUnload);
     }
 
     /**
@@ -56,7 +56,7 @@ class TutorUpcomingEvent extends React.Component {
      * window each time the user refreshes the page
      */
     componentWillUnmount() {
-        //window.removeEventListener("beforeunload", this.onUnload);
+        // window.removeEventListener("beforeunload", this.onUnload);
     }
 
     /**
@@ -66,10 +66,27 @@ class TutorUpcomingEvent extends React.Component {
      * @returns {string}
      */
     onUnload(e) {
-        if (this.state.session !== {} && this.state.display) {
+        const { session, display } = this.state;
+        if (session !== {} && display) {
             e.returnValue = 'oh no open session';
             return 'oh no open session';
         }
+    }
+
+    /**
+     * Update the session in the current state
+     * @param link
+     * @param id
+     * @param session
+     */
+    setNewState(link, id, session) {
+        // TODO: There is no reason to store hangoutsLink and eventId in the state
+        // TODO: since they are part of the session object itself.
+        this.setState({
+            hangoutsLink: link,
+            eventId: id,
+            session: session
+        });
     }
 
     /**
@@ -80,8 +97,8 @@ class TutorUpcomingEvent extends React.Component {
         // TODO: do this in the TutorUpcomingEvents component in the for loop instead of here.
         // TODO: this causes a bug where if new times are added, the state of this component does not
         // TODO: change and it hides new times.
-        let now = new Date();
-        let startTimeHour = parseInt(this.props.startTime.split(':')[0]);
+        const now = new Date();
+        const startTimeHour = parseInt(this.props.startTime.split(':')[0]);
         let active = startTimeHour - now.getHours() <= 1 && this.props.today;
         let startTimeSplit = this.props.startTime.split(':');
         now.setHours(
@@ -176,22 +193,6 @@ class TutorUpcomingEvent extends React.Component {
             .catch(function(err) {
                 console.log(err);
             });
-    }
-
-    /**
-     * Update the session in the current state
-     * @param link
-     * @param id
-     * @param session
-     */
-    setNewState(link, id, session) {
-        // TODO: There is no reason to store hangoutsLink and eventId in the state
-        // TODO: since they are part of the session object itself.
-        this.setState({
-            hangoutsLink: link,
-            eventId: id,
-            session: session
-        });
     }
 
     /**

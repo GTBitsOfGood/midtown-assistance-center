@@ -1,62 +1,62 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-class Review extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {};
-        this.reportReview = this.reportReview.bind(this);
-    }
+/**
+ * Report a malicious student review
+ */
+const reportReview = () => {
+    window.alert('Sorry, this feature has not been implemented yet');
+};
 
-    /**
-     * Report a malicious student review
-     */
-    reportReview() {
-        window.alert('Sorry, this feature has not been implemented yet');
+/**
+ * Render the student review
+ * @returns {HTML}
+ */
+const Review = props => {
+    const { time, rating, comment } = props;
+    const date = new Date(time);
+    const stars = [];
+    const empty_stars = [];
+    for (let x = 0; x < rating; x++) {
+        stars.push(<span key={x} className="glyphicon glyphicon-star" />);
     }
-
-    /**
-     * Render the student review
-     * @returns {HTML}
-     */
-    render() {
-        let date = new Date(this.props.time);
-        let stars = [];
-        let empty_stars = [];
-        for (let x = 0; x < this.props.rating; x++) {
-            stars.push(<span key={x} className="glyphicon glyphicon-star" />);
-        }
-        for (let y = this.props.rating; y < 5; y++) {
-            empty_stars.push(
-                <span key={y} className="glyphicon glyphicon-star-empty" />
-            );
-        }
-        const review = (
-            <div className="tutor-review">
-                <button
-                    onClick={this.reportReview}
-                    className="btn btn-sm report-btn"
-                >
-                    Report
-                </button>
-                <h5>
-                    {stars}
-                    {empty_stars}
-                </h5>
-                <h5 className="review-date">{date.toLocaleString('en-US')}</h5>
-                <h5>{this.props.comment}</h5>
-            </div>
+    for (let y = rating; y < 5; y++) {
+        empty_stars.push(
+            <span key={y} className="glyphicon glyphicon-star-empty" />
         );
-        return <div>{this.props.rating === 0 ? '' : review}</div>;
     }
-}
-
-const mapStateToProps = state => {
-    return state;
+    const review = (
+        <div className="tutor-review">
+            <button
+                type="button"
+                onClick={reportReview}
+                className="btn btn-sm report-btn"
+            >
+                Report
+            </button>
+            <h5>
+                {stars}
+                {empty_stars}
+            </h5>
+            <h5 className="review-date">{date.toLocaleString('en-US')}</h5>
+            <h5>{comment}</h5>
+        </div>
+    );
+    return <div>{rating === 0 ? '' : review}</div>;
 };
 
-const mapDispatchToProps = dispatch => {
-    return {};
+Review.propTypes = {
+    time: PropTypes.string.isRequired,
+    rating: PropTypes.number.isRequired,
+    comment: PropTypes.string.isRequired
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Review);
+const mapStateToProps = state => ({
+    state
+});
+
+export default connect(
+    mapStateToProps,
+    null
+)(Review);

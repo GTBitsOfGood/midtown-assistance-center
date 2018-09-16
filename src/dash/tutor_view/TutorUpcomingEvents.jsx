@@ -10,20 +10,13 @@
  */
 
 import React from 'react';
-import TutorUpcomingEvent from './TutorUpcomingEvent.jsx';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import TutorUpcomingEvent from './TutorUpcomingEvent';
 
 const NUM_OF_EVENTS = 5;
 
 class UpcomingEvents extends React.Component {
-    /**
-     * Constructor
-     * @param props
-     */
-    constructor(props) {
-        super(props);
-    }
-
     /**
      * Iterate through the times in the tutor's availability.
      * Create TutorUpcomingEvent components for each time, and display
@@ -31,8 +24,9 @@ class UpcomingEvents extends React.Component {
      * @returns {*}
      */
     render() {
-        let todayDate = new Date();
-        let today = todayDate.getDay();
+        const { user } = this.props;
+        const todayDate = new Date();
+        const today = todayDate.getDay();
         const days = [
             'Sunday',
             'Monday',
@@ -48,10 +42,10 @@ class UpcomingEvents extends React.Component {
         let totalCount = 0;
         let renEvents = [];
         let events = [];
-        if (this.props.user.availability) {
+        if (user && user.availability) {
             let keyId = 0;
             while (count < NUM_OF_EVENTS && totalCount < 7) {
-                events = this.props.user.availability[dayName];
+                events = user.availability[dayName];
                 for (let event in events) {
                     // NOTE: I am no longer checking if the event's end time is less than the current end time
                     // because if the tutor has ended the session, it shouldn't display it
@@ -80,10 +74,12 @@ class UpcomingEvents extends React.Component {
             }
         }
         // sort by day of the week then start time
-        renEvents.sort(function(a, b) {
+        renEvents.sort((a, b) => {
             if (a.props.dayName === b.props.dayName) {
                 return a.props.startTime.localeCompare(b.props.startTime);
             }
+            // TODO: fix this
+            return 0;
         });
         renEvents = renEvents.slice(0, NUM_OF_EVENTS);
 
@@ -102,17 +98,13 @@ class UpcomingEvents extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return state;
-};
-
-const mapDispatchToProps = dispatch => {
-    return {};
-};
+const mapStateToProps = state => ({
+    user:state.user
+});
 
 const TutorUpcomingEvents = connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
 )(UpcomingEvents);
 
 export default TutorUpcomingEvents;

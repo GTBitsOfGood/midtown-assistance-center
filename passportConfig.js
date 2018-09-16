@@ -1,6 +1,5 @@
 import express from 'express';
 import config from 'config';
-
 import session_dao from './api/dao/session_dao';
 
 const session = require('express-session');
