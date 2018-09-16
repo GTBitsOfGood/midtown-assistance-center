@@ -1,14 +1,16 @@
 import express from 'express';
+import config from 'config';
+
+import session_dao from './api/dao/session_dao';
+
 const session = require('express-session');
 const flash = require('connect-flash');
+
 const app = express();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-const data_access = require('./api/data_access');
-import config from 'config';
 const bcrypt = require('bcrypt');
-
-import session_dao from './api/dao/session_dao';
+const data_access = require('./api/data_access');
 
 app.use(require('cookie-parser')());
 
@@ -24,10 +26,10 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 passport.use(
-    new LocalStrategy(function(username, password, done) {
+    new LocalStrategy((username, password, done) => {
         // Fill in the access to MongoDB and the users within that
 
-        data_access.users.getUser(username, function(err, user_instance) {
+        data_access.users.getUser(username, (err, user_instance) => {
             if (err) {
                 console.log('ERROR: logging in');
                 return done(err);
@@ -39,86 +41,36 @@ passport.use(
                     message: 'Incorrect username or password!'
                 });
             }
-
-            //compare password w/ user.password
-            bcrypt.compare(password, user_instance.password, function(
-                err,
-                isMatch
-            ) {
-                if (err) {
-                    return done(err);
-                }
-                if (!isMatch) {
-                    /*
-                        Check if it is an old account w/ an unhashed password.
-                        If it is, update the account's password to be hashed
-                     */
-                    if (user_instance.password === password) {
-                        //generate a salt, then run callback
-                        bcrypt.genSalt(10, function(err, salt) {
-                            if (err) {
-                                return err;
-                            }
-
-                            //hash password using salt
-                            bcrypt.hash(password, salt, function(err, hash) {
-                                if (err) {
-                                    return err;
-                                }
-
-                                console.log('hash: ' + hash);
-                                //overwrite plain text pass w/ encrypted pass
-                                user_instance.update(
-                                    { password: hash },
-                                    function(err, raw) {
-                                        if (err) return err;
-                                        console.log(
-                                            'The raw response from Mongo was ',
-                                            raw
-                                        );
-                                    }
-                                );
-                            });
-                        });
-                        return done(null, user_instance);
-                    } else {
-                        return done(null, false, {
-                            message: 'Incorrect username or password'
-                        });
-                    }
-                }
-                return done(null, user_instance);
-            });
-
             /* old accounts that don't have hashed passwords need to use
             this for password checking
-
+            */
             if (user_instance.password === password) {
                 return done(null, user_instance);
             }
-
-
+            // compare hashed password w/ user.password
+            if (bcrypt.compareSync(password, user_instance.password)) {
+                return done(null, user_instance);
+            }
             return done(null, false, {
-                message: 'Incorrect username or password!'
+                message: 'Incorrect username or password'
             });
-            */
         });
     })
 );
 
-passport.serializeUser(function(user, done) {
+passport.serializeUser((user, done) => {
     done(null, user.username);
 });
 
-passport.deserializeUser(function(id, done) {
-    //Access to mongoDB to deserialize the user that is loggedin
-    data_access.users.getUser(id, function(err, user_instance) {
+passport.deserializeUser((id, done) => {
+    // Access to mongoDB to deserialize the user that is loggedin
+    data_access.users.getUser(id, (err, user_instance) => {
         done(err, user_instance);
     });
 });
 
 app.get('/user', (req, res) => {
-    let user_details = req.user;
+    const user_details = req.user;
 
     // FIXME Hide the password
     // user_details.password = config.hidden_password;
@@ -128,12 +80,12 @@ app.get('/user', (req, res) => {
 
 app.get('/logout', (req, res) => {
     req.logout();
-    let session_obj = {
+    const session_obj = {
         type: 'Logout',
         username: req.query.username,
         time: Date.now()
     };
-    session_dao.createSession(session_obj, function(err, session_instance) {
+    session_dao.createSession(session_obj, (err, session_instance) => {
         if (err) {
             console.log('ERR');
             console.log(err);
@@ -145,8 +97,8 @@ app.get('/logout', (req, res) => {
     res.send(true);
 });
 
-app.post('/login', function(req, res, next) {
-    passport.authenticate('local', function(err, user, info) {
+app.post('/login', (req, res, next) => {
+    passport.authenticate('local', (err, user, info) => {
         if (err) {
             return next(err);
         }
@@ -155,20 +107,17 @@ app.post('/login', function(req, res, next) {
             return res.send(null);
         }
 
-        req.logIn(user, function(err) {
+        req.logIn(user, err => {
             if (err) {
                 return next(err);
             }
 
-            let session_obj = {
+            const session_obj = {
                 type: 'Login',
                 username: req.body.username,
                 time: Date.now()
             };
-            session_dao.createSession(session_obj, function(
-                err,
-                session_instance
-            ) {
+            session_dao.createSession(session_obj, (err, session_instance) => {
                 if (err) {
                     console.log(err);
                 }
