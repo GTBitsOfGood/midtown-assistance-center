@@ -19,7 +19,14 @@ const app = express();
 // using SendGrid's v3 Node.js Library
 // https://github.com/sendgrid/sendgrid-nodejs
 const sgMail = require('@sendgrid/mail');
+const bcrypt = require('bcrypt');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+function encryptPassword(password) {
+    const hash = bcrypt.hashSync(password, 10);
+    console.log(hash);
+    return hash;
+}
 
 /*
     1. This is a route for the admin dash to get the N most recent tutoring sessions
@@ -87,6 +94,7 @@ app.get('/onlineTutors', (req, res) => {
 // register a new tutor, ensure that the tutor username and email don't already exist
 app.post('/registerTutor', (req, res) => {
     // Add this information to the database
+    const password = encryptPassword(req.body.password);
     data_access.users.checkIfUsernameIsTaken(req.body.username, function(
         err,
         resultUsername
@@ -117,7 +125,7 @@ app.post('/registerTutor', (req, res) => {
                                 email: req.body.email,
                                 gmail: req.body.gmail,
                                 _id: req.body.username,
-                                password: req.body.password,
+                                password: password,
                                 profile_picture: '/images/default_user_img.png',
                                 join_date: Date.now(),
                                 status: true,
@@ -179,6 +187,7 @@ app.post('/registerTutor', (req, res) => {
             });
         }
     });
+
 });
 
 /**
@@ -190,7 +199,7 @@ app.post('/registerTutor', (req, res) => {
  */
 app.post('/registerStudent', (req, res) => {
     //Add this information to the database
-    console.log(req.body);
+    const password = encryptPassword(password);
     data_access.users.checkIfUsernameIsTaken(req.body.username, function(
         err,
         resultUsername
@@ -215,7 +224,7 @@ app.post('/registerStudent', (req, res) => {
                                 last_name: req.body.lastName,
                                 email: req.body.email,
                                 _id: req.body.username,
-                                password: req.body.password,
+                                password: password,
                                 join_date: Date.now(),
                                 classroom: req.body.access_code,
                                 grade_level: req.body.grade_level
@@ -267,6 +276,7 @@ app.post('/newAdmin', (req, res) => {
                         console.log('check email error:', err);
                     } else {
                         if (!resultEmail) {
+                            newAdmin.password = encryptPassword(newAdmin.password);
                             data_access.users.createAdmin(newAdmin, function(
                                 err,
                                 user_instance
@@ -387,8 +397,7 @@ app.get('/subjects', (req, res) => {
 });
 
 /**
- * add a subject to the available subjects list
- * @param req: body json to contain only one key-value item:
+  * @param req: body json to contain only one key-value item:
  *              { _id: subject_name_here }
  */
 app.post('/subjects', (req, res) => {
@@ -713,5 +722,7 @@ app.get('/allTutors', (req, res) => {
         }
     });
 });
+
+
 
 export default app;
