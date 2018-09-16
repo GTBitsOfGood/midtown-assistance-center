@@ -36,9 +36,8 @@ class Feedback extends React.Component {
                         renSessions.unshift(
                             <Review
                                 key={keyId++}
-                                time={student_review.time}
-                                rating={student_review.student_rating}
-                                comment={student_review.student_comment}
+                                review={student_review}
+                                id={sessions[session]._id}
                             />
                         );
                     }

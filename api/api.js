@@ -573,6 +573,29 @@ app.post('/studentUpdateReview', (req, res) => {
     );
 });
 
+// when a tutor reports a student review, update it in the database
+app.post('/reportStudentReview', (req, res) => {
+    data_access.tutor_sessions.reportStudentReview(
+        { _id: req.body._id, update: { students_attended: req.body.review } },
+        function(err, response) {
+            if (err) {
+                console.log(err);
+                res.json({
+                    success: false,
+                    error: err
+                });
+            } else {
+                console.log(response);
+                res.json({
+                    success: true,
+                    error: null,
+                    session: response
+                });
+            }
+        }
+    );
+});
+
 app.post('/getTutorSession', (req, res) => {
     console.log(req.body._id);
     data_access.tutor_sessions.getSessionByTutor(req.body._id, function(

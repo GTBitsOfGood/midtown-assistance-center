@@ -261,6 +261,70 @@ module.exports = {
     },
 
     /**
+     * Report a student review
+     * @param session the session object (must contain _id: the session id,
+     * update: the new info)
+     * @param callback
+     */
+    reportStudentReview: function(session, callback) {
+        TutorSession.findOneAndUpdate(
+            {
+                '_id.tutor_id': session._id.tutor_id,
+                '_id.expected_start_time': session._id.expected_start_time,
+                'students_attended.student_id':
+                session.update.students_attended.student_id
+            },
+            {
+                $set: {
+                    'students_attended.$.reported':
+                    session.update.students_attended.reported,
+                    'students_attended.$.reason_for_report':
+                    session.update.students_attended.reason_for_report
+                }
+            },
+            { new: true },
+            function(err, updatedSession) {
+                if (err) {
+                    console.log('Error saving session');
+                    callback(err);
+                    return;
+                }
+                callback(null, updatedSession);
+            }
+        );
+        let new_stat = 0;
+        module.exports.getTutorAvgRating(session._id.tutor_id, function(
+            err,
+            res
+        ) {
+            if (err) {
+                console.error(err);
+                callback(err);
+                return;
+            }
+            new_stat = res;
+            Tutor.findOne({ _id: session._id.tutor_id }, function(err, tutor) {
+                if (err) {
+                    console.error(err);
+                    callback(err);
+                    return;
+                }
+                tutor.rating = new_stat.avgRating;
+                tutor.num_ratings = new_stat.totalRatings;
+                tutor.num_sessions = new_stat.totalSessions;
+                tutor.save(function(err) {
+                    if (err) {
+                        console.error(err);
+                        callback(err);
+                        return;
+                    }
+                });
+                console.log(tutor);
+            });
+        });
+    },
+
+    /**
      * add a student join request to the session
      * @param session the session object (must contain _id: the session id,
      * update: the new info)

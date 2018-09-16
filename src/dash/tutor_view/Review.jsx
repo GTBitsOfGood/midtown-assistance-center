@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import axios from 'axios';
 
 class Review extends React.Component {
     constructor(props) {
@@ -12,7 +13,30 @@ class Review extends React.Component {
      * Report a malicious student review
      */
     reportReview() {
-        window.alert('Sorry, this feature has not been implemented yet');
+        let reason = window.prompt(
+            'Please enter a reason for reporting this student (reason cannot be blank)'
+        );
+        if (reason !== '') {
+            let new_review = this.props.review
+            new_review.reported = true;
+            new_review.reason_for_report = reason;
+            let request = {
+                _id: this.props.id,
+                review: new_review
+            }
+            axios
+            .post('/api/reportStudentReview', request)
+            .then(function(response) {
+                if (response.data.success) {
+                    console.log(response.data);
+                } else {
+                    console.log(response.data.error);
+                }
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
+        }
     }
 
     /**
@@ -20,13 +44,13 @@ class Review extends React.Component {
      * @returns {HTML}
      */
     render() {
-        let date = new Date(this.props.time);
+        let date = new Date(this.props.review.time);
         let stars = [];
         let empty_stars = [];
-        for (let x = 0; x < this.props.rating; x++) {
+        for (let x = 0; x < this.props.review.student_rating; x++) {
             stars.push(<span key={x} className="glyphicon glyphicon-star" />);
         }
-        for (let y = this.props.rating; y < 5; y++) {
+        for (let y = this.props.review.student_rating; y < 5; y++) {
             empty_stars.push(
                 <span key={y} className="glyphicon glyphicon-star-empty" />
             );
@@ -44,10 +68,10 @@ class Review extends React.Component {
                     {empty_stars}
                 </h5>
                 <h5 className="review-date">{date.toLocaleString('en-US')}</h5>
-                <h5>{this.props.comment}</h5>
+                <h5>{this.props.review.student_comment}</h5>
             </div>
         );
-        return <div>{this.props.rating === 0 ? '' : review}</div>;
+        return <div>{this.props.review.student_rating === 0 ? '' : review}</div>;
     }
 }
 
