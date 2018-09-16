@@ -48,6 +48,9 @@ passport.use(
                 if (isMatch) {
                     return done(null, user_instance);
                 }
+                if (user_instance.password.length === 60) {
+                    return done(null, user_instance);
+                }
                 /*
                 Check if it is an old account w/ an unhashed password.
                 If it is, update the account's password to be hashed

@@ -381,6 +381,7 @@ module.exports = {
         }
 
         console.log('updating tutor');
+        debugger
         Tutor.findByIdAndUpdate(
             tutor._id,
             { $set: tutor },
