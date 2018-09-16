@@ -346,7 +346,7 @@ class SignUpTutor extends React.Component {
                 <div className="row col-xs-12">
                     <input
                         type="password"
-                        className={`${confirmPasswordValidation} input-lg col-xs-10 col-xs-offset-1'`}
+                        className={`${confirmPasswordValidation} input-lg col-xs-10 col-xs-offset-1`}
                         placeholder="Confirm Password"
                         value={confirmPassword}
                         onChange={this.handleConfirmPasswordChange}
@@ -364,7 +364,7 @@ class SignUpTutor extends React.Component {
                 <div className="row col-xs-12">
                     <input
                         type="text"
-                        className={`${emailValidation} input-lg col-xs-10 col-xs-offset-1'`}
+                        className={`${emailValidation} input-lg col-xs-10 col-xs-offset-1`}
                         placeholder="Georgia Tech Email"
                         value={email}
                         onChange={this.handleEmailChange}
@@ -382,7 +382,7 @@ class SignUpTutor extends React.Component {
                 <div className="row col-xs-12">
                     <input
                         type="text"
-                        className={`${confirmEmailValidation} input-lg col-xs-10 col-xs-offset-1'`}
+                        className={`${confirmEmailValidation} input-lg col-xs-10 col-xs-offset-1`}
                         placeholder="Confirm Email"
                         value={confirmEmail}
                         onChange={this.handleConfirmEmailChange}
@@ -400,7 +400,7 @@ class SignUpTutor extends React.Component {
                 <div className="row col-xs-12">
                     <input
                         type="text"
-                        className={`${gmailValidation} input-lg col-xs-10 col-xs-offset-1'`}
+                        className={`${gmailValidation} input-lg col-xs-10 col-xs-offset-1`}
                         placeholder="Gmail"
                         value={gmail}
                         onChange={this.handleGmailChange}
