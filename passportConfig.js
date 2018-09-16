@@ -4,6 +4,7 @@ import session_dao from './api/dao/session_dao';
 
 const session = require('express-session');
 const flash = require('connect-flash');
+
 const app = express();
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
@@ -39,68 +40,19 @@ passport.use(
                     message: 'Incorrect username or password!'
                 });
             }
-
-            // compare password w/ user.password
-            bcrypt.compare(password, user_instance.password, (err, isMatch) => {
-                if (err) {
-                    return done(err);
-                }
-                if (isMatch) {
-                    return done(null, user_instance);
-                }
-                if (user_instance.password.length === 60) {
-                    return done(null, user_instance);
-                }
-                /*
-                Check if it is an old account w/ an unhashed password.
-                If it is, update the account's password to be hashed
-                */
-                if (user_instance.password === password) {
-                    // generate a salt, then run callback
-                    bcrypt.genSalt(10, (err, salt) => {
-                        if (err) {
-                            return err;
-                        }
-
-                        // hash password using salt
-                        bcrypt.hash(password, salt, (err, hash) => {
-                            if (err) {
-                                return err;
-                            }
-
-                            console.log(`hash: ${hash}`);
-                            // overwrite plain text pass w/ encrypted pass
-                            user_instance.update(
-                                { password: hash },
-                                (err, raw) => {
-                                    if (err) return err;
-                                    console.log(
-                                        'The raw response from Mongo was ',
-                                        raw
-                                    );
-                                }
-                            );
-                        });
-                    });
-                    return done(null, user_instance);
-                }
-                return done(null, false, {
-                    message: 'Incorrect username or password'
-                });
-            });
-
             /* old accounts that don't have hashed passwords need to use
             this for password checking
-
+            */
             if (user_instance.password === password) {
                 return done(null, user_instance);
             }
-
-
+            // compare hashed password w/ user.password
+            if (bcrypt.compareSync(password, user_instance.password)) {
+                return done(null, user_instance);
+            }
             return done(null, false, {
-                message: 'Incorrect username or password!'
+                message: 'Incorrect username or password'
             });
-            */
         });
     })
 );
@@ -154,7 +106,7 @@ app.post('/login', (req, res, next) => {
             return res.send(null);
         }
 
-        req.logIn(user, (err) => {
+        req.logIn(user, err => {
             if (err) {
                 return next(err);
             }
