@@ -101,21 +101,25 @@ class TutorSearchResult extends React.Component {
         return (
             <div>
                 <div className="panel panel-default tutor-panel">
-                    <div className="panel-heading tutor-panel-heading">
+                    <div className="panel-heading tutor-panel-heading"
+                        data-toggle="collapse"
+                        data-parent="#accordion"
+                        data-target={`#collapse${this.props.id}`}
+
+                    >
                         <div className="col-md-2">
                             <img
                                 className="tutor-profile-pic img-circle"
-                                src={this.props.data.profile_picture}
+                                src={this.props.data.profile_picture}j
                                 height="125"
                                 width="125"
                             />
                         </div>
                         <div className="">
-                            <a
-                                data-toggle="collapse"
-                                className="tutor-name"
-                                data-parent="#accordion"
-                                href={'#collapse' + this.props.id}
+                            <a data-toggle="collapse"
+                               className="tutor-name"
+                               data-parent="#accordion"
+                               href={`#collapse${this.props.id}`}
                             >
                                 <h3 className="">
                                     {this.props.data.first_name +
