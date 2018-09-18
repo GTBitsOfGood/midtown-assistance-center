@@ -176,13 +176,13 @@ body {
 }
 
 .tutor-panel-heading:hover {
-    border: 1px solid var(--gold);
+    border: 2px solid var(--gold);
 }
 
 
 .tutor-panel-body {
     border-top: 0 !important;
-    border-bottom: 1px solid var(--tutorBorderColor) !important;
+    border-bottom: 1px solid var(--tutorBorderColor);
 }
 
 .tutor-list-wrapper {
