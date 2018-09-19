@@ -1,21 +1,13 @@
+import axios from 'axios';
 import * as types from './types/student_view_types';
 
-export function changeTutorsAction(tutors) {
+export function getOnlineTutors(search_type, search_subject, search_time) {
     return {
-        type: types.updateOnlineTutors,
-        payload: {
-            filteredTutors: tutors
-        }
-    };
+        type: types.getOnlineTutors,
+        payload: axios.get('/api/onlineTutors', {params: {subject: search_subject, availability: search_time}})
+    } ;
 }
 
-export function onSearchAction(search_type, search_subject, search_time) {
-    return {
-        type: types.onSearchClicked,
-        payload: {
-            searchType: search_type,
-            searchSubject: search_subject,
-            searchTime: search_time
-        }
-    };
+export function foo() {
+
 }

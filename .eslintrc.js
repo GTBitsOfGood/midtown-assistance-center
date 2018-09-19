@@ -22,7 +22,7 @@ module.exports = {
     },
     plugins: ['react', 'prettier'],
     rules: {
-        'prettier/prettier': 'error',
+        'prettier/prettier': 'off',
         'indent': ['error', 4],
         'quotes': ['error', 'single'],
         'semi': ['error', 'always'],
