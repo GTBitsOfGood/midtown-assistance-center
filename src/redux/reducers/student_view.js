@@ -17,7 +17,7 @@ export default function change_tutors(state = initialState, action) {
         return newState;
 
     case types.updateOnlineTutors:
-        newState = { ...newState, filteredTutors: action.payload.filteredTutors };
+        newState = { ...newState, ...action.payload };
         return newState;
 
     default:

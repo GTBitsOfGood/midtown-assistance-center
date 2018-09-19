@@ -17,7 +17,7 @@ class StudentDashboard extends React.Component {
     constructor(props) {
         super(props);
 
-        props.getOnlineTutors();
+        props.getOnlineTutors('online');
     }
 
     render() {
