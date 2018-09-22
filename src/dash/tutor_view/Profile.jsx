@@ -440,15 +440,7 @@ class Profile extends React.Component {
                                                     <i className="glyphicon glyphicon-envelope" />{' '}
                                                     Email:
                                                 </h5>
-                                                <textarea
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={email}
-                                                    onChange={
-                                                        this.handleEmailChange
-                                                    }
-                                                    disabled={!is_edit}
-                                                />
+                                                <p>{email}</p>
                                             </div>
                                         </div>
                                         <div className="row tutor-profile-input">
@@ -457,15 +449,7 @@ class Profile extends React.Component {
                                                     <i className="glyphicon glyphicon-envelope" />{' '}
                                                     Gmail:
                                                 </h5>
-                                                <textarea
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={gmail}
-                                                    onChange={
-                                                        this.handleGmailChange
-                                                    }
-                                                    disabled={!is_edit}
-                                                />
+                                                <p>{gmail}</p>
                                             </div>
                                         </div>
 

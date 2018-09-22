@@ -47,7 +47,7 @@ class SubjectPicker extends React.Component {
         ));
 
         const renData = (
-            <div className="row input-group col-md-12 col-no-padding">
+            <div className="row input-group">
                 <span className="subject-pick col-md-4">
                     <label>Subject:</label>
                     <select
@@ -66,8 +66,8 @@ class SubjectPicker extends React.Component {
                     <input
                         className="input input-sm subject-input"
                         type="number"
-                        min="6"
-                        max="12"
+                        min="1"
+                        max={end}
                         value={start}
                         onChange={this.handleStartChange}
                         disabled={!is_edit}
@@ -78,7 +78,7 @@ class SubjectPicker extends React.Component {
                     <input
                         className="input input-sm subject-input"
                         type="number"
-                        min="6"
+                        min={start}
                         max="12"
                         value={end}
                         onChange={this.handleEndChange}
