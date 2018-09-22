@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { saveStudent } from '../../redux/actions/user_actions';
 
 class StudentProfile extends React.Component {
@@ -21,7 +22,7 @@ class StudentProfile extends React.Component {
 
     handleSave() {
         // TODO field validation + better checking of what changed
-        let new_user = Object.assign({}, this.props.user);
+        const new_user = Object.assign({}, this.props.user);
         new_user.email = this.state.email;
         new_user.bio = this.state.bio;
         this.props.saveUser(new_user);
@@ -30,7 +31,7 @@ class StudentProfile extends React.Component {
     handleEdit(event) {
         // FIXME try to combine set state calls
 
-        let editing = !this.state.is_edit;
+        const editing = !this.state.is_edit;
         this.setState({ is_edit: editing });
 
         if (editing) {
@@ -77,33 +78,13 @@ class StudentProfile extends React.Component {
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-envelope" />{' '}
                                                 Email:
-                                                <textarea
-                                                    type="text"
-                                                    className="form-control"
-                                                    disabled={
-                                                        !this.state.is_edit
-                                                    }
-                                                    onChange={
-                                                        this.handleEmailChange
-                                                    }
-                                                    defaultValue={
-                                                        this.props.user.email
-                                                    }
-                                                />
+                                                <p>{this.props.user.email}</p>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-lock" />Password:
-                                                <p>
-                                                    {this.props.user.password}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-globe" />Grade
-                                                Level:
+                                                <i className="glyphicon glyphicon-globe" />
+                                                Grade Level:
                                                 <p>
                                                     {
                                                         this.props.user
@@ -114,7 +95,8 @@ class StudentProfile extends React.Component {
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-apple" />Classroom:
+                                                <i className="glyphicon glyphicon-apple" />
+                                                Classroom:
                                                 <p>
                                                     {this.props.user.classroom}
                                                 </p>
@@ -122,10 +104,10 @@ class StudentProfile extends React.Component {
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-calendar" />Join
-                                                Date:
+                                                <i className="glyphicon glyphicon-calendar" />
+                                                Join Date:
                                                 <p>
-                                                    {this.props.user.join_date}
+                                                    {moment(this.props.user.join_date).format('LL')}
                                                 </p>
                                             </div>
                                         </div>
@@ -170,16 +152,15 @@ class StudentProfile extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.user
-    };
-};
+const mapStateToProps = state => ({
+    user: state.user
+});
 
-const mapDispatchToProps = dispatch => {
-    return {
-        saveUser: user => dispatch(saveStudent(user))
-    };
-};
+const mapDispatchToProps = dispatch => ({
+    saveUser: user => dispatch(saveStudent(user))
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(StudentProfile);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(StudentProfile);
