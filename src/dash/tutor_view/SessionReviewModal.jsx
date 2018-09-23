@@ -311,13 +311,14 @@ class SessionModal extends React.Component {
         const renStudents = (session.students_attended || []).map(student => (
             <h5>{student.student_id}</h5>
         ));
+        console.log(session.join_requests);
         const renRequests = (session.join_requests || [])
             .filter(student => student.status === 'pending')
-            .map(student => (
+            .map((student, ind) => (
                 <div className="student-join-request col-sm-12">
                     <h5 className="col-sm-3">{student.student_id}</h5>
                     <h5 className="col-sm-3">
-                        {session.join_requests[student].topic}
+                        {session.join_requests[ind].topic}
                     </h5>
                     <h5 className="lighter-text col-sm-4">
                         {student.student_comment
