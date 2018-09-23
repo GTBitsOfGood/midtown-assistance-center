@@ -317,7 +317,7 @@ class SessionModal extends React.Component {
                 <div className="student-join-request col-sm-12">
                     <h5 className="col-sm-3">{student.student_id}</h5>
                     <h5 className="col-sm-3">
-                        {session.join_requests[student].topic}
+                        {student.topic}
                     </h5>
                     <h5 className="lighter-text col-sm-4">
                         {student.student_comment
