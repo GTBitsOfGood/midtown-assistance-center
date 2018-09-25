@@ -46,7 +46,7 @@ input:-webkit-autofill {
     background-color: var(--login_signup);
     z-index: 0;
     height: 60vh;
-    opacity: 0.6;
+    opacity: 0.9;
 }
 
 .signup-form-bkgrd {
@@ -55,7 +55,7 @@ input:-webkit-autofill {
     background-color: var(--login_signup);
     z-index: 0;
     height: 70vh;
-    opacity: 0.6;
+    opacity: 0.9;
     min-height: 300px;
     margin-top: 15vh;
 }
@@ -166,9 +166,9 @@ input:-webkit-autofill {
 }
 
 .signup-form input::placeholder,
-.signup-form select,
 .login-form input::placeholder {
-    color: var(--ltgray);
+    color: var(--gray);
+    font-style: italic;
 }
 
 .signup-form input:focus,
@@ -184,10 +184,15 @@ input:-webkit-autofill {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    color: var(--ltgray);
     background-image: url('/images/select-down-arrow.png');
     background-repeat: no-repeat;
     background-position: right center;
     background-size: 10px 10px;
+}
+
+option.signup-select-option {
+    background: var(--dkgray);
 }
 
 .login-form input {
@@ -205,7 +210,7 @@ input:-webkit-autofill {
     font-weight: 400;
     border-radius: 3px;
     /*border: 1px solid var(--gray);*/
-    border-bottom: 0 !important;
+    border-bottom: 0;
 }
 
 .login-form .login-button {
@@ -228,13 +233,12 @@ input:-webkit-autofill {
 
 .login-anchor,
 .signup-anchor {
-    /*color: var(--gray);*/
     color: var(--gray);
 }
 
 .login-anchor:hover,
 .signup-anchor:hover {
-    color: var(--black);
+    color: var(--gold);
     text-decoration: none;
 }
 

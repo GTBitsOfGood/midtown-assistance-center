@@ -22,7 +22,8 @@ class StudentSignUpForm extends React.Component {
             email: '',
             emailValidation: 'input-success',
             access_code: '',
-            grade_level: 6,
+            grade_level: 'default',
+            gradeLevelValidation: 'input-error',
             errorMessage: 'error-message-hide',
             inputErrorMessage: 'error-message-hide',
             errorMessageContent: '',
@@ -131,7 +132,13 @@ class StudentSignUpForm extends React.Component {
     }
 
     handleGradeChange(event) {
-        this.setState({ grade_level: event.target.value });
+        const currentGrade = event.target.value;
+        this.setState({ grade_level: currentGrade });
+        if (currentGrade !== 'default') {
+            this.setState({ gradeLevelValidation: 'input-success' });
+        } else {
+            this.setState({ gradeLevelValidation: 'input-error' });
+        }
     }
 
     handleSubmit(event) {
@@ -141,7 +148,8 @@ class StudentSignUpForm extends React.Component {
             usernameValidation,
             passwordValidation,
             confirmPasswordValidation,
-            emailValidation
+            emailValidation,
+            gradeLevelValidation
         } = this.state;
         event.preventDefault();
         if (
@@ -150,7 +158,8 @@ class StudentSignUpForm extends React.Component {
             usernameValidation === 'input-error' ||
             passwordValidation === 'input-error' ||
             confirmPasswordValidation === 'input-error' ||
-            emailValidation === 'input-error'
+            emailValidation === 'input-error' ||
+            gradeLevelValidation === 'input-error'
         ) {
             this.setState({ inputErrorMessage: 'error-message' });
             this.setState({ errorMessage: 'error-message-hide' });
@@ -199,6 +208,7 @@ class StudentSignUpForm extends React.Component {
             email,
             access_code,
             grade_level,
+            gradeLevelValidation,
             grades,
             inputErrorMessage,
             errorMessage,
@@ -324,24 +334,41 @@ class StudentSignUpForm extends React.Component {
                         className="input-lg col-xs-10 col-xs-offset-1"
                         placeholder="Classroom Access Code"
                     />
+                    <Link to="foobar">
+                        {/*TODO: Add a tooltip or link to a page explaining 
+                          the access code (what it looks like, how to get one,
+                          etc. )*/}
+                        <small>What is this?</small>
+                    </Link>
                 </div>
                 <div className="row col-xs-12">
                     <select
                         style={{ height: '60px' }}
                         className="select input-lg col-xs-10 col-xs-offset-1"
                         placeholder="select"
-                        defaultValue={grade_level}
+                        value={grade_level}
                         onChange={this.handleGradeChange}
                     >
-                        <option>
-                            <span className="signup-select-option">
+                        <option value="default" className="signup-select-option">
+                            <span>
                                 Select Grade Level
                             </span>
                         </option>
                         {grades.map(grade => (
-                            <option key={grade}>{grade}</option>
+                            <option value={grade} className="signup-select-option">
+                                {grade}
+                            </option>
                         ))}
                     </select>
+                    <HelpBlock
+                        className={
+                            gradeLevelValidation === 'input-error'
+                                ? 'show-error'
+                                : 'hide-error'
+                        }
+                    >
+                        Grade level must be set.
+                    </HelpBlock>
                 </div>
                 <div className="row col-xs-12">
                     <input
@@ -352,7 +379,7 @@ class StudentSignUpForm extends React.Component {
                     />
                 </div>
                 <h5 className={`col-xs-12 ${inputErrorMessage}`}>
-                    one or more fields invalid
+                    One or more fields invalid
                 </h5>
                 <h5 className={`col-xs-12 ${errorMessage}`}>
                     {errorMessageContent}
