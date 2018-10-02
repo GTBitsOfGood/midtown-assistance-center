@@ -7,22 +7,25 @@
  *
  * @type {*|createApplication}
  */
-const express = require('express');
-const app = express();
-const google = require('./google_hangouts.js');
-const moment = require('moment');
 import data_access from './data_access';
+
+const express = require('express');
+
+const app = express();
+const moment = require('moment');
+const cron = require('node-cron');
+const google = require('./google_hangouts.js');
 
 /**
  * Add a calendar ACL Role. This route is used
  * to make the tutor an co-owner of their calendar
  * when they sign up.
  */
-app.post('/addCalendarACL', function(req, res) {
-    let tutorId = req.body.id;
-    let email = req.body.email;
-    let calendarId = req.body.calendarId;
-    google.auth.refreshAccessToken(function(err, token) {
+app.post('/addCalendarACL', (req, res) => {
+    const tutorId = req.body.id;
+    const email = req.body.email;
+    const calendarId = req.body.calendarId;
+    google.auth.refreshAccessToken((err, token) => {
         if (err) {
             res.send({
                 success: false,
@@ -36,7 +39,7 @@ app.post('/addCalendarACL', function(req, res) {
         google.calendar.acl.insert(
             {
                 auth: google.auth,
-                calendarId: calendarId,
+                calendarId,
                 resource: {
                     role: 'owner',
                     scope: {
@@ -45,14 +48,13 @@ app.post('/addCalendarACL', function(req, res) {
                     }
                 }
             },
-            function(err, r) {
+            (err, r) => {
                 if (err) {
                     res.send({
                         success: false,
                         payload: null,
                         error: err
                     });
-                    return;
                 } else {
                     res.send({
                         success: true
@@ -67,10 +69,10 @@ app.post('/addCalendarACL', function(req, res) {
  * Create a new google calendar. This is used to create a new
  * calendar for the tutor during sign up.
  */
-app.post('/createNewCalendar', function(req, res) {
-    let tutorId = req.body.id;
-    let email = req.body.email;
-    google.auth.refreshAccessToken(function(err, token) {
+app.post('/createNewCalendar', (req, res) => {
+    const tutorId = req.body.id;
+    const email = req.body.email;
+    google.auth.refreshAccessToken((err, token) => {
         if (err) {
             console.log('error1');
             res.send({
@@ -87,51 +89,48 @@ app.post('/createNewCalendar', function(req, res) {
             {
                 auth: google.auth,
                 resource: {
-                    summary: tutorId + '_cal',
+                    summary: `${tutorId}_cal`,
                     timeZone: 'America/New_York'
                 }
             },
-            function(error, response) {
+            (error, response) => {
                 if (error) {
                     res.send({
                         success: false,
                         payload: null,
-                        error: error
+                        error
                     });
                     console.log('error inserting calendar');
                     console.log(error);
                     return;
                 }
 
-                let calId = response.id;
+                const calId = response.id;
                 // code to update the tutor db with the calendar for the tutor
-                data_access.users.getUser(tutorId, function(err, tutor) {
+                data_access.users.getUser(tutorId, (err, tutor) => {
                     if (err) {
                         res.send({
                             success: false,
                             payload: null,
-                            error: error
+                            error
                         });
                         return;
                     }
 
                     // Update the tutor with the calendar id that was just created for him
                     tutor.calendarId = calId;
-                    data_access.users.saveTutor(tutor, function(
-                        err,
-                        updatedTutor
-                    ) {
+                    data_access.users.saveTutor(tutor, (err, updatedTutor) => {
                         if (err) {
                             res.send({
                                 success: false,
                                 payload: null,
-                                error: error
+                                error
                             });
                             return;
                         }
                         res.send({
                             success: true,
-                            calId: calId,
+                            calId,
                             payload: updatedTutor
                         });
                     });
@@ -145,34 +144,31 @@ app.post('/createNewCalendar', function(req, res) {
  * Create a new calendar event. This is used when the tutor
  * starts a tutoring session.
  */
-app.post('/createEvent', function(req, res) {
-    let tutorId = req.body.tutorId;
-    let calId = req.body.calId;
-    let startTime = req.body.startTime;
-    let endTime = req.body.endTime;
-    let tutorEmail = req.body.email;
-    let sessionRequestBody = req.body.sessionRequestBody;
-    let _id = sessionRequestBody._id;
+app.post('/createEvent', (req, res) => {
+    const tutorId = req.body.tutorId;
+    const calId = req.body.calId;
+    const startTime = req.body.startTime;
+    const endTime = req.body.endTime;
+    const tutorEmail = req.body.email;
+    const sessionRequestBody = req.body.sessionRequestBody;
+    const _id = sessionRequestBody._id;
 
-    let currDateStart = moment();
+    const currDateStart = moment();
     currDateStart.hour(startTime.split(':')[0]);
     currDateStart.minute(startTime.split(':')[1]);
 
-    let currDateEnd = moment();
+    const currDateEnd = moment();
     currDateEnd.hour(endTime.split(':')[0]);
     currDateEnd.minute(endTime.split(':')[1]);
 
-    let startDateString = currDateStart.format('YYYY-MM-DDTHH:mm:ss');
-    let endDateString = currDateEnd.format('YYYY-MM-DDTHH:mm:ss');
+    const startDateString = currDateStart.format('YYYY-MM-DDTHH:mm:ss');
+    const endDateString = currDateEnd.format('YYYY-MM-DDTHH:mm:ss');
 
     // First check if a session already exists for that time and if so, return
     // the session instead of creating a new one. If not, the add_new_session
     // function will create a new calendar event and tutor session object.
-    let check_event_exists = new Promise(function(resolve, reject) {
-        data_access.tutor_sessions.getSessionByTutor(_id, function(
-            err,
-            response
-        ) {
+    const check_event_exists = new Promise((resolve, reject) => {
+        data_access.tutor_sessions.getSessionByTutor(_id, (err, response) => {
             if (err) {
                 console.log(err);
                 res.json({
@@ -196,10 +192,10 @@ app.post('/createEvent', function(req, res) {
     });
 
     check_event_exists.then(
-        function(value) {
+        value => {
             add_new_session(value);
         },
-        function(error) {
+        error => {
             console.log(error);
         }
     );
@@ -208,7 +204,7 @@ app.post('/createEvent', function(req, res) {
         if (add_calendar) {
             return;
         }
-        google.auth.refreshAccessToken(function(err, token) {
+        google.auth.refreshAccessToken((err, token) => {
             if (err) {
                 console.log('Error while trying to retrieve access token', err);
                 res.json({
@@ -254,11 +250,9 @@ app.post('/createEvent', function(req, res) {
                         conferenceDataVersion: 1,
                         conferenceData: {
                             conferenceSolution: {
-                                name:
-                                    tutorId +
+                                name: `${tutorId +
                                     startDateString +
-                                    endDateString +
-                                    '_tutor_session',
+                                    endDateString}_tutor_session`,
                                 key: {
                                     type: 'eventHangout'
                                 }
@@ -271,7 +265,7 @@ app.post('/createEvent', function(req, res) {
                         }
                     }
                 },
-                function(err, response) {
+                (err, response) => {
                     if (err) {
                         res.json({
                             success: false,
@@ -282,12 +276,12 @@ app.post('/createEvent', function(req, res) {
                     }
 
                     // code to update the tutor db with the hangout link for the tutor
-                    data_access.users.getUser(tutorId, function(err, tutor) {
+                    data_access.users.getUser(tutorId, (err, tutor) => {
                         if (err) {
                             res.send({
                                 success: false,
                                 payload: null,
-                                error: error
+                                error
                             });
                             return;
                         }
@@ -295,27 +289,26 @@ app.post('/createEvent', function(req, res) {
                         // Update the tutor with the hangout link that was just created for him
                         tutor.tutoringEventId = response.id;
 
-                        data_access.users.saveTutor(tutor, function(
-                            err,
-                            updatedTutor
-                        ) {
-                            if (err) {
-                                res.send({
-                                    success: false,
-                                    payload: null,
-                                    error: error
-                                });
-                                return;
+                        data_access.users.saveTutor(
+                            tutor,
+                            (err, updatedTutor) => {
+                                if (err) {
+                                    res.send({
+                                        success: false,
+                                        payload: null,
+                                        error
+                                    });
+                                    return;
+                                }
+                                console.log(response);
                             }
-                            console.log(response);
-                        });
+                        );
 
-                        sessionRequestBody['hangouts_link'] =
-                            response.hangoutLink;
-                        sessionRequestBody['eventId'] = response.id;
+                        sessionRequestBody.hangouts_link = response.hangoutLink;
+                        sessionRequestBody.eventId = response.id;
                         data_access.tutor_sessions.addSession(
                             sessionRequestBody,
-                            function(err, resultSession) {
+                            (err, resultSession) => {
                                 if (err) {
                                     console.error(err);
                                     return res.json({
@@ -323,6 +316,15 @@ app.post('/createEvent', function(req, res) {
                                         error_message: 'Creating session failed'
                                     });
                                 }
+
+                                cron.schedule(
+                                    `* ${parseInt(endTime.split(':')[1]) + 1} ${
+                                        endTime.split(':')[0]
+                                    } * * ${new Date().getDay()}`,
+                                    () => {
+                                        app.post('/endCalendarEvent');
+                                    }
+                                );
                                 return res.json({
                                     success: true,
                                     error_message: null,
@@ -345,12 +347,12 @@ app.post('/createEvent', function(req, res) {
  * may not be necessary anymore since the hangouts link
  * is part of the tutor session object.
  */
-app.post('/studentGetHangoutLink', function(req, res) {
-    let eventId = req.body.eventId;
-    let email = req.body.email;
-    let calendarId = req.body.calendarId;
+app.post('/studentGetHangoutLink', (req, res) => {
+    const eventId = req.body.eventId;
+    const email = req.body.email;
+    const calendarId = req.body.calendarId;
 
-    google.auth.refreshAccessToken(function(err, token) {
+    google.auth.refreshAccessToken((err, token) => {
         if (err) {
             console.log('Error while trying to retrieve access token', err);
             res.json({
@@ -365,24 +367,24 @@ app.post('/studentGetHangoutLink', function(req, res) {
         google.calendar.events.get(
             {
                 auth: google.auth,
-                calendarId: calendarId,
-                eventId: eventId
+                calendarId,
+                eventId
             },
-            function(err, response) {
-                let attend = response.attendees;
-                attend.push({ email: email });
+            (err, response) => {
+                const attend = response.attendees;
+                attend.push({ email });
                 google.calendar.events.update(
                     {
                         auth: google.auth,
-                        calendarId: calendarId,
-                        eventId: eventId,
+                        calendarId,
+                        eventId,
                         resource: {
                             start: response.start,
                             end: response.end,
                             attendees: attend
                         }
                     },
-                    function(err, response) {
+                    (err, response) => {
                         if (err) {
                             res.send({
                                 success: false,
@@ -408,28 +410,28 @@ app.post('/studentGetHangoutLink', function(req, res) {
  * End the calendar event. This is used to end the event
  * once the tutor ends the session.
  */
-app.post('/endCalendarEvent', function(req, res) {
-    let tutorId = req.body.tutorId;
-    data_access.users.getUser(tutorId, function(err, tutor) {
+app.post('/endCalendarEvent', (req, res) => {
+    const tutorId = req.body.tutorId;
+    data_access.users.getUser(tutorId, (err, tutor) => {
         if (err) {
             res.send({
                 success: false,
                 payload: null,
-                error: error
+                error
             });
             return;
         }
-        let eventId = tutor.tutoringEventId;
-        let calendarId = tutor.calendarId;
+        const eventId = tutor.tutoringEventId;
+        const calendarId = tutor.calendarId;
 
         tutor.tutoringEventId = '';
 
-        data_access.users.saveTutor(tutor, function(err, updatedTutor) {
+        data_access.users.saveTutor(tutor, (err, updatedTutor) => {
             if (err) {
                 res.send({
                     success: false,
                     payload: null,
-                    error: error
+                    error
                 });
                 return;
             }
@@ -437,15 +439,15 @@ app.post('/endCalendarEvent', function(req, res) {
             google.calendar.events.delete(
                 {
                     auth: google.auth,
-                    calendarId: calendarId,
-                    eventId: eventId
+                    calendarId,
+                    eventId
                 },
-                function(err, response) {
+                (err, response) => {
                     if (err) {
                         res.send({
                             success: false,
                             payload: null,
-                            error: error
+                            error
                         });
                         return;
                     }
