@@ -232,7 +232,7 @@ class Profile extends React.Component {
     }
 
     handleAddSubject() {
-        const { subjects: propSubj } = this.stte;
+        const { subjects: propSubj } = this.props;
         const { is_edit, subjects: stateSubj } = this.state;
         if (is_edit) {
             const temp = [...stateSubj];
