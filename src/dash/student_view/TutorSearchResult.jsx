@@ -101,21 +101,25 @@ class TutorSearchResult extends React.Component {
         return (
             <div>
                 <div className="panel panel-default tutor-panel">
-                    <div className="panel-heading tutor-panel-heading">
+                    <div className="panel-heading tutor-panel-heading"
+                        data-toggle="collapse"
+                        data-parent="#accordion"
+                        data-target={`#collapse${this.props.id}`}
+
+                    >
                         <div className="col-md-2">
                             <img
                                 className="tutor-profile-pic img-circle"
-                                src={this.props.data.profile_picture}
+                                src={this.props.data.profile_picture}j
                                 height="125"
                                 width="125"
                             />
                         </div>
                         <div className="">
-                            <a
-                                data-toggle="collapse"
-                                className="tutor-name"
-                                data-parent="#accordion"
-                                href={'#collapse' + this.props.id}
+                            <a data-toggle="collapse"
+                               className="tutor-name"
+                               data-parent="#accordion"
+                               href={`#collapse${this.props.id}`}
                             >
                                 <h3 className="">
                                     {this.props.data.first_name +
@@ -168,7 +172,7 @@ class TutorSearchResult extends React.Component {
                                         <span className="details-ic glyphicon glyphicon-star" />
                                         <strong>
                                             {' '}
-                                            {this.props.data.rating}
+                                            {Number(this.props.data.rating).toFixed(2)}
                                         </strong>{' '}
                                         rating out of{' '}
                                         {this.props.data.num_ratings} total
@@ -193,12 +197,6 @@ class TutorSearchResult extends React.Component {
                                 </div>
                             </div>
                             <div className="request_hangout text-center">
-                                <h4 className="text-center">
-                                    <strong>
-                                        Request a Google Hangouts meeting with{' '}
-                                        {this.props.data.first_name}
-                                    </strong>
-                                </h4>
                                 <button
                                     className="btn btn-md btn-default mac_button"
                                     type="button"
@@ -211,7 +209,7 @@ class TutorSearchResult extends React.Component {
                                     onClick={this.onHangoutsButton}
                                 >
                                     {this.props.data.session
-                                        ? 'Click Here To Access'
+                                        ? 'Request to Join Session'
                                         : 'Session Not Active'}
                                 </button>
                             </div>
