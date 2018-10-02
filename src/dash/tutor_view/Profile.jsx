@@ -62,8 +62,6 @@ class Profile extends React.Component {
         };
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
-        this.handleEmailChange = this.handleEmailChange.bind(this);
-        this.handleGmailChange = this.handleGmailChange.bind(this);
         this.handleProfilePicChange = this.handleProfilePicChange.bind(this);
         this.handleEditStart = this.handleEditStart.bind(this);
         this.handleEditEnd = this.handleEditEnd.bind(this);
@@ -234,7 +232,7 @@ class Profile extends React.Component {
     }
 
     handleAddSubject() {
-        const { subjects: propSubj } = this.stte;
+        const { subjects: propSubj } = this.props;
         const { is_edit, subjects: stateSubj } = this.state;
         if (is_edit) {
             const temp = [...stateSubj];
@@ -270,14 +268,6 @@ class Profile extends React.Component {
 
     handleBioChange(event) {
         this.setState({ bio: event.target.value });
-    }
-
-    handleEmailChange(event) {
-        this.setState({ email: event.target.value });
-    }
-
-    handleGmailChange(event) {
-        this.setState({ gmail: event.target.value });
     }
 
     handleProfilePicChange(event) {
@@ -440,15 +430,7 @@ class Profile extends React.Component {
                                                     <i className="glyphicon glyphicon-envelope" />{' '}
                                                     Email:
                                                 </h5>
-                                                <textarea
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={email}
-                                                    onChange={
-                                                        this.handleEmailChange
-                                                    }
-                                                    disabled={!is_edit}
-                                                />
+                                                <p>{email}</p>
                                             </div>
                                         </div>
                                         <div className="row tutor-profile-input">
@@ -457,15 +439,7 @@ class Profile extends React.Component {
                                                     <i className="glyphicon glyphicon-envelope" />{' '}
                                                     Gmail:
                                                 </h5>
-                                                <textarea
-                                                    type="text"
-                                                    className="form-control"
-                                                    value={gmail}
-                                                    onChange={
-                                                        this.handleGmailChange
-                                                    }
-                                                    disabled={!is_edit}
-                                                />
+                                                <p>{gmail}</p>
                                             </div>
                                         </div>
 
