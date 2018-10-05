@@ -4,15 +4,14 @@ import { connect } from 'react-redux';
 import TutorSearchResult from './TutorSearchResult';
 
 const TutorList = (props) => {
-    const {studentView, updateTutors, socket, user} = props;
+    const {studentView, socket, user} = props;
     const renData =
         studentView.filteredTutors.length > 0 ? (
-            studentView.filteredTutors.map((obj, num) => (
+            studentView.filteredTutors.map((student, ind) => (
                 <TutorSearchResult
-                    updateTutors={updateTutors}
                     socket={socket}
-                    data={obj}
-                    id={num}
+                    data={student}
+                    id={ind}
                     studentEmail={user.email}
                     username={user._id}
                 />
@@ -58,7 +57,6 @@ const TutorList = (props) => {
 
 TutorList.propTypes = {
     studentView: PropTypes.object.isRequired,
-    updateTutors: PropTypes.object.isRequired,
     socket: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired
 };

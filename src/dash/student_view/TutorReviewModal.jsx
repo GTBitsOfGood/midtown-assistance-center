@@ -44,6 +44,9 @@ class TutorModal extends React.Component {
         let rejection_reason = '';
         let rating = 0;
         let comment = '';
+        // TODO
+        // api.js /onlineTutors getSessions get sessions then append it to 
+        // tutor_sessions is not updated with TutorSession when refreshed
         if (this.props.session) {
             for (let request in this.props.session.join_requests) {
                 let join_request = this.props.session.join_requests[request];
@@ -551,6 +554,16 @@ class TutorModal extends React.Component {
                 Submit
             </button>
         );
+        let resHtml = null;
+        if(this.state.approval === 'in_session') {
+            resHtml = in_session_html;
+        } else if (this.state.approval === 'pending' || this.state.approval === 'new') {
+            resHtml = pending_html;
+        } else if (this.state.approval === 'approved') {
+            resHtml = approved_html;
+        } else if (this.state.approval === 'rejected') {
+            resHtml = rejected_html;
+        }
         return (
             <div>
                 <div
@@ -576,17 +589,7 @@ class TutorModal extends React.Component {
                             </div>
                             <div className="modal-body text-center">
                                 <div id={'ModalBody_' + this.props.firstName}>
-                                    {this.state.approval === 'in_session'
-                                        ? in_session_html
-                                        : this.state.approval === 'pending' ||
-                                          this.state.approval === 'new'
-                                            ? pending_html
-                                            : this.state.approval === 'approved'
-                                                ? approved_html
-                                                : this.state.approval ===
-                                                  'rejected'
-                                                    ? rejected_html
-                                                    : ''}
+                                    {resHtml}
                                 </div>
                             </div>
                             <div className="review-modal-footer modal-footer">

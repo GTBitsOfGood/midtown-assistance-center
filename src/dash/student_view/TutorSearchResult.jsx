@@ -1,53 +1,38 @@
 import React from 'react';
-import TutorReviewModal from './TutorReviewModal.jsx';
-import Subject from './Subject.jsx';
-import axios from 'axios';
-import Availability from './Availability.jsx';
 import socketIOClient from 'socket.io-client';
+import TutorReviewModal from './TutorReviewModal';
+import Subject from './Subject';
+import Availability from './Availability';
 
 class TutorSearchResult extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            fullStars: 0,
-            halfStars: 0,
-            emptyStars: 0
-        };
-
-        this.updateRating = this.updateRating.bind(this);
-        this.onHangoutsButton = this.onHangoutsButton.bind(this);
-    }
-
-    componentDidMount() {
-        this.updateRating();
-    }
-
-    updateRating() {
-        this.setState({
+            fullStars: Math.floor(props.data.rating),
             halfStars: Math.floor(
-                (this.props.data.rating - Math.floor(this.props.data.rating)) /
+                (props.data.rating - Math.floor(props.data.rating)) /
                     0.5
             ),
-            emptyStars:
-                5 -
-                Math.floor(this.props.data.rating) -
+            emptyStars: 5 -
+                Math.floor(props.data.rating) -
                 Math.floor(
-                    (this.props.data.rating -
-                        Math.floor(this.props.data.rating)) /
+                    (props.data.rating -
+                        Math.floor(props.data.rating)) /
                         0.5
                 ),
-            fullStars: Math.floor(this.props.data.rating)
-        });
+        };
+
+        // this.onHangoutsButton = this.onHangoutsButton.bind(this);
     }
 
-    onHangoutsButton() {
-        this.setState({ hangoutsLink: this.props.data.session.hangouts_link });
-        //window.open(this.props.data.session.hangouts_link, '_blank');
-        //this.props.socket.emit('student-join', {'session':this.props.data.session.eventId, 'student': this.props.username});
-    }
+    // onHangoutsButton() {
+    //     this.setState({ hangoutsLink: this.props.data.session.hangouts_link });
+    //     //window.open(this.props.data.session.hangouts_link, '_blank');
+    //     //this.props.socket.emit('student-join', {'session':this.props.data.session.eventId, 'student': this.props.username});
+    // }
 
     render() {
-        let subjects = this.props.data.subjects.map((subject, num) => {
+        const subjects = this.props.data.subjects.map((subject, num) => {
             return (
                 <Subject
                     is_favorite={false}
@@ -57,11 +42,11 @@ class TutorSearchResult extends React.Component {
                 />
             );
         });
-        let favorites = this.props.data.favorites.map((fav, num) => {
+        const favorites = this.props.data.favorites.map((fav, num) => {
             return <Subject is_favorite={true} subject={fav.favorite} />;
         });
-        let stars = [];
-        let date = new Date(this.props.data.join_date).toLocaleDateString();
+        const stars = [];
+        const date = new Date(this.props.data.join_date).toLocaleDateString();
         for (let x = 0; x < this.state.fullStars; x++) {
             stars.push(
                 <span>
@@ -208,7 +193,6 @@ class TutorSearchResult extends React.Component {
                                     }
                                     data-backdrop="static"
                                     disabled={!this.props.data.session}
-                                    onClick={this.onHangoutsButton}
                                 >
                                     {this.props.data.session
                                         ? 'Click Here To Access'
