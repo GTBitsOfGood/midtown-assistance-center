@@ -86,6 +86,10 @@ class DashComp extends React.Component {
     }
 
     render() {
+        $(() => {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+
         const { user } = this.props;
         if (user.fetching || !user.fetched) {
             return loading;
@@ -120,7 +124,7 @@ class DashComp extends React.Component {
         return (
             <div className="animated fadeInDown">
                 <BrowserRouter>
-                    <div>
+                    <div data-toggle="tooltip">
                         <Route path="/dash" component={DashMenuBar} />
                         <Switch>{routes}</Switch>
                     </div>

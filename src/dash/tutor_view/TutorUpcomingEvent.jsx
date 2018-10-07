@@ -107,7 +107,7 @@ class TutorUpcomingEvent extends React.Component {
             0,
             0
         );
-        let sessionRequestBody = {
+        const sessionRequestBody = {
             _id: {
                 expected_start_time: now,
                 tutor_id: this.props.tutorId
@@ -305,6 +305,9 @@ class TutorUpcomingEvent extends React.Component {
      * @returns {HTML}
      */
     render() {
+        $(function () {
+            $('[data-toggle="tooltip"]').tooltip()
+        })
         let now = new Date();
         let startTimeHour = parseInt(this.props.startTime.split(':')[0]);
         let endTimeHour = parseInt(this.props.endTime.split(':')[0]);
@@ -333,16 +336,21 @@ class TutorUpcomingEvent extends React.Component {
                     this.props.endTime.split(':')[0]
                 }
             >
-                <img
-                    className="google-link"
-                    src="/images/google-icon-active.png"
-                />
+                <div data-toggle="tooltip" title="Click to begin session">
+                    <img
+                        className=" google-link"
+                        src="/images/google-icon-active.png"
+                    />
+                </div>
             </a>
         ) : (
-            <img
-                className="google-link"
+          <div data-toggle="tooltip" title="Can not start inactive session">
+          <img
+                className=" google-link"
                 src="/images/google-icon-disabled.png"
             />
+          </div>
+
         );
 
         this.props.socket.on(

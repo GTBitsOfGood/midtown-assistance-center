@@ -51,6 +51,7 @@ class FavoritePicker extends React.Component {
                 <span className="subject-pick col-md-4">
                     <label>Favorite Topic: </label>
                     <input
+                        maxLength="50"
                         className="input input-sm subject-input"
                         type="text"
                         value={this.props.favorite}
