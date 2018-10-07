@@ -255,9 +255,8 @@ module.exports = {
     //     });
     // },
 
-    getAllAvailableTutors: function(subject, availability, callback) {
-        let todayDate = new Date();
-        let today = todayDate.getDay();
+    getAllAvailableTutors: (subject, availability, callback) => {
+        const today = (new Date()).getDay();
         const days = [
             'Sunday',
             'Monday',
@@ -267,72 +266,36 @@ module.exports = {
             'Friday',
             'Saturday'
         ];
-        let dayName = days[today];
+        const dayName = days[today];
 
-        function filterByOnline(tutor) {
-            return tutor.online;
-        }
-
-        function filterByApproved(tutor) {
-            return tutor.approved;
-        }
-
-        function filterByConfirmed(tutor) {
-            return tutor.confirmed;
-        }
-
-        function filterBySubject(tutor) {
-            for (let i = 0; i < tutor.subjects.length; i++) {
-                let subject_json = tutor.subjects[i];
-
-                if (
-                    subject_json.subject.toLowerCase() === subject.toLowerCase()
-                ) {
-                    // TODO match grade levels
-                    return true;
-                }
-            }
-
-            for (let i = 0; i < tutor.favorites.length; i++) {
-                let fav_json = tutor.favorites[i];
-                if (
-                    fav_json.favorite.toLowerCase() === subject.toLowerCase() ||
-                    fav_json.subject.toLowerCase() === subject.toLowerCase()
-                ) {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        function filterByAvailability(tutor) {
-            // FIXME we should probably do this based on datetime
-            if (availability === 'ASAP') {
-                return tutor.online;
-            } else if (availability === 'today') {
-                return tutor.availability[dayName].length > 0 || tutor.online;
-            }
-            return true;
-        }
-
-        Tutor.find({}, function(err, tutors) {
+        Tutor.find({}, (err, tutors) => {
             if (err) {
                 console.log('Error getting all online tutors');
                 callback(err);
             }
-            if (!subject && !availability) {
-                tutors = tutors.filter(filterByOnline);
-            }
-            tutors = tutors.filter(filterByApproved);
-            tutors = tutors.filter(filterByConfirmed);
-            if (subject) {
-                tutors = tutors.filter(filterBySubject);
-            }
-            if (availability) {
-                tutors = tutors.filter(filterByAvailability);
-            }
-            callback(null, tutors);
+            const resTutors = tutors
+                // TODO: add these filters as part of the mongo find
+                .filter(tutor => tutor.approved)
+                .filter(tutor => tutor.confirmed)
+                .filter(tutor => tutor.online)
+                .filter(tutor => (              // filter by subject
+                    !subject
+                        || tutor.subjects.any(subj => subj.subject.toLowerCase() === subject.toLowerCase())
+                        || tutor.favorites.any(fav => (
+                            fav.subject.toLowerCase() === subject.toLowerCase() || fav.favorite.toLowerCase() === subject.toLowerCase()))
+                ))
+                .filter(tutor => {
+                    if (!availability || availability === 'ASAP') {
+                        return tutor.online;
+                    }
+                    if (availability === 'today') {
+                        return tutor.availability[dayName].length > 0 || tutor.online;
+                    }
+                    return true;
+        
+                });
+
+            callback(null, resTutors);
         });
     },
 
