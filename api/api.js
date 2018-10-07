@@ -723,6 +723,11 @@ app.get('/allTutors', (req, res) => {
     });
 });
 
+// app.get('/tutorCurrentSession', (req, res) => {
+//     const tutor_id = req.query.tutor_id;
+//     data_access.tutor_sessions.getActiveSession
+// });
+
 
 
 export default app;
