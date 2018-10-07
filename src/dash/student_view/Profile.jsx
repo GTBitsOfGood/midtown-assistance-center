@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import moment from 'moment';
 import { saveStudent } from '../../redux/actions/user_actions';
 
 class StudentProfile extends React.Component {
@@ -74,28 +75,13 @@ class StudentProfile extends React.Component {
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-envelope" />{' '}
                                                 Email:
-                                                <textarea
-                                                    type="text"
-                                                    name="email"
-                                                    className="form-control"
-                                                    disabled={!is_edit}
-                                                    onChange={this.handleFieldChange}
-                                                    defaultValue={user.email}
-                                                />
+                                                <p>{user.email}</p>
                                             </div>
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-lock" />Password:
-                                                <p>
-                                                    {user.password}
-                                                </p>
-                                            </div>
-                                        </div>
-                                        <div className="row">
-                                            <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-globe" />Grade
-                                                Level:
+                                                <i className="glyphicon glyphicon-globe" />
+                                                Grade Level:
                                                 <p>
                                                     {user.grade_level}
                                                 </p>
@@ -103,7 +89,8 @@ class StudentProfile extends React.Component {
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-apple" />Classroom:
+                                                <i className="glyphicon glyphicon-apple" />
+                                                Classroom:
                                                 <p>
                                                     {user.classroom}
                                                 </p>
@@ -111,10 +98,10 @@ class StudentProfile extends React.Component {
                                         </div>
                                         <div className="row">
                                             <div className="col-xs-12">
-                                                <i className="glyphicon glyphicon-calendar" />Join
-                                                Date:
+                                                <i className="glyphicon glyphicon-calendar" />
+                                                Join Date:
                                                 <p>
-                                                    {user.join_date}
+                                                    {moment(user.join_date).format('LL')}
                                                 </p>
                                             </div>
                                         </div>

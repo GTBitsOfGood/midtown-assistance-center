@@ -91,7 +91,12 @@ class TutorSearchResult extends React.Component {
         return (
             <div>
                 <div className="panel panel-default tutor-panel">
-                    <div className="panel-heading tutor-panel-heading">
+                    <div className="panel-heading tutor-panel-heading"
+                        data-toggle="collapse"
+                        data-parent="#accordion"
+                        data-target={`#collapse${id}`}
+
+                    >
                         <div className="col-md-2">
                             <img
                                 alt="tutor profile pic"
@@ -158,7 +163,7 @@ class TutorSearchResult extends React.Component {
                                         <span className="details-ic glyphicon glyphicon-star" />
                                         <strong>
                                             {' '}
-                                            {tutor.rating}
+                                            {Number(tutor.rating).toFixed(2)}
                                         </strong>{' '}
                                         rating out of{' '}
                                         {tutor.num_ratings} total
@@ -181,12 +186,6 @@ class TutorSearchResult extends React.Component {
                                 </div>
                             </div>
                             <div className="request_hangout text-center">
-                                <h4 className="text-center">
-                                    <strong>
-                                        Request a Google Hangouts meeting with{' '}
-                                        {tutor.first_name}
-                                    </strong>
-                                </h4>
                                 <button
                                     className="btn btn-md btn-default mac_button"
                                     type="button"
@@ -196,7 +195,7 @@ class TutorSearchResult extends React.Component {
                                     disabled={!tutor.session}
                                 >
                                     {tutor.session
-                                        ? 'Click Here To Access'
+                                        ? 'Request to Join Session'
                                         : 'Session Not Active'}
                                 </button>
                             </div>

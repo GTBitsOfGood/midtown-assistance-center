@@ -112,7 +112,9 @@ class DashComp extends React.Component {
         } else if (user.type === types.typeTutor) {
             console.log('Tutor logged in');
             routes = tutorRoutes;
-            socket.emit('tutor-login');
+            if (!user.online) {
+                socket.emit('tutor-login');
+            }
         } else if (user.type === types.typeAdmin) {
             console.log('Admin logged in');
             return adminRoutes;
