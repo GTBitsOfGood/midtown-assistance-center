@@ -485,6 +485,7 @@ class Profile extends React.Component {
                                                 <i className="glyphicon glyphicon-apple" />{' '}
                                                 Favorites:
                                             </h5>
+                                            <div className="text-muted">(e.g.  physics, algebra, literature, etc. )</div>
                                             {favoriteItems}
                                             <button
                                                 type="button"
