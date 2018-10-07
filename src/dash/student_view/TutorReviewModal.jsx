@@ -370,14 +370,17 @@ class TutorModal extends React.Component {
             third_star,
             fourth_star,
             fifth_star,
-            rating,
             satisfaction,
-            comment,
-            topic,
-            request,
-            approval,
-            rejection_reason
         } = this.state;
+
+        const {
+            approval,
+            request,
+            topic,
+            rejection_reason,
+            rating,
+            comment
+        } = this.initTutorModal();
         const subject_select = subjects.map((subject) => (
             <option>{subject.subject}</option>
         ));
