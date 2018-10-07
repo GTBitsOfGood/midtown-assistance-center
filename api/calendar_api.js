@@ -318,11 +318,12 @@ app.post('/createEvent', (req, res) => {
                                 }
 
                                 cron.schedule(
-                                    `* ${parseInt(endTime.split(':')[1]) + 1} ${
+                                    `${parseInt(endTime.split(':')[1]) + 1} ${
                                         endTime.split(':')[0]
-                                    } * * ${new Date().getDay()}`,
+                                    } ${new Date().getDate()} ${new Date().getMonth()} ${new Date().getDay()}`,
                                     () => {
-                                        app.post('/endCalendarEvent');
+                                        console.log('CRON JOB RUNNING');
+                                        endCalendarEvent(tutorId);
                                     }
                                 );
                                 return res.json({
@@ -462,5 +463,41 @@ app.post('/endCalendarEvent', (req, res) => {
         });
     });
 });
+
+function endCalendarEvent(tutorId) {
+    data_access.users.getUser(tutorId, (err, tutor) => {
+        if (err) {
+            console.log('error getting user with tutor id')
+            return;
+        }
+        const eventId = tutor.tutoringEventId;
+        const calendarId = tutor.calendarId;
+
+        tutor.tutoringEventId = '';
+
+        data_access.users.saveTutor(tutor, (err, updatedTutor) => {
+            if (err) {
+                console.log('error saving tutor');
+                return;
+            }
+
+            google.calendar.events.delete(
+                {
+                    auth: google.auth,
+                    calendarId,
+                    eventId
+                },
+                (err, response) => {
+                    if (err) {
+                        console.log('error deleting event')
+                        return;
+                    }
+
+                    console.log('successfully deleted event');
+                }
+            );
+        });
+    });
+}
 
 export default app;
