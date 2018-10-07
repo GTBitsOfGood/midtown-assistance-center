@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { saveStudent } from '../../redux/actions/user_actions';
 
@@ -8,48 +9,44 @@ class StudentProfile extends React.Component {
         this.state = {
             is_edit: false,
             button_text: 'Edit',
-            email: this.props.user.email,
-            bio: this.props.user.bio
+            email: props.user.email,
+            bio: props.user.bio
             // isFirst: true
         };
 
         this.handleSave = this.handleSave.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
-        this.handleEmailChange = this.handleEmailChange.bind(this);
-        this.handleBioChange = this.handleBioChange.bind(this);
+        this.handleFieldChange = this.handleFieldChange.bind(this);
     }
 
     handleSave() {
+        const { user, saveUser } = this.props;
+        const { email, bio } = this.state;
         // TODO field validation + better checking of what changed
-        let new_user = Object.assign({}, this.props.user);
-        new_user.email = this.state.email;
-        new_user.bio = this.state.bio;
-        this.props.saveUser(new_user);
+        saveUser({ ...user, email, bio });
     }
 
+    // eslint-disable-next-line no-unused-vars
     handleEdit(event) {
         // FIXME try to combine set state calls
+        const { is_edit } = this.state;
 
-        let editing = !this.state.is_edit;
-        this.setState({ is_edit: editing });
-
-        if (editing) {
+        if (!is_edit) {
             this.setState({ button_text: 'Save' });
         } else {
             this.setState({ button_text: 'Edit' });
             this.handleSave();
         }
+        this.setState(prevState => ({ is_edit: !prevState.is_edit }));
     }
 
-    handleEmailChange(event) {
-        this.setState({ email: event.target.value });
-    }
-
-    handleBioChange(event) {
-        this.setState({ bio: event.target.value });
+    handleFieldChange(event) {
+        this.setState({ [event.target.name]: event.target.value });
     }
 
     render() {
+        const { user } = this.props;
+        const { is_edit, button_text } = this.state;
         return (
             <div className="container">
                 <br />
@@ -65,7 +62,7 @@ class StudentProfile extends React.Component {
                                     />
                                 </div>
                                 <div className="col-sm-6 col-md-8">
-                                    <h1>{this.props.user._id}</h1>
+                                    <h1>{user._id}</h1>
                                     <small>
                                         <cite title="Atlanta, USA">
                                             Atlanta, USA{' '}
@@ -79,16 +76,11 @@ class StudentProfile extends React.Component {
                                                 Email:
                                                 <textarea
                                                     type="text"
+                                                    name="email"
                                                     className="form-control"
-                                                    disabled={
-                                                        !this.state.is_edit
-                                                    }
-                                                    onChange={
-                                                        this.handleEmailChange
-                                                    }
-                                                    defaultValue={
-                                                        this.props.user.email
-                                                    }
+                                                    disabled={!is_edit}
+                                                    onChange={this.handleFieldChange}
+                                                    defaultValue={user.email}
                                                 />
                                             </div>
                                         </div>
@@ -96,7 +88,7 @@ class StudentProfile extends React.Component {
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-lock" />Password:
                                                 <p>
-                                                    {this.props.user.password}
+                                                    {user.password}
                                                 </p>
                                             </div>
                                         </div>
@@ -105,10 +97,7 @@ class StudentProfile extends React.Component {
                                                 <i className="glyphicon glyphicon-globe" />Grade
                                                 Level:
                                                 <p>
-                                                    {
-                                                        this.props.user
-                                                            .grade_level
-                                                    }
+                                                    {user.grade_level}
                                                 </p>
                                             </div>
                                         </div>
@@ -116,7 +105,7 @@ class StudentProfile extends React.Component {
                                             <div className="col-xs-12">
                                                 <i className="glyphicon glyphicon-apple" />Classroom:
                                                 <p>
-                                                    {this.props.user.classroom}
+                                                    {user.classroom}
                                                 </p>
                                             </div>
                                         </div>
@@ -125,7 +114,7 @@ class StudentProfile extends React.Component {
                                                 <i className="glyphicon glyphicon-calendar" />Join
                                                 Date:
                                                 <p>
-                                                    {this.props.user.join_date}
+                                                    {user.join_date}
                                                 </p>
                                             </div>
                                         </div>
@@ -135,16 +124,11 @@ class StudentProfile extends React.Component {
                                                 Bio:
                                                 <textarea
                                                     type="text"
+                                                    name="bio"
                                                     className="form-control"
-                                                    disabled={
-                                                        !this.state.is_edit
-                                                    }
-                                                    onChange={
-                                                        this.handleBioChange
-                                                    }
-                                                    defaultValue={
-                                                        this.props.user.bio
-                                                    }
+                                                    disabled={!is_edit}
+                                                    onChange={this.handleFieldChange}
+                                                    defaultValue={user.bio}
                                                 />
                                             </div>
                                         </div>
@@ -158,7 +142,7 @@ class StudentProfile extends React.Component {
                                         }}
                                         onClick={this.handleEdit}
                                     >
-                                        {this.state.button_text}
+                                        {button_text}
                                     </button>
                                 </div>
                             </div>
@@ -170,16 +154,20 @@ class StudentProfile extends React.Component {
     }
 }
 
-const mapStateToProps = state => {
-    return {
-        user: state.user
-    };
+StudentProfile.propTypes = {
+    user: PropTypes.object.isRequired,
+    saveUser: PropTypes.func.isRequired
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        saveUser: user => dispatch(saveStudent(user))
-    };
-};
+const mapStateToProps = state => ({
+    user: state.user
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(StudentProfile);
+const mapDispatchToProps = dispatch => ({
+    saveUser: user => dispatch(saveStudent(user))
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(StudentProfile);
