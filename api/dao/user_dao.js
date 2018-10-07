@@ -280,8 +280,8 @@ module.exports = {
                 .filter(tutor => tutor.online)
                 .filter(tutor => (              // filter by subject
                     !subject
-                        || tutor.subjects.any(subj => subj.subject.toLowerCase() === subject.toLowerCase())
-                        || tutor.favorites.any(fav => (
+                        || (tutor.subjects || []).any(subj => subj.subject.toLowerCase() === subject.toLowerCase())
+                        || (tutor.favorites || []).any(fav => (
                             fav.subject.toLowerCase() === subject.toLowerCase() || fav.favorite.toLowerCase() === subject.toLowerCase()))
                 ))
                 .filter(tutor => {
