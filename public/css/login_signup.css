@@ -247,7 +247,7 @@ option.signup-select-option {
 }
 
 .show-error {
-    display: block;
+    display: inline-block;
 }
 
 .signup-dialogue {
