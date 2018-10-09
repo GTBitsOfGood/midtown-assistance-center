@@ -1,6 +1,5 @@
 /* Signup Tutor Form */
 :root {
-    /*--gold: #d4af37;*/
     --gold: #eeb211;
     --gray: #aeb7b3;
     --ltgray: #f1f6f7;
@@ -23,6 +22,7 @@ body {
 
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px var(--ltgray) inset;
+    box-shadow: 0 0 0 30px var(--ltgray) inset;
 }
 
 .bkgrd {
@@ -32,7 +32,6 @@ input:-webkit-autofill {
     background-repeat: no-repeat;
     background-position: center;
     background-size: 100vw auto;
-    /*opacity: 0.3;*/
     position: fixed;
     z-index: -10;
     background-color: var(--black);
@@ -90,10 +89,6 @@ input:-webkit-autofill {
     height: 60vh;
     z-index: 1;
     overflow-y: scroll;
-    /*background-color: #fff;*/
-    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
-    /*border-top: 3px solid var(--gold);*/
-    /*border: 1px solid var(--gray);*/
     padding-right: 0;
     padding-left: 1.5%;
     background-color: transparent;
@@ -117,8 +112,6 @@ input:-webkit-autofill {
 
 .signup-form .signup-header,
 .login-form .login-header {
-    /*color: var(--dkgray);*/
-    /*color: black;*/
     font-weight: 300;
     text-transform: none;
 }
@@ -157,12 +150,9 @@ input:-webkit-autofill {
     border-right: 0;
     border-radius: 0px;
     margin-top: 2%;
-    /*background-color: var(--login_signup);*/
     background-color: transparent;
     font-weight: 300;
     color: var(--ltgray);
-    /*border-radius: 3px;*/
-    /*color: green;*/
 }
 
 .signup-form input::placeholder,
@@ -201,15 +191,11 @@ option.signup-select-option {
 
 .signup-form .signup-button,
 .login-form .login-button {
-    /*background-color: var(--gold);*/
     background-color: var(--accent);
-    /*border: 1px solid var(--ltgray) ! important;*/
     color: var(--ltgray);
-    /*color: black;*/
     margin-top: 5%;
     font-weight: 400;
     border-radius: 3px;
-    /*border: 1px solid var(--gray);*/
     border-bottom: 0;
 }
 
@@ -228,7 +214,6 @@ option.signup-select-option {
 .signup-form .signup-button:hover,
 .login-form .login-button:hover {
     opacity: 0.7;
-    /*background-color: lightgoldenrodyellow;*/
 }
 
 .login-anchor,
@@ -254,11 +239,4 @@ option.signup-select-option {
     margin-bottom: 5%;
     text-transform: none;
     font-weight: 400;
-}
-
-.login-form {
-    /*background-color: var(--gold);
-    -webkit-border-radius: 3%;
-    -moz-border-radius: 3%;
-    border-radius: 3%;*/
 }
