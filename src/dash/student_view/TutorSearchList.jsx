@@ -7,11 +7,12 @@ const TutorList = (props) => {
     const {studentView, socket, user} = props;
     const renData =
         studentView.filteredTutors.length > 0 ? (
-            studentView.filteredTutors.map((tutor, ind) => (
+            studentView.filteredTutors.map(tutor => (
                 <TutorSearchResult
                     socket={socket}
                     tutor={tutor}
-                    id={ind}
+                    id={tutor._id}
+                    key={tutor._id}
                     // TODO: remove next two, it's not used currently
                     studentEmail={user.email}
                     username={user._id}

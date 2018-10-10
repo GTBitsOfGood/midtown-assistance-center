@@ -364,6 +364,7 @@ class TutorModal extends React.Component {
     render() {
         const { subjects, favorites, socket, session, username, firstName } = this.props;
         const {
+            approval,
             error_message,
             first_star,
             second_star,
@@ -378,10 +379,6 @@ class TutorModal extends React.Component {
             comment
 
         } = this.state;
-
-        const {
-            approval,
-        } = this.initTutorModal();
 
         const subject_select = subjects.map((subject) => (
             <option>{subject.subject}</option>

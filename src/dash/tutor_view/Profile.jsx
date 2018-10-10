@@ -290,7 +290,7 @@ class Profile extends React.Component {
         } = this.state;
         const availabilityItems = availabilityList.map(
             (availability, index) => (
-                <div key={availability} className="time-item">
+                <div key={index} className="time-item">
                     <TimePicker
                         index={index}
                         date={availability.date}
@@ -306,7 +306,7 @@ class Profile extends React.Component {
             )
         );
         const subjectItems = subjects.map((subject, index) => (
-            <div key={subject} className="time-item">
+            <div key={index} className="time-item">
                 <SubjectPicker
                     index={index}
                     subject={subject.subject}
@@ -321,7 +321,7 @@ class Profile extends React.Component {
             </div>
         ));
         const favoriteItems = favorites.map((favorite, index) => (
-            <div key={favorite} className="time-item">
+            <div key={index} className="time-item">
                 <FavoritePicker
                     index={index}
                     subject={favorite.subject}

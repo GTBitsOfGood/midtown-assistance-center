@@ -201,16 +201,18 @@ class TutorSearchResult extends React.Component {
                             </div>
                         </div>
                     </div>
+                    <TutorReviewModal
+                        key={`modal-${id}`}
+                        updateTutors={updateTutors}
+                        socket={socket}
+                        username={username}
+                        subjects={tutor.subjects}
+                        favorites={tutor.favorites}
+                        firstName={tutor.first_name}
+                        session={tutor.session}
+                    />
                 </div>
-                <TutorReviewModal
-                    updateTutors={updateTutors}
-                    socket={socket}
-                    username={username}
-                    subjects={tutor.subjects}
-                    favorites={tutor.favorites}
-                    firstName={tutor.first_name}
-                    session={tutor.session}
-                />
+
             </div>
         );
     }
