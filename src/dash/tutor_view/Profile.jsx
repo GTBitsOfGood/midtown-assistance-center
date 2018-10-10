@@ -63,8 +63,8 @@ class Profile extends React.Component {
         this.handleEdit = this.handleEdit.bind(this);
         this.handleBioChange = this.handleBioChange.bind(this);
         this.handleProfilePicChange = this.handleProfilePicChange.bind(this);
-        this.handleEditStart = this.handleEditStart.bind(this);
-        this.handleEditEnd = this.handleEditEnd.bind(this);
+        this.handleEditStartTime = this.handleEditStartTime.bind(this);
+        this.handleEditEndTime = this.handleEditEndTime.bind(this);
         this.handleEditDate = this.handleEditDate.bind(this);
         this.handleEditStartGrade = this.handleEditStartGrade.bind(this);
         this.handleEditEndGrade = this.handleEditEndGrade.bind(this);
@@ -147,11 +147,11 @@ class Profile extends React.Component {
         }
     }
 
-    handleEditStart(index, start) {
+    handleEditStartTime(index, start, invalid) {
         const { availabilityList } = this.state;
         const temp = availabilityList;
         temp[index].start = start;
-        this.setState({ availabilityList: temp });
+        this.setState({ availabilityList: temp, invalid });
     }
 
     handleEditStartGrade(index, start) {
@@ -162,11 +162,11 @@ class Profile extends React.Component {
         this.setState({ subjects: temp });
     }
 
-    handleEditEnd(index, end) {
+    handleEditEndTime(index, end, invalid) {
         const { availabilityList } = this.state;
         const temp = availabilityList;
         temp[index].end = end;
-        this.setState({ availabilityList: temp });
+        this.setState({ availabilityList: temp, invalid });
     }
 
     handleEditEndGrade(index, end) {
@@ -278,6 +278,7 @@ class Profile extends React.Component {
         const { user } = this.props;
         const {
             availabilityList,
+            invalid,
             is_edit,
             subjects,
             favorites,
@@ -298,8 +299,8 @@ class Profile extends React.Component {
                         end={availability.end}
                         is_edit={is_edit}
                         handleRemoveSchedule={this.handleRemoveSchedule}
-                        handleEditStart={this.handleEditStart}
-                        handleEditEnd={this.handleEditEnd}
+                        handleEditStart={this.handleEditStartTime}
+                        handleEditEnd={this.handleEditEndTime}
                         handleEditDate={this.handleEditDate}
                     />
                 </div>
@@ -519,6 +520,7 @@ class Profile extends React.Component {
                                             float: 'right',
                                             margin: '5px'
                                         }}
+                                        disabled={invalid}
                                         onClick={this.handleEdit}
                                     >
                                         {button_text}

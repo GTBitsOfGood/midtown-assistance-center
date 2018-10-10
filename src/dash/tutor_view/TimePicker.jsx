@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { HelpBlock } from 'react-bootstrap';
 
 class TimePicker extends React.Component {
     constructor(props) {
@@ -14,13 +15,19 @@ class TimePicker extends React.Component {
     }
 
     handleStartChange(event) {
-        const { handleEditStart, index } = this.props;
-        handleEditStart(index, event.target.value);
+        const { handleEditStart, index, end } = this.props;
+        const { value } = event.target;
+        const invalid = value >= end;
+        this.setState({ invalid });
+        handleEditStart(index, value, invalid);
     }
 
     handleEndChange(event) {
-        const { handleEditEnd, index } = this.props;
-        handleEditEnd(index, event.target.value);
+        const { handleEditEnd, index, start } = this.props;
+        const { value } = event.target;
+        const invalid = value <= start;
+        this.setState({ invalid });
+        handleEditEnd(index, value, invalid);
     }
 
     handleDateChange(event) {
@@ -36,59 +43,68 @@ class TimePicker extends React.Component {
 
     render() {
         const { date, is_edit, start, end, key } = this.props;
-        const { show } = this.state;
+        const { show, invalid } = this.state;
+        const invalidTimesError = invalid ? (
+            <div className="text-danger">
+                Start Time must be before End Time.
+            </div>
+        ) : null;
+
         const renData = (
-            <div className="row input-group">
-                <span className="col-md-4">
-                    <label>Day:</label>
-                    <select
-                        className="time-input input"
-                        defaultValue={date}
-                        value={date}
-                        onChange={this.handleDateChange}
-                        disabled={!is_edit}
-                    >
-                        <option value="Sunday">Sunday</option>
-                        <option value="Monday">Monday</option>
-                        <option value="Tuesday">Tuesday</option>
-                        <option value="Wednesday">Wednesday</option>
-                        <option value="Thursday">Thursday</option>
-                        <option value="Friday">Friday</option>
-                        <option value="Saturday">Saturday</option>
-                    </select>
-                </span>
-                <span className="time-pick col-md-3">
-                    <label>Start Time: </label>
-                    <input
-                        className="time-input input"
-                        type="time"
-                        value={start}
-                        onChange={this.handleStartChange}
-                        disabled={!is_edit}
-                    />
-                </span>
-                <span className="time-pick col-md-3">
-                    <label>End Time: </label>
-                    <input
-                        className="time-input input"
-                        type="time"
-                        value={end}
-                        onChange={this.handleEndChange}
-                        disabled={!is_edit}
-                    />
-                </span>
-                <span className="col-md-2">
-                    <label className="white">:</label>
-                    <button
-                        type="button"
-                        value={key}
-                        className="btn btn-danger btn-sm time-button"
-                        onClick={this.handleRemoveClick}
-                        disabled={!is_edit}
-                    >
-                        <span className="glyphicon glyphicon-remove" />
-                    </button>
-                </span>
+            <div>
+                <div className="row input-group">
+                    <span className="col-md-4">
+                        <label>Day:</label>
+                        <select
+                            className="time-input input"
+                            defaultValue={date}
+                            value={date}
+                            onChange={this.handleDateChange}
+                            disabled={!is_edit}
+                        >
+                            <option value="Sunday">Sunday</option>
+                            <option value="Monday">Monday</option>
+                            <option value="Tuesday">Tuesday</option>
+                            <option value="Wednesday">Wednesday</option>
+                            <option value="Thursday">Thursday</option>
+                            <option value="Friday">Friday</option>
+                            <option value="Saturday">Saturday</option>
+                        </select>
+                    </span>
+                    <span className="time-pick col-md-3">
+                        <label>Start Time: </label>
+                        <input
+                            className="time-input input"
+                            type="time"
+                            value={start}
+                            onChange={this.handleStartChange}
+                            disabled={!is_edit}
+                        />
+                    </span>
+                    <span className="time-pick col-md-3">
+                        <label>End Time: </label>
+                        <input
+                            className="time-input input"
+                            type="time"
+                            value={end}
+                            onChange={this.handleEndChange}
+                            disabled={!is_edit}
+                        />
+                    </span>
+                    <span className="col-md-2">
+                        <label className="white">:</label>
+                        <button
+                            type="button"
+                            value={key}
+                            className="btn btn-danger btn-sm time-button"
+                            onClick={this.handleRemoveClick}
+                            disabled={!is_edit}
+                        >
+                            <span className="glyphicon glyphicon-remove" />
+                        </button>
+                    </span>
+                </div>
+                {invalidTimesError}
             </div>
         );
         return show ? renData : null;
