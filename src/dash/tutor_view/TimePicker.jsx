@@ -18,14 +18,14 @@ class TimePicker extends React.Component {
         const { handleEditStart, index, end } = this.props;
         const { value } = event.target;
         if (value >= end) {
-            this.setState({ invalidStartTime: true }, () => {
-                const { invalidStartTime } = this.state;
-                handleEditStart(index, value, invalidStartTime);
+            this.setState({ invalid: true }, () => {
+                const { invalid } = this.state;
+                handleEditStart(index, value, invalid);
             });
         } else {
-            this.setState({ invalidStartTime: false }, () => {
-                const { invalidStartTime } = this.state;
-                handleEditStart(index, value, invalidStartTime);
+            this.setState({ invalid: false }, () => {
+                const { invalid } = this.state;
+                handleEditStart(index, value, invalid);
             });
         }
     }
@@ -34,14 +34,14 @@ class TimePicker extends React.Component {
         const { handleEditEnd, index, start } = this.props;
         const { value } = event.target;
         if (value <= start) {
-            this.setState({ invalidEndTime: true }, () => {
-                const { invalidEndTime } = this.state;
-                handleEditEnd(index, value, invalidEndTime);
+            this.setState({ invalid: true }, () => {
+                const { invalid } = this.state;
+                handleEditEnd(index, value, invalid);
             });
         } else {
-            this.setState({ invalidEndTime: false }, () => {
-                const { invalidEndTime } = this.state;
-                handleEditEnd(index, value, invalidEndTime);
+            this.setState({ invalid: false }, () => {
+                const { invalid } = this.state;
+                handleEditEnd(index, value, invalid);
             });
         }
     }
@@ -59,13 +59,12 @@ class TimePicker extends React.Component {
 
     render() {
         const { date, is_edit, start, end, key } = this.props;
-        const { show, invalidStartTime, invalidEndTime } = this.state;
-        const invalidTimesError = () =>
-            invalidStartTime || invalidEndTime ? (
-                <div className="text-danger">
-                    Start Time must be before End Time.
-                </div>
-            ) : null;
+        const { show, invalid } = this.state;
+        const invalidTimesError = invalid ? (
+            <div className="text-danger">
+                Start Time must be before End Time.
+            </div>
+        ) : null;
 
         const renData = (
             <div>
@@ -121,7 +120,7 @@ class TimePicker extends React.Component {
                         </button>
                     </span>
                 </div>
-                {invalidTimesError()}
+                {invalidTimesError}
             </div>
         );
         return show ? renData : null;
