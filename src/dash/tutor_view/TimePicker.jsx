@@ -17,33 +17,17 @@ class TimePicker extends React.Component {
     handleStartChange(event) {
         const { handleEditStart, index, end } = this.props;
         const { value } = event.target;
-        if (value >= end) {
-            this.setState({ invalid: true }, () => {
-                const { invalid } = this.state;
-                handleEditStart(index, value, invalid);
-            });
-        } else {
-            this.setState({ invalid: false }, () => {
-                const { invalid } = this.state;
-                handleEditStart(index, value, invalid);
-            });
-        }
+        const invalid = value >= end;
+        this.setState({ invalid });
+        handleEditStart(index, value, invalid);
     }
 
     handleEndChange(event) {
         const { handleEditEnd, index, start } = this.props;
         const { value } = event.target;
-        if (value <= start) {
-            this.setState({ invalid: true }, () => {
-                const { invalid } = this.state;
-                handleEditEnd(index, value, invalid);
-            });
-        } else {
-            this.setState({ invalid: false }, () => {
-                const { invalid } = this.state;
-                handleEditEnd(index, value, invalid);
-            });
-        }
+        const invalid = value <= start;
+        this.setState({ invalid });
+        handleEditEnd(index, value, invalid);
     }
 
     handleDateChange(event) {
