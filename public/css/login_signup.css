@@ -199,6 +199,17 @@ option.signup-select-option {
     border-bottom: 0;
 }
 
+.form-tooltip:hover:after {
+    content: attr(title);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background: var(--black);
+    border-radius: 3px;
+    padding: 3px;
+    z-index: 90;
+}
+
 .login-form .login-button {
     margin-bottom: 5%;
 }

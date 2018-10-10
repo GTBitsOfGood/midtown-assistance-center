@@ -334,12 +334,9 @@ class StudentSignUpForm extends React.Component {
                         className="input-lg col-xs-10 col-xs-offset-1"
                         placeholder="Classroom Access Code"
                     />
-                    <Link to="foobar">
-                        {/*TODO: Add a tooltip or link to a page explaining 
-                          the access code (what it looks like, how to get one,
-                          etc. )*/}
-                        <small>What is this?</small>
-                    </Link>
+                    <a href="#" title="This is a unique code that tells us what classroom you're a part of. If you don't know what to enter for this, please ask your teacher to provide it." className="form-tooltip">
+                        <small title="">What is this?</small>
+                    </a>
                 </div>
                 <div className="row col-xs-12">
                     <select
