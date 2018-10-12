@@ -1,27 +1,53 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios/index';
 
 class TutorModal extends React.Component {
     constructor(props) {
         super(props);
-        this.initTutorModal = this.initTutorModal.bind(this);
-        const init = this.initTutorModal();
+
+        const { subjects, session, username } = props;
+
         this.state = {
-            approval: init.approval,
+            approval: 'new',
             first_star: false,
             second_star: false,
             third_star: false,
             fourth_star: false,
             fifth_star: false,
-            rating: init.rating,
+            rating: 0,
             satisfaction: '',
             error_message: 'hide',
-            comment: init.comment,
-            request: init.request,
-            topic: init.topic,
-            rejection_reason: init.rejection_reason
+            comment: '',
+            request: '',
+            topic: subjects[0] ? subjects[0].subject : '',
+            rejection_reason: '',
         };
+
+        if (session) {
+            session.join_requests.forEach(join_request => {
+                if (join_request.student_id === username) {
+                    if (join_request.status === 'pending') {
+                        this.state.request = join_request.student_comment;
+                        this.state.topic = join_request.topic;
+                    } else if (join_request.status === 'rejected') {
+                        this.state.rejection_reason = join_request.tutor_comment;
+                    }
+                    // another possibility: status == 'approved'
+                    this.state.approval = join_request.status;
+                }
+            });
+
+            session.students_attended.forEach(student_attended => {
+                if (student_attended.student_id === username) {
+                    this.state.approval = 'in_session';
+                    this.state.rating = student_attended.student_rating;
+                    this.state.comment = student_attended.student_comment;
+                }
+            });
+        }
+
         this.changeStar = this.changeStar.bind(this);
         this.setRating = this.setRating.bind(this);
         this.changeStarOut = this.changeStarOut.bind(this);
@@ -177,58 +203,11 @@ class TutorModal extends React.Component {
         }
     }
 
-    initTutorModal() {
-        const { subjects, session, username } = this.props;
-        let approval = 'new';
-        let join_request_comment = '';
-        let topic = subjects[0]
-            ? subjects[0].subject
-            : '';
-        let rejection_reason = '';
-        let rating = 0;
-        let comment = '';
-        // TODO
-        // api.js /onlineTutors getSessions get sessions then append it to 
-        // tutor_sessions is not updated with TutorSession when refreshed
-
-        if (session) {
-            session.join_requests.forEach(join_request => {
-                if (join_request.student_id === username) {
-                    if (join_request.status === 'pending') {
-                        approval = 'pending';
-                        join_request_comment = join_request.student_comment;
-                        topic = join_request.topic;
-                    } else if (join_request.status === 'rejected') {
-                        approval = 'rejected';
-                        rejection_reason = join_request.tutor_comment;
-                    } else if (join_request.status === 'approved') {
-                        approval = 'approved';
-                    }
-                }
-            });
-
-            session.students_attended.forEach(student_attended => {
-                if (student_attended.student_id === username) {
-                    approval = 'in_session';
-                    rating = student_attended.student_rating;
-                    comment = student_attended.student_comment;
-                }
-            });
-        }
-        return {
-            approval,
-            request: join_request_comment,
-            topic,
-            rejection_reason,
-            rating,
-            comment
-        };
-    }
-
     handleGeneralChange(e) {
         this.setState({ [e.target.name]: e.target.value });
     }
 
+    // eslint-disable-next-line class-methods-use-this
     handleCloseModal() {
         $('.modal').modal('hide');
     }
@@ -388,9 +367,7 @@ class TutorModal extends React.Component {
         ));
 
         socket.on(
-            'student-session-update-' +
-                (session ? session.eventId : 'unused') +
-                username,
+            `student-session-update-${session ? session.eventId : 'unused'}${username}`,
             data => {
                 console.log('Session update!');
                 console.log(data);
@@ -424,9 +401,7 @@ class TutorModal extends React.Component {
                     How was your tutoring session with {firstName}?
                 </h4>
                 <h5
-                    className={
-                        'text-uppercase modal-error-' + error_message
-                    }
+                    className={`text-uppercase modal-error-${error_message}`}
                 >
                     Rating must be nonzero
                 </h5>
@@ -602,10 +577,10 @@ class TutorModal extends React.Component {
             <div>
                 <div
                     className="modal"
-                    id={'Modal_' + firstName}
+                    id={`Modal_${firstName}`}
                     tabIndex="1000"
                     role="dialog"
-                    aria-labelledby={'#Modal_' + firstName + 'Label'}
+                    aria-labelledby={`#Modal_${firstName}Label`}
                     aria-hidden="true"
                     autoFocus
                 >
@@ -622,7 +597,7 @@ class TutorModal extends React.Component {
                                 </h4>
                             </div>
                             <div className="modal-body text-center">
-                                <div id={'ModalBody_' + firstName}>
+                                <div id={`ModalBody_${firstName}`}>
                                     {resHtml}
                                 </div>
                             </div>
@@ -652,17 +627,23 @@ class TutorModal extends React.Component {
     }
 }
 
+TutorModal.propTypes = {
+    subjects: PropTypes.array.isRequired,
+    session: PropTypes.object.isRequired,
+    username: PropTypes.string.isRequired,
+    socket: PropTypes.object.isRequired,
+    updateTutors: PropTypes.func.isRequired,
+    favorites: PropTypes.array.isRequired,
+    firstName: PropTypes.string.isRequired,
+};
+
 const mapStateToProps = state => ({
     studentView: state.studentView
 });
 
-const mapDispatchToProps = dispatch => ({
-    // getOnlineTutors: (searchType, subject, time) => dispatch(getOnlineTutors(searchType, subject, time)), 
-});
-
 const TutorReviewModal = connect(
     mapStateToProps,
-    mapDispatchToProps
+    null
 )(TutorModal);
 
 export default TutorReviewModal;
