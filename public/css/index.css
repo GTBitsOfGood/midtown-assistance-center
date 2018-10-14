@@ -166,13 +166,12 @@ body {
     border-left: 1px solid var(--tutorBorderColor) !important;
 }
 
-.tutor-panel-heading {
-    border-radius: 0 !important;
-    -webkit-border-radius: 0 !important;
-    -moz-border-radius: 0 !important;
-    border-radius: 0 !important;
+.tutor-panel > .tutor-panel-heading {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
     padding: 1%;
-    border-bottom: 1px solid var(--tutorBorderColor) !important;
+    border-bottom: 1px solid var(--tutorBorderColor);
 }
 
 .tutor-panel-heading:hover {
