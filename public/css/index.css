@@ -292,6 +292,9 @@ body {
 .clear-search {
     display: inline-block;
     color: var(--gray);
+    border: 1px solid var(--gray);
+    border-radius: 4px;
+    padding: 2px;
 }
 
 .clear-search h4 {
@@ -300,6 +303,7 @@ body {
 
 .clear-search:hover {
     color: var(--gold);
+    border-color: var(--gold);
 }
 
 .search-list-header {
