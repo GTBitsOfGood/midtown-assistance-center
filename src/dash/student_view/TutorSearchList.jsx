@@ -36,7 +36,7 @@ class TutorList extends React.Component {
                 </h4>
                 <span>
                     <a className="clear-search" href="/dash">
-                        <h4>Clear Search</h4>
+                        <h4><i className="glyphicon glyphicon-remove"></i>Clear Search</h4>
                     </a>
                 </span>
             </div>

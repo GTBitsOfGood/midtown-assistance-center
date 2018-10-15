@@ -46,6 +46,7 @@ class TutorSearchResult extends React.Component {
         //this.props.socket.emit('student-join', {'session':this.props.data.session.eventId, 'student': this.props.username});
     }
 
+
     render() {
         let subjects = this.props.data.subjects.map((subject, num) => {
             return (
@@ -60,44 +61,27 @@ class TutorSearchResult extends React.Component {
         let favorites = this.props.data.favorites.map((fav, num) => {
             return <Subject is_favorite={true} subject={fav.favorite} />;
         });
-        let stars = [];
         let date = new Date(this.props.data.join_date).toLocaleDateString();
-        for (let x = 0; x < this.state.fullStars; x++) {
-            stars.push(
-                <span>
-                    <img
-                        className="star"
-                        src="/images/full-star.png"
-                        width="25"
-                        height="25"
-                    />
-                </span>
-            );
+        let stars = [];
+        function addRatingStars(numStars, starImageString) {
+            for (let x = 0; x < numStars; x++) {
+                stars.push(
+                    <span>
+                        <img
+                            className="star"
+                            src={starImageString}
+                            width="25"
+                            height="25"
+                            alt=""
+                        />
+                    </span>
+                );
+            }
         }
-        for (let y = 0; y < this.state.halfStars; y++) {
-            stars.push(
-                <span>
-                    <img
-                        className="star"
-                        src="/images/half-star.png"
-                        width="25"
-                        height="25"
-                    />
-                </span>
-            );
-        }
-        for (let z = 0; z < this.state.emptyStars; z++) {
-            stars.push(
-                <span>
-                    <img
-                        className="star"
-                        src="/images/empty-star.png"
-                        width="25"
-                        height="25"
-                    />
-                </span>
-            );
-        }
+        addRatingStars(this.state.fullStars, "/images/full-star.png");
+        addRatingStars(this.state.halfStars, "/images/half-star.png");
+        addRatingStars(this.state.emptyStars, "/images/empty-star.png");
+        
         return (
             <div>
                 <div className="panel panel-default tutor-panel">
