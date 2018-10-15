@@ -154,10 +154,10 @@ body {
 
 .tutor-panel {
     border-radius: 0;
-    -webkit-border-radius: 0 !important;
-    -moz-border-radius: 0 !important;
-    border-radius: 0 !important;
-    border: 0 !important;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    border: 0;
 }
 
 .tutors-list {
@@ -172,6 +172,7 @@ body {
     border-radius: 0;
     padding: 1%;
     border-bottom: 1px solid var(--tutorBorderColor);
+    cursor: pointer;
 }
 
 .tutor-panel-heading:hover {
@@ -270,9 +271,6 @@ body {
     position: static;
 }
 
-.review-modal-dialog {
-}
-
 .review-modal {
     border-radius: 0;
     border-top: 2px solid var(--gold);
@@ -304,10 +302,6 @@ body {
 .clear-search:hover {
     color: var(--gold);
     border-color: var(--gold);
-}
-
-.search-list-header {
-    /*padding: 5px;*/
 }
 
 .online-img {
