@@ -10,25 +10,21 @@ const Feedback = props => {
      * @returns {HTML}
      */
     const { user } = props;
-    const renSessions = [];
     const sessions = !user.sessions.sessions ? [] : user.sessions.sessions;
     let keyId = 0;
-    if (sessions) {
-        sessions.forEach((session, index) => {
-            sessions[index].students_attended.forEach(student_review => {
-                if (student_review.student_rating !== null) {
-                    renSessions.unshift(
-                        <Review
-                            key={keyId++}
-                            time={student_review.time}
-                            rating={student_review.student_rating}
-                            comment={student_review.student_comment}
-                        />
-                    );
-                }
-            });
-        });
-    }
+    const reviews = sessions.reduce((curList, session) =>
+        curList.concat(session.students_attended.filter(student_review => student_review !== null))
+        , []);
+    reviews.sort((a, b) => new Date(b.time) - new Date(a.time));
+
+    const renSessions = reviews.map(student_review =>
+        (<Review
+            key={keyId++}
+            time={student_review.time}
+            rating={student_review.student_rating}
+            comment={student_review.student_comment}
+        />)
+    );
 
     return (
         <div className="row animated fadeInRight feedback">
