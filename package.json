@@ -56,6 +56,7 @@
         "moment": "^2.22.1",
         "mongodb": "^2.2.31",
         "mongoose": "^4.12.0",
+        "nodemon": "^1.18.4",
         "passport": "^0.4.0",
         "passport-local": "^1.0.0",
         "prop-types": "^15.6.2",
@@ -101,7 +102,6 @@
         "husky": "^0.14.3",
         "image-loader": "0.0.1",
         "lint-staged": "^7.2.2",
-        "nodemon": "^1.18.4",
         "prettier": "^1.14.2",
         "react-bootstrap": "^0.31.3",
         "webpack": "^3.8.1"
