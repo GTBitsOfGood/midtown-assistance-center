@@ -21,6 +21,9 @@ const AboutUs = () => (
                                 We connect students with college students for
                                 tutoring!
                             </p>
+                            <a href="/home/signup" className="get-started-link">
+                                Get Started Now &gt;
+                            </a>
                         </div>
                     </div>
                 </div>
