@@ -327,19 +327,18 @@ module.exports = {
      * @param username the id of the tutor
      * @param callback
      */
-    getSessionsByTutor: function(username, callback) {
-        TutorSession.find({ '_id.tutor_id': username }, function(err, docs) {
+    getSessionsByTutor: (username, callback) => {
+        TutorSession.find({ '_id.tutor_id': username }, (err, docs) => {
             if (err) {
                 console.log(err);
                 callback(err);
                 return;
-            } else {
-                let new_docs = JSON.parse(JSON.stringify(docs));
-                for (let doc in docs) {
-                    new_docs[doc].rating = docs[doc].getRating();
-                }
-                callback(null, new_docs);
             }
+            const new_docs = [ ...docs ];
+            docs.forEach((doc, ind) => {
+                new_docs[ind].rating = docs[ind].getRating();
+            });
+            callback(null, new_docs);
         });
     },
 

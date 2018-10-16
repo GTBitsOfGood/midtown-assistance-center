@@ -9,24 +9,6 @@ export function fetchUser() {
     };
 }
 
-export function fetchUserAndInfo() {
-    return (dispatch, getState) => {
-        return dispatch(fetchUser()).then(() => {
-            const user = getState().user;
-            if (user.type === types.typeTutor) {
-                return dispatch(setTutorOnline(user, { online: true }))
-                    .then(dispatch(getStat(user)))
-                    .then(dispatch(getSessions(user)))
-                    .then(dispatch(getSubjects()));
-            } else if (user.type === types.typeStudent) {
-                // TODO: something
-            } else if (user.type === types.typeAdmin) {
-                // TODO: something
-            }
-        });
-    };
-}
-
 export function setTutorOnline(user, status) {
     return dispatch => {
         return dispatch({
@@ -73,6 +55,24 @@ export function getSessions(user) {
     return {
         type: types.getSessions,
         payload: axios.post('/api/getTutorSessions', { username: user._id })
+    };
+}
+
+export function fetchUserAndInfo() {
+    return (dispatch, getState) => {
+        return dispatch(fetchUser()).then(() => {
+            const user = getState().user;
+            if (user.type === types.typeTutor) {
+                return dispatch(setTutorOnline(user, { online: true }))
+                    .then(dispatch(getStat(user)))
+                    .then(dispatch(getSessions(user)))
+                    .then(dispatch(getSubjects()));
+            } else if (user.type === types.typeStudent) {
+                // TODO: something
+            } else if (user.type === types.typeAdmin) {
+                // TODO: something
+            }
+        });
     };
 }
 

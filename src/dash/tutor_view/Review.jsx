@@ -52,11 +52,8 @@ Review.propTypes = {
     comment: PropTypes.string.isRequired
 };
 
-const mapStateToProps = state => ({
-    state
-});
 
 export default connect(
-    mapStateToProps,
+    null,
     null
 )(Review);

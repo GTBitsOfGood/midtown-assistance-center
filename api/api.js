@@ -569,10 +569,7 @@ app.post('/getTutorSession', (req, res) => {
 
 // get all tutoring sessions for a tutor
 app.post('/getTutorSessions', (req, res) => {
-    data_access.tutor_sessions.getSessionsByTutor(req.body.username, function(
-        err,
-        response
-    ) {
+    data_access.tutor_sessions.getSessionsByTutor(req.body.username, (err, response) => {
         if (err) {
             console.log(err);
             res.json({
