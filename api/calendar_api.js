@@ -445,7 +445,7 @@ app.post('/endCalendarEvent', function(req, res) {
                         res.send({
                             success: false,
                             payload: null,
-                            error: error
+                            error: err
                         });
                         return;
                     }

@@ -1,71 +1,59 @@
 import React from 'react';
-import TutorReviewModal from './TutorReviewModal.jsx';
-import Subject from './Subject.jsx';
-import axios from 'axios';
-import Availability from './Availability.jsx';
-import socketIOClient from 'socket.io-client';
+import PropTypes from 'prop-types';
+// import socketIOClient from 'socket.io-client';
+import TutorReviewModal from './TutorReviewModal';
+import Subject from './Subject';
+import Availability from './Availability';
 
 class TutorSearchResult extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            fullStars: 0,
-            halfStars: 0,
-            emptyStars: 0
-        };
-
-        this.updateRating = this.updateRating.bind(this);
-        this.onHangoutsButton = this.onHangoutsButton.bind(this);
-    }
-
-    componentDidMount() {
-        this.updateRating();
-    }
-
-    updateRating() {
-        this.setState({
+            fullStars: Math.floor(props.tutor.rating),
             halfStars: Math.floor(
-                (this.props.data.rating - Math.floor(this.props.data.rating)) /
+                (props.tutor.rating - Math.floor(props.tutor.rating)) /
                     0.5
             ),
-            emptyStars:
-                5 -
-                Math.floor(this.props.data.rating) -
+            emptyStars: 5 -
+                Math.floor(props.tutor.rating) -
                 Math.floor(
-                    (this.props.data.rating -
-                        Math.floor(this.props.data.rating)) /
+                    (props.tutor.rating -
+                        Math.floor(props.tutor.rating)) /
                         0.5
                 ),
-            fullStars: Math.floor(this.props.data.rating)
-        });
+        };
+
+        // this.onHangoutsButton = this.onHangoutsButton.bind(this);
     }
 
-    onHangoutsButton() {
-        this.setState({ hangoutsLink: this.props.data.session.hangouts_link });
-        //window.open(this.props.data.session.hangouts_link, '_blank');
-        //this.props.socket.emit('student-join', {'session':this.props.data.session.eventId, 'student': this.props.username});
-    }
+    // onHangoutsButton() {
+    //     this.setState({ hangoutsLink: this.props.tutor.session.hangouts_link });
+    //     //window.open(this.props.tutor.session.hangouts_link, '_blank');
+    //     //this.props.socket.emit('student-join', {'session':this.props.tutor.session.eventId, 'student': this.props.username});
+    // }
 
     render() {
-        let subjects = this.props.data.subjects.map((subject, num) => {
-            return (
-                <Subject
-                    is_favorite={false}
-                    subject={subject.subject}
-                    start_grade={subject.start_grade}
-                    end_grade={subject.end_grade}
-                />
-            );
-        });
-        let favorites = this.props.data.favorites.map((fav, num) => {
-            return <Subject is_favorite={true} subject={fav.favorite} />;
-        });
-        let stars = [];
-        let date = new Date(this.props.data.join_date).toLocaleDateString();
-        for (let x = 0; x < this.state.fullStars; x++) {
+        const { tutor, id, updateTutors, socket, username } = this.props;
+        const { fullStars, halfStars, emptyStars } = this.state;
+        const subjects = tutor.subjects.map(subject => (
+            <Subject
+                is_favorite={false}
+                subject={subject.subject}
+                start_grade={subject.start_grade}
+                end_grade={subject.end_grade}
+            />
+        ));
+        
+        const favorites = tutor.favorites.map(fav => (
+            <Subject is_favorite subject={fav.favorite} />
+        ));
+        const stars = [];
+        const date = new Date(tutor.join_date).toLocaleDateString();
+        for (let x = 0; x < fullStars; x++) {
             stars.push(
                 <span>
                     <img
+                        alt="full star"
                         className="star"
                         src="/images/full-star.png"
                         width="25"
@@ -74,10 +62,11 @@ class TutorSearchResult extends React.Component {
                 </span>
             );
         }
-        for (let y = 0; y < this.state.halfStars; y++) {
+        for (let y = 0; y < halfStars; y++) {
             stars.push(
                 <span>
                     <img
+                        alt="half star"
                         className="star"
                         src="/images/half-star.png"
                         width="25"
@@ -86,10 +75,11 @@ class TutorSearchResult extends React.Component {
                 </span>
             );
         }
-        for (let z = 0; z < this.state.emptyStars; z++) {
+        for (let z = 0; z < emptyStars; z++) {
             stars.push(
                 <span>
                     <img
+                        alt="empty star"
                         className="star"
                         src="/images/empty-star.png"
                         width="25"
@@ -104,32 +94,33 @@ class TutorSearchResult extends React.Component {
                     <div className="panel-heading tutor-panel-heading"
                         data-toggle="collapse"
                         data-parent="#accordion"
-                        data-target={`#collapse${this.props.id}`}
+                        data-target={`#collapse${id}`}
 
                     >
                         <div className="col-md-2">
                             <img
+                                alt="tutor profile pic"
                                 className="tutor-profile-pic img-circle"
-                                src={this.props.data.profile_picture}j
+                                src={tutor.profile_picture}
                                 height="125"
                                 width="125"
                             />
                         </div>
                         <div className="">
-                            <a data-toggle="collapse"
-                               className="tutor-name"
-                               data-parent="#accordion"
-                               href={`#collapse${this.props.id}`}
+                            <a
+                                data-toggle="collapse"
+                                className="tutor-name"
+                                data-parent="#accordion"
+                                href={`#collapse${id}`}
                             >
                                 <h3 className="">
-                                    {this.props.data.first_name +
-                                        ' ' +
-                                        this.props.data.last_name}
+                                    {`${tutor.first_name} ${tutor.last_name}`}
                                     <span className="online-img">
                                         <img
+                                            alt="online/offline"
                                             className="online-ic"
                                             src={
-                                                this.props.data.online
+                                                tutor.online
                                                     ? '/images/status-online.png'
                                                     : '/images/status-offline.png'
                                             }
@@ -150,7 +141,7 @@ class TutorSearchResult extends React.Component {
                         </div>
                     </div>
                     <div
-                        id={'collapse' + this.props.id}
+                        id={`collapse${id}`}
                         className="panel-collapse collapse"
                     >
                         <div className="panel-body tutor-panel-body">
@@ -172,19 +163,17 @@ class TutorSearchResult extends React.Component {
                                         <span className="details-ic glyphicon glyphicon-star" />
                                         <strong>
                                             {' '}
-                                            {Number(this.props.data.rating).toFixed(2)}
+                                            {Number(tutor.rating).toFixed(2)}
                                         </strong>{' '}
                                         rating out of{' '}
-                                        {this.props.data.num_ratings} total
+                                        {tutor.num_ratings} total
                                         ratings
                                     </h4>
                                     <h4 className="availability-info">
                                         <strong>Availability</strong>
                                     </h4>
                                     <Availability
-                                        availability={
-                                            this.props.data.availability
-                                        }
+                                        availability={tutor.availability}
                                     />
                                 </div>
                                 <div className="col-md-6">
@@ -192,7 +181,7 @@ class TutorSearchResult extends React.Component {
                                         <strong>Bio</strong>
                                     </h4>
                                     <h4 className="bio-text lighter-text">
-                                        {this.props.data.bio}
+                                        {tutor.bio}
                                     </h4>
                                 </div>
                             </div>
@@ -201,32 +190,39 @@ class TutorSearchResult extends React.Component {
                                     className="btn btn-md btn-default mac_button"
                                     type="button"
                                     data-toggle="modal"
-                                    data-target={
-                                        '#Modal_' + this.props.data.first_name
-                                    }
+                                    data-target={`#Modal_${tutor.first_name}`}
                                     data-backdrop="static"
-                                    disabled={!this.props.data.session}
-                                    onClick={this.onHangoutsButton}
+                                    disabled={!tutor.session}
                                 >
-                                    {this.props.data.session
+                                    {tutor.session
                                         ? 'Request to Join Session'
                                         : 'Session Not Active'}
                                 </button>
                             </div>
                         </div>
                     </div>
+                    <TutorReviewModal
+                        key={`modal-${id}`}
+                        updateTutors={updateTutors}
+                        socket={socket}
+                        username={username}
+                        subjects={tutor.subjects}
+                        favorites={tutor.favorites}
+                        firstName={tutor.first_name}
+                        session={tutor.session}
+                    />
                 </div>
-                <TutorReviewModal
-                    updateTutors={this.props.updateTutors}
-                    socket={this.props.socket}
-                    username={this.props.username}
-                    subjects={this.props.data.subjects}
-                    favorites={this.props.data.favorites}
-                    firstName={this.props.data.first_name}
-                    session={this.props.data.session}
-                />
+
             </div>
         );
     }
 }
+
+TutorSearchResult.propTypes = {
+    tutor: PropTypes.object.isRequired,
+    id: PropTypes.number.isRequired,
+    updateTutors: PropTypes.func.isRequired,
+    socket: PropTypes.object.isRequired,
+    username: PropTypes.string.isRequired
+};
 export default TutorSearchResult;
