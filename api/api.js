@@ -39,41 +39,32 @@ app.get('/getRecentSessions', (req, res) => {
 });
 
 app.get('/onlineTutors', (req, res) => {
-    function addActiveSession(tutor) {
-        let return_tutor = JSON.parse(JSON.stringify(tutor));
-        let getSession = new Promise(function(resolve, reject) {
-            data_access.tutor_sessions.getActiveSession(
-                return_tutor._id,
-                function(err, response) {
-                    if (err) {
-                        reject(err);
-                    } else if (response.length === 0) {
-                        return_tutor.session = undefined;
-                        return_tutor.has_session = false;
-                        resolve(return_tutor);
-                    } else {
-                        return_tutor.session = response[0];
-                        return_tutor.has_session = true;
-                        resolve(return_tutor);
-                    }
-                }
-            );
-        });
-
-        return getSession;
-    }
-
-    function onTutorsFound(err, tutors) {
+    data_access.users.getAllAvailableTutors(req.query.subject, req.query.availability, (err, tutors) => {
         if (err) {
             console.error(err);
             return res.send([]);
         }
-        let tutor_promises = tutors.map(addActiveSession);
+        const tutor_promises = tutors.map(tutor => {
+            const format_tutor = JSON.parse(JSON.stringify(tutor));
+            const getSession = new Promise((resolve, reject) => {
+                data_access.tutor_sessions.getActiveSession(tutor._id, (err, response) => {
+                    if (err) {
+                        reject(err);
+                    } else if (response.length === 0) {
+                        resolve({ ...format_tutor, session: undefined, has_session: false });
+                    } else {
+                        resolve({ ...format_tutor, session: response[0], has_session: true });
+                    }
+                });
+            });
+
+            return getSession;
+        });
         Promise.all(tutor_promises).then(
-            function(values) {
+            (values) => {
                 res.send(values);
             },
-            function(err) {
+            (err) => {
                 console.log(err);
                 res.send({
                     success: false,
@@ -81,111 +72,84 @@ app.get('/onlineTutors', (req, res) => {
                 });
             }
         );
-        return;
-    }
-
-    data_access.users.getAllAvailableTutors(
-        req.query.subject,
-        req.query.availability,
-        onTutorsFound
-    );
+        return null;
+    });
 });
 
 // register a new tutor, ensure that the tutor username and email don't already exist
 app.post('/registerTutor', (req, res) => {
     // Add this information to the database
     const password = encryptPassword(req.body.password);
-    data_access.users.checkIfUsernameIsTaken(req.body.username, function(
-        err,
-        resultUsername
-    ) {
+    data_access.users.checkIfUsernameIsTaken(req.body.username, (err,resultUsername) => {
         if (err) {
             console.log(err);
+            return res.send(400, { error: err });
         }
-        if (!resultUsername) {
-            console.log(resultUsername);
-            data_access.users.checkIfEmailIsTaken(req.body.email, function(
-                err,
-                resultEmail
-            ) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    if (!resultEmail) {
-                        let confirm_key = Math.random()
-                            .toString(36)
-                            .substring(7);
-                        let endpoint =
-                            req.headers.host +
-                            (req.headers.port ? ':' + req.headers.port : '');
-                        data_access.users.createTutor(
-                            {
-                                first_name: req.body.firstName,
-                                last_name: req.body.lastName,
-                                email: req.body.email,
-                                gmail: req.body.gmail,
-                                _id: req.body.username,
-                                password: password,
-                                profile_picture: '/images/default_user_img.png',
-                                join_date: Date.now(),
-                                status: true,
-                                availability: req.body.availability,
-                                approved: false,
-                                confirmed: false,
-                                confirm_key: confirm_key
-                            },
-                            function(err, user_instance) {
-                                if (err) {
-                                    console.log('user instance ' + err);
-
-                                    res.send({
-                                        success: false,
-                                        error_message: 'Did not create tutor'
-                                    });
-                                } else {
-                                    const msg = {
-                                        to: req.body.email,
-                                        from: 'mac@mactutoring.com',
-                                        subject:
-                                            'Confirm your MAC Tutoring account',
-                                        text:
-                                            'Click here to confirm your MAC tutoring account ' +
-                                            endpoint +
-                                            '/api/confirmEmail?confirm_key=' +
-                                            confirm_key +
-                                            '&tutor_id=' +
-                                            req.body.username,
-                                        html:
-                                            'Click here to confirm your MAC tutoring account <strong>' +
-                                            endpoint +
-                                            '/api/confirmEmail?confirm_key=' +
-                                            confirm_key +
-                                            '&tutor_id=' +
-                                            req.body.username +
-                                            '</strong>'
-                                    };
-                                    sgMail.send(msg);
-                                    res.send({
-                                        success: true,
-                                        error_message: null
-                                    });
-                                }
-                            }
-                        );
-                    } else {
-                        res.send({
-                            success: false,
-                            error_message: 'Email already exists'
-                        });
-                    }
-                }
-            });
-        } else {
-            res.send({
+        if (resultUsername) {
+            return res.send({
                 success: false,
                 error_message: 'Username already exists'
             });
         }
+        console.log(resultUsername);
+        data_access.users.checkIfEmailIsTaken(req.body.email, (err, resultEmail) => {
+            if (err) {
+                console.log(err);
+                return res.send(400, {error: err});
+            }
+            if (resultEmail) {
+                return res.send({
+                    success: false,
+                    error_message: 'Email already exists'
+                });
+            }
+            const confirm_key = Math.random()
+                .toString(36)
+                .substring(7);
+            const endpoint =
+                req.headers.host +
+                (req.headers.port ? `:${req.headers.port}` : '');
+            data_access.users.createTutor(
+                {
+                    first_name: req.body.firstName,
+                    last_name: req.body.lastName,
+                    email: req.body.email,
+                    gmail: req.body.gmail,
+                    _id: req.body.username,
+                    password,
+                    profile_picture: '/images/default_user_img.png',
+                    join_date: Date.now(),
+                    status: true,
+                    availability: req.body.availability,
+                    approved: false,
+                    confirmed: false,
+                    confirm_key
+                }, (err, user_instance) => {
+                    if (err) {
+                        console.log('user instance ' + err);
+                        return res.send(400, {
+                            success: false,
+                            error_message: 'Did not create tutor'
+                        });
+                    }
+                    const msg = {
+                        to: req.body.email,
+                        from: 'mac@mactutoring.com',
+                        subject:
+                            'Confirm your MAC Tutoring account',
+                        text:
+                            `Click here to confirm your MAC tutoring account ${endpoint}/api/confirmEmail?confirm_key=${confirm_key}&tutor_id=${req.body.username}`,
+                        html:
+                            `Click here to confirm your MAC tutoring account <strong>${endpoint}/api/confirmEmail?confirm_key=${confirm_key}&tutor_id=${req.body.username}</strong>`
+                    };
+                    sgMail.send(msg);
+                    return res.send({
+                        success: true,
+                        error_message: null
+                    });
+                }
+            );
+        });
     });
 
 });
@@ -198,62 +162,60 @@ app.post('/registerTutor', (req, res) => {
  *             StudentSignUpForm.jsx to see all of the fields.
  */
 app.post('/registerStudent', (req, res) => {
-    //Add this information to the database
+    // Add this information to the database
     const password = encryptPassword(password);
-    data_access.users.checkIfUsernameIsTaken(req.body.username, function(
-        err,
-        resultUsername
-    ) {
+    data_access.users.checkIfUsernameIsTaken(req.body.username, (err,resultUsername) => {
         if (err) {
             console.log(err);
         }
-        if (!resultUsername) {
-            console.log(resultUsername);
-            data_access.users.checkIfEmailIsTaken(req.body.email, function(
-                err,
-                resultEmail
-            ) {
-                if (err) {
-                    console.log(err);
-                } else {
-                    console.log(resultEmail);
-                    if (!resultEmail) {
-                        data_access.users.createStudent(
-                            {
-                                first_name: req.body.firstName,
-                                last_name: req.body.lastName,
-                                email: req.body.email,
-                                _id: req.body.username,
-                                password: password,
-                                join_date: Date.now(),
-                                classroom: req.body.access_code,
-                                grade_level: req.body.grade_level
-                            },
-                            function(err, user_instance) {
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    res.send({
-                                        success: true,
-                                        error_message: null
-                                    });
-                                }
-                            }
-                        );
-                    } else {
-                        res.json({
-                            success: false,
-                            error_message: 'Email already exists'
-                        });
-                    }
-                }
-            });
-        } else {
-            res.json({
+        if (resultUsername) {
+            return res.json({
                 success: false,
                 error_message: 'Username already exists'
             });
+
         }
+        console.log(resultUsername);
+        data_access.users.checkIfEmailIsTaken(req.body.email, function(
+            err,
+            resultEmail
+        ) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(resultEmail);
+                if (!resultEmail) {
+                    data_access.users.createStudent(
+                        {
+                            first_name: req.body.firstName,
+                            last_name: req.body.lastName,
+                            email: req.body.email,
+                            _id: req.body.username,
+                            password: password,
+                            join_date: Date.now(),
+                            classroom: req.body.access_code,
+                            grade_level: req.body.grade_level
+                        },
+                        function(err, user_instance) {
+                            if (err) {
+                                console.log(err);
+                            } else {
+                                res.send({
+                                    success: true,
+                                    error_message: null
+                                });
+                            }
+                        }
+                    );
+                } else {
+                    res.json({
+                        success: false,
+                        error_message: 'Email already exists'
+                    });
+                }
+            }
+        });
+
     });
 });
 
@@ -722,7 +684,6 @@ app.get('/allTutors', (req, res) => {
         }
     });
 });
-
 
 
 export default app;

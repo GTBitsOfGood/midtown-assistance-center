@@ -19,7 +19,9 @@ export function fetchUserAndInfo() {
                     .then(dispatch(getSessions(user)))
                     .then(dispatch(getSubjects()));
             } else if (user.type === types.typeStudent) {
+                // TODO: something
             } else if (user.type === types.typeAdmin) {
+                // TODO: something
             }
         });
     };

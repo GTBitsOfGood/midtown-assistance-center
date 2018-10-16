@@ -5,6 +5,7 @@
  * @fileoverview
  * Data access functions for Tutor Session objects
  */
+import moment from 'moment';
 
 const TutorSession = require('../../models/TutorSession.js');
 const Tutor = require('../../models/Tutor.js');
@@ -535,19 +536,19 @@ module.exports = {
      * @param tutorId the tutor's id
      * @param callback
      */
-    getActiveSession: function(tutorId, callback) {
-        function hasEndTime(session) {
-            return session.end_time === undefined;
-        }
+    getActiveSession: (tutorId, callback) => {
+        const now = moment();
 
-        TutorSession.find({ '_id.tutor_id': tutorId }, function(err, docs) {
+        TutorSession.find({ '_id.tutor_id': tutorId }, (err, docs) => {
             if (err) {
                 console.log(err);
                 callback(err);
-                return;
             } else {
-                docs = docs.filter(hasEndTime);
-                callback(null, docs);
+                callback(null, docs.filter(session => {
+                    const start = moment(session.start_time);
+                    const end = moment(session.expected_end_time);
+                    return now.diff(start) >= 0 && now.diff(end) <= 0;
+                }));
             }
         });
     }
