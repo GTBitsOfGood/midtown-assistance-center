@@ -90,36 +90,33 @@ body {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     border: 0;
-    border-right: 1px solid var(--gray) !important;
+    border-right: 1px solid var(--gray);
 }
 
 .search-btn {
     border-radius: 0;
-    height: 100% !important;
-    -webkit-box-shadow: none !important;
-    -moz-box-shadow: none !important;
-    box-shadow: none !important;
-    margin-left: 0px !important;
+    height: 100%;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    margin-left: 0px;
+    background: white;
 }
 
 .search-btn:hover {
     color: var(--gold);
-    background-color: white;
 }
 
 .search-select {
-    -webkit-border-radius: 0px !important;
+    -webkit-border-radius: 0px;
     -moz-appearance: none;
-    -moz-border-radius: 0px !important;
+    -moz-border-radius: 0px;
     appearance: none;
-    border-radius: 0px !important;
+    border-radius: 0px;
+    background: white;
 }
 
 @media screen and (max-width: 800px) {
-    .search-select {
-        display: none;
-    }
-
     .search-input {
         border-bottom: 1px solid var(--gray);
     }
