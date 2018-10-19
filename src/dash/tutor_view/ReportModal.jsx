@@ -54,8 +54,10 @@ class ReportModal extends React.Component {
                             </div>
                             <div className="modal-body text-center">
                                 <div id={`ModalBody_${rating_id}`}>
-                                    Feedback:
-                                    {time} {comment} {rating}
+                                    Feedback
+                                    <div>Time: {(new Date(time)).toLocaleString('en-US')}</div>
+                                    <div>Comment: {comment}</div>
+                                    <div>Rating: {rating}</div>
                                 </div>
                             </div>
                             <div className="modal-body text-center">
