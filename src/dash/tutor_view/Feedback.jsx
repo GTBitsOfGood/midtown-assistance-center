@@ -23,6 +23,7 @@ const Feedback = props => {
             time={student_review.time}
             rating={student_review.student_rating}
             comment={student_review.student_comment}
+            rating_id={student_review._id}
         />)
     );
 
