@@ -586,6 +586,38 @@ app.post('/getTutorSessions', (req, res) => {
     });
 });
 
+// submit report from tutor about a student
+app.post('/submitTutorReport', (req, res) => {
+    data_access.tutor_sessions.getStudentByRatingId(req.body.rating_id, (err, student_id) => {
+        if (err) {
+            return res.json({
+                success: false,
+                error: err
+            });
+        }
+        const ban = {
+            reporter: req.body.user_id,
+            reporterType: 'tutor',
+            personOfInterest: student_id,
+            explanation: req.body.explanation
+        };
+
+        return data_access.ban.submitTutorReport(ban, (err, response) => {
+            if (err) {
+                console.log(err);
+                return res.json({
+                    success: false,
+                    error: err
+                });
+            }
+            return res.json({
+                success: true,
+                error: null
+            });
+        });
+    });
+});
+
 // get the tutor statistics by username (for now just number of ratings and avg rating)
 app.post('/getTutorStats', (req, res) => {
     data_access.tutor_sessions.getTutorAvgRating(req.body.username, function(

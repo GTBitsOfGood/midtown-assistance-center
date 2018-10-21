@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+
+import submitTutorReport from '../../redux/actions/tutor_actions';
 
 class ReportModal extends React.Component {
 
@@ -20,8 +23,9 @@ class ReportModal extends React.Component {
     }
 
     handleSubmit() {
-
-        this.props;
+        const { submitTutorReport, user_id, rating_id } = this.props;
+        const { explanation } = this.state;
+        submitTutorReport(user_id, rating_id, explanation);
     }
 
     handleGeneral(e) {
@@ -102,7 +106,20 @@ ReportModal.propTypes = {
     rating_id: PropTypes.string.isRequired,
     time: PropTypes.string.isRequired,
     comment: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired
+    rating: PropTypes.number.isRequired,
+    submitTutorReport: PropTypes.func.isRequired,
+    user_id: PropTypes.string.isRequired,
 };
 
-export default ReportModal;
+const mapStateToProps = state => ({
+    user_id: state.user._id,
+});
+
+const mapDispatchToProps = dispatch => ({
+    submitTutorReport: (user_id, rating_id, explanation) => dispatch(submitTutorReport(user_id, rating_id, explanation))
+});
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(ReportModal);

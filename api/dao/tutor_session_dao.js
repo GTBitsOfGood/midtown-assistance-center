@@ -550,5 +550,22 @@ module.exports = {
                 }));
             }
         });
+    },
+
+    /**
+     *
+     */
+    getStudentByRatingId: (rating_id, callback) => {
+        TutorSession.findOne({ 'students_attended': {$elemMatch: {_id: rating_id }}}, (err, session) => {
+            if (err) {
+                console.log(err);
+                callback(err);
+                return;
+            }
+            // need this to convert from Mongoose obj
+            const session_obj = JSON.parse(JSON.stringify(session));
+            const student = session_obj.students_attended.find(ses => ses._id === rating_id).student_id;
+            callback(null, student);
+        });
     }
 };
