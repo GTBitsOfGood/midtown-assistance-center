@@ -45,11 +45,11 @@ class TutorDash extends React.Component {
         }
         return (
             <div className="tutor-dash container col-xs-12">
-                <div className="col-md-6">
-                    <TutorProfile />
-                </div>
                 <div className="col-md-6 upcoming-events-list">
                     {dashDisplay}
+                </div>
+                <div className="col-md-6">
+                    <TutorProfile />
                 </div>
             </div>
         );
