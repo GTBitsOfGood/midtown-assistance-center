@@ -442,6 +442,8 @@ body {
 .tutor-events-header {
     margin-bottom: 2%;
     margin-top: 3%;
+    margin-right: 1%;
+    display:inline-block;
     font-size: 15px;
 }
 
@@ -804,3 +806,5 @@ body {
         opacity: 0.7;
     }
 }
+
+

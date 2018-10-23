@@ -454,6 +454,7 @@ class Profile extends React.Component {
                                                     type="text"
                                                     className="form-control"
                                                     value={bio}
+                                                    maxLength="200"
                                                     onChange={
                                                         this.handleBioChange
                                                     }
