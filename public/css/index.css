@@ -109,10 +109,11 @@ body {
 
 .search-select {
     -webkit-border-radius: 0px;
-    -moz-appearance: none;
     -moz-border-radius: 0px;
-    appearance: none;
     border-radius: 0px;
+    -moz-appearance: none;
+    appearance: none;
+    min-width: 6em;
     background: white;
 }
 
