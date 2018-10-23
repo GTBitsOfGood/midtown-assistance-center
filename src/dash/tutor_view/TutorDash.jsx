@@ -31,9 +31,9 @@ class TutorDash extends React.Component {
             );
         } else if (user.confirmed) {
             dashDisplay = (
-                <h4 className="tutor-approval-msg">
-                    Your profile is awaiting approval. Edit your profile and
-                    check back soon!
+                <h4 className="alert alert-warning tutor-approval-msg">
+                    <i className="glyphicon glyphicon-exclamation-sign tutor-approval-msg-glyph" aria-hidden="true" />
+                    Your profile is awaiting approval. Edit your profile and check back soon!
                 </h4>
             );
         } else {
