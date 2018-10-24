@@ -634,7 +634,6 @@ class TutorModal extends React.Component {
                 </div>
                 <ReportModal
                     tutor_id={tutor_id}
-                    student_id={username}
                 />
             </div>
         );
