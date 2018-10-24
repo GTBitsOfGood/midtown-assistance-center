@@ -26,6 +26,7 @@ class ReportModal extends React.Component {
         const { submitTutorReport, user_id, rating_id } = this.props;
         const { explanation } = this.state;
         submitTutorReport(user_id, rating_id, explanation);
+        $('.modal').modal('hide');
     }
 
     handleGeneral(e) {
