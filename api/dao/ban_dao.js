@@ -1,7 +1,7 @@
 const Ban = require('../../models/Ban');
 
 module.exports = {
-    submitTutorReport: (ban, callback) => {
+    submitReport: (ban, callback) => {
         Ban.create(ban, (err, ban_instance) => {
             if (err) {
                 console.error('Error reporting ban:', err);

@@ -602,7 +602,7 @@ app.post('/submitTutorReportOnFeedback', (req, res) => {
             explanation: req.body.explanation
         };
 
-        return data_access.ban.submitTutorReport(ban, (err, response) => {
+        return data_access.ban.submitReport(ban, (err, response) => {
             if (err) {
                 console.log(err);
                 return res.json(400, {
@@ -627,10 +627,34 @@ app.post('/submitTutorReportInSession', (req, res) => {
         explanation: req.body.explanation
     };
 
-    return data_access.ban.submitTutorReport(ban, (err, response) => {
+    return data_access.ban.submitReport(ban, (err, response) => {
         if (err) {
             console.log(err);
-            return res.json({
+            return res.json(400, {
+                success: false,
+                error: err
+            });
+        }
+        return res.json({
+            success: true,
+            error: null
+        });
+    });
+});
+
+// submit report from student about a tutor
+app.post('/submitStudentReport', (req, res) => {
+    const ban = {
+        reporter: req.body.user_id,
+        reporterType: 'student',
+        personOfInterest: req.body.tutor_id,
+        explanation: req.body.explanation
+    };
+
+    return data_access.ban.submitReport(ban, (err, response) => {
+        if (err) {
+            console.log(err);
+            return res.json(400, {
                 success: false,
                 error: err
             });

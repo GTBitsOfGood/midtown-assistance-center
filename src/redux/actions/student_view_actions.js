@@ -25,9 +25,9 @@ export function getOnlineTutors(search_type, search_subject, search_time) {
             .then(() => dispatch(updateSearch(search_type, search_subject, search_time)));
 }
 
-export function submitStudentReport(tutor_id, user_id, explanation) {
+export function submitStudentReport(user_id, tutor_id, explanation) {
     return {
         type: types.submitStudentReport,
-        payload: axios.post('/api/submitStudentReport', {tutor_id, user_id, explanation})
+        payload: axios.post('/api/submitStudentReport', {user_id, tutor_id, explanation})
     };
 }
