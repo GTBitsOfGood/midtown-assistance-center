@@ -304,7 +304,16 @@ body {
 }
 
 .online-img {
-    margin-left: 1%;
+    margin-left: 5px;
+    padding: 5px;
+    font-size: 0.5em;
+    color: var(--ltgray);
+    background-color: var(--success_green);
+    border-radius: 5px;
+}
+
+.online-img.offline {
+    background-color: var(--dkgray);
 }
 
 .online-ic {

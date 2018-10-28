@@ -95,16 +95,13 @@ class TutorSearchResult extends React.Component {
                             >
                                 <h3 className="">
                                     {`${tutor.first_name} ${tutor.last_name}`}
-                                    <span className="online-img">
-                                        <img
-                                            alt="online/offline"
-                                            className="online-ic"
-                                            src={
-                                                tutor.online
-                                                    ? '/images/status-online.png'
-                                                    : '/images/status-offline.png'
-                                            }
-                                        />
+                                    <span 
+                                        className={(tutor.online)
+                                                    ? "online-img"
+                                                    : "online-img offline"}
+                                    >
+                                        {(tutor.online) ? 'Online'
+                                                        : 'Offline'}
                                     </span>
                                     &emsp;
                                     {stars}
