@@ -707,6 +707,28 @@ app.get('/unapprovedTutors', (req, res) => {
     });
 });
 
+app.get('/allPendingBans', (req, res) => {
+    const notBanned = {
+        banned: false
+    };
+    data_access.ban.getAllBans(notBanned, (err, bans) => {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            console.log('Getting pending bans');
+            res.json({
+                success: true,
+                error: null,
+                bans
+            });
+        }
+    });
+});
+
 // update the administrator
 app.patch('/admin', (req, res) => {
     res.json({

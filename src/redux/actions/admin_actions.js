@@ -40,3 +40,8 @@ export function getAllTutors() {
         payload: axios.get('/api/allTutors')
     };
 }
+
+export const getBans = () => ({
+    type: types.getAllBans,
+    payload: axios.get('/api/allPendingBans')
+});
