@@ -98,7 +98,7 @@ class TutorSearchResult extends React.Component {
                                     <span 
                                         className={(tutor.online)
                                                     ? "online-img"
-                                                    : "online-img offline"}
+                                                    : "online-img tutor-offline"}
                                     >
                                         {(tutor.online) ? 'Online'
                                                         : 'Offline'}

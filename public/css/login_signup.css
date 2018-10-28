@@ -31,7 +31,7 @@ input:-webkit-autofill {
     background: url('/images/atlanta_home.png');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 100vw auto;
+    background-size: cover;
     position: fixed;
     z-index: -10;
     background-color: var(--black);
