@@ -586,11 +586,11 @@ app.post('/getTutorSessions', (req, res) => {
     });
 });
 
-// submit report from tutor about a student
-app.post('/submitTutorReport', (req, res) => {
+// submit report from tutor about a student feedback
+app.post('/submitTutorReportOnFeedback', (req, res) => {
     data_access.tutor_sessions.getStudentByRatingId(req.body.rating_id, (err, student_id) => {
         if (err) {
-            return res.json({
+            return res.json(400, {
                 success: false,
                 error: err
             });
@@ -605,7 +605,7 @@ app.post('/submitTutorReport', (req, res) => {
         return data_access.ban.submitTutorReport(ban, (err, response) => {
             if (err) {
                 console.log(err);
-                return res.json({
+                return res.json(400, {
                     success: false,
                     error: err
                 });
@@ -614,6 +614,30 @@ app.post('/submitTutorReport', (req, res) => {
                 success: true,
                 error: null
             });
+        });
+    });
+});
+
+// submit report from tutor about a student currently in session
+app.post('/submitTutorReportInSession', (req, res) => {
+    const ban = {
+        reporter: req.body.user_id,
+        reporterType: 'tutor',
+        personOfInterest: req.body.student_id,
+        explanation: req.body.explanation
+    };
+
+    return data_access.ban.submitTutorReport(ban, (err, response) => {
+        if (err) {
+            console.log(err);
+            return res.json({
+                success: false,
+                error: err
+            });
+        }
+        return res.json({
+            success: true,
+            error: null
         });
     });
 });

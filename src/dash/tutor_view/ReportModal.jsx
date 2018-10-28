@@ -2,14 +2,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
-import submitTutorReport from '../../redux/actions/tutor_actions';
+import { submitTutorReportOnFeedback, submitTutorReportInSession } from '../../redux/actions/tutor_actions';
 
 class ReportModal extends React.Component {
 
     constructor(props) {
         super(props);
         this.state = {
-            explanation: ''
+            explanation: '',
+            isFeedbackModal: props.rating && props.comment && props.time,
+            isInSessionModal: props.student_id,
         };
 
         this.handleCancel = this.handleCancel.bind(this);
@@ -23,9 +25,14 @@ class ReportModal extends React.Component {
     }
 
     handleSubmit() {
-        const { submitTutorReport, user_id, rating_id } = this.props;
+        const { submitTutorReportOnFeedback, user_id, rating_id, student_id } = this.props;
+        const { isFeedbackModal, isInSessionModal } = this.state;
         const { explanation } = this.state;
-        submitTutorReport(user_id, rating_id, explanation);
+        if (isFeedbackModal) {
+            submitTutorReportOnFeedback(user_id, rating_id, explanation);
+        } else if (isInSessionModal) {
+            submitTutorReportInSession(user_id, student_id, explanation);
+        }
         $('.modal').modal('hide');
     }
 
@@ -34,16 +41,41 @@ class ReportModal extends React.Component {
     }
 
     render() {
-        const { rating_id, time, comment, rating } = this.props;
+        const { modal_id, time, comment, rating, student_id } = this.props;
+        const { isFeedbackModal, isInSessionModal } = this.state;
         const { explanation } = this.state;
+
+        let bodyHtml = null;
+        if (isFeedbackModal) {
+            bodyHtml = (
+                <div className="modal-body text-center">
+                    <div id={`ModalBody_${modal_id}`}>
+                        Feedback
+                        <div>Time: {(new Date(time)).toLocaleString('en-US')}</div>
+                        <div>Comment: {comment}</div>
+                        <div>Rating: {rating}</div>
+                    </div>
+                </div>
+            );
+        } else if (isInSessionModal) {
+            bodyHtml = (
+                <div className="modal-body text-center">
+                    <div id={`ModalBody_${modal_id}`}>
+                        In Session
+                        <div>Student: {student_id}</div>
+                    </div>
+                </div>
+            );
+        }
+
         return(
             <div>
                 <div
                     className="modal"
-                    id={`Modal_${rating_id}`}
-                    tabIndex="-1"
+                    id={`Modal_${modal_id}`}
+                    tabIndex="100000"
                     role="dialog"
-                    aria-labelledby={`#Modal_${rating_id}Label`}
+                    aria-labelledby={`#Modal_${modal_id}Label`}
                     aria-hidden="true"
                     autoFocus
                 >
@@ -57,17 +89,10 @@ class ReportModal extends React.Component {
                                     Report!
                                 </h4>
                             </div>
+                            { bodyHtml }
                             <div className="modal-body text-center">
-                                <div id={`ModalBody_${rating_id}`}>
-                                    Feedback
-                                    <div>Time: {(new Date(time)).toLocaleString('en-US')}</div>
-                                    <div>Comment: {comment}</div>
-                                    <div>Rating: {rating}</div>
-                                </div>
-                            </div>
-                            <div className="modal-body text-center">
-                                <div id={`ModalBody_${rating_id}`}>
-                                    Please explain why you are reporting this feedback:
+                                <div id={`ModalBody_${modal_id}`}>
+                                    Please explain why you are reporting:
                                     <textarea
                                         type="text"
                                         name="explanation"
@@ -103,13 +128,23 @@ class ReportModal extends React.Component {
     }
 }
 
+ReportModal.defaultProps = {
+    rating_id: '',
+    time: '',
+    comment: '',
+    rating: 0,
+    student_id: '',
+};
+
 ReportModal.propTypes = {
-    rating_id: PropTypes.string.isRequired,
-    time: PropTypes.string.isRequired,
-    comment: PropTypes.string.isRequired,
-    rating: PropTypes.number.isRequired,
-    submitTutorReport: PropTypes.func.isRequired,
+    modal_id: PropTypes.string.isRequired,
+    rating_id: PropTypes.string,
+    time: PropTypes.string,
+    comment: PropTypes.string,
+    rating: PropTypes.number,
+    submitTutorReportOnFeedback: PropTypes.func.isRequired,
     user_id: PropTypes.string.isRequired,
+    student_id: PropTypes.string,
 };
 
 const mapStateToProps = state => ({
@@ -117,7 +152,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-    submitTutorReport: (user_id, rating_id, explanation) => dispatch(submitTutorReport(user_id, rating_id, explanation))
+    submitTutorReportOnFeedback: (user_id, rating_id, explanation) => dispatch(submitTutorReportOnFeedback(user_id, rating_id, explanation)),
+    submitTutorReportInSession: (user_id, student_id, explanation) => dispatch(submitTutorReportInSession(user_id, student_id, explanation))
 });
 
 export default connect(
