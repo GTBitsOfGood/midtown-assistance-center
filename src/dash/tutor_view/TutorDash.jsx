@@ -14,6 +14,7 @@ const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 class TutorDash extends React.Component {
     // TODO: socket stuff
+
     componentWillUnmount() {
         // socket.close();
     }

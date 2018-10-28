@@ -46,12 +46,12 @@ class UpcomingEvents extends React.Component {
             let keyId = 0;
             while (count < NUM_OF_EVENTS && totalCount < 7) {
                 events = user.availability[dayName];
-                for (let event in events) {
+                for (const event in events) {
                     // NOTE: I am no longer checking if the event's end time is less than the current end time
                     // because if the tutor has ended the session, it shouldn't display it
                     // TODO: It would be better to add the 'session already ended' check here instead of in the
                     // TODO: TutorUpcomingEvent component
-                    //if (!(day === today && todayHours > events[event].end_time)) {
+                    // if (!(day === today && todayHours > events[event].end_time)) {
                     renEvents.push(
                         <TutorUpcomingEvent
                             key={keyId++}
@@ -66,7 +66,7 @@ class UpcomingEvents extends React.Component {
                         />
                     );
                     count++;
-                    //}
+                    // }
                 }
                 day = (day + 1) % 7;
                 dayName = days[day];
@@ -87,9 +87,18 @@ class UpcomingEvents extends React.Component {
             <div className="row animated fadeInRight tutorUpcomingEvents">
                 <div className="col">
                     <div className="text-center row">
-                        <h4 className="lighter-text text-uppercase tutor-events-header">
-                            Upcoming Sessions
-                        </h4>
+                        <div className="row list-inline ">
+                            <h4 className="lighter-text text-uppercase tutor-events-header">
+                                Upcoming Sessions
+                            </h4>
+                            <span
+                                className="glyphicon glyphicon glyphicon-info-sign"
+                                data-toggle="tooltip"
+                                data-placement="right"
+                                title="Your upcoming sessions are shown below.
+                                        Active sessions are shown in yellow."
+                            />
+                        </div>
                         <div className="col-xs-12">{renEvents}</div>
                     </div>
                 </div>
@@ -99,7 +108,7 @@ class UpcomingEvents extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    user:state.user
+    user: state.user
 });
 
 const TutorUpcomingEvents = connect(
