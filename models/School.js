@@ -13,8 +13,4 @@ let schema = new Schema({
     }
 });
 
-schema.virtual('username').get(function() {
-    return this._id;
-});
-
 module.exports = mongoose.model('School', schema);

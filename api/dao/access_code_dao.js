@@ -14,9 +14,37 @@ module.exports = {
             } else if (docs.length > 1) {
                 console.warn('Multiple access codes', docs);
                 callback(null, docs[0]);
-            } else {
-                callback(null, null);
             }
+        });
+    },
+    getAllAccessCodes: callback => {
+        AccessCode.find({}, (err, codes) => {
+            if (err) {
+                console.error('Error retrieving all access codes: ' , err);
+            } else {
+                callback(null, codes);
+            }
+        });
+    }
+
+    getAccessCodesForSchool: (school_code, callback) => {
+        AccessCode.find({school_code: school_code}, (err, codes) => {
+            if (err) {
+                console.error('Error retrieving all access codes for school, ', err);
+            } else {
+                callback(null, codes);
+            }
+        })
+    },
+    addAccessCode: (access_code, callback) => {
+        AccessCode.create(access_code, (err, access_code_instance) => {
+            if (err) {
+                console.err('Error creating new access code');
+                callback(err);
+            } else {
+                callback(null, access_code_instance);
+            }
+
         });
     }
 };
