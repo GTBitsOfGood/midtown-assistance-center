@@ -683,72 +683,63 @@ app.get('/allTutors', (req, res) => {
             });
         }
     });
+});
 
-    app.get('/schools', (req, res) => {
-        data_access.schools.getAllSchools((err, response) => {
-            if (err) {
-                console.log(err);
-                res.json({ success: false, error:err});
-            } else{
-                console.log('Getting all schools');
-                res.send(response);
-            }
-        });
+app.get('/schools', (req, res) => {
+    data_access.schools.getAllSchools((err, response) => {
+        if (err) {
+            console.log(err);
+            res.json({ success: false, error:err});
+        } else{
+            console.log('Getting all schools');
+            res.send(response);
+        }
     });
+});
 
-    app.post('/schools', (req, res) => {
-        data_access.schools.addSchool(
-            {
-                school_name: req.body.school_name,
-                school_code: req.body.school_code,
-                address: {
-                    street: req.body.street,
-                    zip_code: req.body.zip_code,
-                    state: req.body.state
-                }
-            }
-            , (err, response) => {
-                if (err) {
-                    console.log(err);
-                    res.json({success: false, error: err});
-                } else {
-                    console.log('Adding school...');
-                    res.json({ success: true, school: response});
-                }
-            }) ;
-    });
-
-    app.post('/accessCodes', (req, res) => {
-        data_access.access_codes.addAccessCode({
-            access_code: req.body.access_code,
+app.post('/schools', (req, res) => {
+    // TODO: random school_code generator
+    //TODO: validation that the school_code does not already exist
+    data_access.schools.addSchool(
+        {
+            school_name: req.body.school_name,
             school_code: req.body.school_code,
-            name: req.body.name
+            address: {
+                street: req.body.street,
+                zip_code: req.body.zip_code,
+                state: req.body.state
+            }
         }, (err, response) => {
             if (err) {
                 console.log(err);
+                res.json({success: false, error: err});
             } else {
-                console.log('Adding access code');
-                res.json({ success: true, accessCode: response});
+                console.log('Adding school...');
+                res.json({ success: true, school: response});
             }
         });
+});
+
+app.post('/accessCodes', (req, res) => {
+    // TODO: validation that school_code exists
+    // TODO: random code generator
+    data_access.access_codes.addAccessCode({
+        access_code: req.body.access_code,
+        school_code: req.body.school_code,
+        name: req.body.name
+    }, (err, response) => {
+        if (err) {
+            console.log(err);
+        } else {
+            console.log('Adding access code');
+            res.json({ success: true, accessCode: response});
+        }
     });
+});
 
-    // returns all access codes for a specific school
-    app.get('/accessCodes/:school_code', (req, res) => {
-        data_access.access_codes.getAccessCodesForSchool({school_code: req.params.school_code}, (err, response) => {
-            if (err) {
-                console.log(err);
-            } else {
-                console.log(req.params.school_code.toString().trim());
-                res.send(response);
-            }
-        });
-
-
-    });
-
-    // returns all access codes
-    app.get('/accessCodes', (req, res) => {
+// returns all access codes is req param is empty, returns all access codes for a specific school
+app.get('/accessCodes', (req, res) => {
+    if (Object.keys(req.query).length === 0) {
         data_access.access_codes.getAllAccessCodes((err, response) => {
             if (err) {
                 console.log(err);
@@ -757,8 +748,17 @@ app.get('/allTutors', (req, res) => {
                 res.send(response);
             }
         });
-    });
-
+    } else {
+        data_access.access_codes.getAccessCodesForSchool(req.query.school_code, (err, response) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('Getting all access codes for school');
+                console.log(req.query);
+                res.send(response);
+            }
+        });
+    }
 });
 
 

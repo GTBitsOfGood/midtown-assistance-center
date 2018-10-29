@@ -27,9 +27,9 @@ module.exports = {
         });
     },
     getAccessCodesForSchool: (school_code, callback) => {
-        AccessCode.find({school_code: school_code.toString()}, (err, codes) => {
+        AccessCode.find({school_code: school_code}, (err, codes) => {
             if (err) {
-                console.log(school_code.toString().trim());
+                console.log(school_code);
                 console.error('Error retrieving all access codes for school, ', err);
             } else {
                 callback(null, codes);
