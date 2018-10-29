@@ -683,6 +683,65 @@ app.get('/allTutors', (req, res) => {
             });
         }
     });
+
+    app.get('/schools', (req, res) => {
+        data_access.schools.getAllSchools((err, response) => {
+            if (err) {
+                console.log(err);
+                res.json({ success: false, error:err});
+            } else{
+                console.log('Getting all schools');
+                res.send(response);
+            }
+        });
+    });
+
+    app.post('/schools', (req, res) => {
+        data_access.schools.addSchool(
+            {
+                school_name: req.body.school_name,
+                school_code: req.body.school_code,
+                address: {
+                    street: req.body.street,
+                    zip_code: req.body.zip_code,
+                    state: req.body.state
+                }
+            }
+            ,(err, response) => {
+                if (err) {
+                    console.log(err);
+                    res.json({success: false, error: err});
+                } else {
+                    console.log('Adding school...');
+                    res.json({ success: true, school: response});
+                }
+            }) ;
+    });
+
+    // returns all access codes for a specific school
+    app.get('/accessCodes/:school_code', (req, res) => {
+        data_access.access_codes.getAccessCodesForSchool(req.params.school_code, (err, response) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('Getting access codes for ', req.params.school_code);
+                res.send(response);
+            }
+        });
+    });
+
+    // returns all access codes
+    app.get('/accessCodes', (req, res) => {
+        data_access.access_codes.getAllAccessCodes((err, response) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('Getting all access codes');
+                res.send(response);
+            }
+        });
+    });
+
 });
 
 

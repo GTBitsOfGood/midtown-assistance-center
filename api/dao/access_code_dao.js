@@ -25,8 +25,7 @@ module.exports = {
                 callback(null, codes);
             }
         });
-    }
-
+    },
     getAccessCodesForSchool: (school_code, callback) => {
         AccessCode.find({school_code: school_code}, (err, codes) => {
             if (err) {
