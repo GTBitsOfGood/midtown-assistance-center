@@ -707,7 +707,7 @@ app.get('/allTutors', (req, res) => {
                     state: req.body.state
                 }
             }
-            ,(err, response) => {
+            , (err, response) => {
                 if (err) {
                     console.log(err);
                     res.json({success: false, error: err});
@@ -718,16 +718,33 @@ app.get('/allTutors', (req, res) => {
             }) ;
     });
 
-    // returns all access codes for a specific school
-    app.get('/accessCodes/:school_code', (req, res) => {
-        data_access.access_codes.getAccessCodesForSchool(req.params.school_code, (err, response) => {
+    app.post('/accessCodes', (req, res) => {
+        data_access.access_codes.addAccessCode({
+            access_code: req.body.access_code,
+            school_code: req.body.school_code,
+            name: req.body.name
+        }, (err, response) => {
             if (err) {
                 console.log(err);
             } else {
-                console.log('Getting access codes for ', req.params.school_code);
+                console.log('Adding access code');
+                res.json({ success: true, accessCode: response});
+            }
+        });
+    });
+
+    // returns all access codes for a specific school
+    app.get('/accessCodes/:school_code', (req, res) => {
+        data_access.access_codes.getAccessCodesForSchool({school_code: req.params.school_code}, (err, response) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log(req.params.school_code.toString().trim());
                 res.send(response);
             }
         });
+
+
     });
 
     // returns all access codes

@@ -27,18 +27,19 @@ module.exports = {
         });
     },
     getAccessCodesForSchool: (school_code, callback) => {
-        AccessCode.find({school_code: school_code}, (err, codes) => {
+        AccessCode.find({school_code: school_code.toString()}, (err, codes) => {
             if (err) {
+                console.log(school_code.toString().trim());
                 console.error('Error retrieving all access codes for school, ', err);
             } else {
                 callback(null, codes);
             }
-        })
+        });
     },
     addAccessCode: (access_code, callback) => {
         AccessCode.create(access_code, (err, access_code_instance) => {
             if (err) {
-                console.err('Error creating new access code');
+                console.error('Error creating new access code');
                 callback(err);
             } else {
                 callback(null, access_code_instance);
