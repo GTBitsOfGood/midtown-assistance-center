@@ -286,6 +286,11 @@ body {
     z-index: 1;
 }
 
+.tutorCurrentEvent {
+    position: relative;
+    z-index: 2;
+}
+
 .review-modal-footer {
     text-align: center !important;
 }

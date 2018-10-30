@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import socketIOClient from 'socket.io-client';
 import TutorUpcomingEvents from './TutorUpcomingEvents';
+import TutorEvents from './TutorEvents';
 import Feedback from './Feedback';
 import TutorProfile from './Profile';
 import Statistics from './Statistics';
@@ -24,7 +25,7 @@ class TutorDash extends React.Component {
         if (user.approved && user.confirmed) {
             dashDisplay = (
                 <div>
-                    <TutorUpcomingEvents socket={socket} />
+                    <TutorEvents socket={socket} />
                     <Statistics />
                     <Feedback />
                 </div>
