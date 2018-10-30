@@ -1,8 +1,8 @@
 const AccessCode = require('../../models/AccessCode');
 
 module.exports = {
-    validateAccessCode: function(accessFolder, callback) {
-        AccessCode.find({ code: accessFolder }, function(err, docs) {
+    validateAccessCode: (accessFolder, callback) => {
+        AccessCode.find({ code: accessFolder }, (err, docs) => {
             if (err) {
                 console.error(
                     'Error checking retrieving school is taken: ',

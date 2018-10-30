@@ -699,7 +699,7 @@ app.get('/schools', (req, res) => {
 
 app.post('/schools', (req, res) => {
     // TODO: random school_code generator
-    //TODO: validation that the school_code does not already exist
+    // TODO: validation that the school_code does not already exist
     data_access.schools.addSchool(
         {
             school_name: req.body.school_name,
@@ -721,23 +721,26 @@ app.post('/schools', (req, res) => {
 });
 
 app.post('/accessCodes', (req, res) => {
-    // TODO: validation that school_code exists
-    // TODO: random code generator
-    data_access.access_codes.addAccessCode({
-        access_code: req.body.access_code,
-        school_code: req.body.school_code,
-        name: req.body.name
-    }, (err, response) => {
-        if (err) {
-            console.log(err);
-        } else {
-            console.log('Adding access code');
-            res.json({ success: true, accessCode: response});
-        }
-    });
+    const accessCodeValue = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+    // TODO: validation that accessCodeValue hasn't been taken
+    data_access.schools.verifySchoolCodeExists(req.body.school_code)
+        .then( () => {
+            data_access.access_codes.addAccessCode({
+                access_code: accessCodeValue,
+                school_code: req.body.school_code,
+                name: req.body.name
+            });
+        })
+        .then( () => {
+            res.json({success:true});
+        })
+        .catch( err => {
+            console.error(err);
+        });
 });
 
-// returns all access codes is req param is empty, returns all access codes for a specific school
+// returns all access codes is req param is empty,
+// else returns all access codes for a specific school
 app.get('/accessCodes', (req, res) => {
     if (Object.keys(req.query).length === 0) {
         data_access.access_codes.getAllAccessCodes((err, response) => {
