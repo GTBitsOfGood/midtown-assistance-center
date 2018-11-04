@@ -430,6 +430,13 @@ body {
     margin-bottom: 3%;
 }
 
+.time-item .input-group {
+    padding: 5px;
+    border: 1px solid var(--primaryLight);
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
 /*======================================== Tutor Dash ========================================*/
 
 .tutor-dash {
