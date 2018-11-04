@@ -39,8 +39,9 @@ class TutorDash extends React.Component {
             );
         } else {
             dashDisplay = (
-                <h4 className="tutor-approval-msg">
-                    Please confirm your email address
+                <h4 className="alert alert-warning tutor-approval-msg">
+                    <i className="glyphicon glyphicon-exclamation-sign tutor-approval-msg-glyph" aria-hidden="true" />
+                    We've sent an email to you. Please click the link in that message to confirm your email address.
                 </h4>
             );
         }
