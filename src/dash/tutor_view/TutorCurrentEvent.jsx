@@ -26,8 +26,6 @@ class CurrentEvent extends React.Component {
      *
      */
     render() {
-        console.log("CURRENT EVENT");
-        console.log(this.props.currentEvent);
         const renEvent = this.props.currentEvent ?
             <TutorUpcomingEvent
                 key={0}
@@ -41,7 +39,7 @@ class CurrentEvent extends React.Component {
                 endTime={this.props.endTime || "0:00"}
             /> :
             <div className="text-center">
-                <h4 className="">No current sessions. <a href="#">Start a new session?</a></h4>
+                <h4 className="">No current sessions. <a href="#" onClick={() => this.props.setCurrentSession(1)}>Start a new session?</a></h4>
             </div>
         return (
             <div className="row animated fadeInRight tutorCurrentEvent">

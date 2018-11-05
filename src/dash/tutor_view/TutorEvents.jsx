@@ -31,6 +31,7 @@ class Events extends React.Component {
             currentEvent: null,
             events: null
         };
+        this.setCurrentSession = this.setCurrentSession.bind(this);
     }
 
     componentDidMount() {
@@ -81,10 +82,16 @@ class Events extends React.Component {
             let day = today;
             const upcomingEvents = [];
             const startTime = currentEvent ? new Date(currentEvent._id.expected_start_time) : null;
+            let startTimeHours;
+            let startTimeMinutes;
+            if (startTime) {
+                startTimeHours = startTime.getHours();
+                startTimeMinutes = startTime.getMinutes() === 0 ? '00' : startTime.getMinutes();
+            }
             for (let i = 0; i < NUM_OF_EVENTS; i++) {
                 let events = user.availability[dayName];
                 for (let event in events) {
-                    if (!startTime || !(events[event].start_time === startTime.getHours() + ':' + startTime.getMinutes())) {
+                    if (!startTime || !(events[event].start_time === startTimeHours + ':' + startTimeMinutes)) {
                         upcomingEvents.push({
                             start_time: events[event].start_time,
                             end_time: events[event].end_time,
@@ -108,6 +115,50 @@ class Events extends React.Component {
 
     }
 
+    setCurrentSession(duration) {
+        let now = new Date();
+        let end = new Date();
+        end.setHours(
+            now.getHours() + parseInt(duration)
+        );
+
+        let sessionRequestBody = {
+            _id: {
+                tutor_id: this.props.tutorId,
+                expected_start_time: now
+            },
+            start_time: now,
+            expected_end_time: end
+        };
+        let requestBody = {
+            sessionRequestBody: sessionRequestBody,
+            tutorId: this.props.user._id,
+            calId: this.props.user.calendarId,
+            startTime: now.getHours() + ':' + now.getMinutes(),
+            endTime: end.getHours() + ':' + end.getMinutes(),
+            email: this.props.user.gmail
+        };
+
+        console.log(requestBody);
+
+        let self = this;
+        axios
+            .post('/calendar/createEvent', requestBody)
+            .then(function(response) {
+                console.log(response);
+                if (response.data.success) {
+                    self.setState({
+                        currentEvent: response.data.session
+                    });
+                } else {
+                    console.log(response.data.error);
+                }
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
+    }
+
     /**
      * Iterate through the times in the tutor's availability.
      * Create a TutorCurrentEvent for the current event (if any)
@@ -115,14 +166,17 @@ class Events extends React.Component {
      * @returns {*}
      */
     render() {
+        const endTimeMinutes = this.state.currentEvent ? (new Date(this.state.currentEvent.expected_end_time).getMinutes() === 0 ? '00' : new Date(this.state.currentEvent.expected_end_time).getMinutes()) : null;
+        const startTimeMinutes = this.state.currentEvent ? (new Date(this.state.currentEvent._id.expected_start_time).getMinutes() === 0 ? '00' : new Date(this.state.currentEvent._id.expected_start_time).getMinutes()) : null;
         return (
             <div>
                 <TutorCurrentEvent
                     socket={this.props.socket}
                     currentEvent={this.state.currentEvent}
-                    startTime={this.state.currentEvent ? new Date(this.state.currentEvent._id.expected_start_time).getHours() + ":" + new Date(this.state.currentEvent._id.expected_start_time).getMinutes() : "00:00"}
-                    endTime={this.state.currentEvent ? new Date(this.state.currentEvent.expected_end_time).getHours() + ":" + new Date(this.state.currentEvent.expected_end_time).getMinutes() : "00:00"}
+                    startTime={this.state.currentEvent ? new Date(this.state.currentEvent._id.expected_start_time).getHours() + ":" + startTimeMinutes : "00:00"}
+                    endTime={this.state.currentEvent ? new Date(this.state.currentEvent.expected_end_time).getHours() + ":" + endTimeMinutes : "00:00"}
                     dayName={this.state.dayName ? this.state.dayName : "Sunday"}
+                    setCurrentSession={this.setCurrentSession}
                 />
                 <TutorUpcomingEvents socket={this.props.socket} events={this.state.events}/>
             </div>
