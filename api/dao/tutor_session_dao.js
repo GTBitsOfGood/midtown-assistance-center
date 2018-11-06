@@ -547,7 +547,7 @@ module.exports = {
                 callback(null, docs.filter(session => {
                     const start = moment(session.start_time);
                     const end = moment(session.expected_end_time);
-                    return !session.end_time;
+                    return now.diff(start) >= 0 && now.diff(end) <= 0 && !session.end_time;
                 }));
             }
         });
