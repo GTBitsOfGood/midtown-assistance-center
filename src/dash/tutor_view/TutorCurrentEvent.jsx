@@ -19,6 +19,20 @@ class CurrentEvent extends React.Component {
      */
     constructor(props) {
         super(props);
+        this.setSessionDuration = this.setSessionDuration.bind(this);
+    }
+
+    setSessionDuration() {
+        var sessionDuration = window.prompt('Please enter how many hours between 1 and 4 you would like this session to be');
+        if (sessionDuration) {
+            if (isNaN(sessionDuration)) {
+                window.alert('Please enter a number from 1-4');
+            } else if (sessionDuration > 4 || sessionDuration <= 0) {
+                window.alert('Error: Invalid number. Hours must be between 1 and 4');
+            } else {
+                this.props.setCurrentSession(sessionDuration);
+            }
+        }
     }
 
 
@@ -39,7 +53,7 @@ class CurrentEvent extends React.Component {
                 endTime={this.props.endTime || "0:00"}
             /> :
             <div className="text-center">
-                <h4 className="">No current sessions. <a href="#" onClick={() => this.props.setCurrentSession(1)}>Start a new session?</a></h4>
+                <h4 className="">No current sessions. <a href="#" onClick={this.setSessionDuration}>Start a new session?</a></h4>
             </div>
         return (
             <div className="row animated fadeInRight tutorCurrentEvent">

@@ -86,7 +86,7 @@ class Events extends React.Component {
             let startTimeMinutes;
             if (startTime) {
                 startTimeHours = startTime.getHours();
-                startTimeMinutes = startTime.getMinutes() === 0 ? '00' : startTime.getMinutes();
+                startTimeMinutes = startTime.getMinutes() < 10 ? '0' + startTime.getMinutes().toString() : startTime.getMinutes();
             }
             for (let i = 0; i < NUM_OF_EVENTS; i++) {
                 let events = user.availability[dayName];
@@ -166,8 +166,8 @@ class Events extends React.Component {
      * @returns {*}
      */
     render() {
-        const endTimeMinutes = this.state.currentEvent ? (new Date(this.state.currentEvent.expected_end_time).getMinutes() === 0 ? '00' : new Date(this.state.currentEvent.expected_end_time).getMinutes()) : null;
-        const startTimeMinutes = this.state.currentEvent ? (new Date(this.state.currentEvent._id.expected_start_time).getMinutes() === 0 ? '00' : new Date(this.state.currentEvent._id.expected_start_time).getMinutes()) : null;
+        const endTimeMinutes = this.state.currentEvent ? (new Date(this.state.currentEvent.expected_end_time).getMinutes() < 10 ? '0' + new Date(this.state.currentEvent.expected_end_time).getMinutes().toString() : new Date(this.state.currentEvent.expected_end_time).getMinutes()) : null;
+        const startTimeMinutes = this.state.currentEvent ? (new Date(this.state.currentEvent._id.expected_start_time).getMinutes() < 10 ? '0' + new Date(this.state.currentEvent._id.expected_start_time).getMinutes() : new Date(this.state.currentEvent._id.expected_start_time).getMinutes()) : null;
         return (
             <div>
                 <TutorCurrentEvent
