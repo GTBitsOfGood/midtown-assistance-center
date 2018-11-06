@@ -5,6 +5,7 @@ import tutorView from './reducers/tutor_view';
 import adminView from './reducers/admin_view';
 import subjects from './reducers/subject';
 import accessCodes from './reducers/accessCode';
+import schools from './reducers/school';
 
 const root = combineReducers({
     user,
@@ -12,7 +13,9 @@ const root = combineReducers({
     tutorView,
     adminView,
     subjects,
-    accessCodes
+    accessCodes,
+    schools
+
 });
 
 export default root;

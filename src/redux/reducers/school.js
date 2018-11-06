@@ -1,25 +1,27 @@
-import * as types from '../actions/types/accessCode_types';
+import * as types from '../actions/types/school_types';
 
 const initialState = {
     fetching: false,
     fetched: false,
     error: null,
     errorType: null,
-    allAccessCodes: []
+    allSchoolCodes: []
 };
 
-export default function getAllAccessCodes(state = initialState, action) {
+export default function getAllSchoolCodes(state = initialState, action) {
     switch (action.type) {
-    case types.getAllAccessCodesPending:
+    case types.getAllSchoolsPending:
         return { ...state, fetching: true, error: null };
-    case types.getAllAccessCodesFulfilled:
+    case types.getAllSchoolsFulfilled:
         return {
             ...state, fetching: false,
             fetched: true,
             error: null,
-            accessCodes: action.payload.data
+            accessCodes: action.payload.data.map(
+                school => school.school_code
+            )
         };
-    case types.getAllAccessCodesRejected:
+    case types.getAllSchoolsRejected:
         return {
             ...state,
             fetching: false,

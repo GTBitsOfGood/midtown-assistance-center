@@ -756,7 +756,7 @@ app.post('/accessCodes', (req, res) => {
     });
 });
 
-// returns all access codes is req param is empty,
+// returns all access codes if req param is empty,
 // else returns all access codes for a specific school
 app.get('/accessCodes', (req, res) => {
     if (Object.keys(req.query).length === 0) {
