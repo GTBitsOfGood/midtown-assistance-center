@@ -18,6 +18,16 @@ import TutorCurrentEvent from './TutorCurrentEvent';
 
 const NUM_OF_EVENTS = 5;
 
+const days = [
+    'Sunday',
+    'Monday',
+    'Tuesday',
+    'Wednesday',
+    'Thursday',
+    'Friday',
+    'Saturday'
+];
+
 class Events extends React.Component {
 
     /**
@@ -69,15 +79,6 @@ class Events extends React.Component {
             currentEvent = data;
             const todayDate = new Date();
             const today = todayDate.getDay();
-            const days = [
-                'Sunday',
-                'Monday',
-                'Tuesday',
-                'Wednesday',
-                'Thursday',
-                'Friday',
-                'Saturday'
-            ];
             let dayName = days[today];
             let day = today;
             const upcomingEvents = [];
@@ -148,7 +149,8 @@ class Events extends React.Component {
                 console.log(response);
                 if (response.data.success) {
                     self.setState({
-                        currentEvent: response.data.session
+                        currentEvent: response.data.session,
+                        dayName: days[now.getDay()]
                     });
                 } else {
                     console.log(response.data.error);

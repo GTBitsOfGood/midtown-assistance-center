@@ -31,6 +31,15 @@ class CurrentEvent extends React.Component {
                 window.alert('Error: Invalid number. Hours must be between 1 and 4');
             } else {
                 this.props.setCurrentSession(sessionDuration);
+                // TODO: FIX THIS
+                // async function- doesn't reset props by the time
+                // this is called
+                // $('#Modal_' +
+                // this.props.dayName +
+                // '_' +
+                // this.props.startTime.split(':')[0] +
+                // '_' +
+                // this.props.endTime.split(':')[0]).show();
             }
         }
     }
