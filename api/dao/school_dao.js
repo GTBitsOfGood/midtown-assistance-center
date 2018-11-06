@@ -25,12 +25,14 @@ module.exports = {
         });
     },
     verifySchoolCodeExists: (school_code, callback) => {
-        return School.find( { school_code }, (err, school) => {
+        School.find( { school_code }, (err, school) => {
             if (err) {
                 console.error('Error finding school', err);
-            } else if (school.length === 1 ) {
+            } else if (school.length > 0) {
+                //school w/ inputted school code exists
                 callback(null, true);
             } else {
+                //school code does not exist
                 callback(null, false);
             }
         });

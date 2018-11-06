@@ -722,21 +722,38 @@ app.post('/schools', (req, res) => {
 
 app.post('/accessCodes', (req, res) => {
     const accessCodeValue = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
-    // TODO: validation that accessCodeValue hasn't been taken
-    data_access.schools.verifySchoolCodeExists(req.body.school_code)
-        .then( () => {
+    // TODO: validation that accessCodeValue hasn't already been generated/taken
+    //data_access.access_codes.validateAccessCode(accessCodeValue);
+
+    data_access.schools.verifySchoolCodeExists(req.body.school_code, (err, resultSchoolCode) => {
+        if (err) {
+            console.log(err);
+        }
+        else if (resultSchoolCode) {
             data_access.access_codes.addAccessCode({
                 access_code: accessCodeValue,
                 school_code: req.body.school_code,
                 name: req.body.name
+            }, (err, resultAccessCode) => {
+                if (err) {
+                    console.log(err);
+                }
+                else {
+                    res.json({
+                        success: true,
+                        accessCode: resultAccessCode
+                    });
+                }
             });
-        })
-        .then( () => {
-            res.json({success:true});
-        })
-        .catch( err => {
-            console.error(err);
-        });
+
+        }
+        else {
+            res.json({
+                success: false,
+                error: err
+            });
+        }
+    });
 });
 
 // returns all access codes is req param is empty,
