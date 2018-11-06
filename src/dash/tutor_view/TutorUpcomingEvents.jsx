@@ -73,6 +73,12 @@ class UpcomingEvents extends React.Component {
                 totalCount++;
             }
         }
+
+        if (count === 0) {
+            renEvents.push(
+                <h3>You haven't added any session times to your schedule</h3>
+            );
+        }
         // sort by day of the week then start time
         renEvents.sort((a, b) => {
             if (a.props.dayName === b.props.dayName) {

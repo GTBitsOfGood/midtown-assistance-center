@@ -67,47 +67,19 @@ class SessionModal extends React.Component {
      * @param number
      */
     changeStar(number) {
-        if (number === 1) {
-            this.setState({
-                first_star: true,
-                second_star: false,
-                third_star: false,
-                fourth_star: false,
-                fifth_star: false
-            });
-        } else if (number === 2) {
-            this.setState({
-                first_star: true,
-                second_star: true,
-                third_star: false,
-                fourth_star: false,
-                fifth_star: false
-            });
-        } else if (number === 3) {
-            this.setState({
-                first_star: true,
-                second_star: true,
-                third_star: true,
-                fourth_star: false,
-                fifth_star: false
-            });
-        } else if (number === 4) {
-            this.setState({
-                first_star: true,
-                second_star: true,
-                third_star: true,
-                fourth_star: true,
-                fifth_star: false
-            });
-        } else if (number === 5) {
-            this.setState({
-                first_star: true,
-                second_star: true,
-                third_star: true,
-                fourth_star: true,
-                fifth_star: true
-            });
+        let starState = {
+            first_star: false,
+            second_star: false,
+            third_star: false,
+            fourth_star: false,
+            fifth_star: false
+        };
+        // TODO: Ensure the keys are always returned in the same order
+        const starStateKeys = Object.keys(starState);
+        for (let i = 0; i < number; i++) {
+            starState[starStateKeys[i]] = true;
         }
+        this.setState(starState);
     }
 
     /**
@@ -116,55 +88,7 @@ class SessionModal extends React.Component {
      */
     changeStarOut() {
         const { rating } = this.state;
-        if (rating === 0) {
-            this.setState({
-                first_star: false,
-                second_star: false,
-                third_star: false,
-                fourth_star: false,
-                fifth_star: false
-            });
-        } else if (rating === 1) {
-            this.setState({
-                first_star: true,
-                second_star: false,
-                third_star: false,
-                fourth_star: false,
-                fifth_star: false
-            });
-        } else if (rating === 2) {
-            this.setState({
-                first_star: true,
-                second_star: true,
-                third_star: false,
-                fourth_star: false,
-                fifth_star: false
-            });
-        } else if (rating === 3) {
-            this.setState({
-                first_star: true,
-                second_star: true,
-                third_star: true,
-                fourth_star: false,
-                fifth_star: false
-            });
-        } else if (rating === 4) {
-            this.setState({
-                first_star: true,
-                second_star: true,
-                third_star: true,
-                fourth_star: true,
-                fifth_star: false
-            });
-        } else if (rating === 5) {
-            this.setState({
-                first_star: true,
-                second_star: true,
-                third_star: true,
-                fourth_star: true,
-                fifth_star: true
-            });
-        }
+        this.changeStar(rating);
     }
 
     /**
@@ -501,10 +425,10 @@ class SessionModal extends React.Component {
                                                 height="25"
                                             />
                                         </span>
+
                                         <span>
                                             <h5 className="rating-span">
-                                                {`${rating /
-                                                    5} ${satisfaction}`}
+                                                {`${rating}/5 ${satisfaction}`}
                                             </h5>
                                         </span>
                                         <h5>

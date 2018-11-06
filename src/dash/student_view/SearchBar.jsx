@@ -35,7 +35,7 @@ class DashSearchBar extends React.Component {
                         type="text"
                         name="subject"
                         className="col-xs-12 col-sm-6 col-md-8 input-lg search-input"
-                        placeholder="What subject do you need help with?"
+                        placeholder="Search for tutors by subject"
                     />
                     <select
                         name="time"

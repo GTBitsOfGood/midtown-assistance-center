@@ -32,25 +32,26 @@ class TutorDash extends React.Component {
             );
         } else if (user.confirmed) {
             dashDisplay = (
-                <h4 className="tutor-approval-msg">
-                    Your profile is awaiting approval. Edit your profile and
-                    check back soon!
+                <h4 className="alert alert-warning tutor-approval-msg">
+                    <i className="glyphicon glyphicon-exclamation-sign tutor-approval-msg-glyph" aria-hidden="true" />
+                    Your profile is awaiting approval. Edit your profile and check back soon!
                 </h4>
             );
         } else {
             dashDisplay = (
-                <h4 className="tutor-approval-msg">
-                    Please confirm your email address
+                <h4 className="alert alert-warning tutor-approval-msg">
+                    <i className="glyphicon glyphicon-exclamation-sign tutor-approval-msg-glyph" aria-hidden="true" />
+                    We've sent an email to you. Please click the link in that message to confirm your email address.
                 </h4>
             );
         }
         return (
             <div className="tutor-dash container col-xs-12">
-                <div className="col-md-6">
-                    <TutorProfile />
-                </div>
                 <div className="col-md-6 upcoming-events-list">
                     {dashDisplay}
+                </div>
+                <div className="col-md-6">
+                    <TutorProfile />
                 </div>
             </div>
         );

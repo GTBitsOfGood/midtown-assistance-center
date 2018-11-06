@@ -68,7 +68,7 @@ class FavoritePicker extends React.Component {
                         onClick={this.handleRemoveClick}
                         disabled={!this.props.is_edit}
                     >
-                        Remove
+                        <span className="glyphicon glyphicon-remove" />
                     </button>
                 </span>
             </div>

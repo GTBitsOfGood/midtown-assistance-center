@@ -137,9 +137,6 @@ export class MenuBar extends React.Component {
                             className="btn btn-sm dropdown-menu-button"
                             title={user._id}
                         >
-                            <LinkContainer to="#">
-                                <MenuItem>Messages</MenuItem>
-                            </LinkContainer>
                             {window.location.pathname === '/dash/profile' ? (
                                 <LinkContainer to="/dash">
                                     <MenuItem>Dashboard</MenuItem>
