@@ -21,6 +21,9 @@ const app = express();
 // https://github.com/sendgrid/sendgrid-nodejs
 const sgMail = require('@sendgrid/mail');
 const bcrypt = require('bcrypt');
+const Tutor = require('../models/Tutor');
+const Student = require('../models/Student');
+const Admin = require('../models/Admin');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -38,6 +41,94 @@ function encryptPassword(password) {
 app.get('/getRecentSessions', (req, res) => {
     // TO DO: Add method in Session Dao
     //
+});
+
+app.post('/forgotPassword', (req, res) => {
+    data_access.users.findUserType(req.body.email, (err, emailType) => {
+        if(err) {
+            console.log('error checking email');
+            return res.send(400, {error: err});
+        }
+
+        if (!emailType) {
+            res.send({
+                success: false,
+                error_message: 'Email does not exist in the system'
+            });
+        } else {
+            const reset_key = Math.random()
+                .toString(36)
+                .substring(7);
+            const endpoint =
+                req.headers.host +
+                (req.headers.port ? `:${req.headers.port}` : '');
+            const msg = {
+                to: req.body.email,
+                from: 'mac@mactutoring.com',
+                subject:
+                    'Reset your password for your MAC Tutoring account',
+                text:
+                    `Click here to reset your password for your MAC tutoring account, or copy and paste the following URL into your browser: ${endpoint}/home/resetPassword?reset_key=${reset_key}&email=${req.body.email}`,
+                html:
+                    `Click <a href="${endpoint}/home/resetPassword?reset_key=${reset_key}&email=${req.body.email}">here</a> to reset your password for your MAC tutoring account, or copy and paste the following URL into your browser: <strong>${endpoint}/home/resetPassword?reset_key=${reset_key}&email=${req.body.email}</strong>`
+            };
+
+            if (emailType === 'tutor') {
+                Tutor.findOneAndUpdate({ email: req.body.email }, {$set:{ reset_key }}, { new: true }, (err) => {
+                    if (err) {
+                        res.send({
+                            success: false,
+                            error_message: 'Unable to add reset key to account'
+                        });
+                    } else {
+                        sgMail.send(msg);
+                        res.send({
+                            success: true,
+                            error_message: null
+                        });
+                    }
+                });
+            } else if (emailType === 'student') {
+                Student.findOneAndUpdate({ email: req.body.email }, {$set:{ reset_key }}, { new: true }, (err) => {
+                    if (err) {
+                        res.send({
+                            success: false,
+                            error_message: 'Unable to add reset key to account'
+                        });
+                    } else {
+                        sgMail.send(msg);
+                        res.send({
+                            success: true,
+                            error_message: null
+                        });
+                    }
+                });
+            } else {
+                Admin.findOneAndUpdate({ email: req.body.email }, {$set:{ reset_key }}, { new: true }, (err) => {
+                    if (err) {
+                        res.send({
+                            success: false,
+                            error_message: 'Unable to add reset key to account'
+                        });
+                    } else {
+                        sgMail.send(msg);
+                        res.send({
+                            success: true,
+                            error_message: null
+                        });
+                    }
+                });
+            }
+
+        }
+    });
+});
+
+app.patch('/resetPassword', (req, res) => {
+    res.send({
+        success: true,
+        error_message: null
+    });
 });
 
 app.get('/onlineTutors', (req, res) => {
@@ -292,13 +383,13 @@ app.get('/confirmEmail', (req, res) => {
                     success: false,
                     error_message: 'Failed to confirm tutor, no tutor found'
                 });
-            } 
+            }
             return res.json({
                 success: true,
                 error_message: null,
                 message: 'Successfully confirmed email'
             });
-            
+
         }
     );
 });

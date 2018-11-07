@@ -87,7 +87,7 @@ module.exports = {
                                 );
                                 callback(err);
                             } else if (docs.length > 0) {
-                                // Found a student with the same email
+                                // Found a admin with the same email
                                 callback(null, true);
                             } else {
                                 callback(null, false);
@@ -400,6 +400,44 @@ module.exports = {
         );
     },
 
+    findUserType: function(email, callback) {
+        Tutor.find({ email: email }, function(err, docs) {
+            if (err) {
+                console.error('Error checking if email is taken:', err);
+                callback(err);
+            } else if (docs.length > 0) {
+                // Found a tutor with the same email
+                callback(null, 'tutor');
+            } else {
+                // Look for students with the same email
+                Student.find({ email: email }, function(err, docs) {
+                    if (err) {
+                        console.error('Error checking if email is taken:', err);
+                        callback(err);
+                    } else if (docs.length > 0) {
+                        // Found a student with the same email
+                        callback(null, 'student');
+                    } else {
+                        Admin.find({ email: email }, function(err, docs) {
+                            if (err) {
+                                console.error(
+                                    'Error checking if email is taken:',
+                                    err
+                                );
+                                callback(err);
+                            } else if (docs.length > 0) {
+                                // Found a admin with the same email
+                                callback(null, 'admin');
+                            } else {
+                                callback(null, null);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    },
+
     banUser: (user_id, callback) => {
         Tutor.findByIdAndUpdate(user_id, { $set: {banned: true}}, {new: true}, (err, newTutor) => {
             if (err) {
@@ -461,5 +499,4 @@ module.exports = {
             return callback(null, newTutor);
         });
     },
-
 };

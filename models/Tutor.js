@@ -113,6 +113,7 @@ let schema = new Schema({
     confirm_key: { type: String, required: false },
     calendarId: { type: String, required: false },
     tutoringEventId: { type: String, required: false },
+    reset_key: { type: String, required: false },
     banned: { type: Boolean, default: false }
 });
 

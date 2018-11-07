@@ -13,6 +13,7 @@ class ForgotPasswordForm extends React.Component {
 
         this.handleEmailChange = this.handleEmailChange.bind(this);
         this.setMessage = this.setMessage.bind(this);
+        this.sendToServer = this.sendToServer.bind(this);
     }
 
     setMessage(message) {
@@ -25,32 +26,27 @@ class ForgotPasswordForm extends React.Component {
 
     sendToServer(e) {
         e.preventDefault();
-
         const { email } = this.state;
 
-        const userDetails = {
-            email
-        };
-        // Look at passportConfig.js /login endpoint
         axios
-            .get('/forgotPassword', {params: userDetails} )
+            .post('/api/forgotPassword', { email } )
             .then(response => {
-                if (response.data !== '') {
-                    this.setMessage('no data');
+                console.log(response.data);
+                if (response.data.success) {
+                    this.setMessage(`Email sent to ${ email } with a link to reset your password.`);
                 } else {
-                    console.log(response.data);
-                    this.setMessage('yes');
+                    this.setMessage('No account found with that email.');
                 }
             })
             .catch(error => {
                 console.log(error);
-                this.setMessage('failed');
+                this.setMessage('Request failed. Please try again later');
             });
     }
 
     render() {
         const { email, message } = this.state;
-        const messageDiv = message ? (<div className='text-alert'>{{message}}</div>) : null;
+        const messageDiv = message ? (<div className='text-white'>{message}</div>) : null;
         return (
             <div>
                 <div className="bkgrd" />
@@ -59,12 +55,13 @@ class ForgotPasswordForm extends React.Component {
                     <div className="animated fadeInRight col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center forgot-pass-form container">
                         <div className="vert-center">
                             <h3 className="forgot-pass-header">Forgot Your Password?</h3>
+                            {messageDiv}
                             <form onSubmit={this.sendToServer}>
                                 <div className="row col-xs-12">
                                     <input
                                         className="input-lg col-xs-10 col-xs-offset-1"
                                         type="text"
-                                        name="fname"
+                                        name="email"
                                         value={email}
                                         onChange={this.handleEmailChange}
                                         placeholder="Enter Your Email"
@@ -79,7 +76,6 @@ class ForgotPasswordForm extends React.Component {
                                     />
                                 </div>
                             </form>
-                            {messageDiv}
                         </div>
                     </div>
                 </div>
