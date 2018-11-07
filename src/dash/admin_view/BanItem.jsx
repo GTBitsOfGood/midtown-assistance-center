@@ -1,66 +1,55 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import styles from '../../../public/css/admin.css';
 import { approveTutor } from '../../redux/actions/admin_actions';
-import { connect } from 'react-redux';
 
-class ApproveTutorItem extends React.Component {
+class BanItem extends React.Component {
+    constructor(props) {
+        super(props);
+        this.foo = this.foo.bind(this);
+    }
+
+    foo() {
+        this.props;
+    }
+
     render() {
+        const { banned, explanation, personOfInterest, reporter, reporterType, time } = this.props.ban;
+
+        const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'};
+        const dateTime = new Date(time).toLocaleDateString('en-US', options);
         return (
             <div className={styles.approve_tutor_item_wrapper}>
                 <div className="approve-tutor-item">
-                    {/**
-                     <h3>{this.props.data.first_name + " " + this.props.data.last_name}</h3>
-                     <h4 className="lighter-text">{this.props.data.email}</h4>
-
-                     <button className="btn  btn-success approve-button">APPROVE</button>
-                     <button className="btn  btn-danger reject-button">REJECT</button>
-                     **/}
-
                     <h3 className="text-center approve-tutor-header">
-                        {this.props.tutor.first_name +
-                            ' ' +
-                            this.props.tutor.last_name}
+                        {personOfInterest}
                     </h3>
                     <h5>
-                        <span className="tutor-ic-admin glyphicon glyphicon-envelope" />
-                        <span className={styles.lighter_text}> Email: </span>
-                        {this.props.tutor.email}
-                    </h5>
-                    <h5>
-                        <span className="tutor-ic-admin glyphicon glyphicon-envelope" />
-                        <span className={styles.lighter_text}> Gmail: </span>
-                        {this.props.tutor.gmail}
-                    </h5>
-                    <h5>
-                        <span className="tutor-ic-admin glyphicon glyphicon-tree-deciduous" />
+                        <span className="tutor-ic-admin glyphicon glyphicon-user" />
                         <span className={styles.lighter_text}>
-                            {' '}
-                            University:{' '}
-                        </span>Georgia Tech
-                    </h5>
-                    <h5>
-                        <span className="tutor-ic-admin glyphicon glyphicon-apple" />
-                        <span className={styles.lighter_text}> Subjects: </span>
-                        {this.props.tutor.subjects.map(
-                            subj => subj.subject + ' '
-                        )}
-                    </h5>
-                    <h5>
-                        <span className="tutor-ic-admin glyphicon glyphicon-star" />
-                        <span className={styles.lighter_text}>
-                            {' '}
-                            Favorites:{' '}
+                            Person Reported:
                         </span>
-                        {this.props.tutor.favorites.map(
-                            fav => fav.favorite + ' '
-                        )}
+                        {personOfInterest}
                     </h5>
                     <h5>
                         <span className="tutor-ic-admin glyphicon glyphicon-pencil" />
-                        <span className={styles.lighter_text}> Bio: </span>
-                        {this.props.tutor.bio
-                            ? this.props.tutor.bio
-                            : 'This tutor has not entered a bio'}
+                        <span className={styles.lighter_text}>Reporter: </span>
+                        {reporter}
+                    </h5>
+                    <h5>
+                        <span className="tutor-ic-admin glyphicon glyphicon-apple" />
+                        <span className={styles.lighter_text}>Reporter Type: </span>
+                        {reporterType}
+                    </h5>
+                    <h5>
+                        <span className="tutor-ic-admin glyphicon glyphicon-time" />
+                        <span className={styles.lighter_text}>Time of Report: </span>
+                        {dateTime}
+                    </h5>
+                    <h5>
+                        <span className="tutor-ic-admin glyphicon glyphicon-list" />
+                        <span className={styles.lighter_text}> Explanation: </span>
+                        {explanation}
                     </h5>
                     <div className="col-sm-12 text-center">
                         <button
@@ -102,4 +91,4 @@ const mapDispatchToProps = dispatch => {
     };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(ApproveTutorItem);
+export default connect(mapStateToProps, mapDispatchToProps)(BanItem);
