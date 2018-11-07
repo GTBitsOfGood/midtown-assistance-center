@@ -42,6 +42,7 @@ class Events extends React.Component {
             events: null
         };
         this.setCurrentSession = this.setCurrentSession.bind(this);
+        this.setParentSession = this.setParentSession.bind(this);
     }
 
     componentDidMount() {
@@ -116,12 +117,20 @@ class Events extends React.Component {
 
     }
 
+    setParentSession(session) {
+        this.setState({
+            currentEvent: session
+        });
+    }
+
     setCurrentSession(duration) {
         let now = new Date();
         let end = new Date();
+        now.setSeconds(0);
         end.setHours(
             now.getHours() + parseInt(duration)
         );
+        end.setSeconds(0);
 
         let sessionRequestBody = {
             _id: {
@@ -180,7 +189,11 @@ class Events extends React.Component {
                     dayName={this.state.dayName ? this.state.dayName : "Sunday"}
                     setCurrentSession={this.setCurrentSession}
                 />
-                <TutorUpcomingEvents socket={this.props.socket} events={this.state.events}/>
+                <TutorUpcomingEvents
+                    socket={this.props.socket}
+                    events={this.state.events}
+                    setParentSession={this.setParentSession}
+                />
             </div>
         );
     }

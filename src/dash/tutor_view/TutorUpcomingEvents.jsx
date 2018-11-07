@@ -37,6 +37,7 @@ class UpcomingEvents extends React.Component {
                     today={this.props.events[event].active}
                     startTime={this.props.events[event].start_time}
                     endTime={this.props.events[event].end_time}
+                    setParentSession={this.props.setParentSession}
                 />
             );
         }

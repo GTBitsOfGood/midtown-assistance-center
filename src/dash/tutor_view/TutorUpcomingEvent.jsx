@@ -11,6 +11,7 @@
 import React from 'react';
 import axios from 'axios';
 import SessionReviewModal from './SessionReviewModal';
+import moment from 'moment';
 
 class TutorUpcomingEvent extends React.Component {
     /**
@@ -98,6 +99,7 @@ class TutorUpcomingEvent extends React.Component {
         // TODO: this causes a bug where if new times are added, the state of this component does not
         // TODO: change and it hides new times.
         const now = new Date();
+        const nowMoment = moment();
         const startTimeHour = parseInt(this.props.startTime.split(':')[0]);
         let active = startTimeHour - now.getHours() <= 1 && this.props.today;
         let startTimeSplit = this.props.startTime.split(':');
@@ -119,9 +121,12 @@ class TutorUpcomingEvent extends React.Component {
                 .post('/api/getTutorSession', sessionRequestBody)
                 .then(function(response) {
                     if (response.data.success) {
+                        const start = moment(response.data.session.start_time);
+                        const end = moment(response.data.session.expected_end_time);
                         if (
-                            response.data.session &&
-                            response.data.session.end_time
+                            (response.data.session &&
+                            response.data.session.end_time) ||
+                            nowMoment.diff(end) > 0
                         ) {
                             self.setState({ display: false });
                         } else {
@@ -288,6 +293,9 @@ class TutorUpcomingEvent extends React.Component {
                         eventId: response.data.id,
                         session: response.data.session
                     });
+                    if (self.props.setParentSession) {
+                        //self.props.setParentSession(response.data.session);
+                    }
                     window.open(response.data.link, '_blank');
                 } else {
                     console.log(response.data.error);
