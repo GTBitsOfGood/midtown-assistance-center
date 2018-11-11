@@ -734,17 +734,32 @@ app.post('/banUser', (req, res) => {
     data_access.ban.banUser(req.body.ban_id, req.body.banned, (err, ban) => {
         if (err) {
             console.log(err);
-            res.json({
+            return res.json({
                 success: false,
                 error: err
             });
-        } else {
-            res.json({
+        }
+        if (!req.body.banned) {
+            return res.json({
                 success: true,
                 error: null,
                 ban
             });
         }
+
+        data_access.users.banUser(ban.personOfInterest, (err, newUser) => {
+            if (err) {
+                console.log(err);
+                return res.json({
+                    success: false,
+                    error: err
+                });
+            }
+            return res.json({
+                success: true,
+                error: null,
+            });
+        });
     });
 });
 

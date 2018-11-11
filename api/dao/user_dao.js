@@ -395,5 +395,27 @@ module.exports = {
                 callback(null, updatedTutor);
             }
         );
+    },
+
+    banUser: (user_id, callback) => {
+        Tutor.findByIdAndUpdate(user_id, { $set: {banned: true}}, {new: true}, (err, newTutor) => {
+            if (err) {
+                console.log('Error banning user', err);
+                return callback(err);
+            }
+            if (newTutor) {
+                return callback(null, newTutor);
+            }
+            return Student.findByIdAndUpdate(user_id, { $set: {banned: true}}, {new: true}, (err, newStudent) => {
+                if (err) {
+                    console.log('Error banning user', err);
+                    return callback(err);
+                }
+                if (newStudent) {
+                    return callback(null, newTutor);
+                }
+                return callback('ID not found in Tutor or Student');
+            });
+        });
     }
 };
