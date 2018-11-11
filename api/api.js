@@ -709,7 +709,8 @@ app.get('/unapprovedTutors', (req, res) => {
 
 app.get('/allPendingBans', (req, res) => {
     const notBanned = {
-        banned: false
+        banned: false,
+        reviewed: false
     };
     data_access.ban.getAllBans(notBanned, (err, bans) => {
         if (err) {
@@ -724,6 +725,24 @@ app.get('/allPendingBans', (req, res) => {
                 success: true,
                 error: null,
                 bans
+            });
+        }
+    });
+});
+
+app.post('/banUser', (req, res) => {
+    data_access.ban.banUser(req.body.ban_id, req.body.banned, (err, ban) => {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            res.json({
+                success: true,
+                error: null,
+                ban
             });
         }
     });

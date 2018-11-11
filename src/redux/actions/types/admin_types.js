@@ -22,3 +22,8 @@ export const getAllBans = 'GET_ALL_BANS';
 export const getAllBansPending = 'GET_ALL_BANS_PENDING';
 export const getAllBansRejected = 'GET_ALL_BANS_REJECTED';
 export const getAllBansFulfilled = 'GET_ALL_BANS_FULFILLED';
+
+export const banUser = 'BAN_USER';
+export const banUserPending = 'BAN_USER_PENDING';
+export const banUserRejected = 'BAN_USER_REJECTED';
+export const banUserFulfilled = 'BAN_USER_FULFILLED';

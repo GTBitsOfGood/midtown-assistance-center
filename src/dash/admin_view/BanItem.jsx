@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import styles from '../../../public/css/admin.css';
-import { approveTutor } from '../../redux/actions/admin_actions';
+import { banUserAndUpdate } from '../../redux/actions/admin_actions';
 
 class BanItem extends React.Component {
     constructor(props) {
@@ -14,7 +15,8 @@ class BanItem extends React.Component {
     }
 
     render() {
-        const { banned, explanation, personOfInterest, reporter, reporterType, time } = this.props.ban;
+        const { banUserAndUpdate } = this.props;
+        const { explanation, personOfInterest, reporter, reporterType, time, _id } = this.props.ban;
 
         const options = { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric', hour: 'numeric', minute: 'numeric'};
         const dateTime = new Date(time).toLocaleDateString('en-US', options);
@@ -53,26 +55,18 @@ class BanItem extends React.Component {
                     </h5>
                     <div className="col-sm-12 text-center">
                         <button
-                            onClick={() =>
-                                this.props.approveTutor(
-                                    this.props.tutor,
-                                    'approved'
-                                )
-                            }
-                            className={styles.approve_btn}
+                            onClick={() => banUserAndUpdate(_id, true)}
+                            className={styles.deny_btn}
+                            type="button"
                         >
-                            Approve
+                            Ban
                         </button>
                         <button
-                            onClick={() =>
-                                this.props.approveTutor(
-                                    this.props.tutor,
-                                    'denied'
-                                )
-                            }
-                            className={styles.deny_btn}
+                            onClick={() => banUserAndUpdate(_id, false)}
+                            className={styles.approve_btn}
+                            type="button"
                         >
-                            Deny
+                            Disregard
                         </button>
                     </div>
                 </div>
@@ -81,13 +75,18 @@ class BanItem extends React.Component {
     }
 }
 
+BanItem.propTypes = {
+    ban: PropTypes.object.isRequired,
+    banUserAndUpdate: PropTypes.func.isRequired
+};
+
 const mapStateToProps = state => {
     return {};
 };
 
 const mapDispatchToProps = dispatch => {
     return {
-        approveTutor: (tutor, status) => dispatch(approveTutor(tutor, status))
+        banUserAndUpdate: (ban_id, banned) => dispatch(banUserAndUpdate(ban_id, banned))
     };
 };
 

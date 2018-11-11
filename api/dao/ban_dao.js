@@ -21,5 +21,20 @@ module.exports = {
                 callback(null, bans);
             }
         });
-    }
+    },
+
+    banUser: (ban_id, banned, callback) => {
+        Ban.findOneAndUpdate(
+            { _id: ban_id },
+            { $set: {reviewed: true, banned }},
+            (err, doc) => {
+                if (err) {
+                    console.error('Error updating ban:', err);
+                    callback(err);
+                } else {
+                    callback(null, doc);
+                }
+            }
+        );
+    },
 };
