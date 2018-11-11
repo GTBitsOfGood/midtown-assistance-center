@@ -21,7 +21,13 @@ class TutorDash extends React.Component {
     render() {
         const { user } = this.props;
         let dashDisplay = null;
-        if (user.approved && user.confirmed) {
+        if (user.banned) {
+            dashDisplay = (
+                <h4 className="tutor-approval-msg">
+                    You have been banned! Contact your admin for more information.
+                </h4>
+            );
+        } else if (user.approved && user.confirmed) {
             dashDisplay = (
                 <div>
                     <TutorUpcomingEvents socket={socket} />
