@@ -341,8 +341,8 @@ class TutorUpcomingEvent extends React.Component {
                     this.props.endTime.split(':')[0]) : ''
                 }
             >
-                <div className="session-info-container" data-toggle="tooltip" title="Click to begin session">
-                    <h4 className="session-info session-info-active">Begin Session</h4>
+                <div className="session-info-container" data-toggle="tooltip" title="Click to enter session">
+                    <h4 className="session-info session-info-active">Enter Session</h4>
                     <img
                         className=" google-link"
                         src="/images/google-icon-active.png"
@@ -350,7 +350,7 @@ class TutorUpcomingEvent extends React.Component {
                 </div>
             </a>
         ) : (
-            <div className="session-info-container" data-toggle="tooltip" title="Can not start inactive session">
+            <div className="session-info-container" data-toggle="tooltip" title="Can not enter inactive session">
                 <h4 className="session-info session-info-inactive">Session Inactive</h4>
                 <img
                     className=" google-link"
