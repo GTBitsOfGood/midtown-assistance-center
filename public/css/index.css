@@ -90,36 +90,34 @@ body {
     -webkit-box-shadow: none;
     -moz-box-shadow: none;
     border: 0;
-    border-right: 1px solid var(--gray) !important;
+    border-right: 1px solid var(--gray);
 }
 
 .search-btn {
     border-radius: 0;
-    height: 100% !important;
-    -webkit-box-shadow: none !important;
-    -moz-box-shadow: none !important;
-    box-shadow: none !important;
-    margin-left: 0px !important;
+    height: 100%;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    margin-left: 0px;
+    background: white;
 }
 
 .search-btn:hover {
     color: var(--gold);
-    background-color: white;
 }
 
 .search-select {
-    -webkit-border-radius: 0px !important;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
     -moz-appearance: none;
-    -moz-border-radius: 0px !important;
     appearance: none;
-    border-radius: 0px !important;
+    min-width: 6em;
+    background: white;
 }
 
 @media screen and (max-width: 800px) {
-    .search-select {
-        display: none;
-    }
-
     .search-input {
         border-bottom: 1px solid var(--gray);
     }
@@ -154,10 +152,10 @@ body {
 
 .tutor-panel {
     border-radius: 0;
-    -webkit-border-radius: 0 !important;
-    -moz-border-radius: 0 !important;
-    border-radius: 0 !important;
-    border: 0 !important;
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
+    border: 0;
 }
 
 .tutors-list {
@@ -166,13 +164,13 @@ body {
     border-left: 1px solid var(--tutorBorderColor) !important;
 }
 
-.tutor-panel-heading {
-    border-radius: 0 !important;
-    -webkit-border-radius: 0 !important;
-    -moz-border-radius: 0 !important;
-    border-radius: 0 !important;
+.tutor-panel > .tutor-panel-heading {
+    -webkit-border-radius: 0;
+    -moz-border-radius: 0;
+    border-radius: 0;
     padding: 1%;
-    border-bottom: 1px solid var(--tutorBorderColor) !important;
+    border-bottom: 1px solid var(--tutorBorderColor);
+    cursor: pointer;
 }
 
 .tutor-panel-heading:hover {
@@ -271,9 +269,6 @@ body {
     position: static;
 }
 
-.review-modal-dialog {
-}
-
 .review-modal {
     border-radius: 0;
     border-top: 2px solid var(--gold);
@@ -297,7 +292,11 @@ body {
 
 .clear-search {
     display: inline-block;
+    margin-left: 10px;
     color: var(--gray);
+    border: 1px solid var(--gray);
+    border-radius: 4px;
+    padding: 2px;
 }
 
 .clear-search h4 {
@@ -306,14 +305,20 @@ body {
 
 .clear-search:hover {
     color: var(--gold);
-}
-
-.search-list-header {
-    /*padding: 5px;*/
+    border-color: var(--gold);
 }
 
 .online-img {
-    margin-left: 1%;
+    margin-left: 5px;
+    padding: 5px;
+    font-size: 0.5em;
+    color: var(--ltgray);
+    background-color: var(--success_green);
+    border-radius: 5px;
+}
+
+.online-img.tutor-offline {
+    background-color: var(--dkgray);
 }
 
 .online-ic {
@@ -430,6 +435,13 @@ body {
     margin-bottom: 3%;
 }
 
+.time-item .input-group {
+    padding: 5px;
+    border: 1px solid var(--primaryLight);
+    border-radius: 4px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+}
+
 /*======================================== Tutor Dash ========================================*/
 
 .tutor-dash {
@@ -447,6 +459,8 @@ body {
 .tutor-events-header {
     margin-bottom: 2%;
     margin-top: 3%;
+    margin-right: 1%;
+    display:inline-block;
     font-size: 15px;
 }
 
@@ -471,11 +485,37 @@ body {
     margin: 0;
 }
 
+.session-info-container {
+    text-align: right;
+}
+.session-info {
+    display: inline-block;
+    margin-right: 10px;
+    font-size: 1.2em;
+    padding: 5px;
+    border: 1px solid var(--primaryLight);
+    border-radius: 5px;
+    transition: all 0.2s ease-out;
+}
+.session-info-active {
+    color: var(--ltgray);
+    background: var(--gold);
+    border-color: var(--gold);
+}
+.session-info-active:hover {
+    color: var(--gold);
+    background: transparent;
+    border-color: var(--gold);
+}
+.session-info-inactive {
+    color: var(--gray);
+    border-color: var(--gray);
+}
+
 .google-link {
-    float: right;
     display: inline-block;
     border: 1px solid var(--primaryLight);
-    height: 55px;
+    height: 100%;
     width: auto;
 }
 
@@ -569,6 +609,10 @@ body {
 .tutor-approval-msg {
     margin-top: 10%;
     font-weight: 300;
+    min-height : 3em;
+}
+.tutor-approval-msg > .tutor-approval-msg-glyph {
+    margin-right: 5px;
 }
 
 .tutor-profile-picture {
@@ -809,3 +853,5 @@ body {
         opacity: 0.7;
     }
 }
+
+

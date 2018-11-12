@@ -24,7 +24,7 @@ class UpcomingEvents extends React.Component {
      * @returns {*}
      */
     render() {
-        let renEvents = [];
+        const renEvents = [];
         for (event in this.props.events) {
             renEvents.push(
                 <TutorUpcomingEvent
@@ -41,6 +41,19 @@ class UpcomingEvents extends React.Component {
                 />
             );
         }
+        if (this.props.events && this.props.events.length === 0) {
+            renEvents.push(
+                <h3>You haven't added any session times to your schedule</h3>
+            );
+        }
+
+        renEvents.sort((a, b) => {
+            if (a.props.dayName === b.props.dayName) {
+                return a.props.startTime.localeCompare(b.props.startTime);
+            }
+            // TODO: fix this
+            return 0;
+        });
         // renEvents.sort((a, b) => {
         //     if (a.props.dayName === b.props.dayName) {
         //         return a.props.startTime.localeCompare(b.props.startTime);
@@ -54,9 +67,18 @@ class UpcomingEvents extends React.Component {
             <div className="row animated fadeInRight tutorUpcomingEvents">
                 <div className="col">
                     <div className="text-center row">
-                        <h4 className="lighter-text text-uppercase tutor-events-header">
-                            Upcoming Sessions
-                        </h4>
+                        <div className="row list-inline ">
+                            <h4 className="lighter-text text-uppercase tutor-events-header">
+                                Upcoming Sessions
+                            </h4>
+                            <span
+                                className="glyphicon glyphicon glyphicon-info-sign"
+                                data-toggle="tooltip"
+                                data-placement="right"
+                                title="Your upcoming sessions are shown below.
+                                        Active sessions are shown in yellow."
+                            />
+                        </div>
                         <div className="col-xs-12">{renEvents}</div>
                     </div>
                 </div>
@@ -66,7 +88,7 @@ class UpcomingEvents extends React.Component {
 }
 
 const mapStateToProps = state => ({
-    user:state.user
+    user: state.user
 });
 
 const TutorUpcomingEvents = connect(

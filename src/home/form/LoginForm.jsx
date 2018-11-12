@@ -60,53 +60,49 @@ class Loginpage extends React.Component {
     render() {
         const { username, password, errorMessage } = this.state;
         return (
-            <div>
-                <div className="bkgrd" />
-                <div className="animated fadeInRight">
-                    <div className="login-form-bkgrd col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4" />
-                    <div className="animated fadeInRight col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center login-form container">
-                        <div className="vert-center">
-                            <h3 className="login-header">Login</h3>
-                            <form onSubmit={this.sendToServer}>
-                                <div className="row col-xs-12">
-                                    <input
-                                        className="input-lg col-xs-10 col-xs-offset-1"
-                                        type="text"
-                                        name="fname"
-                                        value={username}
-                                        onChange={this.handleUsernameChange}
-                                        placeholder="Enter Username"
-                                    />
-                                </div>
-                                <div className="row col-xs-12">
-                                    <input
-                                        className="input-lg col-xs-10 col-xs-offset-1"
-                                        type="Password"
-                                        name="lname"
-                                        value={password}
-                                        onChange={this.handlePasswordChange}
-                                        placeholder="Enter Password"
-                                    />
-                                </div>
-                                <div className="row col-xs-12">
-                                    <input
-                                        style={{ animationDelay: '2s' }}
-                                        className="animated bounce login-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
-                                        type="submit"
-                                        value="SUBMIT"
-                                    />
-                                </div>
-                                <h5 className={`col-xs-12 ${errorMessage}`}>
-                                    username or password incorrect
-                                </h5>
-                                <div className="row col-xs-12">
-                                    {/* TODO: implement forgot password link */}
-                                    <Link className="login-anchor" to="foobar">
-                                        Forgot your password?
-                                    </Link>
-                                </div>
-                            </form>
-                        </div>
+            <div className="bkgrd">
+                <div className="animated fadeInRight text-center login-form">
+                    <div className="vert-center">
+                        <h3 className="login-header">Login</h3>
+                        <form onSubmit={this.sendToServer}>
+                            <div className="row col-xs-12">
+                                <input
+                                    className="input-lg col-xs-10 col-xs-offset-1"
+                                    type="text"
+                                    name="fname"
+                                    value={username}
+                                    onChange={this.handleUsernameChange}
+                                    placeholder="Enter Username"
+                                />
+                            </div>
+                            <div className="row col-xs-12">
+                                <input
+                                    className="input-lg col-xs-10 col-xs-offset-1"
+                                    type="Password"
+                                    name="lname"
+                                    value={password}
+                                    onChange={this.handlePasswordChange}
+                                    placeholder="Enter Password"
+                                />
+                            </div>
+                            <div className="row col-xs-12">
+                                <input
+                                    style={{ animationDelay: '2s' }}
+                                    className="animated bounce login-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
+                                    type="submit"
+                                    value="SUBMIT"
+                                />
+                            </div>
+                            <h5 className={`col-xs-12 ${errorMessage}`}>
+                                username or password incorrect
+                            </h5>
+                            <div className="row col-xs-12">
+                                {/* TODO: implement forgot password link */}
+                                <Link className="login-anchor" to="foobar">
+                                    Forgot your password?
+                                </Link>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

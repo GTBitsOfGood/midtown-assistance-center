@@ -9,7 +9,7 @@ class StudentProfile extends React.Component {
         super(props);
         this.state = {
             is_edit: false,
-            button_text: 'Edit',
+            button_text: 'Edit Info',
             email: props.user.email,
             bio: props.user.bio
             // isFirst: true
@@ -35,7 +35,7 @@ class StudentProfile extends React.Component {
         if (!is_edit) {
             this.setState({ button_text: 'Save' });
         } else {
-            this.setState({ button_text: 'Edit' });
+            this.setState({ button_text: 'Edit Info' });
             this.handleSave();
         }
         this.setState(prevState => ({ is_edit: !prevState.is_edit }));
@@ -63,13 +63,18 @@ class StudentProfile extends React.Component {
                                     />
                                 </div>
                                 <div className="col-sm-6 col-md-8">
-                                    <h1>{user._id}</h1>
+                                    <h1>
+                                        {user._id}
+                                    </h1>
                                     <small>
                                         <cite title="Atlanta, USA">
                                             Atlanta, USA{' '}
                                             <i className="glyphicon glyphicon-map-marker" />
                                         </cite>
                                     </small>
+                                    <br/>
+                                    
+
                                     <div className="form-group">
                                         <div className="row">
                                             <div className="col-xs-12">
@@ -123,12 +128,11 @@ class StudentProfile extends React.Component {
                                     <button
                                         className="btn btn-primary"
                                         type="submit"
-                                        style={{
-                                            float: 'right',
-                                            margin: '5px'
-                                        }}
                                         onClick={this.handleEdit}
                                     >
+                                        {button_text === 'Edit Info' &&
+                                            <i className="glyphicon glyphicon-pencil">&nbsp;</i>
+                                        }
                                         {button_text}
                                     </button>
                                 </div>

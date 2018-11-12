@@ -1,6 +1,5 @@
 /* Signup Tutor Form */
 :root {
-    /*--gold: #d4af37;*/
     --gold: #eeb211;
     --gray: #aeb7b3;
     --ltgray: #f1f6f7;
@@ -11,9 +10,8 @@
     --error_red: #d8000c;
     --success_green: #4f8a10;
     --warning_yellow: #9f6000;
-    --login_signup: #c8b9be;
-    --login_signup: #223641;
     --login_signup: #1c272b;
+    --login_signup_bkgrd: rgba(28, 39, 43, 0.9);
     --accent: var(--gold);
 }
 
@@ -23,41 +21,21 @@ body {
 
 input:-webkit-autofill {
     -webkit-box-shadow: 0 0 0 30px var(--ltgray) inset;
+    box-shadow: 0 0 0 30px var(--ltgray) inset;
 }
 
 .bkgrd {
+    display: flex;
+    justify-content: center;
     height: calc(100vh - 50px);
-    width: 100vw;
+    width: 100%;
     background: url('/images/atlanta_home.png');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: 100vw auto;
-    /*opacity: 0.3;*/
+    background-size: cover;
     position: fixed;
     z-index: -10;
     background-color: var(--black);
-}
-
-.login-form-bkgrd {
-    position: fixed;
-    margin-top: calc(50vh - 200px);
-    min-height: 300px;
-    max-width: 500px;
-    background-color: var(--login_signup);
-    z-index: 0;
-    height: 60vh;
-    opacity: 0.6;
-}
-
-.signup-form-bkgrd {
-    position: fixed;
-    max-width: 500px;
-    background-color: var(--login_signup);
-    z-index: 0;
-    height: 70vh;
-    opacity: 0.6;
-    min-height: 300px;
-    margin-top: 15vh;
 }
 
 .signup-tabs {
@@ -82,21 +60,18 @@ input:-webkit-autofill {
 
 .signup-form,
 .login-form {
-    position: fixed;
+    position: relative;
     margin-top: calc(50vh - 200px);
     min-height: 300px;
     max-width: 500px;
+    width: 100%;
     padding: 2%;
     height: 60vh;
     z-index: 1;
     overflow-y: scroll;
-    /*background-color: #fff;*/
-    /*box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);*/
-    /*border-top: 3px solid var(--gold);*/
-    /*border: 1px solid var(--gray);*/
     padding-right: 0;
     padding-left: 1.5%;
-    background-color: transparent;
+    background-color: var(--login_signup_bkgrd);
     color: var(--ltgray);
 }
 
@@ -104,6 +79,20 @@ input:-webkit-autofill {
     height: 70vh;
     min-height: 300px;
     margin-top: 15vh;
+}
+
+@media (max-width: 500px) {
+    .signup-form, .login-form {
+        margin-top: 0;
+        height: 100%;
+    }
+}
+@media (max-height: 500px) {
+    .signup-form, .login-form {
+        margin-top: 0;
+        min-height: 0px;
+        height: 100%;
+    }
 }
 
 .login-form {
@@ -117,8 +106,6 @@ input:-webkit-autofill {
 
 .signup-form .signup-header,
 .login-form .login-header {
-    /*color: var(--dkgray);*/
-    /*color: black;*/
     font-weight: 300;
     text-transform: none;
 }
@@ -157,18 +144,15 @@ input:-webkit-autofill {
     border-right: 0;
     border-radius: 0px;
     margin-top: 2%;
-    /*background-color: var(--login_signup);*/
     background-color: transparent;
     font-weight: 300;
     color: var(--ltgray);
-    /*border-radius: 3px;*/
-    /*color: green;*/
 }
 
 .signup-form input::placeholder,
-.signup-form select,
 .login-form input::placeholder {
-    color: var(--ltgray);
+    color: var(--gray);
+    font-style: italic;
 }
 
 .signup-form input:focus,
@@ -184,10 +168,15 @@ input:-webkit-autofill {
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
+    color: var(--ltgray);
     background-image: url('/images/select-down-arrow.png');
     background-repeat: no-repeat;
     background-position: right center;
     background-size: 10px 10px;
+}
+
+option.signup-select-option {
+    background: var(--dkgray);
 }
 
 .login-form input {
@@ -196,16 +185,23 @@ input:-webkit-autofill {
 
 .signup-form .signup-button,
 .login-form .login-button {
-    /*background-color: var(--gold);*/
     background-color: var(--accent);
-    /*border: 1px solid var(--ltgray) ! important;*/
     color: var(--ltgray);
-    /*color: black;*/
     margin-top: 5%;
     font-weight: 400;
     border-radius: 3px;
-    /*border: 1px solid var(--gray);*/
-    border-bottom: 0 !important;
+    border-bottom: 0;
+}
+
+.form-tooltip:hover:after {
+    content: attr(title);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background: var(--black);
+    border-radius: 3px;
+    padding: 3px;
+    z-index: 90;
 }
 
 .login-form .login-button {
@@ -223,18 +219,16 @@ input:-webkit-autofill {
 .signup-form .signup-button:hover,
 .login-form .login-button:hover {
     opacity: 0.7;
-    /*background-color: lightgoldenrodyellow;*/
 }
 
 .login-anchor,
 .signup-anchor {
-    /*color: var(--gray);*/
     color: var(--gray);
 }
 
 .login-anchor:hover,
 .signup-anchor:hover {
-    color: var(--black);
+    color: var(--gold);
     text-decoration: none;
 }
 
@@ -243,18 +237,11 @@ input:-webkit-autofill {
 }
 
 .show-error {
-    display: block;
+    display: inline-block;
 }
 
 .signup-dialogue {
     margin-bottom: 5%;
     text-transform: none;
     font-weight: 400;
-}
-
-.login-form {
-    /*background-color: var(--gold);
-    -webkit-border-radius: 3%;
-    -moz-border-radius: 3%;
-    border-radius: 3%;*/
 }

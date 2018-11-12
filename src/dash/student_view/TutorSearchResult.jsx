@@ -47,47 +47,27 @@ class TutorSearchResult extends React.Component {
         const favorites = tutor.favorites.map(fav => (
             <Subject is_favorite subject={fav.favorite} />
         ));
-        const stars = [];
         const date = new Date(tutor.join_date).toLocaleDateString();
-        for (let x = 0; x < fullStars; x++) {
-            stars.push(
-                <span>
-                    <img
-                        alt="full star"
-                        className="star"
-                        src="/images/full-star.png"
-                        width="25"
-                        height="25"
-                    />
-                </span>
-            );
+        const stars = [];
+        function addRatingStars(numStars, starImageString) {
+            for (let x = 0; x < numStars; x++) {
+                stars.push(
+                    <span>
+                        <img
+                            className="star"
+                            src={starImageString}
+                            width="25"
+                            height="25"
+                            alt=""
+                        />
+                    </span>
+                );
+            }
         }
-        for (let y = 0; y < halfStars; y++) {
-            stars.push(
-                <span>
-                    <img
-                        alt="half star"
-                        className="star"
-                        src="/images/half-star.png"
-                        width="25"
-                        height="25"
-                    />
-                </span>
-            );
-        }
-        for (let z = 0; z < emptyStars; z++) {
-            stars.push(
-                <span>
-                    <img
-                        alt="empty star"
-                        className="star"
-                        src="/images/empty-star.png"
-                        width="25"
-                        height="25"
-                    />
-                </span>
-            );
-        }
+        addRatingStars(fullStars, '/images/full-star.png');
+        addRatingStars(halfStars, '/images/half-star.png');
+        addRatingStars(emptyStars, '/images/empty-star.png');
+        
         return (
             <div>
                 <div className="panel panel-default tutor-panel">
@@ -115,16 +95,13 @@ class TutorSearchResult extends React.Component {
                             >
                                 <h3 className="">
                                     {`${tutor.first_name} ${tutor.last_name}`}
-                                    <span className="online-img">
-                                        <img
-                                            alt="online/offline"
-                                            className="online-ic"
-                                            src={
-                                                tutor.online
-                                                    ? '/images/status-online.png'
-                                                    : '/images/status-offline.png'
-                                            }
-                                        />
+                                    <span 
+                                        className={(tutor.online)
+                                                    ? "online-img"
+                                                    : "online-img tutor-offline"}
+                                    >
+                                        {(tutor.online) ? 'Online'
+                                                        : 'Offline'}
                                     </span>
                                     &emsp;
                                     {stars}

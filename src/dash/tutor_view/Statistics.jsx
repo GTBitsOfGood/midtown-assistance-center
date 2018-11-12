@@ -61,9 +61,13 @@ const Statistics = props => {
 
     return (
         <div className="row animated fadeInRight">
-            <h4 className="lighter-text text-uppercase tutor-events-header text-center">
-                Statistics
-            </h4>
+            <div className="col">
+                <div className="text-center row">
+                    <h4 className="lighter-text text-uppercase tutor-events-header text-center">
+                        Statistics
+                    </h4>
+                </div>
+            </div>
             <div className="statistics row">
                 <div className="col-xs-12">
                     <div className="col-md-6">

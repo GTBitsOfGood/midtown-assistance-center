@@ -51,6 +51,7 @@ class FavoritePicker extends React.Component {
                 <span className="subject-pick col-md-4">
                     <label>Favorite Topic: </label>
                     <input
+                        maxLength="50"
                         className="input input-sm subject-input"
                         type="text"
                         value={this.props.favorite}
@@ -67,7 +68,7 @@ class FavoritePicker extends React.Component {
                         onClick={this.handleRemoveClick}
                         disabled={!this.props.is_edit}
                     >
-                        Remove
+                        <span className="glyphicon glyphicon-remove" />
                     </button>
                 </span>
             </div>
