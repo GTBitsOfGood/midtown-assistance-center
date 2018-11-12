@@ -39,24 +39,127 @@ class Events extends React.Component {
         this.initEvents = this.initEvents.bind(this);
         this.state = {
             currentEvent: null,
-            events: null
+            events: null,
+            dayName: 'Sunday',
+            showModal: false
         };
         this.setCurrentSession = this.setCurrentSession.bind(this);
         this.setParentSession = this.setParentSession.bind(this);
     }
 
     componentDidMount() {
-        this.initEvents();
+        this.initEvents(false);
     }
 
-    initEvents() {
+    setParentSession(startTime, endTime) {
+        if (!this.state.currentEvent) {
+            let now = new Date();
+            let start = new Date();
+            let end = new Date();
+            let startTimeSplit = startTime.split(':');
+            let endTimeSplit = endTime.split(':');
+            start.setHours(
+                parseInt(startTimeSplit[0]),
+                parseInt(startTimeSplit[1]),
+                0,
+                0
+            );
+            end.setHours(
+                parseInt(endTimeSplit[0]),
+                parseInt(endTimeSplit[1]),
+                0,
+                0
+            );
+
+            let sessionRequestBody = {
+                _id: {
+                    tutor_id: this.props.user._id,
+                    expected_start_time: start
+                },
+                start_time: now,
+                expected_end_time: end
+            };
+            let requestBody = {
+                sessionRequestBody: sessionRequestBody,
+                tutorId: this.props.user._id,
+                calId: this.props.user.calendarId,
+                startTime: startTime,
+                endTime: endTime,
+                email: this.props.user.gmail
+            };
+
+            let self = this;
+            axios
+                .post('/calendar/createEvent', requestBody)
+                .then(function(response) {
+                    if (response.data.success) {
+                        self.initEvents(true, response.data.session);
+                        //window.open(response.data.link, '_blank');
+                    } else {
+                        console.log(response.data.error);
+                    }
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
+        } else {
+            window.alert('Must close open session before opening a new one');
+        }
+    }
+
+    setCurrentSession(duration) {
+        let now = new Date();
+        let end = new Date();
+        let endMinutes = end.getMinutes() < 10 ? '0' + end.getMinutes().toString() : end.getMinutes();
+        let nowMinutes = now.getMinutes() < 10 ? '0' + now.getMinutes().toString() : now.getMinutes();
+        now.setSeconds(0);
+        end.setHours(
+            now.getHours() + parseInt(duration)
+        );
+        end.setSeconds(0);
+
+
+        let sessionRequestBody = {
+            _id: {
+                tutor_id: this.props.user._id,
+                expected_start_time: now
+            },
+            start_time: now,
+            expected_end_time: end
+        };
+        let requestBody = {
+            sessionRequestBody: sessionRequestBody,
+            tutorId: this.props.user._id,
+            calId: this.props.user.calendarId,
+            startTime: now.getHours() + ':' + nowMinutes,
+            endTime: end.getHours() + ':' + endMinutes,
+            email: this.props.user.gmail
+        };
+
+        let self = this;
+        axios
+            .post('/calendar/createEvent', requestBody)
+            .then(function(response) {
+                console.log(response);
+                if (response.data.success) {
+                    self.initEvents(true, response.data.session);
+                } else {
+                    console.log(response.data.error);
+                }
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
+    }
+
+    initEvents(showModal, session) {
         const {user} = this.props;
         const requestBody = {
             username: user._id
         };
 
         let currentEvent = null;
-        const checkOpenSession = new Promise((resolve, reject) => {
+        const checkOpenSession = !session ? new Promise((resolve, reject) => {
             axios
                 .post('/api/checkActiveSession', requestBody)
                 .then(function(response) {
@@ -74,6 +177,8 @@ class Events extends React.Component {
                 .catch(function(err) {
                     reject(err);
                 });
+        }) : new Promise((resolve, reject) => {
+            resolve(session);
         });
 
         checkOpenSession.then((data) => {
@@ -98,7 +203,7 @@ class Events extends React.Component {
                             start_time: events[event].start_time,
                             end_time: events[event].end_time,
                             active: dayName === days[today],
-                            dayName: dayName
+                            dayName
                         });
                     }
                 }
@@ -108,66 +213,14 @@ class Events extends React.Component {
             this.setState({
                 currentEvent,
                 events:upcomingEvents,
-                dayName
+                dayName,
+                showModal
             });
         }, (err) => {
             console.log(err);
         });
 
 
-    }
-
-    setParentSession(session) {
-        this.setState({
-            currentEvent: session
-        });
-    }
-
-    setCurrentSession(duration) {
-        let now = new Date();
-        let end = new Date();
-        now.setSeconds(0);
-        end.setHours(
-            now.getHours() + parseInt(duration)
-        );
-        end.setSeconds(0);
-
-        let sessionRequestBody = {
-            _id: {
-                tutor_id: this.props.tutorId,
-                expected_start_time: now
-            },
-            start_time: now,
-            expected_end_time: end
-        };
-        let requestBody = {
-            sessionRequestBody: sessionRequestBody,
-            tutorId: this.props.user._id,
-            calId: this.props.user.calendarId,
-            startTime: now.getHours() + ':' + now.getMinutes(),
-            endTime: end.getHours() + ':' + end.getMinutes(),
-            email: this.props.user.gmail
-        };
-
-        console.log(requestBody);
-
-        let self = this;
-        axios
-            .post('/calendar/createEvent', requestBody)
-            .then(function(response) {
-                console.log(response);
-                if (response.data.success) {
-                    self.setState({
-                        currentEvent: response.data.session,
-                        dayName: days[now.getDay()]
-                    });
-                } else {
-                    console.log(response.data.error);
-                }
-            })
-            .catch(function(err) {
-                console.log(err);
-            });
     }
 
     /**
@@ -188,11 +241,15 @@ class Events extends React.Component {
                     endTime={this.state.currentEvent ? new Date(this.state.currentEvent.expected_end_time).getHours() + ":" + endTimeMinutes : "00:00"}
                     dayName={this.state.dayName ? this.state.dayName : "Sunday"}
                     setCurrentSession={this.setCurrentSession}
+                    type='currentEvent'
+                    showModal={this.state.showModal}
                 />
                 <TutorUpcomingEvents
                     socket={this.props.socket}
                     events={this.state.events}
                     setParentSession={this.setParentSession}
+                    type='upcomingEvent'
+                    showModal={false}
                 />
             </div>
         );

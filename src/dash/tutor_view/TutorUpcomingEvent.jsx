@@ -121,12 +121,12 @@ class TutorUpcomingEvent extends React.Component {
                 .post('/api/getTutorSession', sessionRequestBody)
                 .then(function(response) {
                     if (response.data.success) {
-                        const start = moment(response.data.session.start_time);
                         const end = moment(response.data.session.expected_end_time);
                         if (
-                            (response.data.session &&
+                            ((response.data.session &&
                             response.data.session.end_time) ||
-                            nowMoment.diff(end) > 0
+                            nowMoment.diff(end) > 0) &&
+                            !(self.props.type === 'currentEvent')
                         ) {
                             self.setState({ display: false });
                         } else {
@@ -293,9 +293,6 @@ class TutorUpcomingEvent extends React.Component {
                         eventId: response.data.id,
                         session: response.data.session
                     });
-                    if (self.props.setParentSession) {
-                        //self.props.setParentSession(response.data.session);
-                    }
                     window.open(response.data.link, '_blank');
                 } else {
                     console.log(response.data.error);
@@ -329,16 +326,16 @@ class TutorUpcomingEvent extends React.Component {
         let active = startTimeHour - now.getHours() <= 1 && this.props.today;
         const renLogo = active ? (
             <a
-                onClick={this.handleAccessHangoutLink}
+                onClick={this.props.type === 'currentEvent' ? this.handleAccessHangoutLink : () => this.props.setParentSession(this.props.startTime, this.props.endTime)}
                 href="#"
-                data-toggle="modal"
-                data-target={
+                data-toggle={this.props.type === 'currentEvent' ? "modal" : ''}
+                data-target={this.props.type === 'currentEvent' ? (
                     '#Modal_' +
                     this.props.dayName +
                     '_' +
                     this.props.startTime.split(':')[0] +
                     '_' +
-                    this.props.endTime.split(':')[0]
+                    this.props.endTime.split(':')[0]) : ''
                 }
             >
                 <img
@@ -385,6 +382,7 @@ class TutorUpcomingEvent extends React.Component {
                     updateSession={this.setNewState}
                     onSubmit={this.submitReview}
                     tutorId={this.props.tutorId}
+                    showModal={this.props.showModal}
                     id={
                         this.props.dayName +
                         '_' +

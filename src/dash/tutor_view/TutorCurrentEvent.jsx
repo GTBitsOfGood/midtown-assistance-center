@@ -49,6 +49,8 @@ class CurrentEvent extends React.Component {
      *
      */
     render() {
+        console.log('thIS SHOULD B FALSE');
+        console.log(this.props.showModal);
         const renEvent = this.props.currentEvent ?
             <TutorUpcomingEvent
                 key={0}
@@ -60,6 +62,8 @@ class CurrentEvent extends React.Component {
                 today={true}
                 startTime={this.props.startTime || "0:00"}
                 endTime={this.props.endTime || "0:00"}
+                type='currentEvent'
+                showModal={this.props.showModal}
             /> :
             <div className="text-center">
                 <h4 className="">No current sessions. <a href="#" onClick={this.setSessionDuration}>Start a new session?</a></h4>

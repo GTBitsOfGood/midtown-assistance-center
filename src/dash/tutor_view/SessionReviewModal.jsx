@@ -337,7 +337,8 @@ class SessionModal extends React.Component {
                     />
                 </div>
             ));
-
+        console.log('MODAL DISPLAY');
+        console.log(this.props.showModal);
         return (
             <div>
                 {/* eslint-disable jsx-a11y/tabindex-no-positive, jsx-a11y/no-noninteractive-tabindex, jsx-a11y/no-autofocus */}
@@ -347,7 +348,7 @@ class SessionModal extends React.Component {
                     tabIndex="1000"
                     role="dialog"
                     aria-labelledby={`#Modal_${id}Label`}
-                    aria-hidden="true"
+                    aria-hidden={!this.props.showModal}
                     autoFocus
                 >
                     {/* eslint-enable */}
