@@ -23,7 +23,31 @@ class RequestModal extends React.Component {
     }
 
     handleSubmit() {
-        this.setState({approval:'pending'});
+        const request = {
+            _id: {
+                student_id: this.props.username,
+                tutor_id: this.props.tutorId,
+                create_time: Date.now()
+            },
+            topic: this.state.topic,
+            student_comment: this.state.request
+        };
+        const self = this;
+        axios
+            .post('/api/createSessionRequest', {sessionRequest:request})
+            .then((response) => {
+                if (response.data.success) {
+                    this.setState({ approval: 'pending' });
+                    self.props.socket.emit('new-session-request', {
+                        tutor: self.props.tutorId
+                    });
+                } else {
+                    console.log(response.data.error);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
     }
 
     handleGeneralChange(e) {

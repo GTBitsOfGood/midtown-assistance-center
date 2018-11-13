@@ -67,6 +67,12 @@ io.on('connection', socket => {
         io.emit('session-update-' + data.session, data);
     });
 
+    socket.on('new-session-request', data => {
+        console.log(data);
+        console.log('student requested to start new session');
+        io.emit('session-request-' + data.tutor, data);
+    });
+
     socket.on('tutor-approve', data => {
         console.log(data);
         console.log('tutor approved student in session');

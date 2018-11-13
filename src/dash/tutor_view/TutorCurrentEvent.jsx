@@ -9,9 +9,10 @@
 
 import React from 'react';
 import axios from 'axios';
+import { connect } from 'react-redux';
 import SessionReviewModal from './SessionReviewModal';
 import TutorUpcomingEvent from './TutorUpcomingEvent';
-import { connect } from 'react-redux';
+import TutorSessionRequest from './TutorSessionRequest';
 
 class CurrentEvent extends React.Component {
     /**
@@ -19,11 +20,19 @@ class CurrentEvent extends React.Component {
      */
     constructor(props) {
         super(props);
+        this.state = {
+            pendingRequests: []
+        };
         this.setSessionDuration = this.setSessionDuration.bind(this);
+        this.getPendingSessionRequests = this.getPendingSessionRequests.bind(this);
+    }
+
+    componentWillMount() {
+        this.getPendingSessionRequests();
     }
 
     setSessionDuration() {
-        var sessionDuration = window.prompt('Please enter how many hours between 1 and 4 you would like this session to be');
+        const sessionDuration = window.prompt('Please enter how many hours between 1 and 4 you would like this session to be');
         if (sessionDuration) {
             if (isNaN(sessionDuration)) {
                 window.alert('Please enter a number from 1-4');
@@ -44,13 +53,30 @@ class CurrentEvent extends React.Component {
         }
     }
 
+    getPendingSessionRequests() {
+        const self = this;
+        axios
+            .post('/api/getPendingRequests', {_id:this.props.user._id})
+            .then((response) => {
+                if (response.data.success) {
+                    self.setState({pendingRequests: response.data.docs});
+                } else {
+                    console.log(response.data.error);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
 
     /**
      *
      */
     render() {
-        console.log('thIS SHOULD B FALSE');
-        console.log(this.props.showModal);
+        this.props.socket.on(`session-request-${this.props.user._id}`, (data) => {
+            this.getPendingSessionRequests();
+        });
         const renEvent = this.props.currentEvent ?
             <TutorUpcomingEvent
                 key={0}
@@ -59,15 +85,17 @@ class CurrentEvent extends React.Component {
                 calId={this.props.user.calendarId}
                 gmail={this.props.user.gmail}
                 dayName={this.props.dayName}
-                today={true}
-                startTime={this.props.startTime || "0:00"}
-                endTime={this.props.endTime || "0:00"}
+                today
+                startTime={this.props.startTime || '0:00'}
+                endTime={this.props.endTime || '0:00'}
                 type='currentEvent'
                 showModal={this.props.showModal}
-            /> :
-            <div className="text-center">
-                <h4 className="">No current sessions. <a href="#" onClick={this.setSessionDuration}>Start a new session?</a></h4>
-            </div>
+            /> : this.state.pendingRequests.length === 0 ?
+                <div className="text-center">
+                    <h4 className="">No current sessions. <a href="#" onClick={this.setSessionDuration}>Start a new session?</a></h4>
+                </div> : '';
+        const renSessionRequests = this.state.pendingRequests.map((request) =>
+            <TutorSessionRequest sessionRequest={request}/>);
         return (
             <div className="row animated fadeInRight tutorCurrentEvent">
                 <div className="col">
@@ -78,6 +106,14 @@ class CurrentEvent extends React.Component {
                     </div>
                     <div className="col-xs-12">
                         {renEvent}
+                        { this.state.pendingRequests.length > 0 ?
+                            <div className="text-center">
+                                <h4>
+                                    You have ({this.state.pendingRequests.length}) new session requests
+                                </h4>
+                            </div>
+                            : ''}
+                        {renSessionRequests}
                     </div>
                 </div>
             </div>

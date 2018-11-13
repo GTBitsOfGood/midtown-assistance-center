@@ -203,6 +203,7 @@ class TutorSearchResult extends React.Component {
                         subjects={tutor.subjects}
                         favorites={tutor.favorites}
                         firstName={tutor.first_name}
+                        tutorId={tutor._id}
                     />
                 </div>
 
