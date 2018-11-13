@@ -1,19 +1,23 @@
 const AccessCode = require('../../models/AccessCode');
 
 module.exports = {
-    validateAccessCode: (accessFolder, callback) => {
-        AccessCode.find({ code: accessFolder }, (err, docs) => {
+    checkAccessCodeExist: (inputCode, callback) => {
+        console.log('INPUTCODE ',inputCode);
+        AccessCode.find({ access_code: inputCode }, (err, docs) => {
             if (err) {
                 console.error(
-                    'Error checking retrieving school is taken: ',
+                    'Error checking if access code exists: ',
                     err
                 );
                 callback(err);
             } else if (docs.length === 1) {
-                callback(null, docs[0]);
+                callback(null, true);
             } else if (docs.length > 1) {
                 console.warn('Multiple access codes', docs);
-                callback(null, docs[0]);
+                callback(null, true);
+            } else {
+                console.log(docs);
+                callback(null, false);
             }
         });
     },

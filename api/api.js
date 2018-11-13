@@ -166,7 +166,7 @@ app.post('/registerTutor', (req, res) => {
 app.post('/registerStudent', (req, res) => {
     // Add this information to the database
     // TODO: Validate accessCode
-    const password = encryptPassword(password);
+    const password = encryptPassword(req.body.password);
     data_access.users.checkIfUsernameIsTaken(req.body.username, (err,resultUsername) => {
         if (err) {
             console.log(err);
@@ -179,44 +179,58 @@ app.post('/registerStudent', (req, res) => {
 
         }
         console.log(resultUsername);
-        data_access.users.checkIfEmailIsTaken(req.body.email, (
-            err,
-            resultEmail
-        ) => {
+        data_access.access_codes.checkAccessCodeExist(req.body.access_code, (err, resultCode) => {
             if (err) {
                 console.log(err);
-            } else {
-                console.log(resultEmail);
-                if (!resultEmail) {
-                    data_access.users.createStudent(
-                        {
-                            first_name: req.body.firstName,
-                            last_name: req.body.lastName,
-                            email: req.body.email,
-                            _id: req.body.username,
-                            password,
-                            join_date: Date.now(),
-                            classroom: req.body.access_code,
-                            grade_level: req.body.grade_level
-                        },
-                        (err, user_instance) => {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                res.send({
-                                    success: true,
-                                    error_message: null
-                                });
-                            }
-                        }
-                    );
+            }
+            if (!resultCode) {
+                res.send({
+                    success: false,
+                    error_message:'Classroom code does not exist'
+                });
+            }
+            else {
+                console.log('classroom code EXISTS');
+                data_access.users.checkIfEmailIsTaken(req.body.email, (
+                    err,
+                    resultEmail
+                ) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(resultEmail);
+                        if (!resultEmail) {
+                            data_access.users.createStudent(
+                                {
+                                    first_name: req.body.firstName,
+                                    last_name: req.body.lastName,
+                                    email: req.body.email,
+                                    _id: req.body.username,
+                                    password,
+                                    join_date: Date.now(),
+                                    classroom: req.body.access_code,
+                                    grade_level: req.body.grade_level
+                                },
+                                (err, user_instance) => {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        res.send({
+                                            success: true,
+                                            error_message: null
+                                        });
+                                    }
+                                }
+                            );
 
-                } else {
-                    res.json({
-                        success: false,
-                        error_message: 'Email already exists'
-                    });
-                }
+                        } else {
+                            res.json({
+                                success: false,
+                                error_message: 'Email already exists'
+                            });
+                        }
+                    }
+                });
             }
         });
 
