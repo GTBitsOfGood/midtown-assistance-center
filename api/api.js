@@ -294,13 +294,13 @@ app.get('/confirmEmail', (req, res) => {
                     success: false,
                     error_message: 'Failed to confirm tutor, no tutor found'
                 });
-            } 
+            }
             return res.json({
                 success: true,
                 error_message: null,
                 message: 'Successfully confirmed email'
             });
-            
+
         }
     );
 });
@@ -782,30 +782,16 @@ app.get('/accessCodes', (req, res) => {
 
 });
 
-app.get('/schoolsAndAccessCodes', (req, res) => {
-    data_access.schools.getAllSchools((err, response) => {
-        if (err) {
-            console.log(err);
-        } else {
-            res.send(response.map(school => {
-                return data_access.access_codes.getAccessCodesForSchool(school.school_code, (err, accessCodesResults) => {
-                    if (err) {
-                        console.log(err);
-                    }  else {
-                        console.log('****GETTING ACCESS CODES FOR  ', school.school_name);
-                        console.log('*ACCESS CODES: ', accessCodesResults);
-                        return {...school, filteredCodes: accessCodesResults};
-                    }
-                });
-
-            })
-            );
-
-        }
+app.get('/schoolsAndAccessCodes', (req, res) => data_access.schools.getAllSchools((err, response) => {
+    if (err) {
+        console.log(err);
+        return res.json({success: false, error: err});
+    }
+    data_access.access_codes.getAccessCodesForSchool(response, (err, result) => {
+        console.log(result);
+        return res.send({success: true, filteredCodes: result});
     });
-
-
-});
+}));
 
 
 export default app;

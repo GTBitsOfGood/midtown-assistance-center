@@ -26,15 +26,18 @@ module.exports = {
             }
         });
     },
-    getAccessCodesForSchool: (school_code, callback) => {
-        AccessCode.find({ school_code }, (err, codes) => {
-            if (err) {
-                console.log(school_code);
-                console.error('Error retrieving all access codes for school, ', err);
-            } else {
-                callback(null, codes);
-            }
-        });
+    getAccessCodesForSchool: (schools, callback) => {
+        const school_codes = schools.map(school => school.school_code);
+        const promises = school_codes.map(school_code => AccessCode.find({ school_code }));
+        Promise.all(promises)
+            .then(listJobs => {
+                const combined = schools.map((school, ind) => ({ ...school._doc, filteredCodes: listJobs[ind] }));
+                callback(null, combined);
+            })
+            .catch(err => {
+                console.log('err', err);
+                callback(err);
+            });
     },
     addAccessCode: (access_code, callback) => {
         AccessCode.create(access_code, (err, access_code_instance) => {
