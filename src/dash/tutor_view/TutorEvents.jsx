@@ -107,7 +107,7 @@ class Events extends React.Component {
         }
     }
 
-    setCurrentSession(duration) {
+    setCurrentSession(duration, student_request) {
         let now = new Date();
         let end = new Date();
         let endMinutes = end.getMinutes() < 10 ? '0' + end.getMinutes().toString() : end.getMinutes();
@@ -133,10 +133,25 @@ class Events extends React.Component {
             calId: this.props.user.calendarId,
             startTime: now.getHours() + ':' + nowMinutes,
             endTime: end.getHours() + ':' + endMinutes,
-            email: this.props.user.gmail
+            email: this.props.user.gmail,
+            join_requests: student_request ? [
+                {
+                    student_id:student_request._id,
+                    student_comment:student_request.student_comment,
+                    create_time: student_request.create_time,
+                    topic: student_request.topic,
+                    status: 'approved'
+                }
+            ] : [],
+            students_attended: student_request ? [
+                {
+                    student_id: student_request._id,
+                    time: Date.now()
+                }
+            ] : []
         };
 
-        let self = this;
+        const self = this;
         axios
             .post('/calendar/createEvent', requestBody)
             .then(function(response) {

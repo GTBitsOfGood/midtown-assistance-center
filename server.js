@@ -90,6 +90,24 @@ io.on('connection', socket => {
         });
     });
 
+    socket.on('tutor-approve-request', data => {
+        console.log(data);
+        console.log('tutor approved student request');
+        io.emit('student-session-request-update-' + data.sessionRequest._id.student_id + '_' + data.sessionRequest._id.tutor_id, {
+            approved: true,
+            reason: data.sessionRequest.tutor_comment
+        });
+    });
+
+    socket.on('tutor-deny-request', data => {
+        console.log(data);
+        console.log('tutor denied student request');
+        io.emit('student-session-request-update-' + data.sessionRequest._id.student_id + '_' + data.sessionRequest._id.tutor_id, {
+            approved: false,
+            reason: data.sessionRequest.tutor_comment
+        });
+    });
+
     socket.on('error', function() {
         console.log('socket error');
         socket.disconnect();

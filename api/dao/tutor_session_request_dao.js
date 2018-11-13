@@ -56,5 +56,28 @@ module.exports = {
                 callback(null, filteredDocs);
             }
         });
+    },
+    /**
+     * Update a sessionRequest to approved or rejected
+     * @param sessionRequest
+     * @param callback
+     */
+    updateRequest(sessionRequest, callback) {
+        TutorSessionRequest.findOneAndUpdate({
+            '_id.tutor_id':sessionRequest._id.tutor_id,
+            '_id.student_id':sessionRequest._id.student_id,
+            '_id.create_time':sessionRequest._id.create_time
+        }, {
+            $set: {
+                'status':sessionRequest.status
+            }
+        }, (err, updatedRequest) => {
+            if (err) {
+                console.log(err);
+                callback(err);
+            } else {
+                callback(null, updatedRequest);
+            }
+        });
     }
 };

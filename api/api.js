@@ -713,7 +713,28 @@ app.post('/getPendingRequests', (req, res) => {
             });
         }
     });
-})
+});
+
+app.post('/updateSessionRequest', (req, res) => {
+    data_access.tutor_session_requests.updateRequest(
+        req.body,
+        (err, response) => {
+            if (err) {
+                console.log(err);
+                res.json({
+                    success: false,
+                    error: err
+                });
+            } else {
+                res.json({
+                    success: true,
+                    error: null,
+                    sessionRequest: response
+                });
+            }
+        }
+    );
+});
 
 
 export default app;

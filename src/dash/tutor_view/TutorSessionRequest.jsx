@@ -10,6 +10,35 @@ class TutorRequest extends React.Component {
      */
     constructor(props) {
         super(props);
+        this.approveRequest = this.approveRequest.bind(this);
+        this.denyRequest = this.denyRequest.bind(this);
+    }
+
+    approveRequest() {
+        const request = {
+            _id:this.props.sessionRequest._id,
+            status: 'approved'
+        };
+    }
+
+    denyRequest(){
+        const request = {
+            _id:this.props.sessionRequest._id,
+            status: 'rejected'
+        };
+        const self = this;
+        axios
+            .post('/api/updateSessionRequest', request)
+            .then(function(response) {
+                if (response.data.success) {
+                    self.props.socket.emit('tutor-deny-request', {request:response.data.sessionRequest});
+                } else {
+                    console.log(response.data.error);
+                }
+            })
+            .catch(function(err) {
+                console.log(err);
+            });
     }
 
     render() {
@@ -33,9 +62,9 @@ class TutorRequest extends React.Component {
                 </div>
                 <div className="tutorSessionRequestContent">
                     <h3 className="approve-deny-student">
-                        <span className="glyphicon glyphicon-ok approve-student"/>
+                        <span className="glyphicon glyphicon-ok approve-student" onClick={this.approveRequest}/>
                         &emsp;
-                        <span className="glyphicon glyphicon-remove deny-student"/>
+                        <span className="glyphicon glyphicon-remove deny-student" onClick={this.denyRequest}/>
                     </h3>
                 </div>
             </div>

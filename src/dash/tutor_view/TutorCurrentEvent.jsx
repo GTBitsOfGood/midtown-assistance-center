@@ -95,7 +95,10 @@ class CurrentEvent extends React.Component {
                     <h4 className="">No current sessions. <a href="#" onClick={this.setSessionDuration}>Start a new session?</a></h4>
                 </div> : '';
         const renSessionRequests = this.state.pendingRequests.map((request) =>
-            <TutorSessionRequest sessionRequest={request}/>);
+            <TutorSessionRequest
+                sessionRequest={request}
+                socket={this.props.socket}
+            />);
         return (
             <div className="row animated fadeInRight tutorCurrentEvent">
                 <div className="col">
