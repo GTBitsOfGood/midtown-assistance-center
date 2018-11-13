@@ -5,7 +5,6 @@ const initialState = {
     fetched: false,
     error: null,
     errorType: null,
-    allSchoolCodes: []
 };
 
 export default function getAllSchoolCodes(state = initialState, action) {
@@ -17,9 +16,7 @@ export default function getAllSchoolCodes(state = initialState, action) {
             ...state, fetching: false,
             fetched: true,
             error: null,
-            accessCodes: action.payload.data.map(
-                school => school.school_code
-            )
+            schoolCodes: action.payload.data
         };
     case types.getAllSchoolsRejected:
         return {

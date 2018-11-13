@@ -20,14 +20,14 @@ module.exports = {
     getAllAccessCodes: callback => {
         AccessCode.find({}, (err, codes) => {
             if (err) {
-                console.error('Error retrieving all access codes: ' , err);
+                console.error('Error retrieving all access codes: ', err);
             } else {
                 callback(null, codes);
             }
         });
     },
     getAccessCodesForSchool: (school_code, callback) => {
-        AccessCode.find({school_code: school_code}, (err, codes) => {
+        AccessCode.find({ school_code }, (err, codes) => {
             if (err) {
                 console.log(school_code);
                 console.error('Error retrieving all access codes for school, ', err);

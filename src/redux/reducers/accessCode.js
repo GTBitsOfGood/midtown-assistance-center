@@ -5,7 +5,6 @@ const initialState = {
     fetched: false,
     error: null,
     errorType: null,
-    allAccessCodes: []
 };
 
 export default function getAllAccessCodes(state = initialState, action) {
