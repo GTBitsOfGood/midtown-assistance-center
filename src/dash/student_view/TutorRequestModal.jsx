@@ -9,16 +9,21 @@ class RequestModal extends React.Component {
         super(props);
         const { subjects } = props;
         this.state = {
-            approval:false,
+            approval: 'new',
             topic: subjects[0] ? subjects[0].subject : '',
             request: ''
         };
         this.handleCancel = this.handleCancel.bind(this);
         this.handleGeneralChange = this.handleGeneralChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleCancel() {
         $(`#Modal_${this.props.firstName}_request`).modal('hide');
+    }
+
+    handleSubmit() {
+        this.setState({approval:'pending'});
     }
 
     handleGeneralChange(e) {
@@ -53,7 +58,7 @@ class RequestModal extends React.Component {
                 className="input-sm input feedback-text"
             />
             <h6>
-                {!this.state.approval
+                {this.state.approval === 'new'
                     ? ''
                     : 'Your request is awaiting approval from the tutor'}
             </h6>
@@ -87,6 +92,15 @@ class RequestModal extends React.Component {
                                     }
                                     className="btn btn-default mac_button"
                                 >Cancel</button>
+                                <button
+                                    type="submit"
+                                    onClick={
+                                        this.handleSubmit
+                                    }
+                                    className="btn btn-default mac_button_inverse"
+                                >
+                                    Submit
+                                </button>
                             </div>
                         </div>
                     </div>

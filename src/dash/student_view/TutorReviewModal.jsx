@@ -369,8 +369,6 @@ class TutorModal extends React.Component {
         socket.on(
             `student-session-update-${session ? session.eventId : 'unused'}${username}`,
             data => {
-                console.log('Session update!');
-                console.log(data);
                 if (data.approved) {
                     this.setState({ approval: 'approved' });
                 } else {
