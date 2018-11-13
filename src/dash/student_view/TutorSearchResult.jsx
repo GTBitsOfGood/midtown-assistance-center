@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // import socketIOClient from 'socket.io-client';
 import TutorReviewModal from './TutorReviewModal';
+import TutorRequestModal from './TutorRequestModal';
 import Subject from './Subject';
 import Availability from './Availability';
 
@@ -97,12 +98,19 @@ class TutorSearchResult extends React.Component {
                                     {`${tutor.first_name} ${tutor.last_name}`}
                                     <span 
                                         className={(tutor.online)
-                                                    ? "online-img"
-                                                    : "online-img tutor-offline"}
+                                            ? "online-img"
+                                            : "online-img tutor-offline"}
                                     >
                                         {(tutor.online) ? 'Online'
-                                                        : 'Offline'}
+                                            : 'Offline'}
                                     </span>
+                                    {
+                                        (tutor.session) ?
+                                            <span className="online-img tutor-offline">
+                                                In Session
+                                            </span>
+                                            : ''
+                                    }
                                     &emsp;
                                     {stars}
                                 </h3>
@@ -163,17 +171,17 @@ class TutorSearchResult extends React.Component {
                                 </div>
                             </div>
                             <div className="request_hangout text-center">
+                                <h4>{tutor.session ? `${tutor.first_name} is in an open tutoring session with ${tutor.session.students_attended.length} student(s).` : ''}</h4>
                                 <button
                                     className="btn btn-md btn-default mac_button"
                                     type="button"
                                     data-toggle="modal"
-                                    data-target={`#Modal_${tutor.first_name}`}
+                                    data-target={tutor.session ? `#Modal_${tutor.first_name}` : `#Modal_${tutor.first_name}_request`}
                                     data-backdrop="static"
-                                    disabled={!tutor.session}
                                 >
                                     {tutor.session
                                         ? 'Request to Join Session'
-                                        : 'Session Not Active'}
+                                        : 'Request a Session'}
                                 </button>
                             </div>
                         </div>
@@ -187,6 +195,14 @@ class TutorSearchResult extends React.Component {
                         favorites={tutor.favorites}
                         firstName={tutor.first_name}
                         session={tutor.session}
+                    />
+                    <TutorRequestModal
+                        key={`modal-${id}`}
+                        socket={socket}
+                        username={username}
+                        subjects={tutor.subjects}
+                        favorites={tutor.favorites}
+                        firstName={tutor.first_name}
                     />
                 </div>
 
