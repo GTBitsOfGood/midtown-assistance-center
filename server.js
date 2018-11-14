@@ -94,7 +94,7 @@ io.on('connection', socket => {
         console.log(data);
         console.log('tutor approved student request');
         io.emit('student-session-request-update-' + data.request._id.student_id + '_' + data.request._id.tutor_id, {
-            approved: true,
+            approval: true,
             reason: data.request.tutor_comment
         });
     });
@@ -103,7 +103,7 @@ io.on('connection', socket => {
         console.log(data);
         console.log('tutor denied student request');
         io.emit('student-session-request-update-' + data.request._id.student_id + '_' + data.request._id.tutor_id, {
-            approved: false,
+            approval: false,
             reason: data.request.tutor_comment
         });
     });

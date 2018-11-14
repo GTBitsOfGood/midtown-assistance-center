@@ -31,7 +31,7 @@ class CurrentEvent extends React.Component {
         this.getPendingSessionRequests();
     }
 
-    setSessionDuration() {
+    setSessionDuration(sessionRequest) {
         const sessionDuration = window.prompt('Please enter how many hours between 1 and 4 you would like this session to be');
         if (sessionDuration) {
             if (isNaN(sessionDuration)) {
@@ -39,7 +39,7 @@ class CurrentEvent extends React.Component {
             } else if (sessionDuration > 4 || sessionDuration <= 0) {
                 window.alert('Error: Invalid number. Hours must be between 1 and 4');
             } else {
-                this.props.setCurrentSession(sessionDuration);
+                this.props.setCurrentSession(sessionDuration, sessionRequest);
                 // TODO: FIX THIS
                 // async function- doesn't reset props by the time
                 // this is called
@@ -92,13 +92,14 @@ class CurrentEvent extends React.Component {
                 showModal={this.props.showModal}
             /> : this.state.pendingRequests.length === 0 ?
                 <div className="text-center">
-                    <h4 className="">No current sessions. <a href="#" onClick={this.setSessionDuration}>Start a new session?</a></h4>
+                    <h4 className="">No current sessions. <a href="#" onClick={() => this.setSessionDuration()}>Start a new session?</a></h4>
                 </div> : '';
         const renSessionRequests = this.state.pendingRequests.map((request) =>
             <TutorSessionRequest
                 sessionRequest={request}
                 socket={this.props.socket}
                 getPendingSessionRequests={this.getPendingSessionRequests}
+                setSessionDuration={this.setSessionDuration}
             />);
         return (
             <div className="row animated fadeInRight tutorCurrentEvent">

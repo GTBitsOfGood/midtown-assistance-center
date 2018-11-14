@@ -15,10 +15,29 @@ class TutorRequest extends React.Component {
     }
 
     approveRequest() {
-        const request = {
-            _id:this.props.sessionRequest._id,
-            status: 'approved'
-        };
+        let confirm = window.confirm('Are you sure you want to accept this request?');
+        if (confirm) {
+            const request = {
+                _id:this.props.sessionRequest._id,
+                status: 'approved'
+            };
+            const self = this;
+            axios
+                .post('/api/updateSessionRequest', request)
+                .then(function(response) {
+                    if (response.data.success) {
+                        self.props.socket.emit('tutor-approve-request', {request:response.data.sessionRequest});
+                        self.props.getPendingSessionRequests();
+                        self.props.setSessionDuration(response.data.sessionRequest);
+                    } else {
+                        console.log(response.data.error);
+                    }
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
+        }
+
     }
 
     denyRequest(){

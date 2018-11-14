@@ -59,7 +59,7 @@ class RequestModal extends React.Component {
 
         this.props.socket.on('student-session-request-update-' + this.props.username + '_' + this.props.tutorId, (data) => {
             if (data.approval) {
-                console.log('approved');
+                this.props.showTutorModal();
             } else {
                 this.setState({
                     approval: 'rejected',

@@ -120,25 +120,16 @@ class Events extends React.Component {
         );
         end.setSeconds(0, 0, 0);
 
-
-        let sessionRequestBody = {
+        const sessionRequestBody = {
             _id: {
                 tutor_id: this.props.user._id,
                 expected_start_time: now
             },
             start_time: now,
-            expected_end_time: end
-        };
-        let requestBody = {
-            sessionRequestBody: sessionRequestBody,
-            tutorId: this.props.user._id,
-            calId: this.props.user.calendarId,
-            startTime: now.getHours() + ':' + nowMinutes,
-            endTime: end.getHours() + ':' + endMinutes,
-            email: this.props.user.gmail,
+            expected_end_time: end,
             join_requests: student_request ? [
                 {
-                    student_id:student_request._id,
+                    student_id:student_request._id.student_id,
                     student_comment:student_request.student_comment,
                     create_time: student_request.create_time,
                     topic: student_request.topic,
@@ -147,10 +138,18 @@ class Events extends React.Component {
             ] : [],
             students_attended: student_request ? [
                 {
-                    student_id: student_request._id,
+                    student_id: student_request._id.student_id,
                     time: Date.now()
                 }
             ] : []
+        };
+        const requestBody = {
+            sessionRequestBody: sessionRequestBody,
+            tutorId: this.props.user._id,
+            calId: this.props.user.calendarId,
+            startTime: now.getHours() + ':' + nowMinutes,
+            endTime: end.getHours() + ':' + endMinutes,
+            email: this.props.user.gmail
         };
 
         const self = this;

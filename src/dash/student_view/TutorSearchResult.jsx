@@ -23,8 +23,13 @@ class TutorSearchResult extends React.Component {
                         0.5
                 ),
         };
-
+        this.showTutorModal = this.showTutorModal.bind(this);
         // this.onHangoutsButton = this.onHangoutsButton.bind(this);
+    }
+
+    showTutorModal() {
+        $(`#Modal_${this.props.tutor.first_name}_request`).modal('hide');
+        $(`#Modal_${this.props.tutor.first_name}`).modal('show');
     }
 
     // onHangoutsButton() {
@@ -204,6 +209,7 @@ class TutorSearchResult extends React.Component {
                         favorites={tutor.favorites}
                         firstName={tutor.first_name}
                         tutorId={tutor._id}
+                        showTutorModal={this.showTutorModal}
                     />
                 </div>
 
