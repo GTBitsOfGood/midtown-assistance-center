@@ -98,6 +98,7 @@ class CurrentEvent extends React.Component {
             <TutorSessionRequest
                 sessionRequest={request}
                 socket={this.props.socket}
+                getPendingSessionRequests={this.getPendingSessionRequests}
             />);
         return (
             <div className="row animated fadeInRight tutorCurrentEvent">

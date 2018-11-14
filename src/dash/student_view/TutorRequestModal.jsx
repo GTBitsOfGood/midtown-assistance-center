@@ -11,7 +11,8 @@ class RequestModal extends React.Component {
         this.state = {
             approval: 'new',
             topic: subjects[0] ? subjects[0].subject : '',
-            request: ''
+            request: '',
+            tutor_comment: ''
         };
         this.handleCancel = this.handleCancel.bind(this);
         this.handleGeneralChange = this.handleGeneralChange.bind(this);
@@ -56,37 +57,51 @@ class RequestModal extends React.Component {
 
     render() {
 
+        this.props.socket.on('student-session-request-update-' + this.props.username + '_' + this.props.tutorId, (data) => {
+            if (data.approval) {
+                console.log('approved');
+            } else {
+                this.setState({
+                    approval: 'rejected',
+                    tutor_comment: data.reason
+                });
+            }
+        });
+
         const subject_select = this.props.subjects.map((subject) => (
             <option>{subject.subject}</option>
         ));
         const favorite_select = this.props.favorites.map((fav) => (
             <option>{fav.favorite}</option>
         ));
-        const requestHTML =
-        <div>
-            <h5>What can {this.props.firstName} help you with?</h5>
-            <select
-                name="topic"
-                onChange={this.handleGeneralChange}
-                defaultValue={this.state.topic}
-                className="input input-sm"
-            >
-                {subject_select}
-                {favorite_select}
-            </select>
-            <h5>More Details (Optional)</h5>
-            <textarea
-                name="request"
-                value={this.state.request}
-                onChange={this.handleGeneralChange}
-                className="input-sm input feedback-text"
-            />
-            <h6>
-                {this.state.approval === 'new'
-                    ? ''
-                    : 'Your request is awaiting approval from the tutor'}
-            </h6>
-        </div>
+        const requestHTML = this.state.approval === 'new' || this.state.approval === 'pending' ?
+            <div>
+                <h5>What can {this.props.firstName} help you with?</h5>
+                <select
+                    name="topic"
+                    onChange={this.handleGeneralChange}
+                    defaultValue={this.state.topic}
+                    className="input input-sm"
+                >
+                    {subject_select}
+                    {favorite_select}
+                </select>
+                <h5>More Details (Optional)</h5>
+                <textarea
+                    name="request"
+                    value={this.state.request}
+                    onChange={this.handleGeneralChange}
+                    className="input-sm input feedback-text"
+                />
+                <h6>
+                    {this.state.approval === 'new'
+                        ? ''
+                        : 'Your request is awaiting approval from the tutor'}
+                </h6>
+            </div> : this.state.approval === 'rejected' ?
+                <div>
+                    <h4>Your request was rejected because {this.state.tutor_comment}</h4>
+                </div>: '';
         return (
             <div>
                 <div
@@ -116,15 +131,17 @@ class RequestModal extends React.Component {
                                     }
                                     className="btn btn-default mac_button"
                                 >Cancel</button>
-                                <button
-                                    type="submit"
-                                    onClick={
-                                        this.handleSubmit
-                                    }
-                                    className="btn btn-default mac_button_inverse"
-                                >
-                                    Submit
-                                </button>
+                                { this.approval !== 'pending' && this.state.approval !== 'rejected' ?
+                                    <button
+                                        type="submit"
+                                        onClick={
+                                            this.handleSubmit
+                                        }
+                                        className="btn btn-default mac_button_inverse"
+                                    >
+                                        Submit
+                                    </button> : ''
+                                }
                             </div>
                         </div>
                     </div>

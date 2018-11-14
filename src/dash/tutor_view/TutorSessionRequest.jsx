@@ -22,23 +22,29 @@ class TutorRequest extends React.Component {
     }
 
     denyRequest(){
-        const request = {
-            _id:this.props.sessionRequest._id,
-            status: 'rejected'
-        };
-        const self = this;
-        axios
-            .post('/api/updateSessionRequest', request)
-            .then(function(response) {
-                if (response.data.success) {
-                    self.props.socket.emit('tutor-deny-request', {request:response.data.sessionRequest});
-                } else {
-                    console.log(response.data.error);
-                }
-            })
-            .catch(function(err) {
-                console.log(err);
-            });
+        const reason = window.prompt('Please enter a reason for rejecting the request');
+        if (reason) {
+            const request = {
+                _id:this.props.sessionRequest._id,
+                status: 'rejected',
+                tutor_comment:reason
+            };
+            const self = this;
+            axios
+                .post('/api/updateSessionRequest', request)
+                .then(function(response) {
+                    if (response.data.success) {
+                        self.props.socket.emit('tutor-deny-request', {request:response.data.sessionRequest});
+                        self.props.getPendingSessionRequests();
+                    } else {
+                        console.log(response.data.error);
+                    }
+                })
+                .catch(function(err) {
+                    console.log(err);
+                });
+        }
+
     }
 
     render() {

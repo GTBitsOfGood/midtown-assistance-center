@@ -69,9 +69,12 @@ module.exports = {
             '_id.create_time':sessionRequest._id.create_time
         }, {
             $set: {
-                'status':sessionRequest.status
+                'status':sessionRequest.status,
+                'tutor_comment':sessionRequest.tutor_comment
             }
-        }, (err, updatedRequest) => {
+        },
+        { new:true },
+        (err, updatedRequest) => {
             if (err) {
                 console.log(err);
                 callback(err);
