@@ -8,7 +8,8 @@ class ForgotPasswordForm extends React.Component {
         super(props);
         this.state = {
             email: '',
-            message: ''
+            message: '',
+            success: false
         };
 
         this.handleEmailChange = this.handleEmailChange.bind(this);
@@ -34,6 +35,7 @@ class ForgotPasswordForm extends React.Component {
                 console.log(response.data);
                 if (response.data.success) {
                     this.setMessage(`Email sent to ${ email } with a link to reset your password.`);
+                    this.setState({ success: true});
                 } else {
                     this.setMessage('No account found with that email.');
                 }
@@ -45,7 +47,7 @@ class ForgotPasswordForm extends React.Component {
     }
 
     render() {
-        const { email, message } = this.state;
+        const { email, message, success } = this.state;
         const messageDiv = message ? (<div className='text-white'>{message}</div>) : null;
         return (
             <div>
@@ -73,6 +75,7 @@ class ForgotPasswordForm extends React.Component {
                                         className="animated bounce forgot-pass-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
                                         type="submit"
                                         value="SUBMIT"
+                                        disabled={success}
                                     />
                                 </div>
                             </form>

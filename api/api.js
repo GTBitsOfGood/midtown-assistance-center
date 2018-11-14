@@ -15,7 +15,6 @@
 
 import express from 'express';
 import data_access from './data_access';
-
 const app = express();
 // using SendGrid's v3 Node.js Library
 // https://github.com/sendgrid/sendgrid-nodejs
@@ -125,9 +124,61 @@ app.post('/forgotPassword', (req, res) => {
 });
 
 app.patch('/resetPassword', (req, res) => {
-    res.send({
-        success: true,
-        error_message: null
+    const { password, reset_key, email } = req.body;
+
+    data_access.users.getUserByEmail(email, (err, user, userType) => {
+        if (reset_key !== user.reset_key) {
+            console.log(reset_key, user.reset_key);
+            res.status(400).json({
+                success: false,
+                error_message: 'Invalid password change request'
+            });
+        } else {
+            user.password = encryptPassword(password);
+            if (userType === 'tutor') {
+                data_access.users.saveTutor(user, (err) => {
+                    if (err) {
+                        res.send({
+                            success: false,
+                            error_message: 'Error updating user password.'
+                        });
+                    } else {
+                        res.send({
+                            success: true,
+                            error_message: null
+                        });
+                    }
+                });
+            } else if (userType === 'student') {
+                data_access.users.saveStudent(user, (err) => {
+                    if (err) {
+                        res.send({
+                            success: false,
+                            error_message: 'Error updating user password.'
+                        });
+                    } else {
+                        res.send({
+                            success: true,
+                            error_message: null
+                        });
+                    }
+                });
+            } else {
+                data_access.users.saveAdmin(user, (err) => {
+                    if (err) {
+                        res.send({
+                            success: false,
+                            error_message: 'Error updating user password.'
+                        });
+                    } else {
+                        res.send({
+                            success: true,
+                            error_message: null
+                        });
+                    }
+                });
+            }
+        }
     });
 });
 
@@ -1038,6 +1089,5 @@ app.post('/updateSessionRequest', (req, res) => {
         }
     );
 });
-
 
 export default app;

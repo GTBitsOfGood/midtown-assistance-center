@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import styles from '../../../public/css/login_signup.css';
+import queryString from 'query-string';
 
 class ResetPasswordForm extends React.Component {
     constructor(props) {
@@ -10,7 +11,8 @@ class ResetPasswordForm extends React.Component {
             password: '',
             confirmPassword: '',
             resultMessage: '',
-            errorMessage: ''
+            errorMessage: '',
+            success: false
         };
 
         this.handlePasswordChange = this.handlePasswordChange.bind(this);
@@ -51,13 +53,15 @@ class ResetPasswordForm extends React.Component {
     sendToServer(e) {
         e.preventDefault();
         const { password } = this.state;
+        const queryParams = queryString.parse(this.props.location.search);
 
         axios
-            .patch('/api/resetPassword', { password })
+            .patch('/api/resetPassword', { password, reset_key: queryParams.reset_key, email: queryParams.email })
             .then(response => {
                 console.log(response.data);
                 if (response.data.success) {
                     this.setResultMessage('Password has been reset.');
+                    this.setState({ success: true});
                 } else {
                     this.setResultMessage('Error resetting password');
                 }
@@ -69,7 +73,7 @@ class ResetPasswordForm extends React.Component {
     }
 
     render() {
-        const { password, confirmPassword, resultMessage, errorMessage } = this.state;
+        const { password, confirmPassword, resultMessage, errorMessage, success } = this.state;
         const resultMessageDiv = resultMessage ? (<div className='text-white'>{resultMessage}</div>) : null;
         const errorMessageDiv = errorMessage ? (<div className='help-block'>{errorMessage}</div>) : null;
         return (
@@ -109,7 +113,7 @@ class ResetPasswordForm extends React.Component {
                                         className="reset-pass-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
                                         type="submit"
                                         value="SUBMIT"
-                                        disabled={errorMessage}
+                                        disabled={errorMessage || success}
                                     />
                                 </div>
                             </form>
