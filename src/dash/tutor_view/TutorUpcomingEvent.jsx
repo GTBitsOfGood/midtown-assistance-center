@@ -214,6 +214,7 @@ class TutorUpcomingEvent extends React.Component {
             parseInt(startTimeSplit[0]),
             parseInt(startTimeSplit[1]),
             0,
+            0,
             0
         );
         let sessionRequestBody = {
@@ -257,11 +258,13 @@ class TutorUpcomingEvent extends React.Component {
             parseInt(startTimeSplit[0]),
             parseInt(startTimeSplit[1]),
             0,
+            0,
             0
         );
         end.setHours(
             parseInt(endTimeSplit[0]),
             parseInt(endTimeSplit[1]),
+            0,
             0,
             0
         );

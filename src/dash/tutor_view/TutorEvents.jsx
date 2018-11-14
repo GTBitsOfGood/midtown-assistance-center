@@ -62,11 +62,13 @@ class Events extends React.Component {
                 parseInt(startTimeSplit[0]),
                 parseInt(startTimeSplit[1]),
                 0,
+                0,
                 0
             );
             end.setHours(
                 parseInt(endTimeSplit[0]),
                 parseInt(endTimeSplit[1]),
+                0,
                 0,
                 0
             );
@@ -112,11 +114,11 @@ class Events extends React.Component {
         let end = new Date();
         let endMinutes = end.getMinutes() < 10 ? '0' + end.getMinutes().toString() : end.getMinutes();
         let nowMinutes = now.getMinutes() < 10 ? '0' + now.getMinutes().toString() : now.getMinutes();
-        now.setSeconds(0);
+        now.setSeconds(0, 0, 0);
         end.setHours(
             now.getHours() + parseInt(duration)
         );
-        end.setSeconds(0);
+        end.setSeconds(0, 0, 0);
 
 
         let sessionRequestBody = {
