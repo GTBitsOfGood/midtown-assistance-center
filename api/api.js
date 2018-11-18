@@ -140,7 +140,6 @@ app.patch('/resetPassword', (req, res) => {
                 error_message: 'Invalid password change request. Make sure you are using the most recent link sent to your email.'
             });
         } else {
-            console.log(user.reset_key);
             user.password = encryptPassword(password);
             user.reset_key = null;
             if (userType === 'tutor') {

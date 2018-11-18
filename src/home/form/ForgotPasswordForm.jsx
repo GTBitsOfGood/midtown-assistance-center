@@ -32,7 +32,6 @@ class ForgotPasswordForm extends React.Component {
         axios
             .post('/api/forgotPassword', { email } )
             .then(response => {
-                console.log(response.data);
                 if (response.data.success) {
                     this.setMessage(`Email sent to ${ email } with a link to reset your password.`);
                     this.setState({ success: true});
@@ -40,8 +39,7 @@ class ForgotPasswordForm extends React.Component {
                     this.setMessage('No account found with that email.');
                 }
             })
-            .catch(error => {
-                console.log(error);
+            .catch(() => {
                 this.setMessage('Request failed. Please try again later');
             });
     }

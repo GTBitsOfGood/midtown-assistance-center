@@ -60,7 +60,6 @@ class ResetPasswordForm extends React.Component {
         axios
             .patch('/api/resetPassword', { password, reset_key: queryParams.reset_key, email: queryParams.email })
             .then(response => {
-                console.log(response.data);
                 if (response.data.success) {
                     this.setResultMessage('Password has been reset.');
                     this.setState({ success: true});
@@ -69,7 +68,6 @@ class ResetPasswordForm extends React.Component {
                 }
             })
             .catch(error => {
-                console.log(error.response);
                 this.setResultMessage(error.response.data.error_message);
             });
     }
