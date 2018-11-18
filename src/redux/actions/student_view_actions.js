@@ -14,17 +14,20 @@ export function updateSearch(search_type, search_subject, search_time) {
         payload: {
             searchType: search_type,
             searchSubject: search_subject,
-            searchTime: search_time 
+            searchTime: search_time
         }
     };
 }
 
 export function getOnlineTutors(search_type, search_subject, search_time) {
-    return (dispatch) => 
+    return (dispatch) =>
         dispatch(getTutors(search_type, search_subject, search_time))
             .then(() => dispatch(updateSearch(search_type, search_subject, search_time)));
 }
 
-export function foo() {
-
+export function submitStudentReport(user_id, tutor_id, explanation) {
+    return {
+        type: types.submitStudentReport,
+        payload: axios.post('/api/submitStudentReport', {user_id, tutor_id, explanation})
+    };
 }

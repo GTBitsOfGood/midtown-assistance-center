@@ -385,7 +385,6 @@ class TutorUpcomingEvent extends React.Component {
                     socket={this.props.socket}
                     updateSession={this.setNewState}
                     onSubmit={this.submitReview}
-                    tutorId={this.props.tutorId}
                     id={
                         this.props.dayName +
                         '_' +

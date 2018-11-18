@@ -569,10 +569,7 @@ app.post('/getTutorSession', (req, res) => {
 
 // get all tutoring sessions for a tutor
 app.post('/getTutorSessions', (req, res) => {
-    data_access.tutor_sessions.getSessionsByTutor(req.body.username, function(
-        err,
-        response
-    ) {
+    data_access.tutor_sessions.getSessionsByTutor(req.body.username, (err, response) => {
         if (err) {
             console.log(err);
             res.json({
@@ -586,6 +583,86 @@ app.post('/getTutorSessions', (req, res) => {
                 sessions: response
             });
         }
+    });
+});
+
+// submit report from tutor about a student feedback
+app.post('/submitTutorReportOnFeedback', (req, res) => {
+    data_access.tutor_sessions.getStudentByRatingId(req.body.rating_id, (err, student_id) => {
+        if (err) {
+            return res.json(400, {
+                success: false,
+                error: err
+            });
+        }
+        const ban = {
+            reporter: req.body.user_id,
+            reporterType: 'tutor',
+            personOfInterest: student_id,
+            explanation: req.body.explanation
+        };
+
+        return data_access.ban.submitReport(ban, (err, response) => {
+            if (err) {
+                console.log(err);
+                return res.json(400, {
+                    success: false,
+                    error: err
+                });
+            }
+            return res.json({
+                success: true,
+                error: null
+            });
+        });
+    });
+});
+
+// submit report from tutor about a student currently in session
+app.post('/submitTutorReportInSession', (req, res) => {
+    const ban = {
+        reporter: req.body.user_id,
+        reporterType: 'tutor',
+        personOfInterest: req.body.student_id,
+        explanation: req.body.explanation
+    };
+
+    return data_access.ban.submitReport(ban, (err, response) => {
+        if (err) {
+            console.log(err);
+            return res.json(400, {
+                success: false,
+                error: err
+            });
+        }
+        return res.json({
+            success: true,
+            error: null
+        });
+    });
+});
+
+// submit report from student about a tutor
+app.post('/submitStudentReport', (req, res) => {
+    const ban = {
+        reporter: req.body.user_id,
+        reporterType: 'student',
+        personOfInterest: req.body.tutor_id,
+        explanation: req.body.explanation
+    };
+
+    return data_access.ban.submitReport(ban, (err, response) => {
+        if (err) {
+            console.log(err);
+            return res.json(400, {
+                success: false,
+                error: err
+            });
+        }
+        return res.json({
+            success: true,
+            error: null
+        });
     });
 });
 
@@ -629,6 +706,123 @@ app.get('/unapprovedTutors', (req, res) => {
         }
     });
 });
+
+app.get('/allPendingBans', (req, res) => {
+    const notBanned = {
+        banned: false,
+        reviewed: false
+    };
+    data_access.ban.getAllBans(notBanned, (err, bans) => {
+        if (err) {
+            console.log(err);
+            res.json({
+                success: false,
+                error: err
+            });
+        } else {
+            console.log('Getting pending bans');
+            res.json({
+                success: true,
+                error: null,
+                bans
+            });
+        }
+    });
+});
+
+app.get('/allBannedUsers', (req, res) => {
+    return data_access.users.getBannedStudents((err, students) => {
+        if (err) {
+            console.log(err);
+            return res.json({
+                success: false,
+                error: err
+            });
+        }
+        return data_access.users.getBannedTutors((err, tutors) => {
+            if (err) {
+                console.log(err);
+                return res.json({
+                    success: false,
+                    error: err
+                });
+            }
+            console.log('Getting bannned users');
+            return res.json({
+                success: true,
+                error: null,
+                students,
+                tutors
+            });
+        });
+    });
+});
+
+app.post('/banUser', (req, res) => {
+    data_access.ban.banUser(req.body.ban_id, req.body.banned, (err, ban) => {
+        if (err) {
+            console.log(err);
+            return res.json({
+                success: false,
+                error: err
+            });
+        }
+        if (!req.body.banned) {
+            return res.json({
+                success: true,
+                error: null,
+                ban
+            });
+        }
+
+        data_access.users.banUser(ban.personOfInterest, (err, newUser) => {
+            if (err) {
+                console.log(err);
+                return res.json({
+                    success: false,
+                    error: err
+                });
+            }
+            return res.json({
+                success: true,
+                error: null,
+            });
+        });
+    });
+});
+
+app.post('/unbanStudent', (req, res) => {
+    data_access.users.unbanStudent(req.body.student_id, (err, newStudent) => {
+        if (err) {
+            console.log(err);
+            return res.json({
+                success: false,
+                error: err
+            });
+        }
+        return res.json({
+            success: true,
+            error: null
+        });
+    });
+});
+
+app.post('/unbanTutor', (req, res) => {
+    data_access.users.unbanTutor(req.body.tutor_id, (err, newTutor) => {
+        if (err) {
+            console.log(err);
+            return res.json({
+                success: false,
+                error: err
+            });
+        }
+        return res.json({
+            success: true,
+            error: null
+        });
+    });
+});
+
 
 // update the administrator
 app.patch('/admin', (req, res) => {
