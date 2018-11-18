@@ -420,5 +420,46 @@ module.exports = {
                 return callback('ID not found in Tutor or Student');
             });
         });
-    }
+    },
+
+    getBannedStudents: (callback) => {
+        Student.find({ banned: true }, (err, students) => {
+            if (err) {
+                console.log('Error getting banned students', err);
+                return callback(err);
+            }
+            return callback(null, students);
+        });
+    },
+
+    getBannedTutors: (callback) => {
+        Tutor.find({ banned: true }, (err, tutors) => {
+            if (err) {
+                console.log('Error getting banned tutors', err);
+                return callback(err);
+            }
+            return callback(null, tutors);
+        });
+    },
+
+    unbanStudent: (student_id, callback) => {
+        Student.findByIdAndUpdate(student_id, { $set: { banned: false }}, {new: true}, (err, newStudent) => {
+            if (err) {
+                console.log('Error unbanning student', err);
+                return callback(err);
+            }
+            return callback(null, newStudent);
+        });
+    },
+
+    unbanTutor: (tutor_id, callback) => {
+        Tutor.findByIdAndUpdate(tutor_id, { $set: { banned: false }}, {new: true}, (err, newTutor) => {
+            if (err) {
+                console.log('Error unbanning tutor', err);
+                return callback(err);
+            }
+            return callback(null, newTutor);
+        });
+    },
+
 };

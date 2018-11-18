@@ -730,6 +730,34 @@ app.get('/allPendingBans', (req, res) => {
     });
 });
 
+app.get('/allBannedUsers', (req, res) => {
+    return data_access.users.getBannedStudents((err, students) => {
+        if (err) {
+            console.log(err);
+            return res.json({
+                success: false,
+                error: err
+            });
+        }
+        return data_access.users.getBannedTutors((err, tutors) => {
+            if (err) {
+                console.log(err);
+                return res.json({
+                    success: false,
+                    error: err
+                });
+            }
+            console.log('Getting bannned users');
+            return res.json({
+                success: true,
+                error: null,
+                students,
+                tutors
+            });
+        });
+    });
+});
+
 app.post('/banUser', (req, res) => {
     data_access.ban.banUser(req.body.ban_id, req.body.banned, (err, ban) => {
         if (err) {
@@ -762,6 +790,39 @@ app.post('/banUser', (req, res) => {
         });
     });
 });
+
+app.post('/unbanStudent', (req, res) => {
+    data_access.users.unbanStudent(req.body.student_id, (err, newStudent) => {
+        if (err) {
+            console.log(err);
+            return res.json({
+                success: false,
+                error: err
+            });
+        }
+        return res.json({
+            success: true,
+            error: null
+        });
+    });
+});
+
+app.post('/unbanTutor', (req, res) => {
+    data_access.users.unbanTutor(req.body.tutor_id, (err, newTutor) => {
+        if (err) {
+            console.log(err);
+            return res.json({
+                success: false,
+                error: err
+            });
+        }
+        return res.json({
+            success: true,
+            error: null
+        });
+    });
+});
+
 
 // update the administrator
 app.patch('/admin', (req, res) => {
