@@ -102,17 +102,19 @@ input:-webkit-autofill {
 }
 
 .forgot-pass-form {
+    position: relative;
     position: fixed;
     margin-top: calc(50vh - 200px);
     min-height: 250px;
     max-width: 500px;
+    width: 100%;
     padding: 2%;
     height: 40vh;
     z-index: 1;
     overflow-y: scroll;
     padding-right: 0;
     padding-left: 1.5%;
-    background-color: transparent;
+    background-color: var(--login_signup_bkgrd);
     color: var(--ltgray);
     display: table;
 }

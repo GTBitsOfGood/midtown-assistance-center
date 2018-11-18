@@ -50,36 +50,38 @@ class ForgotPasswordForm extends React.Component {
         const { email, message, success } = this.state;
         const messageDiv = message ? (<div className='text-white'>{message}</div>) : null;
         return (
-            <div>
-                <div className="bkgrd" />
-                <div className="animated fadeInRight">
-                    <div className="forgot-pass-bkgrd col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4" />
-                    <div className="animated fadeInRight col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center forgot-pass-form container">
-                        <div className="vert-center">
-                            <h3 className="forgot-pass-header">Forgot Your Password?</h3>
-                            {messageDiv}
-                            <form onSubmit={this.sendToServer}>
-                                <div className="row col-xs-12">
-                                    <input
-                                        className="input-lg col-xs-10 col-xs-offset-1"
-                                        type="text"
-                                        name="email"
-                                        value={email}
-                                        onChange={this.handleEmailChange}
-                                        placeholder="Enter Your Email"
-                                    />
-                                </div>
-                                <div className="row col-xs-12">
+            <div className="bkgrd">
+                <div className="animated fadeInRight text-center forgot-pass-form">
+                    <div className="vert-center">
+                        <h3 className="forgot-pass-header">Forgot Your Password?</h3>
+                        {messageDiv}
+                        <form onSubmit={this.sendToServer}>
+                            <div className="row col-xs-12">
+                                <input
+                                    className="input-lg col-xs-10 col-xs-offset-1"
+                                    type="text"
+                                    name="email"
+                                    value={email}
+                                    onChange={this.handleEmailChange}
+                                    placeholder="Enter Your Email"
+                                />
+                            </div>
+                            <div className="row col-xs-12">
+                                {success ?
+                                    <Link
+                                        className="animated bounce forgot-pass-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
+                                        to='login'>
+                                        Back to Login Page
+                                    </Link> :
                                     <input
                                         style={{ animationDelay: '2s' }}
                                         className="animated bounce forgot-pass-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
                                         type="submit"
                                         value="SUBMIT"
-                                        disabled={success}
                                     />
-                                </div>
-                            </form>
-                        </div>
+                                }
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

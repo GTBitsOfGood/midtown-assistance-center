@@ -127,20 +127,28 @@ app.patch('/resetPassword', (req, res) => {
     const { password, reset_key, email } = req.body;
 
     data_access.users.getUserByEmail(email, (err, user, userType) => {
-        if (reset_key !== user.reset_key) {
-            console.log(reset_key, user.reset_key);
+        if(err) {
+            res.status(400).send({
+                error_message: 'Invalid Email, cannot reset password.'
+            });
+        } else if (user.reset_key == null) {
             res.status(400).json({
-                success: false,
-                error_message: 'Invalid password change request'
+                error_message: 'Invalid password change request. Please request a new reset link on the forgot password page.'
+            });
+        } else if (reset_key !== user.reset_key) {
+            res.status(400).json({
+                error_message: 'Invalid password change request. Make sure you are using the most recent link sent to your email.'
             });
         } else {
+            console.log(user.reset_key);
             user.password = encryptPassword(password);
+            user.reset_key = null;
             if (userType === 'tutor') {
                 data_access.users.saveTutor(user, (err) => {
                     if (err) {
                         res.send({
                             success: false,
-                            error_message: 'Error updating user password.'
+                            error_message: 'Error updating user password. Please request a new reset link on the forgot password page.'
                         });
                     } else {
                         res.send({
@@ -154,9 +162,10 @@ app.patch('/resetPassword', (req, res) => {
                     if (err) {
                         res.send({
                             success: false,
-                            error_message: 'Error updating user password.'
+                            error_message: 'Error updating user password. Please request a new reset link on the forgot password page.'
                         });
                     } else {
+
                         res.send({
                             success: true,
                             error_message: null
@@ -168,7 +177,7 @@ app.patch('/resetPassword', (req, res) => {
                     if (err) {
                         res.send({
                             success: false,
-                            error_message: 'Error updating user password.'
+                            error_message: 'Error updating user password. Please request a new reset link.'
                         });
                     } else {
                         res.send({

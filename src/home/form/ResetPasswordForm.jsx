@@ -33,7 +33,9 @@ class ResetPasswordForm extends React.Component {
     handlePasswordChange(e) {
         this.setState({ password: e.target.value });
         const {confirmPassword } = this.state;
-        if (e.target.value !== confirmPassword) {
+        if(e.target.value.length < 6) {
+            this.setErrorMessage('Password must be at least 6 characters.');
+        } else if (e.target.value !== confirmPassword) {
             this.setErrorMessage('Passwords do not match.');
         } else {
             this.setErrorMessage('');
@@ -63,12 +65,12 @@ class ResetPasswordForm extends React.Component {
                     this.setResultMessage('Password has been reset.');
                     this.setState({ success: true});
                 } else {
-                    this.setResultMessage('Error resetting password');
+                    this.setResultMessage(response.data.error_message);
                 }
             })
             .catch(error => {
-                console.log(error);
-                this.setResultMessage('Request failed. Please try again later');
+                console.log(error.response);
+                this.setResultMessage(error.response.data.error_message);
             });
     }
 
@@ -77,47 +79,50 @@ class ResetPasswordForm extends React.Component {
         const resultMessageDiv = resultMessage ? (<div className='text-white'>{resultMessage}</div>) : null;
         const errorMessageDiv = errorMessage ? (<div className='help-block'>{errorMessage}</div>) : null;
         return (
-            <div>
-                <div className="bkgrd" />
-                <div className="animated fadeInRight">
-                    <div className="reset-pass-bkgrd col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4" />
-                    <div className="animated fadeInRight col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center reset-pass-form container">
-                        <div className="vert-center">
-                            <h3 className="reset-pass-header">Reset Your Password</h3>
-                            {resultMessageDiv}
-                            <form onSubmit={this.sendToServer}>
-                                <div className="row col-xs-12">
-                                    <input
-                                        className="input-lg col-xs-10 col-xs-offset-1"
-                                        type="password"
-                                        name="password"
-                                        value={ password }
-                                        onChange={this.handlePasswordChange}
-                                        placeholder="Enter New Password"
-                                    />
-                                </div>
-                                <div className="row col-xs-12">
-                                    <input
-                                        className="input-lg col-xs-10 col-xs-offset-1"
-                                        type="password"
-                                        name="confirmPassword"
-                                        value={ confirmPassword }
-                                        onChange={this.handleConfirmPasswordChange}
-                                        placeholder="Confirm New Password"
-                                    />
-                                </div>
-                                {errorMessageDiv}
-                                <div className="row col-xs-12">
+            <div className="bkgrd">
+                <div className="animated fadeInRight text-center reset-pass-form">
+                    <div className="vert-center">
+                        <h3 className="reset-pass-header">Reset Your Password</h3>
+                        {resultMessageDiv}
+                        <form onSubmit={this.sendToServer}>
+                            <div className="row col-xs-12">
+                                <input
+                                    className="input-lg col-xs-10 col-xs-offset-1"
+                                    type="password"
+                                    name="password"
+                                    value={ password }
+                                    onChange={this.handlePasswordChange}
+                                    placeholder="Enter New Password"
+                                />
+                            </div>
+                            <div className="row col-xs-12">
+                                <input
+                                    className="input-lg col-xs-10 col-xs-offset-1"
+                                    type="password"
+                                    name="confirmPassword"
+                                    value={ confirmPassword }
+                                    onChange={this.handleConfirmPasswordChange}
+                                    placeholder="Confirm New Password"
+                                />
+                            </div>
+                            {errorMessageDiv}
+                            <div className="row col-xs-12">
+                                { success ?
+                                    <Link
+                                        className="reset-pass-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
+                                        to='login'>
+                                        Back to Login Page
+                                    </Link> :
                                     <input
                                         style={{ animationDelay: '2s' }}
                                         className="reset-pass-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
                                         type="submit"
                                         value="SUBMIT"
-                                        disabled={errorMessage || success}
+                                        disabled={errorMessage}
                                     />
-                                </div>
-                            </form>
-                        </div>
+                                }
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
