@@ -12,7 +12,7 @@ class Schools extends React.Component {
             <div>
                 <h1>SCHOOLS</h1>
                 <br />
-                <SchoolsListContainer/>
+                <SchoolsListContainer />
                 <AddSubject />
             </div>
         );

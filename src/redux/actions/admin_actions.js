@@ -40,3 +40,10 @@ export function getAllTutors() {
         payload: axios.get('/api/allTutors')
     };
 }
+
+export function getAllSchoolsAndAccessCodes() {
+    return {
+        type: types.getAllSchoolsAndAccessCodes,
+        payload: axios.get('/api/schoolsAndAccessCodes')
+    };
+}

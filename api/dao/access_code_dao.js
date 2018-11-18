@@ -2,7 +2,6 @@ const AccessCode = require('../../models/AccessCode');
 
 module.exports = {
     checkAccessCodeExist: (inputCode, callback) => {
-        console.log('INPUTCODE ',inputCode);
         AccessCode.find({ access_code: inputCode }, (err, docs) => {
             if (err) {
                 console.error(

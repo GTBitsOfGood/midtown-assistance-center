@@ -6,4 +6,5 @@ export function getAllAccessCodes() {
         type:types.getAllAccessCodes,
         payload: axios.get('/api/accessCodes')
     };
+
 }

@@ -1,49 +1,55 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { getAllAccessCodes } from '../../redux/actions/accessCode_actions';
-import { getAllSchoolCodes  } from '../../redux/actions/school_actions';
+import Table from 'react-bootstrap';
+import { getAllSchoolsAndAccessCodes } from '../../redux/actions/admin_actions';
+import School from './School';
 
 class SchoolsListContainer extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            allAccessCodes: [],
-            allSchoolCodes: [],
+            schoolsAndAccessCodes: [],
         };
 
     }
 
     componentDidMount() {
-        this.props.getAllAccessCodes();
-        this.props.getAllSchoolCodes();
+        this.props.getAllSchoolsAndAccessCodes();
     }
 
     render() {
-        return (
-            <div>
-                <h1>test</h1>
-
-            </div>
-        );
+        if (this.props.schoolsAndAccessCodes.length > 0) {
+            const fullSchoolList = this.props.schoolsAndAccessCodes.map((school, index) =>
+                <div>
+                    <School schoolAndAccessCodes={this.props.schoolsAndAccessCodes[index]} />
+                </div>
+            );
+            return (
+                <div>
+                    {fullSchoolList}
+                </div>);
+        }
+        else {
+            return(
+                <div>
+                    <h2>Loading schools</h2>
+                </div>
+            );
+        }
     }
 }
 
 
 const mapStateToProps = state => {
     return {
-        allAccessCodes: state.allAccessCodes,
-        allSchoolCodes: state.allSchoolCodes
+        schoolsAndAccessCodes: state.adminView.schoolsAndAccessCodes
     };
 };
 
-const mapDispatchToProps = dispatch => {
-    return {
-        getAllAccessCodes: () => dispatch(getAllAccessCodes()),
-        getAllSchoolCodes: () => dispatch(getAllSchoolCodes())
-
-    };
-};
+const mapDispatchToProps = dispatch => ({
+    getAllSchoolsAndAccessCodes: () => dispatch(getAllSchoolsAndAccessCodes()),
+});
 
 
 export default connect(mapStateToProps, mapDispatchToProps)(SchoolsListContainer);

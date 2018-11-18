@@ -712,12 +712,12 @@ app.get('/schools', (req, res) => {
 });
 
 app.post('/schools', (req, res) => {
-    // TODO: random school_code generator
+    const schoolCodeValue = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
     // TODO: validation that the school_code does not already exist
     data_access.schools.addSchool(
         {
             school_name: req.body.school_name,
-            school_code: req.body.school_code,
+            school_code: schoolCodeValue,
             address: {
                 street: req.body.street,
                 zip_code: req.body.zip_code,

@@ -7,18 +7,18 @@ const initialState = {
     errorType: null,
 };
 
-export default function getAllAccessCodes(state = initialState, action) {
+export default function getAllSchoolsAndAccessCodes(state = initialState, action) {
     switch (action.type) {
-    case types.getAllAccessCodesPending:
+    case types.getAllSchoolsAndAccessCodesPending:
         return { ...state, fetching: true, error: null };
-    case types.getAllAccessCodesFulfilled:
+    case types.getAllSchoolsAndAccessCodesFulfilled:
         return {
             ...state, fetching: false,
             fetched: true,
             error: null,
             accessCodes: action.payload.data
         };
-    case types.getAllAccessCodesRejected:
+    case types.getAllSchoolsAndAccessCodesRejected:
         return {
             ...state,
             fetching: false,
