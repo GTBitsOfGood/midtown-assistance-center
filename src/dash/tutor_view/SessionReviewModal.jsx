@@ -31,7 +31,8 @@ class SessionModal extends React.Component {
             rating: 0,
             satisfaction: '',
             error_message: 'hide',
-            comment: ''
+            comment: '',
+            receivedLink:false
         };
         this.changeStar = this.changeStar.bind(this);
         this.setRating = this.setRating.bind(this);
@@ -40,6 +41,21 @@ class SessionModal extends React.Component {
         this.handleCommentChange = this.handleCommentChange.bind(this);
         this.approveStudent = this.approveStudent.bind(this);
         this.denyStudent = this.denyStudent.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.props.showModal) {
+            $(
+                `#Modal_${this.props.id}`
+            ).modal('show');
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.showModal && this.props.session.hangouts_link && !this.state.receivedLink) {
+            window.open(this.props.session.hangouts_link, '_blank');
+            this.setState({receivedLink:true});
+        }
     }
 
     /**
@@ -67,7 +83,7 @@ class SessionModal extends React.Component {
      * @param number
      */
     changeStar(number) {
-        let starState = {
+        const starState = {
             first_star: false,
             second_star: false,
             third_star: false,
@@ -235,7 +251,6 @@ class SessionModal extends React.Component {
         const renStudents = (session.students_attended || []).map(student => (
             <h5>{student.student_id}</h5>
         ));
-        console.log(session.join_requests);
         const renRequests = (session.join_requests || [])
             .filter(student => student.status === 'pending')
             .map((student) => (
