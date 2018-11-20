@@ -22,3 +22,9 @@ export const getAllSchoolsAndAccessCodes = 'GET_ALL_SCHOOLS_AND_ACCESS_CODES';
 export const getAllSchoolsAndAccessCodesPending = 'GET_ALL_SCHOOLS_AND_ACCESS_CODES_PENDING';
 export const getAllSchoolsAndAccessCodesRejected = 'GET_ALL_SCHOOLS_AND_ACCESS_CODES_REJECTED';
 export const getAllSchoolsAndAccessCodesFulfilled = 'GET_ALL_SCHOOLS_AND_ACCESS_CODES_FULFILLED';
+
+export const addNewAccessCode = 'ADD_NEW_ACCESS_CODE';
+export const addNewAccessCodePending = 'ADD_NEW_ACCESS_CODE_PENDING';
+export const addNewAccessCodeRejected = 'ADD_NEW_ACCESS_CODE_REJECTED';
+export const addNewAccessCodeFulfilled = 'ADD_NEW_ACCESS_CODE_FULFILLED';
+

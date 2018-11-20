@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Table from 'react-bootstrap';
-import { getAllSchoolsAndAccessCodes } from '../../redux/actions/admin_actions';
+import { getAllSchoolsAndAccessCodes, addAccessCode } from '../../redux/actions/admin_actions';
 import School from './School';
 
 class SchoolsListContainer extends React.Component {
@@ -10,6 +9,8 @@ class SchoolsListContainer extends React.Component {
 
         this.state = {
             schoolsAndAccessCodes: [],
+            selected_school_code: '',
+            newClassroomName: '',
         };
 
     }
@@ -18,25 +19,23 @@ class SchoolsListContainer extends React.Component {
         this.props.getAllSchoolsAndAccessCodes();
     }
 
+    addAccessCode(school_code, name) {
+        this.props.addAccessCode(school_code, name);
+    }
     render() {
-        if (this.props.schoolsAndAccessCodes.length > 0) {
-            const fullSchoolList = this.props.schoolsAndAccessCodes.map((school, index) =>
-                <div>
-                    <School schoolAndAccessCodes={this.props.schoolsAndAccessCodes[index]} />
-                </div>
-            );
-            return (
-                <div>
-                    {fullSchoolList}
-                </div>);
-        }
-        else {
-            return(
-                <div>
-                    <h2>Loading schools</h2>
-                </div>
-            );
-        }
+        const fullSchoolList = this.props.schoolsAndAccessCodes.map((school, index) =>
+            <div>
+                <School
+                    schoolAndAccessCodes={this.props.schoolsAndAccessCodes[index]}
+                    onClick={addAccessCode}
+                />
+            </div>
+        );
+        return (
+            <div>
+                {fullSchoolList}
+            </div>);
+
     }
 }
 
@@ -49,6 +48,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     getAllSchoolsAndAccessCodes: () => dispatch(getAllSchoolsAndAccessCodes()),
+    addAccessCode: (school_code, name) => dispatch(addAccessCode(school_code, name)),
 });
 
 

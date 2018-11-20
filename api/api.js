@@ -165,7 +165,6 @@ app.post('/registerTutor', (req, res) => {
  */
 app.post('/registerStudent', (req, res) => {
     // Add this information to the database
-    // TODO: Validate accessCode
     const password = encryptPassword(req.body.password);
     data_access.users.checkIfUsernameIsTaken(req.body.username, (err,resultUsername) => {
         if (err) {

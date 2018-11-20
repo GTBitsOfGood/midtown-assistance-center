@@ -85,7 +85,27 @@ export default function change_admin(state = initialState, action) {
             error: action.payload,
             errorType: types.getAllSchoolsAndAccessCodesRejected
         };
+    case types.addNewAccessCodeFulfilled:
+        return {
+            ...state,
+            fetching: false,
+            fetched: true,
+            error: null
+        };
+    case types.addNewAccessCodePending:
+        return {
+            ...state,
+            fetching: true,
+            error: null
+        };
 
+    case types.addNewAccessCodeRejected:
+        return {
+            ...state,
+            fetching: false,
+            error: action.payload,
+            errorType: types.addNewAccessCodeRejected,
+        };
 
     default:
         return state;

@@ -47,3 +47,12 @@ export function getAllSchoolsAndAccessCodes() {
         payload: axios.get('/api/schoolsAndAccessCodes')
     };
 }
+export function addAccessCode(school_code, name) {
+    return {
+        type: types.addNewAccessCode,
+        payload: axios.post('/api/accessCode', {
+            school_code,
+            name,
+        }),
+    };
+}
