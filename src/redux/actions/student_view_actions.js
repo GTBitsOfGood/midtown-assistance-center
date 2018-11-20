@@ -25,6 +25,7 @@ export function getOnlineTutors(search_type, search_subject, search_time) {
             .then(() => dispatch(updateSearch(search_type, search_subject, search_time)));
 }
 
-export function foo() {
-
+export function updateOnlineTutors(search_type, search_subject, search_time) {
+    return (dispatch) =>
+        dispatch(getTutors(search_type, search_subject, search_time));
 }

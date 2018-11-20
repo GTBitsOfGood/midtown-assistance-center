@@ -96,6 +96,7 @@ class Events extends React.Component {
                 .then(function(response) {
                     if (response.data.success) {
                         self.initEvents(true, response.data.session);
+                        self.props.socket.emit('tutor-update-session');
                         //window.open(response.data.link, '_blank');
                     } else {
                         console.log(response.data.error);
@@ -135,12 +136,6 @@ class Events extends React.Component {
                     topic: student_request.topic,
                     status: 'approved'
                 }
-            ] : [],
-            students_attended: student_request ? [
-                {
-                    student_id: student_request._id.student_id,
-                    time: Date.now()
-                }
             ] : []
         };
         const requestBody = {
@@ -159,6 +154,7 @@ class Events extends React.Component {
                 console.log(response);
                 if (response.data.success) {
                     self.initEvents(true, response.data.session);
+                    self.props.socket.emit('tutor-update-session');
                 } else {
                     console.log(response.data.error);
                 }

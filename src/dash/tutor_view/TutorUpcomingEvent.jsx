@@ -165,6 +165,7 @@ class TutorUpcomingEvent extends React.Component {
                     ).modal('show');
                     console.log('showing modal...');
                     console.log(response.data.session);
+                    self.props.socket.emit('tutor-update-session');
                 } else {
                     console.log(response.data.error);
                 }
@@ -184,6 +185,7 @@ class TutorUpcomingEvent extends React.Component {
         const now = new Date();
         const start = new Date();
         const startTimeSplit = this.props.startTime.split(':');
+        const self = this;
         start.setHours(
             parseInt(startTimeSplit[0]),
             parseInt(startTimeSplit[1]),
@@ -205,6 +207,7 @@ class TutorUpcomingEvent extends React.Component {
             .then((response) => {
                 if (response.data.success) {
                     console.log(response.data);
+                    self.props.socket.emit('tutor-update-session');
                     window.location.reload();
                 } else {
                     console.log(response.data.error);
@@ -222,60 +225,12 @@ class TutorUpcomingEvent extends React.Component {
      * link or create a new one.
      */
     handleAccessHangoutLink() {
-        const now = new Date();
-        const time = `${now.getHours()  }:${  now.getMinutes()}`;
-        const start = new Date();
-        const end = new Date();
-        const startTimeSplit = this.props.startTime.split(':');
-        const endTimeSplit = this.props.endTime.split(':');
-        start.setHours(
-            parseInt(startTimeSplit[0]),
-            parseInt(startTimeSplit[1]),
-            0,
-            0,
-            0
-        );
-        end.setHours(
-            parseInt(endTimeSplit[0]),
-            parseInt(endTimeSplit[1]),
-            0,
-            0,
-            0
-        );
+        if (this.state.session) {
+            window.open(this.state.session.hangouts_link, '_blank');
+        } else {
+            this.props.setParentSession(this.props.startTime, this.props.endTime);
+        }
 
-        const sessionRequestBody = {
-            _id: {
-                tutor_id: this.props.tutorId,
-                expected_start_time: start
-            },
-            start_time: now,
-            expected_end_time: end
-        };
-        const requestBody = {
-            sessionRequestBody,
-            tutorId: this.props.tutorId,
-            calId: this.props.calId,
-            startTime: this.props.startTime,
-            endTime: this.props.endTime,
-            email: this.props.gmail
-        };
-
-        const self = this;
-        axios
-            .post('/calendar/createEvent', requestBody)
-            .then((response) => {
-                if (response.data.success) {
-                    self.setState({
-                        session: response.data.session
-                    });
-                    window.open(response.data.link, '_blank');
-                } else {
-                    console.log(response.data.error);
-                }
-            })
-            .catch((err) => {
-                console.log(err);
-            });
     }
 
     /**

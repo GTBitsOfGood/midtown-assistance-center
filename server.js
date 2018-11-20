@@ -55,6 +55,11 @@ io.on('connection', socket => {
         io.emit('update-tutors');
     });
 
+    socket.on('tutor-update-session', () => {
+        console.log('tutor just created/ended a session');
+        io.emit('update-tutors');
+    });
+
     socket.on('student-join', data => {
         console.log(data);
         console.log('student joined session');
