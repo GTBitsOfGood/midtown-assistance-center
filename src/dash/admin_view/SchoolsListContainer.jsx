@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { getAllSchoolsAndAccessCodes, addAccessCode } from '../../redux/actions/admin_actions';
 import School from './School';
+import AddAccessCode from './AddAccessCode';
 
 class SchoolsListContainer extends React.Component {
     constructor(props) {
@@ -31,10 +32,16 @@ class SchoolsListContainer extends React.Component {
                 />
             </div>
         );
+
         return (
             <div>
                 {fullSchoolList}
-            </div>);
+                <AddAccessCode
+                    addAccessCode={this.addAccessCode}
+                    filteredCodes={this.props.schoolsAndAccessCodes}/>
+            </div>
+
+        );
 
     }
 }
