@@ -19,6 +19,33 @@ class RequestModal extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
+    componentDidMount() {
+        const data = {
+            student_id: this.props.username,
+            tutor_id: this.props.tutorId
+        };
+        const self = this;
+        axios
+            .post('/api/getPendingRequestsByStudent', {data})
+            .then((response) => {
+                if (response.data.success) {
+                    if (response.data.docs.length > 0) {
+                        const sessionRequest = response.data.docs[0];
+                        self.setState({
+                            approval: sessionRequest.status,
+                            request: sessionRequest.student_comment,
+                            topic: sessionRequest.topic
+                        });
+                    }
+                } else {
+                    console.log(response.data.error);
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
+
     handleCancel() {
         $(`#Modal_${this.props.firstName}_request`).modal('hide');
     }
@@ -38,7 +65,7 @@ class RequestModal extends React.Component {
             .post('/api/createSessionRequest', {sessionRequest:request})
             .then((response) => {
                 if (response.data.success) {
-                    this.setState({ approval: 'pending' });
+                    self.setState({ approval: 'pending' });
                     self.props.socket.emit('new-session-request', {
                         tutor: self.props.tutorId
                     });
@@ -57,7 +84,7 @@ class RequestModal extends React.Component {
 
     render() {
 
-        this.props.socket.on('student-session-request-update-' + this.props.username + '_' + this.props.tutorId, (data) => {
+        this.props.socket.on(`student-session-request-update-${  this.props.username  }_${  this.props.tutorId}`, (data) => {
             if (data.approval) {
                 this.props.showTutorModal();
             } else {
@@ -131,7 +158,7 @@ class RequestModal extends React.Component {
                                     }
                                     className="btn btn-default mac_button"
                                 >Cancel</button>
-                                { this.approval !== 'pending' && this.state.approval !== 'rejected' ?
+                                { this.state.approval !== 'pending' && this.state.approval !== 'rejected' ?
                                     <button
                                         type="submit"
                                         onClick={
