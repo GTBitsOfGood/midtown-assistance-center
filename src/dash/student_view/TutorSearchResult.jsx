@@ -183,6 +183,7 @@ class TutorSearchResult extends React.Component {
                                     data-toggle="modal"
                                     data-target={tutor.session ? `#Modal_${tutor.first_name}` : `#Modal_${tutor.first_name}_request`}
                                     data-backdrop="static"
+                                    disabled={!tutor.online}
                                 >
                                     {tutor.session
                                         ? 'Request to Join Session'
