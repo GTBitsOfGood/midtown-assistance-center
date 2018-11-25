@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { addSchool } from '../../redux/actions/school_actions';
+import { addSchoolAndUpdate } from '../../redux/actions/admin_actions';
 
 class AddSchool extends React.Component {
     constructor(props) {
@@ -22,7 +22,13 @@ class AddSchool extends React.Component {
 
     handleSubmit(e) {
         e.preventDefault();
-
+        this.props.addSchoolAndUpdate(this.state);
+        this.setState({
+            school_name: '',
+            street: '',
+            zip_code: '',
+            state: ''
+        });
     }
 
     render() {
@@ -67,6 +73,7 @@ class AddSchool extends React.Component {
                         type="submit"
                         value="submit"
                         className="btn btn-success"
+                        onClick={this.handleSubmit}
                     >
                         Submit
                     </button>
@@ -74,14 +81,12 @@ class AddSchool extends React.Component {
                 </div>
             </div>
         );
-    };
+    }
 }
 
-
-
 const mapDispatchToProps = dispatch => ({
-    addSubject: school => dispatch(addSchool(school)),
+    addSchoolAndUpdate: school => dispatch(addSchoolAndUpdate(school)),
 });
 
 
-export default connect(mapDispatchToProps)(AddSchool);
+export default connect(null, mapDispatchToProps)(AddSchool);

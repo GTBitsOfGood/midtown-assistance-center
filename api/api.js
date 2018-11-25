@@ -739,33 +739,24 @@ app.post('/accessCodes', (req, res) => {
     // data_access.access_codes.validateAccessCode(accessCodeValue);
 
     data_access.schools.verifySchoolCodeExists(req.body.school_code, (err, resultSchoolCode) => {
-        if (err) {
+        if (err || !resultSchoolCode) {
             console.log(err);
+            return res.json(400, {success: false, error: err});
         }
-        else if (resultSchoolCode) {
-            data_access.access_codes.addAccessCode({
-                access_code: accessCodeValue,
-                school_code: req.body.school_code,
-                name: req.body.name
-            }, (err, resultAccessCode) => {
-                if (err) {
-                    console.log(err);
-                }
-                else {
-                    res.json({
-                        success: true,
-                        accessCode: resultAccessCode
-                    });
-                }
+        return data_access.access_codes.addAccessCode({
+            access_code: accessCodeValue,
+            school_code: req.body.school_code,
+            name: req.body.name
+        }, (err, resultAccessCode) => {
+            if (err) {
+                console.log(err);
+                return res.json(400, {success: false, error: err});
+            }
+            return res.json({
+                success: true,
+                accessCode: resultAccessCode
             });
-
-        }
-        else {
-            res.json({
-                success: false,
-                error: err
-            });
-        }
+        });
     });
 });
 

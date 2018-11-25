@@ -28,3 +28,7 @@ export const addNewAccessCodePending = 'ADD_NEW_ACCESS_CODE_PENDING';
 export const addNewAccessCodeRejected = 'ADD_NEW_ACCESS_CODE_REJECTED';
 export const addNewAccessCodeFulfilled = 'ADD_NEW_ACCESS_CODE_FULFILLED';
 
+export const addSchool = 'ADD_SCHOOL';
+export const addSchoolPending = 'ADD_SCHOOL_PENDING';
+export const addSchoolRejected = 'ADD_SCHOOL_REJECTED';
+export const addSchoolFulfilled = 'ADD_SCHOOL_FULFILLED';

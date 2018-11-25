@@ -1,5 +1,7 @@
 import React from 'react';
-import School from './School';
+import { connect } from 'react-redux';
+import { addAccessCodeAndUpdate } from '../../redux/actions/admin_actions';
+
 
 class AddAccessCode extends React.Component {
     constructor(props) {
@@ -19,8 +21,8 @@ class AddAccessCode extends React.Component {
 
     handleSubmit(event) {
         event.preventDefault();
-        {this.props.addAccessCode(this.state.school_code, this.state.newClassroomName)};
-
+        this.props.addAccessCode(this.state.school_code, this.state.newClassroomName);
+        this.setState({ school_code: '', newClassroomName: '' });
     }
 
     render() {
@@ -57,4 +59,10 @@ class AddAccessCode extends React.Component {
         );
     }
 }
-export default AddAccessCode;
+
+const mapDispatchToProps = dispatch => ({
+    addAccessCode: (school_code, name) => dispatch(addAccessCodeAndUpdate(school_code, name)),
+});
+
+
+export default connect(null, mapDispatchToProps)(AddAccessCode);
