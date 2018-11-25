@@ -14,9 +14,18 @@ const SOCKETIO_ENDPOINT =
 const socket = socketIOClient(SOCKETIO_ENDPOINT);
 
 class StudentDashboard extends React.Component {
+    constructor(props) {
+        super(props);
+        this.updateOnlineTutors = this.updateOnlineTutors.bind(this);
+    }
+
     componentDidMount() {
         const { getOnlineTutors } = this.props;
         getOnlineTutors('online');
+    }
+
+    updateOnlineTutors() {
+        this.props.updateOnlineTutors(this.props.studentView.searchType, this.props.studentView.searchSubject, this.props.studentView.searchTime);
     }
 
     render() {
@@ -33,7 +42,7 @@ class StudentDashboard extends React.Component {
         } else {
             socket.on('update-tutors', () => {
                 console.log('Tutor update!');
-                window.location.reload();
+                this.updateOnlineTutors();
             });
             dashDisplay = (
                 <div>
@@ -54,16 +63,21 @@ class StudentDashboard extends React.Component {
 
 StudentDashboard.propTypes = {
     getOnlineTutors: PropTypes.func.isRequired,
+    updateOnlineTutors: PropTypes.func.isRequired,
     user: PropTypes.object.isRequired
 };
 
 const mapStateToProps = state => ({
+    studentView: state.studentView,
     user: state.user
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    getOnlineTutors: (searchType, subject, time) => dispatch(getOnlineTutors(searchType, subject, time)),
-});
+function mapDispatchToProps(dispatch) {
+    return {
+        getOnlineTutors: (searchType, subject, time) => dispatch(getOnlineTutors(searchType, subject, time)),
+        updateOnlineTutors: (searchType, subject, time) => dispatch(getOnlineTutors(searchType, subject, time))
+    };
+}
 
 const StudentDash = connect(
     mapStateToProps,

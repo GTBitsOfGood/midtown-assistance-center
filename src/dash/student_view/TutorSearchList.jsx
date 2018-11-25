@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import TutorSearchResult from './TutorSearchResult';
 
 const TutorList = (props) => {
-    const {studentView, socket, user} = props;
+    const {studentView, socket, user, updateOnlineTutors} = props;
     const renData =
         studentView.filteredTutors.length > 0 ? (
             studentView.filteredTutors.map(tutor => (
@@ -13,6 +13,7 @@ const TutorList = (props) => {
                     tutor={tutor}
                     id={tutor._id}
                     key={tutor._id}
+                    updateTutors={updateOnlineTutors}
                     // TODO: remove next two, it's not used currently
                     studentEmail={user.email}
                     username={user._id}
@@ -60,7 +61,8 @@ const TutorList = (props) => {
 TutorList.propTypes = {
     studentView: PropTypes.object.isRequired,
     socket: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired
+    user: PropTypes.object.isRequired,
+    updateOnlineTutors: PropTypes.func.isRequired
 };
 
 const mapStateToProps = state => ({

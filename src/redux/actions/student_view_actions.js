@@ -25,6 +25,11 @@ export function getOnlineTutors(search_type, search_subject, search_time) {
             .then(() => dispatch(updateSearch(search_type, search_subject, search_time)));
 }
 
+export function updateOnlineTutors(search_type, search_subject, search_time) {
+    return (dispatch) =>
+        dispatch(getTutors(search_type, search_subject, search_time));
+}
+
 export function submitStudentReport(user_id, tutor_id, explanation) {
     return {
         type: types.submitStudentReport,

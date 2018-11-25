@@ -55,6 +55,11 @@ io.on('connection', socket => {
         io.emit('update-tutors');
     });
 
+    socket.on('tutor-update-session', () => {
+        console.log('tutor just created/ended a session');
+        io.emit('update-tutors');
+    });
+
     socket.on('student-join', data => {
         console.log(data);
         console.log('student joined session');
@@ -65,6 +70,12 @@ io.on('connection', socket => {
         console.log(data);
         console.log('student requested to join session');
         io.emit('session-update-' + data.session, data);
+    });
+
+    socket.on('new-session-request', data => {
+        console.log(data);
+        console.log('student requested to start new session');
+        io.emit('session-request-' + data.tutor, data);
     });
 
     socket.on('tutor-approve', data => {
@@ -81,6 +92,24 @@ io.on('connection', socket => {
         io.emit('student-session-update-' + data.session + data.student_id, {
             approved: false,
             reason: data.reason
+        });
+    });
+
+    socket.on('tutor-approve-request', data => {
+        console.log(data);
+        console.log('tutor approved student request');
+        io.emit('student-session-request-update-' + data.request._id.student_id + '_' + data.request._id.tutor_id, {
+            approval: true,
+            reason: data.request.tutor_comment
+        });
+    });
+
+    socket.on('tutor-deny-request', data => {
+        console.log(data);
+        console.log('tutor denied student request');
+        io.emit('student-session-request-update-' + data.request._id.student_id + '_' + data.request._id.tutor_id, {
+            approval: false,
+            reason: data.request.tutor_comment
         });
     });
 

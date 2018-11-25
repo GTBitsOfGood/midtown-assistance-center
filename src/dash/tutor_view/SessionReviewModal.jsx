@@ -32,7 +32,8 @@ class SessionModal extends React.Component {
             rating: 0,
             satisfaction: '',
             error_message: 'hide',
-            comment: ''
+            comment: '',
+            receivedLink:false
         };
         this.changeStar = this.changeStar.bind(this);
         this.setRating = this.setRating.bind(this);
@@ -41,6 +42,21 @@ class SessionModal extends React.Component {
         this.handleCommentChange = this.handleCommentChange.bind(this);
         this.approveStudent = this.approveStudent.bind(this);
         this.denyStudent = this.denyStudent.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.props.showModal) {
+            $(
+                `#Modal_${this.props.id}`
+            ).modal('show');
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.showModal && this.props.session.hangouts_link && !this.state.receivedLink) {
+            window.open(this.props.session.hangouts_link, '_blank');
+            this.setState({receivedLink:true});
+        }
     }
 
     /**
@@ -68,7 +84,7 @@ class SessionModal extends React.Component {
      * @param number
      */
     changeStar(number) {
-        let starState = {
+        const starState = {
             first_star: false,
             second_star: false,
             third_star: false,
@@ -273,7 +289,6 @@ class SessionModal extends React.Component {
                     />
                 </div>
             ));
-
         return (
             <div>
                 {/* eslint-disable jsx-a11y/tabindex-no-positive, jsx-a11y/no-noninteractive-tabindex, jsx-a11y/no-autofocus */}
@@ -283,7 +298,7 @@ class SessionModal extends React.Component {
                     tabIndex="1000"
                     role="dialog"
                     aria-labelledby={`#Modal_${id}Label`}
-                    aria-hidden="true"
+                    aria-hidden={!this.props.showModal}
                     autoFocus
                 >
                     {/* eslint-enable */}

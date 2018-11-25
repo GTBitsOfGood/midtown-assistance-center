@@ -281,6 +281,11 @@ body {
     z-index: 1;
 }
 
+.tutorCurrentEvent {
+    position: relative;
+    z-index: 2;
+}
+
 .review-modal-footer {
     text-align: center !important;
 }
@@ -459,19 +464,49 @@ body {
     font-size: 15px;
 }
 
-.tutorUpcomingEvent {
+.tutorUpcomingEvent, .tutorSessionRequest {
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
     /*width: 500px;*/
     width: 100%;
     /*margin: 0 auto 10px auto;*/
     background-color: white;
     display: table;
+    position: relative;
 }
 
-.tutorUpcomingEventContent {
+.tutorSessionRequest {
+    padding: 10px;
+}
+
+.tutorSessionRequestImg {
+    display: inline-block;
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    border: 3px solid var(--gold);
+}
+
+.tutorSessionRequestDesc {
+
+}
+
+.tutorSessionRequestTime {
+    position: absolute;
+    top: 0;
+    right: 10px;
+}
+
+.tutorSessionRequestRight {
+    display: inline-block;
+}
+
+.tutorUpcomingEventContent, .tutorSessionRequestContent {
     display: table-cell;
     vertical-align: middle;
     text-align: left;
+}
+
+.tutorUpcomingEventContent {
     padding-left: 50px;
 }
 
@@ -595,6 +630,10 @@ body {
     color: var(--error_red);
 }
 
+.approve-deny-student {
+    margin: 0;
+}
+
 .approve-student:hover,
 .deny-student:hover {
     cursor: pointer;
@@ -709,7 +748,7 @@ body {
     right: 7px;
 }
 
-.upcoming-event-light {
+.upcoming-event-light, .tutor-request-light {
     color: var(--dkgray);
 }
 
@@ -728,7 +767,7 @@ body {
     position: relative;
 }
 
-.review-date {
+.review-date, .request-date {
     font-weight: 300;
     font-size: 0.8em;
 }

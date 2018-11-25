@@ -15,11 +15,13 @@
 
 import express from 'express';
 import data_access from './data_access';
+
 const app = express();
 // using SendGrid's v3 Node.js Library
 // https://github.com/sendgrid/sendgrid-nodejs
 const sgMail = require('@sendgrid/mail');
 const bcrypt = require('bcrypt');
+
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 function encryptPassword(password) {
@@ -126,7 +128,7 @@ app.post('/registerTutor', (req, res) => {
                     confirm_key
                 }, (err, user_instance) => {
                     if (err) {
-                        console.log('user instance ' + err);
+                        console.log(`user instance ${  err}`);
                         return res.send(400, {
                             success: false,
                             error_message: 'Did not create tutor'
@@ -176,10 +178,10 @@ app.post('/registerStudent', (req, res) => {
 
         }
         console.log(resultUsername);
-        data_access.users.checkIfEmailIsTaken(req.body.email, function(
+        data_access.users.checkIfEmailIsTaken(req.body.email, (
             err,
             resultEmail
-        ) {
+        ) => {
             if (err) {
                 console.log(err);
             } else {
@@ -191,12 +193,12 @@ app.post('/registerStudent', (req, res) => {
                             last_name: req.body.lastName,
                             email: req.body.email,
                             _id: req.body.username,
-                            password: password,
+                            password,
                             join_date: Date.now(),
                             classroom: req.body.access_code,
                             grade_level: req.body.grade_level
                         },
-                        function(err, user_instance) {
+                        (err, user_instance) => {
                             if (err) {
                                 console.log(err);
                             } else {
@@ -222,66 +224,62 @@ app.post('/registerStudent', (req, res) => {
 app.post('/newAdmin', (req, res) => {
     const newAdmin = req.body.newAdmin;
 
-    data_access.users.checkIfUsernameIsTaken(newAdmin._id, function(
+    data_access.users.checkIfUsernameIsTaken(newAdmin._id, (
         err,
         resultUsername
-    ) {
+    ) => {
         if (err) {
             console.log('check username error:', err);
-        } else {
-            if (!resultUsername) {
-                data_access.users.checkIfEmailIsTaken(newAdmin.email, function(
-                    err,
-                    resultEmail
-                ) {
-                    if (err) {
-                        console.log('check email error:', err);
-                    } else {
-                        if (!resultEmail) {
-                            newAdmin.password = encryptPassword(newAdmin.password);
-                            data_access.users.createAdmin(newAdmin, function(
-                                err,
-                                user_instance
-                            ) {
-                                if (err) {
-                                    console.log(err);
-                                } else {
-                                    console.log(
-                                        'created new admin',
-                                        newAdmin._id
-                                    );
-                                    res.send({
-                                        success: true,
-                                        error_message: null
-                                    });
-                                }
-                            });
+        } else if (!resultUsername) {
+            data_access.users.checkIfEmailIsTaken(newAdmin.email, (
+                err,
+                resultEmail
+            ) => {
+                if (err) {
+                    console.log('check email error:', err);
+                } else if (!resultEmail) {
+                    newAdmin.password = encryptPassword(newAdmin.password);
+                    data_access.users.createAdmin(newAdmin, (
+                        err,
+                        user_instance
+                    ) => {
+                        if (err) {
+                            console.log(err);
                         } else {
-                            console.log('Email exists');
-                            res.status(400).json({
-                                success: false,
-                                error_message: 'Email already exists'
+                            console.log(
+                                'created new admin',
+                                newAdmin._id
+                            );
+                            res.send({
+                                success: true,
+                                error_message: null
                             });
                         }
-                    }
-                });
-            } else {
-                console.log('Username exists');
-                res.status(400).json({
-                    success: false,
-                    error_message: 'Username already exists'
-                });
-            }
+                    });
+                } else {
+                    console.log('Email exists');
+                    res.status(400).json({
+                        success: false,
+                        error_message: 'Email already exists'
+                    });
+                }
+            });
+        } else {
+            console.log('Username exists');
+            res.status(400).json({
+                success: false,
+                error_message: 'Username already exists'
+            });
         }
     });
 });
 
 app.get('/confirmEmail', (req, res) => {
-    let confirm_key = req.query.confirm_key;
-    let tutor_id = req.query.tutor_id;
+    const confirm_key = req.query.confirm_key;
+    const tutor_id = req.query.tutor_id;
     data_access.users.confirmEmail(
-        { _id: tutor_id, confirm_key: confirm_key },
-        function(err, resultTutor) {
+        { _id: tutor_id, confirm_key },
+        (err, resultTutor) => {
             if (err) {
                 console.error(err);
                 return res.json({
@@ -294,20 +292,20 @@ app.get('/confirmEmail', (req, res) => {
                     success: false,
                     error_message: 'Failed to confirm tutor, no tutor found'
                 });
-            } else {
-                return res.json({
-                    success: true,
-                    error_message: null,
-                    message: 'Successfully confirmed email'
-                });
-            }
+            } 
+            return res.json({
+                success: true,
+                error_message: null,
+                message: 'Successfully confirmed email'
+            });
+            
         }
     );
 });
 
 // update student in database
 app.patch('/student', (req, res) => {
-    data_access.users.saveStudent(req.body, function(err, resultStudent) {
+    data_access.users.saveStudent(req.body, (err, resultStudent) => {
         if (err) {
             console.error(err);
             return res.json({
@@ -326,7 +324,7 @@ app.patch('/student', (req, res) => {
 
 // update tutor in database
 app.patch('/tutor', (req, res) => {
-    data_access.users.saveTutor(req.body, function(err, resultStudent) {
+    data_access.users.saveTutor(req.body, (err, resultStudent) => {
         if (err) {
             console.error(err);
             return res.json({
@@ -345,7 +343,7 @@ app.patch('/tutor', (req, res) => {
 
 // get subjects from database
 app.get('/subjects', (req, res) => {
-    data_access.subjects.getAllSubjects(function(err, resSubjects) {
+    data_access.subjects.getAllSubjects((err, resSubjects) => {
         if (err) {
             console.error(err);
             res.json({
@@ -363,7 +361,7 @@ app.get('/subjects', (req, res) => {
  *              { _id: subject_name_here }
  */
 app.post('/subjects', (req, res) => {
-    data_access.subjects.addSubject(req.body, function(err, resultSubject) {
+    data_access.subjects.addSubject(req.body, (err, resultSubject) => {
         if (err) {
             console.error(err);
             return res.json({
@@ -381,16 +379,16 @@ app.post('/subjects', (req, res) => {
 
 // when a tutor submits a review, update the session accordingly
 app.post('/tutorSubmitReview', (req, res) => {
-    let session = {};
+    const session = {};
     session.update = {};
     session._id = req.body._id;
     session.update.tutor_rating = req.body.rating;
     session.update.tutor_comment = req.body.comment;
     session.update.end_time = req.body.end_time;
-    data_access.tutor_sessions.updateTutorSession(session, function(
+    data_access.tutor_sessions.updateTutorSession(session, (
         err,
         response
-    ) {
+    ) => {
         if (err) {
             console.log(err);
             res.json({
@@ -409,14 +407,14 @@ app.post('/tutorSubmitReview', (req, res) => {
 
 // endpoint to forcefully end tutor session on logout
 app.post('/endTutorSession', (req, res) => {
-    let data = {};
+    const data = {};
     data.update = {};
     data._id = req.body._id;
     data.update.end_time = new Date();
-    data_access.tutor_sessions.updateTutorSession(data, function(
+    data_access.tutor_sessions.updateTutorSession(data, (
         err,
         response
-    ) {
+    ) => {
         if (err) {
             console.log(err);
             res.json({
@@ -437,7 +435,7 @@ app.post('/endTutorSession', (req, res) => {
 app.post('/addStudentToSession', (req, res) => {
     data_access.tutor_sessions.addStudentReview(
         { _id: req.body._id, update: { students_attended: req.body.review } },
-        function(err, response) {
+        (err, response) => {
             if (err) {
                 console.log(err);
                 res.json({
@@ -459,7 +457,7 @@ app.post('/addStudentToSession', (req, res) => {
 app.post('/addJoinRequest', (req, res) => {
     data_access.tutor_sessions.addJoinRequest(
         { _id: req.body._id, update: { join_requests: req.body.join_request } },
-        function(err, response) {
+        (err, response) => {
             if (err) {
                 console.log(err);
                 res.json({
@@ -481,7 +479,7 @@ app.post('/addJoinRequest', (req, res) => {
 app.post('/updateJoinRequest', (req, res) => {
     data_access.tutor_sessions.updateJoinRequest(
         { _id: req.body._id, update: { join_requests: req.body.join_request } },
-        function(err, response) {
+        (err, response) => {
             if (err) {
                 console.log(err);
                 res.json({
@@ -503,7 +501,7 @@ app.post('/updateJoinRequest', (req, res) => {
 app.post('/studentSubmitReview', (req, res) => {
     data_access.tutor_sessions.addStudentReview(
         { _id: req.body._id, update: { students_attended: req.body.review } },
-        function(err, response) {
+        (err, response) => {
             if (err) {
                 console.log(err);
                 res.json({
@@ -525,7 +523,7 @@ app.post('/studentSubmitReview', (req, res) => {
 app.post('/studentUpdateReview', (req, res) => {
     data_access.tutor_sessions.updateStudentReview(
         { _id: req.body._id, update: { students_attended: req.body.review } },
-        function(err, response) {
+        (err, response) => {
             if (err) {
                 console.log(err);
                 res.json({
@@ -546,10 +544,10 @@ app.post('/studentUpdateReview', (req, res) => {
 
 app.post('/getTutorSession', (req, res) => {
     console.log(req.body._id);
-    data_access.tutor_sessions.getSessionByTutor(req.body._id, function(
+    data_access.tutor_sessions.getSessionByTutor(req.body._id, (
         err,
         response
-    ) {
+    ) => {
         if (err) {
             console.log(err);
             res.json({
@@ -569,7 +567,10 @@ app.post('/getTutorSession', (req, res) => {
 
 // get all tutoring sessions for a tutor
 app.post('/getTutorSessions', (req, res) => {
-    data_access.tutor_sessions.getSessionsByTutor(req.body.username, (err, response) => {
+    data_access.tutor_sessions.getSessionsByTutor(req.body.username, (
+        err,
+        response
+    ) => {
         if (err) {
             console.log(err);
             res.json({
@@ -668,10 +669,10 @@ app.post('/submitStudentReport', (req, res) => {
 
 // get the tutor statistics by username (for now just number of ratings and avg rating)
 app.post('/getTutorStats', (req, res) => {
-    data_access.tutor_sessions.getTutorAvgRating(req.body.username, function(
+    data_access.tutor_sessions.getTutorAvgRating(req.body.username, (
         err,
         response
-    ) {
+    ) => {
         if (err) {
             console.log(err);
             res.json({
@@ -689,7 +690,7 @@ app.post('/getTutorStats', (req, res) => {
 });
 
 app.get('/unapprovedTutors', (req, res) => {
-    data_access.users.getUnapprovedTutors(function(err, response) {
+    data_access.users.getUnapprovedTutors((err, response) => {
         if (err) {
             console.log(err);
             res.json({
@@ -835,10 +836,10 @@ app.patch('/admin', (req, res) => {
 // check if a tutor has an active session
 app.post('/checkActiveSession', (req, res) => {
     console.log(req.body.username);
-    data_access.tutor_sessions.getActiveSession(req.body.username, function(
+    data_access.tutor_sessions.getActiveSession(req.body.username, (
         err,
         response
-    ) {
+    ) => {
         if (err) {
             res.json({
                 success: false,
@@ -864,7 +865,7 @@ app.post('/checkActiveSession', (req, res) => {
 });
 
 app.get('/allTutors', (req, res) => {
-    data_access.users.getAllTutors(function(err, response) {
+    data_access.users.getAllTutors((err, response) => {
         if (err) {
             console.log(err);
             res.json({ success: false, error: err });
@@ -877,6 +878,59 @@ app.get('/allTutors', (req, res) => {
             });
         }
     });
+});
+
+// TUTOR SESSION REQUESTS
+
+app.post('/createSessionRequest', (req, res) => {
+    data_access.tutor_session_requests.addSessionRequest(req.body.sessionRequest, (err, response) => {
+        if (err) {
+            console.log(err);
+            res.json({success: false, error:err});
+        } else {
+            res.json({
+                success: true,
+                error: null,
+                sessionRequest: response
+            });
+        }
+    });
+});
+
+app.post('/getPendingRequests', (req, res) => {
+    data_access.tutor_session_requests.getPendingRequestsByTutor(req.body._id, (err, response) => {
+        if (err) {
+            console.log(err);
+            res.json({success:false, error:err});
+        } else {
+            res.json({
+                success:true,
+                error:null,
+                docs:response
+            });
+        }
+    });
+});
+
+app.post('/updateSessionRequest', (req, res) => {
+    data_access.tutor_session_requests.updateRequest(
+        req.body,
+        (err, response) => {
+            if (err) {
+                console.log(err);
+                res.json({
+                    success: false,
+                    error: err
+                });
+            } else {
+                res.json({
+                    success: true,
+                    error: null,
+                    sessionRequest: response
+                });
+            }
+        }
+    );
 });
 
 
