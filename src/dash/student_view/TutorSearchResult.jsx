@@ -49,7 +49,7 @@ class TutorSearchResult extends React.Component {
                 end_grade={subject.end_grade}
             />
         ));
-        
+
         const favorites = tutor.favorites.map(fav => (
             <Subject is_favorite subject={fav.favorite} />
         ));
@@ -200,6 +200,7 @@ class TutorSearchResult extends React.Component {
                         favorites={tutor.favorites}
                         firstName={tutor.first_name}
                         session={tutor.session}
+                        tutor_id={tutor._id}
                     />
                     <TutorRequestModal
                         key={`modal-${id}`}

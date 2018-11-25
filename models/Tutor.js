@@ -112,7 +112,8 @@ let schema = new Schema({
     confirmed: { type: Boolean, default: true, required: true },
     confirm_key: { type: String, required: false },
     calendarId: { type: String, required: false },
-    tutoringEventId: { type: String, required: false }
+    tutoringEventId: { type: String, required: false },
+    banned: { type: Boolean, default: false }
 });
 
 schema.virtual('username').get(function() {

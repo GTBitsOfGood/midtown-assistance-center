@@ -5,6 +5,7 @@ const session = require('./dao/session_dao');
 const subjects = require('./dao/subject_dao');
 const tutor_sessions = require('./dao/tutor_session_dao');
 const tutor_session_requests = require('./dao/tutor_session_request_dao');
+const ban = require('./dao/ban_dao');
 
 // Set up default mongoose connection
 const mongoDB = process.env.DB_CONNECTION_STRING;
@@ -25,5 +26,6 @@ module.exports = {
     subjects,
     tutor_sessions,
     tutor_session_requests,
-    mongoDB
+    mongoDB,
+    ban
 };

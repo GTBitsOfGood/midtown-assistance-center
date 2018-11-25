@@ -21,6 +21,7 @@ import Approve from './admin_view/Approve';
 import AddAdmin from './admin_view/AddAdmin';
 import Dashboard from './admin_view/Dashboard';
 import Schools from './admin_view/Schools';
+import BanDash from './admin_view/BanDash';
 import Navigation from './admin_view/navigation/Navigation';
 
 // TODO: use global const
@@ -48,6 +49,7 @@ const adminRoutes = (
                     <Route exact path="/dash/dashboard" component={Dashboard} />
                     <Route exact path="/dash/approve" component={Approve} />
                     <Route exact path="/dash/schools" component={Schools} />
+                    <Route exact path="/dash/ban" component={BanDash} />
                     <Route exact path="/dash/add_admin" component={AddAdmin} />
                 </Switch>
             </div>

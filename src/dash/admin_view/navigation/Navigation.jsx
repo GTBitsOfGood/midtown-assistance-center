@@ -43,6 +43,12 @@ class Navigation extends React.Component {
                 />
                 <NavigationItem
                     func={this.setActive}
+                    page="Ban"
+                    icon="user"
+                    active={currentPage === 'ban'}
+                />
+                <NavigationItem
+                    func={this.setActive}
                     page="Add Admin"
                     icon="check"
                     active={currentPage === 'add_admin'}

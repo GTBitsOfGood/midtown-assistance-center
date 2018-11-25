@@ -12,7 +12,8 @@ let schema = new Schema({
     bio: { type: String, default: '' },
     profile_picture: { type: String, default: '' },
     classroom: { type: String, required: true },
-    grade_level: { type: Number, required: true }
+    grade_level: { type: Number, required: true },
+    banned: { type: Boolean, default: false }
 });
 
 schema.virtual('username').get(function() {

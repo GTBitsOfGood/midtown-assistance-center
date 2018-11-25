@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios/index';
+import ReportModal from './ReportModal';
 
 class TutorModal extends React.Component {
     constructor(props) {
@@ -380,7 +381,7 @@ class TutorModal extends React.Component {
     }
 
     render() {
-        const { subjects, favorites, socket, session, username, firstName } = this.props;
+        const { subjects, favorites, socket, session, username, firstName, tutor_id } = this.props;
         const {
             approval,
             error_message,
@@ -529,6 +530,15 @@ class TutorModal extends React.Component {
                     onChange={this.handleGeneralChange}
                     className="input-sm input feedback-text"
                 />
+                <button
+                    className="btn btn-md btn-default mac_button_inverse"
+                    type="button"
+                    data-toggle="modal"
+                    data-target={`#Report_Modal_${tutor_id}`}
+                    data-backdrop="static"
+                >
+                    Report Tutor
+                </button>
             </div>
         );
         const approved_html = (
@@ -659,6 +669,9 @@ class TutorModal extends React.Component {
                         </div>
                     </div>
                 </div>
+                <ReportModal
+                    tutor_id={tutor_id}
+                />
             </div>
         );
     }
@@ -672,6 +685,7 @@ TutorModal.propTypes = {
     updateTutors: PropTypes.func.isRequired,
     favorites: PropTypes.array.isRequired,
     firstName: PropTypes.string.isRequired,
+    tutor_id: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({

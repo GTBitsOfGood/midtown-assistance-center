@@ -13,6 +13,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import ReportModal from './ReportModal';
 
 class SessionModal extends React.Component {
     /**
@@ -249,7 +250,19 @@ class SessionModal extends React.Component {
             comment
         } = this.state;
         const renStudents = (session.students_attended || []).map(student => (
-            <h5>{student.student_id}</h5>
+            <div className="student-join-request col-sm-12" key={student.student_id}>
+                <h5 className="col-sm-10">{student.student_id}</h5>
+                <span
+                    className="col-sm-2 glyphicon glyphicon-remove deny-student"
+                    data-toggle="modal"
+                    data-target={`#Modal_${student.student_id}`}
+                    data-backdrop="static"
+                />
+                <ReportModal
+                    student_id={student.student_id}
+                    modal_id={student.student_id}
+                />
+            </div>
         ));
         const renRequests = (session.join_requests || [])
             .filter(student => student.status === 'pending')
@@ -491,7 +504,7 @@ SessionModal.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    studentView: state.studentView
+    tutorId: state.user._id
 });
 
 const SessionReviewModal = connect(

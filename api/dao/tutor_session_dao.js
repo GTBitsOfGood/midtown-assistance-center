@@ -327,19 +327,18 @@ module.exports = {
      * @param username the id of the tutor
      * @param callback
      */
-    getSessionsByTutor: function(username, callback) {
-        TutorSession.find({ '_id.tutor_id': username }, function(err, docs) {
+    getSessionsByTutor: (username, callback) => {
+        TutorSession.find({ '_id.tutor_id': username }, (err, docs) => {
             if (err) {
                 console.log(err);
                 callback(err);
                 return;
-            } else {
-                let new_docs = JSON.parse(JSON.stringify(docs));
-                for (let doc in docs) {
-                    new_docs[doc].rating = docs[doc].getRating();
-                }
-                callback(null, new_docs);
             }
+            const new_docs = [ ...docs ];
+            docs.forEach((doc, ind) => {
+                new_docs[ind].rating = docs[ind].getRating();
+            });
+            callback(null, new_docs);
         });
     },
 
@@ -550,6 +549,23 @@ module.exports = {
                     return now.diff(start) >= 0 && now.diff(end) <= 0 && !session.end_time;
                 }));
             }
+        });
+    },
+
+    /**
+     *
+     */
+    getStudentByRatingId: (rating_id, callback) => {
+        TutorSession.findOne({ 'students_attended': {$elemMatch: {_id: rating_id }}}, (err, session) => {
+            if (err) {
+                console.log(err);
+                callback(err);
+                return;
+            }
+            // need this to convert from Mongoose obj
+            const session_obj = JSON.parse(JSON.stringify(session));
+            const student = session_obj.students_attended.find(ses => ses._id === rating_id).student_id;
+            callback(null, student);
         });
     }
 };
