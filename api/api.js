@@ -912,6 +912,21 @@ app.post('/getPendingRequests', (req, res) => {
     });
 });
 
+app.post('/getPendingRequestsByStudent', (req, res) => {
+    data_access.tutor_session_requests.getPendingRequestsByTutorAndStudent(req.body.data, (err, response) => {
+        if (err) {
+            console.log(err);
+            res.json({success:false, error:err});
+        } else {
+            res.json({
+                success:true,
+                error:null,
+                docs:response
+            });
+        }
+    });
+});
+
 app.post('/updateSessionRequest', (req, res) => {
     data_access.tutor_session_requests.updateRequest(
         req.body,

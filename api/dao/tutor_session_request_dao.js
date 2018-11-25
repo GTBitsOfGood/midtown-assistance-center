@@ -58,6 +58,26 @@ module.exports = {
         });
     },
     /**
+     * get a pending join request for a certain tutor
+     * by student
+     * @param data
+     * @param callback
+     */
+    getPendingRequestsByTutorAndStudent(data, callback) {
+        function isSessionPending(session) {
+            return session.status === 'pending';
+        }
+        TutorSessionRequest.find({'_id.tutor_id':data.tutor_id, '_id.student_id':data.student_id}, (err, docs) => {
+            if (err) {
+                console.log(err);
+                callback(err);
+            } else {
+                const filteredDocs = docs.filter(isSessionPending);
+                callback(null, filteredDocs);
+            }
+        });
+    },
+    /**
      * Update a sessionRequest to approved or rejected
      * @param sessionRequest
      * @param callback
