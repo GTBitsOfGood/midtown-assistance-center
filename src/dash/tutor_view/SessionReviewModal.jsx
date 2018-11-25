@@ -169,8 +169,6 @@ class SessionModal extends React.Component {
                 if (response.data.success) {
                     console.log(response.data);
                     updateSession(
-                        response.data.session.hangouts_link,
-                        response.data.session.eventId,
                         response.data.session
                     );
                     socket.emit('tutor-approve', {
@@ -213,8 +211,6 @@ class SessionModal extends React.Component {
                     if (response.data.success) {
                         console.log(response.data);
                         updateSession(
-                            response.data.session.hangouts_link,
-                            response.data.session.eventId,
                             response.data.session
                         );
                         socket.emit('tutor-deny', {
@@ -265,7 +261,7 @@ class SessionModal extends React.Component {
             </div>
         ));
         const renRequests = (session.join_requests || [])
-            .filter(student => student.status === 'pending')
+            .filter(student => student.status === 'pending' || student.status === 'approved')
             .map((student) => (
                 <div className="student-join-request col-sm-12">
                     <h5 className="col-sm-3">{student.student_id}</h5>
@@ -279,14 +275,20 @@ class SessionModal extends React.Component {
                             ? student.student_comment
                             : 'No Request Description'}
                     </h5>
-                    <span
-                        onClick={() => this.approveStudent(student)}
-                        className="col-sm-1 glyphicon glyphicon-ok approve-student"
-                    />
-                    <span
-                        onClick={() => this.denyStudent(student)}
-                        className="col-sm-1 glyphicon glyphicon-remove deny-student"
-                    />
+                    {
+                        student.status === 'pending' ?
+                            <div>
+                                <span
+                                    onClick={() => this.approveStudent(student)}
+                                    className="col-sm-1 glyphicon glyphicon-ok approve-student"
+                                />
+                                <span
+                                    onClick={() => this.denyStudent(student)}
+                                    className="col-sm-1 glyphicon glyphicon-remove deny-student"
+                                />
+                            </div> : <div><h5 className="approve-student">approved</h5></div>
+                    }
+
                 </div>
             ));
         return (
