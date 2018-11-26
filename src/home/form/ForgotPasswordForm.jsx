@@ -13,12 +13,7 @@ class ForgotPasswordForm extends React.Component {
         };
 
         this.handleEmailChange = this.handleEmailChange.bind(this);
-        this.setMessage = this.setMessage.bind(this);
         this.sendToServer = this.sendToServer.bind(this);
-    }
-
-    setMessage(message) {
-        this.setState({ message });
     }
 
     handleEmailChange(e) {
@@ -33,14 +28,14 @@ class ForgotPasswordForm extends React.Component {
             .post('/api/forgotPassword', { email } )
             .then(response => {
                 if (response.data.success) {
-                    this.setMessage(`Email sent to ${ email } with a link to reset your password.`);
+                    this.setState({ message: `Email sent to ${ email } with a link to reset your password.` });
                     this.setState({ success: true});
                 } else {
-                    this.setMessage('No account found with that email.');
+                    this.setState({ message: 'No account found with that email.' });
                 }
             })
             .catch(() => {
-                this.setMessage('Request failed. Please try again later');
+                this.setState({ message: 'Request failed. Please try again later' });
             });
     }
 

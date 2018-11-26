@@ -481,6 +481,22 @@ module.exports = {
         );
     },
 
+    updateResetKey(email, reset_key, emailType, callback) {
+        if (emailType === 'tutor') {
+            Tutor.findOneAndUpdate({ email }, {$set:{ reset_key }}, { new: true }, (err) => {
+                return callback(err);
+            });
+        } else if (emailType === 'student') {
+            Student.findOneAndUpdate({ email }, {$set:{ reset_key }}, { new: true }, (err) => {
+                return callback(err);
+            });
+        } else {
+            Admin.findOneAndUpdate({ email }, { $set: { reset_key } }, { new: true }, (err) => {
+                return callback(err);
+            });
+        }
+    },
+
     findUserType(email, callback) {
         Tutor.find({ email }, (err, docs) => {
             if (err) {
