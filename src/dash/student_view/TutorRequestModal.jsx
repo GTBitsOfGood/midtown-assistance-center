@@ -26,7 +26,7 @@ class RequestModal extends React.Component {
         };
         const self = this;
         axios
-            .post('/api/getPendingRequestsByStudent', {data})
+            .post('/api/getPendingRequestsByTutorAndStudent', {data})
             .then((response) => {
                 if (response.data.success) {
                     if (response.data.docs.length > 0) {

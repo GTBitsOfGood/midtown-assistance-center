@@ -912,7 +912,37 @@ app.post('/getPendingRequests', (req, res) => {
     });
 });
 
+app.post('/getPendingRequestsByTutorAndStudent', (req, res) => {
+    data_access.tutor_session_requests.getPendingRequestsByTutorAndStudent(req.body.data, (err, response) => {
+        if (err) {
+            console.log(err);
+            res.json({success:false, error:err});
+        } else {
+            res.json({
+                success:true,
+                error:null,
+                docs:response
+            });
+        }
+    });
+});
+
 app.post('/getPendingRequestsByStudent', (req, res) => {
+    data_access.tutor_session_requests.getPendingRequestsByStudent(req.body.student_id, (err, response) => {
+        if (err) {
+            console.log(err);
+            res.json({success:false, error:err});
+        } else {
+            res.json({
+                success:true,
+                error:null,
+                docs:response
+            });
+        }
+    });
+});
+
+app.post('/getPendingRequestsByTutorAndStudent', (req, res) => {
     data_access.tutor_session_requests.getPendingRequestsByTutorAndStudent(req.body.data, (err, response) => {
         if (err) {
             console.log(err);
@@ -942,6 +972,26 @@ app.post('/updateSessionRequest', (req, res) => {
                     success: true,
                     error: null,
                     sessionRequest: response
+                });
+            }
+        }
+    );
+});
+
+app.post('/cancelStudentRequests', (req, res) => {
+    data_access.tutor_session_requests.cancelAllStudentRequests(
+        req.body.student_id,
+        (err) => {
+            if (err) {
+                console.log(err);
+                res.json({
+                    success: false,
+                    error: err
+                });
+            } else {
+                res.json({
+                    success: true,
+                    error: null,
                 });
             }
         }

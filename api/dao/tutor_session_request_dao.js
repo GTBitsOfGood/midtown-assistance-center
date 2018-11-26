@@ -44,16 +44,27 @@ module.exports = {
      * @param callback
      */
     getPendingRequestsByTutor(tutorId, callback) {
-        function isSessionPending(session) {
-            return session.status === 'pending';
-        }
-        TutorSessionRequest.find({'_id.tutor_id':tutorId}, (err, docs) => {
+        TutorSessionRequest.find({'_id.tutor_id':tutorId, 'status':'pending'}, (err, docs) => {
             if (err) {
                 console.log(err);
                 callback(err);
             } else {
-                const filteredDocs = docs.filter(isSessionPending);
-                callback(null, filteredDocs);
+                callback(null, docs);
+            }
+        });
+    },
+    /**
+     * get all pending join requests for a certain student
+     * @param student_id
+     * @param callback
+     */
+    getPendingRequestsByStudent(student_id, callback) {
+        TutorSessionRequest.find({'_id.student_id':student_id, 'status':'pending'}, (err, docs) => {
+            if (err) {
+                console.log(err);
+                callback(err);
+            } else {
+                callback(null, docs);
             }
         });
     },
@@ -64,16 +75,12 @@ module.exports = {
      * @param callback
      */
     getPendingRequestsByTutorAndStudent(data, callback) {
-        function isSessionPending(session) {
-            return session.status === 'pending';
-        }
-        TutorSessionRequest.find({'_id.tutor_id':data.tutor_id, '_id.student_id':data.student_id}, (err, docs) => {
+        TutorSessionRequest.find({'_id.tutor_id':data.tutor_id, '_id.student_id':data.student_id, 'status':'pending'}, (err, docs) => {
             if (err) {
                 console.log(err);
                 callback(err);
             } else {
-                const filteredDocs = docs.filter(isSessionPending);
-                callback(null, filteredDocs);
+                callback(null, docs);
             }
         });
     },
@@ -100,6 +107,21 @@ module.exports = {
                 callback(err);
             } else {
                 callback(null, updatedRequest);
+            }
+        });
+    },
+    /**
+     * Cancel all open session requests for a student
+     * @param student_id
+     * @param callback
+     */
+    cancelAllStudentRequests(student_id, callback) {
+        TutorSessionRequest.remove({'_id.student_id':student_id, 'status':'pending'}, (err) => {
+            if (err) {
+                console.log(err);
+                callback(err);
+            } else {
+                callback(null);
             }
         });
     }
