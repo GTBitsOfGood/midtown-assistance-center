@@ -31,6 +31,7 @@ class TutorUpcomingEvent extends React.Component {
         this.updateSession = this.updateSession.bind(this);
         this.initUpcomingEvent = this.initUpcomingEvent.bind(this);
         this.onUnload = this.onUnload.bind(this);
+        this.setNewState = this.setNewState.bind(this);
     }
 
     /**
@@ -56,6 +57,7 @@ class TutorUpcomingEvent extends React.Component {
         // window.removeEventListener("beforeunload", this.onUnload);
     }
 
+
     /**
      * Check for an open session on unload
      * TODO: figure out how to get this to work
@@ -68,6 +70,10 @@ class TutorUpcomingEvent extends React.Component {
             e.returnValue = 'oh no open session';
             return 'oh no open session';
         }
+    }
+
+    setNewState(session) {
+        this.setState({session});
     }
 
     /**
