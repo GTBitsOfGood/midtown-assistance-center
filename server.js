@@ -78,6 +78,12 @@ io.on('connection', socket => {
         io.emit('session-request-' + data.tutor, data);
     });
 
+    socket.on('student-cancel-request', data => {
+        console.log(data);
+        console.log('student requested to cancel session request');
+        io.emit('session-request-' + data.tutor_id, data);
+    });
+
     socket.on('tutor-approve', data => {
         console.log(data);
         console.log('tutor approved student in session');

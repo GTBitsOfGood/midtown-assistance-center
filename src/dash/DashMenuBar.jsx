@@ -24,12 +24,12 @@ export class MenuBar extends React.Component {
 
     logout() {
         const { user, setTutorOffline } = this.props;
+        const self = this;
         console.warn('Logging out user');
         // this.props.setTutorOnline(user, {online: false, logging_out: true});
         console.log(user.type);
         if (user.type === types.typeTutor) {
             // TODO: remove self = this
-            const self = this;
             axios
                 .post('/api/checkActiveSession', {
                     username: user._id
@@ -87,6 +87,36 @@ export class MenuBar extends React.Component {
                 .catch(err => {
                     console.log(err);
                 });
+        } else if (user.type === types.typeStudent) {
+            axios.post('/api/getPendingRequestsByStudent', {student_id:user._id}).then(response => {
+                if (response.data.success) {
+                    if (response.data.docs.length > 0) {
+                        const cancelRequests = window.confirm('Are you sure you want to logout? This will cancel all of your pending session requests');
+                        if (cancelRequests) {
+                            axios.post('/api/cancelStudentRequests', {student_id:user._id}).then(res => {
+                                if (res.data.success) {
+                                    for (let x in response.data.docs) {
+                                        socket.emit('student-cancel-request', {tutor_id:response.data.docs[x]._id.tutor_id});
+                                        const new_tutor = Object.assign({}, user);
+                                        new_tutor.online = false;
+                                        new_tutor.logging_out = true;
+                                        setTutorOffline(new_tutor);
+                                    }
+                                } else {
+                                    console.log(res.data.error);
+                                }
+                            });
+                        }
+                    } else {
+                        const new_tutor = Object.assign({}, user);
+                        new_tutor.online = false;
+                        new_tutor.logging_out = true;
+                        setTutorOffline(new_tutor);
+                    }
+                } else {
+                    console.log(response.data.error)
+                }
+            });
         } else {
             const new_tutor = Object.assign({}, user);
             new_tutor.online = false;

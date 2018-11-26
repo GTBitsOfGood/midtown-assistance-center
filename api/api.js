@@ -15,6 +15,7 @@
 
 import express from 'express';
 import data_access from './data_access';
+
 const app = express();
 // using SendGrid's v3 Node.js Library
 // https://github.com/sendgrid/sendgrid-nodejs
@@ -406,13 +407,13 @@ app.get('/confirmEmail', (req, res) => {
                     success: false,
                     error_message: 'Failed to confirm tutor, no tutor found'
                 });
-            }
+            } 
             return res.json({
                 success: true,
                 error_message: null,
                 message: 'Successfully confirmed email'
             });
-
+            
         }
     );
 });
@@ -1027,6 +1028,21 @@ app.post('/getPendingRequests', (req, res) => {
 });
 
 app.post('/getPendingRequestsByStudent', (req, res) => {
+    data_access.tutor_session_requests.getPendingRequestsByStudent(req.body.student_id, (err, response) => {
+        if (err) {
+            console.log(err);
+            res.json({success:false, error:err});
+        } else {
+            res.json({
+                success:true,
+                error:null,
+                docs:response
+            });
+        }
+    });
+});
+
+app.post('/getPendingRequestsByTutorAndStudent', (req, res) => {
     data_access.tutor_session_requests.getPendingRequestsByTutorAndStudent(req.body.data, (err, response) => {
         if (err) {
             console.log(err);
@@ -1061,5 +1077,26 @@ app.post('/updateSessionRequest', (req, res) => {
         }
     );
 });
+
+app.post('/cancelStudentRequests', (req, res) => {
+    data_access.tutor_session_requests.cancelAllStudentRequests(
+        req.body.student_id,
+        (err) => {
+            if (err) {
+                console.log(err);
+                res.json({
+                    success: false,
+                    error: err
+                });
+            } else {
+                res.json({
+                    success: true,
+                    error: null,
+                });
+            }
+        }
+    );
+});
+
 
 export default app;
