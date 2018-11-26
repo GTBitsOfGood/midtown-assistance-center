@@ -33,14 +33,15 @@ class AddSchool extends React.Component {
 
     render() {
         return (
-            <div>
-                <h2>Add New School</h2>
+            <div className='container-fluid'>
+                <h2 className='row text-center'>Add New School</h2>
                 <div className="container-fluid">
                     <div className='form-group row'>
                         <input
                             type='text'
                             name='school_name'
                             placeholder='School Name'
+                            className='form-control'
                             onChange={this.handleGeneral}
                         />
                     </div>
@@ -49,6 +50,7 @@ class AddSchool extends React.Component {
                             name='street'
                             type='text'
                             placeholder='Street Address'
+                            className='form-control'
                             onChange={this.handleGeneral}
                         />
                     </div>
@@ -57,6 +59,7 @@ class AddSchool extends React.Component {
                         <input
                             name='zip_code'
                             type='number'
+                            className='form-control'
                             placeholder='Zip Code'
                             onChange={this.handleGeneral}
                         />
@@ -65,6 +68,7 @@ class AddSchool extends React.Component {
                         <input
                             name='state'
                             type='text'
+                            className='form-control'
                             placeholder='State'
                             onChange={this.handleGeneral}
                         />

@@ -30,8 +30,8 @@ class AddAccessCode extends React.Component {
             <option value = {school.school_code}>{school.school_code}, {school.school_name}</option>
         );
         return(
-            <div>
-                <h2>Add A New Classroom Code</h2>
+            <div className='container-fluid'>
+                <h2 className='row text-center'>Add A New Classroom Code</h2>
                 <form onSubmit={this.handleSubmit}>
                     <label>
                         Pick School:
@@ -42,18 +42,21 @@ class AddAccessCode extends React.Component {
                         </select>
                     </label>
                 </form>
-                <input
-                    type='text'
-                    name='newClassroomName'
-                    onChange={this.handleChange}
-                    placeholder='Ex: Ms.Smiths 2nd period Bio'/>
-                <button
-                    type='submit'
-                    className='btn btn-success'
-                    onClick={this.handleSubmit}
-                >
-                    Add New Access Code
-                </button>
+                <div className='container-fluid'>
+                    <input
+                        type='text'
+                        name='newClassroomName'
+                        className='form-control'
+                        onChange={this.handleChange}
+                        placeholder='Ex: Ms.Smiths 2nd period Bio'/>
+                    <button
+                        type='submit'
+                        className='btn btn-success'
+                        onClick={this.handleSubmit}
+                    >
+                        Add New Access Code
+                    </button>
+                </div>
 
             </div>
         );
