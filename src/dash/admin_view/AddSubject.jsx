@@ -38,7 +38,7 @@ class AddSubject extends React.Component {
         return (
             <div className="container-fluid">
                 <div className="row text-center">
-                    <h1>Add a new Subject!</h1>
+                    <h1 >Add a new Subject!</h1>
                 </div>
                 <br />
                 <div className="row">
