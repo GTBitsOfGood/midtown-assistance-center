@@ -4,7 +4,7 @@ import AddSubject from './AddSubject.jsx';
 import SchoolsListContainer from './SchoolsListContainer.jsx';
 import AddSchool from './AddSchool';
 
-class Subjects extends React.Component {
+class Schools extends React.Component {
     constructor(props) {
         super(props);
     }
@@ -20,4 +20,4 @@ class Subjects extends React.Component {
         );
     }
 }
-export default Subjects;
+export default Schools;
