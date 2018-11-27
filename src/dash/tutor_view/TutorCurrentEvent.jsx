@@ -25,6 +25,7 @@ class CurrentEvent extends React.Component {
         };
         this.setSessionDuration = this.setSessionDuration.bind(this);
         this.getPendingSessionRequests = this.getPendingSessionRequests.bind(this);
+        this.acceptAllRequests = this.acceptAllRequests.bind(this);
     }
 
     componentWillMount() {
@@ -67,6 +68,43 @@ class CurrentEvent extends React.Component {
             .catch((err) => {
                 console.log(err);
             });
+    }
+
+    acceptAllRequests() {
+        const confirm = window.confirm('Are you sure you want to accept all requests?');
+        const acceptRequestPromises = [];
+        if (confirm) {
+            for (const x in this.state.pendingRequests) {
+                const promise = new Promise((resolve, reject) => {
+                    const request = {
+                        _id:this.state.pendingRequests[x]._id,
+                        status: 'approved'
+                    };
+                    const self = this;
+                    axios
+                        .post('/api/updateSessionRequest', request)
+                        .then((response) => {
+                            if (response.data.success) {
+                                self.getPendingSessionRequests();
+                                resolve(response.data.sessionRequest);
+                            } else {
+                                console.log(response.data.error);
+                            }
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                });
+                acceptRequestPromises.push(promise);
+            }
+            Promise.all(acceptRequestPromises).then((values) => {
+                this.setSessionDuration(values);
+                for (let x in values) {
+                    this.props.socket.emit('tutor-approve-request', {request:values[x]});
+                }
+            });
+
+        }
     }
 
 
@@ -116,6 +154,7 @@ class CurrentEvent extends React.Component {
                                 <h4>
                                     You have ({this.state.pendingRequests.length}) new session requests
                                 </h4>
+                                <button onClick={this.acceptAllRequests} className="btn btn-sm btn-success accept-all-requests-btn">Accept All</button>
                             </div>
                             : ''}
                         {renSessionRequests}

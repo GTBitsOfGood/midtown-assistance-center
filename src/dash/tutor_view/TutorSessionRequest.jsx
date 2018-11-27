@@ -87,8 +87,6 @@ class TutorRequest extends React.Component {
                 </div>
                 <div className="tutorSessionRequestContent">
                     <h3 className="approve-deny-student">
-                        <span className="glyphicon glyphicon-ok approve-student" onClick={this.approveRequest}/>
-                        &emsp;
                         <span className="glyphicon glyphicon-remove deny-student" onClick={this.denyRequest}/>
                     </h3>
                 </div>

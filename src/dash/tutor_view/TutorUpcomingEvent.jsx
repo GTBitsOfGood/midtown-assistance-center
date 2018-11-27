@@ -86,8 +86,8 @@ class TutorUpcomingEvent extends React.Component {
         // TODO: change and it hides new times.
         const now = new Date();
         const nowMoment = moment();
-        const startTimeHour = parseInt(this.props.startTime.split(':')[0]);
-        const active = startTimeHour - now.getHours() <= 1 && this.props.today;
+        const endTimeHour = parseInt(this.props.endTime.split(':')[0]);
+        const active = endTimeHour - now.getHours() >= 0 && this.props.today;
         const startTimeSplit = this.props.startTime.split(':');
         now.setHours(
             parseInt(startTimeSplit[0]),
@@ -110,9 +110,9 @@ class TutorUpcomingEvent extends React.Component {
                         const end = moment(response.data.session.expected_end_time);
                         if (
                             ((response.data.session &&
-                            response.data.session.end_time) ||
-                            nowMoment.diff(end) > 0) &&
-                            !(self.props.type === 'currentEvent')
+                                    response.data.session.end_time) ||
+                                    nowMoment.diff(end) > 0) &&
+                                !(self.props.type === 'currentEvent')
                         ) {
                             self.setState({ display: false });
                         } else {
@@ -130,6 +130,7 @@ class TutorUpcomingEvent extends React.Component {
                 .catch((err) => {
                     console.log(err);
                 });
+
         } else {
             this.setState({ display: true });
         }

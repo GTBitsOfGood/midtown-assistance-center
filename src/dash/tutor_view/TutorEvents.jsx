@@ -120,6 +120,20 @@ class Events extends React.Component {
             now.getHours() + parseInt(duration)
         );
         end.setSeconds(0, 0, 0);
+        const joinRequests = [];
+
+        if (student_request) {
+            for (let x = 0; x < student_request.length; x++) {
+                joinRequests.push({
+                    student_id:student_request[x]._id.student_id,
+                    student_comment:student_request[x].student_comment,
+                    create_time: student_request[x].create_time,
+                    topic: student_request[x].topic,
+                    status: 'approved'
+                });
+            }
+        }
+
 
         const sessionRequestBody = {
             _id: {
@@ -128,15 +142,7 @@ class Events extends React.Component {
             },
             start_time: now,
             expected_end_time: end,
-            join_requests: student_request ? [
-                {
-                    student_id:student_request._id.student_id,
-                    student_comment:student_request.student_comment,
-                    create_time: student_request.create_time,
-                    topic: student_request.topic,
-                    status: 'approved'
-                }
-            ] : []
+            join_requests: joinRequests
         };
         const requestBody = {
             sessionRequestBody: sessionRequestBody,
