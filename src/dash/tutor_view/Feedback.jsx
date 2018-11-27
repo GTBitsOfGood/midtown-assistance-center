@@ -13,7 +13,7 @@ const Feedback = props => {
     const sessions = !user.sessions.sessions ? [] : user.sessions.sessions;
     let keyId = 0;
     const reviews = sessions.reduce((curList, session) =>
-        curList.concat(session.students_attended.filter(student_review => student_review !== null))
+        curList.concat(session.students_attended.filter(student_review => student_review !== null && student_review.student_rating))
         , []);
     reviews.sort((a, b) => new Date(b.time) - new Date(a.time));
 

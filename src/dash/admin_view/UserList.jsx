@@ -39,7 +39,7 @@ class UserList extends React.Component {
         });
         return (
             <div>
-                <Tabs
+                {/* <Tabs
                     activeKey={this.state.key}
                     onSelect={this.handleSelect}
                     id="controlled-tab-example"
@@ -50,8 +50,8 @@ class UserList extends React.Component {
                     <Tab eventKey={2} title="Tutors">
                         Show Tutors
                     </Tab>
-                </Tabs>
-
+                </Tabs> */}
+                <h3>All Tutors</h3>
                 <Table striped bordered>
                     <tr>
                         <th>#</th>

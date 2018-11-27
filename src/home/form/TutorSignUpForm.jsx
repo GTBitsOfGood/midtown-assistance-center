@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { HelpBlock } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import attemptLogin from './LoginLogic';
 import styles from '../../../public/css/login_signup.css';
 
 class SignUpTutor extends React.Component {
@@ -206,7 +207,8 @@ class SignUpTutor extends React.Component {
                                         calendarId: response.data.calId
                                     })
                                     .then(res => {
-                                        document.location.href = '/home/login';
+                                        const {username, password} = this.state;
+                                        attemptLogin(username, password);
                                     })
                                     .catch(error => {
                                         console.error(error);
@@ -377,7 +379,7 @@ class SignUpTutor extends React.Component {
                     <input
                         type="text"
                         className={`${confirmEmailValidation} input-lg col-xs-10 col-xs-offset-1`}
-                        placeholder="Confirm Email"
+                        placeholder="Confirm Georgia Tech Email"
                         value={confirmEmail}
                         onChange={this.handleConfirmEmailChange}
                     />
@@ -399,6 +401,9 @@ class SignUpTutor extends React.Component {
                         value={gmail}
                         onChange={this.handleGmailChange}
                     />
+                    <a href="#" title="We require 2 emails from tutors: an official university email (which we'll use to confirm your enrollment as a student), and a Gmail account (which the website uses for several important features)" className="form-tooltip">
+                        <small title="">Why require 2 emails?</small>
+                    </a>
                     <HelpBlock
                         className={
                             gmailValidation === 'input-error'

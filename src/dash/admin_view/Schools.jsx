@@ -16,7 +16,6 @@ class Schools extends React.Component {
                 <SchoolsListContainer />
                 <AddSchool/>
                 <AddSubject />
-
             </div>
         );
     }

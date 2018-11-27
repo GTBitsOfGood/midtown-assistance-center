@@ -1,7 +1,8 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
+import attemptLogin from './LoginLogic';
 import styles from '../../../public/css/login_signup.css';
+
 
 class Loginpage extends React.Component {
     constructor(props) {
@@ -34,26 +35,9 @@ class Loginpage extends React.Component {
         e.preventDefault();
 
         const { username, password } = this.state;
+        const failureCallback = () => { this.setErrorMessage(); };
 
-        const userDetails = {
-            username,
-            password,
-            logInTime: Date.now()
-        };
-        // Look at passportConfig.js /login endpoint
-        axios
-            .post('/login', userDetails)
-            .then(response => {
-                if (response.data !== '') {
-                    document.location.href = '/dash';
-                } else {
-                    this.setErrorMessage();
-                }
-            })
-            .catch(error => {
-                console.error(error);
-                this.setErrorMessage();
-            });
+        attemptLogin(username, password, failureCallback);
     }
 
     render() {

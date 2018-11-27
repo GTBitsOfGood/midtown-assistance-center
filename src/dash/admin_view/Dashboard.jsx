@@ -12,10 +12,10 @@ class Dashboard extends React.Component {
     render() {
         return (
             <div className="Row">
-                <GeneralOverviewStatistics />
-                <SubjectPieStatistics />
-                <LoginStatistics />
-                <GPAImprovementStatistics />
+                {/* <GeneralOverviewStatistics /> */}
+                {/* <SubjectPieStatistics /> */}
+                {/* <LoginStatistics /> */}
+                {/* <GPAImprovementStatistics /> */}
                 <UserList />
             </div>
         );
