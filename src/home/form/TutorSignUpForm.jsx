@@ -383,7 +383,7 @@ class SignUpTutor extends React.Component {
                     <input
                         type="text"
                         className={`${confirmEmailValidation} input-lg col-xs-10 col-xs-offset-1`}
-                        placeholder="Confirm Email"
+                        placeholder="Confirm Georgia Tech Email"
                         value={confirmEmail}
                         onChange={this.handleConfirmEmailChange}
                     />
@@ -405,6 +405,9 @@ class SignUpTutor extends React.Component {
                         value={gmail}
                         onChange={this.handleGmailChange}
                     />
+                    <a href="#" title="We require 2 emails from tutors: an official university email (which we'll use to confirm your enrollment as a student), and a Gmail account (which the website uses for several important features)" className="form-tooltip">
+                        <small title="">Why require 2 emails?</small>
+                    </a>
                     <HelpBlock
                         className={
                             gmailValidation === 'input-error'
