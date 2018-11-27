@@ -44,7 +44,7 @@ class DashSearchBar extends React.Component {
                     >
                         <option value="ASAP">ASAP</option>
                         <option value="today">Sometime today</option>
-                        <option value="this week">This week</option>
+                        <option value="this week">Whenever available</option>
                     </select>
                     <span className="input-group-btn">
                         <button
