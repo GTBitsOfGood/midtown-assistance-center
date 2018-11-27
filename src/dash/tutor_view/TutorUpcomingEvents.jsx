@@ -64,7 +64,7 @@ class UpcomingEvents extends React.Component {
         // renEvents = renEvents.slice(0, NUM_OF_EVENTS);
 
         return (
-            <div className="row animated fadeInRight tutorUpcomingEvents">
+            <div className="row animated fadeInLeft tutorUpcomingEvents">
                 <div className="col">
                     <div className="text-center row">
                         <div className="row list-inline ">

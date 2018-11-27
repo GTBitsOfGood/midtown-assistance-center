@@ -28,7 +28,7 @@ const Feedback = props => {
     );
 
     return (
-        <div className="row animated fadeInRight feedback">
+        <div className="row animated fadeInLeft feedback">
             <div className="col">
                 <div className="text-center">
                     <h4 className="lighter-text text-uppercase tutor-events-header">

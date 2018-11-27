@@ -60,7 +60,7 @@ const Statistics = props => {
     }
 
     return (
-        <div className="row animated fadeInRight">
+        <div className="row animated fadeInLeft">
             <div className="col">
                 <div className="text-center row">
                     <h4 className="lighter-text text-uppercase tutor-events-header text-center">
