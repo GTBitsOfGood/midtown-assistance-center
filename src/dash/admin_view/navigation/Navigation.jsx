@@ -37,9 +37,9 @@ class Navigation extends React.Component {
                 />
                 <NavigationItem
                     func={this.setActive}
-                    page="Subjects"
+                    page="Schools"
                     icon="apple"
-                    active={currentPage === 'subjects'}
+                    active={currentPage === 'schools'}
                 />
                 <NavigationItem
                     func={this.setActive}

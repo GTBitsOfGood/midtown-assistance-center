@@ -20,7 +20,7 @@ import { fetchUserAndInfo } from '../redux/actions/user_actions';
 import Approve from './admin_view/Approve';
 import AddAdmin from './admin_view/AddAdmin';
 import Dashboard from './admin_view/Dashboard';
-import Subjects from './admin_view/Subjects';
+import Schools from './admin_view/Schools';
 import BanDash from './admin_view/BanDash';
 import Navigation from './admin_view/navigation/Navigation';
 
@@ -48,7 +48,7 @@ const adminRoutes = (
                     <Redirect exact from="/dash" to="/dash/dashboard" />
                     <Route exact path="/dash/dashboard" component={Dashboard} />
                     <Route exact path="/dash/approve" component={Approve} />
-                    <Route exact path="/dash/subjects" component={Subjects} />
+                    <Route exact path="/dash/schools" component={Schools} />
                     <Route exact path="/dash/ban" component={BanDash} />
                     <Route exact path="/dash/add_admin" component={AddAdmin} />
                 </Switch>
