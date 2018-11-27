@@ -61,11 +61,11 @@ class CurrentEvent extends React.Component {
                 if (response.data.success) {
                     self.setState({pendingRequests: response.data.docs});
                 } else {
-                    console.log(response.data.error);
+                    console.error(response.data.error);
                 }
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
             });
     }
 
@@ -102,7 +102,7 @@ class CurrentEvent extends React.Component {
                 setSessionDuration={this.setSessionDuration}
             />);
         return (
-            <div className="row animated fadeInRight tutorCurrentEvent">
+            <div className="row animated fadeInLeft tutorCurrentEvent">
                 <div className="col">
                     <div className="text-center row">
                         <h4 className="lighter-text text-uppercase tutor-events-header">

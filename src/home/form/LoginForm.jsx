@@ -44,7 +44,7 @@ class Loginpage extends React.Component {
         const { username, password, errorMessage } = this.state;
         return (
             <div className="bkgrd">
-                <div className="animated fadeInRight text-center login-form">
+                <div className="animated fadeInLeft text-center login-form">
                     <div className="vert-center">
                         <h3 className="login-header">Login</h3>
                         <form onSubmit={this.sendToServer}>

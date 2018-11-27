@@ -27,7 +27,6 @@ class SubjectPicker extends React.Component {
     handleSubjectChange(event) {
         const { handleEditSubject, index } = this.props;
         handleEditSubject(index, event.target.value);
-        console.log(event.target.value);
     }
 
     // eslint-disable-next-line no-unused-vars

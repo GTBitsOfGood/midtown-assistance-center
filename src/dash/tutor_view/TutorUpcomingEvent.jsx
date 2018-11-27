@@ -124,11 +124,11 @@ class TutorUpcomingEvent extends React.Component {
                             }
                         }
                     } else {
-                        console.log(response.data.error);
+                        console.error(response.data.error);
                     }
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.error(err);
                 });
         } else {
             this.setState({ display: true });
@@ -162,22 +162,20 @@ class TutorUpcomingEvent extends React.Component {
                 if (response.data.success) {
                     self.setState({session:response.data.session});
                     $(
-                        `#Modal_${ 
-                            self.props.dayName 
-                        }_${ 
-                            self.props.startTime.split(':')[0] 
-                        }_${ 
+                        `#Modal_${
+                            self.props.dayName
+                        }_${
+                            self.props.startTime.split(':')[0]
+                        }_${
                             self.props.endTime.split(':')[0]}`
                     ).modal('show');
-                    console.log('showing modal...');
-                    console.log(response.data.session);
                     self.props.socket.emit('tutor-update-session');
                 } else {
-                    console.log(response.data.error);
+                    console.error(response.data.error);
                 }
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
             });
     }
 
@@ -212,15 +210,14 @@ class TutorUpcomingEvent extends React.Component {
             .post('/api/tutorSubmitReview', sessionRequestBody)
             .then((response) => {
                 if (response.data.success) {
-                    console.log(response.data);
                     self.props.socket.emit('tutor-update-session');
                     window.location.reload();
                 } else {
-                    console.log(response.data.error);
+                    console.error(response.data.error);
                 }
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
             });
     }
 
@@ -253,14 +250,14 @@ class TutorUpcomingEvent extends React.Component {
         const startTimeHour = parseInt(this.props.startTime.split(':')[0]);
         const endTimeHour = parseInt(this.props.endTime.split(':')[0]);
         const startTime =
-            `${startTimeHour % 12 
-            }:${ 
-                this.props.startTime.split(':')[1] 
+            `${startTimeHour % 12
+            }:${
+                this.props.startTime.split(':')[1]
             }${startTimeHour >= 12 ? ' PM' : ' AM'}`;
         const endTime =
-            `${endTimeHour % 12 
-            }:${ 
-                this.props.endTime.split(':')[1] 
+            `${endTimeHour % 12
+            }:${
+                this.props.endTime.split(':')[1]
             }${endTimeHour >= 12 ? ' PM' : ' AM'}`;
         const active = startTimeHour - now.getHours() <= 1 && this.props.today;
         const renLogo = active ? (
@@ -269,11 +266,11 @@ class TutorUpcomingEvent extends React.Component {
                 href="#"
                 data-toggle={this.props.type === 'currentEvent' ? 'modal' : ''}
                 data-target={this.props.type === 'currentEvent' ? (
-                    `#Modal_${ 
-                        this.props.dayName 
-                    }_${ 
-                        this.props.startTime.split(':')[0] 
-                    }_${ 
+                    `#Modal_${
+                        this.props.dayName
+                    }_${
+                        this.props.startTime.split(':')[0]
+                    }_${
                         this.props.endTime.split(':')[0]}`) : ''
                 }
             >
@@ -298,8 +295,6 @@ class TutorUpcomingEvent extends React.Component {
         this.props.socket.on(
             `session-update-${  this.state.session.eventId}`,
             data => {
-                console.log('Session update!');
-                console.log(data);
                 this.updateSession();
             }
         );
@@ -329,10 +324,10 @@ class TutorUpcomingEvent extends React.Component {
                     tutorId={this.props.tutorId}
                     showModal={this.props.showModal}
                     id={
-                        `${this.props.dayName 
-                        }_${ 
-                            this.props.startTime.split(':')[0] 
-                        }_${ 
+                        `${this.props.dayName
+                        }_${
+                            this.props.startTime.split(':')[0]
+                        }_${
                             this.props.endTime.split(':')[0]}`
                     }
                     session={this.state.session}

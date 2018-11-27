@@ -336,7 +336,7 @@ class Profile extends React.Component {
         ));
 
         return (
-            <div className="row tutor-dash animated fadeInLeft">
+            <div className="row tutor-dash animated fadeInRight">
                 <div className="col">
                     <div className="text-center row">
                         <h4 className="lighter-text text-uppercase tutor-events-header">

@@ -38,11 +38,11 @@ class RequestModal extends React.Component {
                         });
                     }
                 } else {
-                    console.log(response.data.error);
+                    console.error(response.data.error);
                 }
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
             });
     }
 
@@ -70,11 +70,11 @@ class RequestModal extends React.Component {
                         tutor: self.props.tutorId
                     });
                 } else {
-                    console.log(response.data.error);
+                    console.error(response.data.error);
                 }
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
             });
     }
 

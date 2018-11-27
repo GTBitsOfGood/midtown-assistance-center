@@ -44,7 +44,7 @@ class ForgotPasswordForm extends React.Component {
         const messageDiv = message ? (<div className='text-white'>{message}</div>) : null;
         return (
             <div className="bkgrd">
-                <div className="animated fadeInRight text-center forgot-pass-form">
+                <div className="animated fadeInLeft text-center forgot-pass-form">
                     <div className="vert-center">
                         <h3 className="forgot-pass-header">Forgot Your Password?</h3>
                         {messageDiv}

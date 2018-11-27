@@ -46,12 +46,11 @@ class AdminLoginpage extends React.Component {
                 if (response.data !== '') {
                     document.location.href = '/dash';
                 } else {
-                    console.log(response.data);
                     this.setErrorMessage();
                 }
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 this.setErrorMessage();
             });
     }
@@ -61,7 +60,7 @@ class AdminLoginpage extends React.Component {
         return (
             <div>
                 <div className="bkgrd" />
-                <div className="animated fadeInRight col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center login-form container">
+                <div className="animated fadeInLeft col-xs-10 col-xs-offset-1 col-sm-4 col-sm-offset-4 text-center login-form container">
                     <h3 className="login-header">Login</h3>
                     <form onSubmit={this.sendToServer}>
                         <div className="row col-xs-12">

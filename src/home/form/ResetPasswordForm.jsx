@@ -78,7 +78,7 @@ class ResetPasswordForm extends React.Component {
         const errorMessageDiv = errorMessage ? (<div className='help-block'>{errorMessage}</div>) : null;
         return (
             <div className="bkgrd">
-                <div className="animated fadeInRight text-center reset-pass-form">
+                <div className="animated fadeInLeft text-center reset-pass-form">
                     <div className="vert-center">
                         <h3 className="reset-pass-header">Reset Your Password</h3>
                         {resultMessageDiv}

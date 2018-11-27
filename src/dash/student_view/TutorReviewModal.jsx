@@ -269,7 +269,6 @@ class TutorModal extends React.Component {
             .post('/api/addJoinRequest', requestBody)
             .then((response) => {
                 if (response.data.success) {
-                    console.log(response.data);
                     socket.emit('student-request', {
                         session: response.data.session.eventId,
                         student: username,
@@ -278,11 +277,11 @@ class TutorModal extends React.Component {
                     });
                     this.setState({ approval: 'pending' });
                 } else {
-                    console.log(response.data.error);
+                    console.error(response.data.error);
                 }
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
             });
     }
 
@@ -298,14 +297,10 @@ class TutorModal extends React.Component {
         // };
         // axios.post('/api/studentSubmitReview', request)
         //     .then(function(response){
-        //         if (response.data.success) {
-        //             console.log(response.data);
-        //         } else {
-        //             console.log(response.data.error);
-        //         }
+        //
         //     })
         //     .catch(function(err) {
-        //         console.log(err);
+        //         console.error(err);
         //     });
         this.setState({ error_message: 'hide' });
         $('.modal').modal('hide');
@@ -329,14 +324,10 @@ class TutorModal extends React.Component {
             axios
                 .post('/api/studentUpdateReview', request)
                 .then((response) => {
-                    if (response.data.success) {
-                        console.log(response.data);
-                    } else {
-                        console.log(response.data.error);
-                    }
+
                 })
                 .catch((err) => {
-                    console.log(err);
+                    console.error(err);
                 });
             this.setState({ error_message: 'hide' });
             $('.modal').modal('hide');
@@ -361,7 +352,6 @@ class TutorModal extends React.Component {
             .post('/api/studentSubmitReview', request)
             .then((response) => {
                 if (response.data.success) {
-                    console.log(response.data);
                     this.setState({
                         error_message: 'hide',
                         approval: 'in_session'
@@ -372,11 +362,11 @@ class TutorModal extends React.Component {
                     });
                     updateTutors();
                 } else {
-                    console.log(response.data.error);
+                    console.error(response.data.error);
                 }
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
             });
     }
 

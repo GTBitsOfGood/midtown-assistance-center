@@ -170,10 +170,7 @@ class StudentSignUpForm extends React.Component {
             axios
                 .post('/api/registerStudent', this.state)
                 .then(response => {
-                    console.log(response);
                     if (response.data.success) {
-                        console.log('registration successful');
-
                         const {username, password} = this.state;
                         attemptLogin(username, password);
                     } else {
@@ -188,7 +185,7 @@ class StudentSignUpForm extends React.Component {
                     }
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.error(error);
                     self.setState({ errorMessage: 'error-message' });
                     self.setState({ inputErrorMessage: 'error-message-hide' });
                 });

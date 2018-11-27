@@ -25,9 +25,7 @@ export class MenuBar extends React.Component {
     logout() {
         const { user, setTutorOffline } = this.props;
         const self = this;
-        console.warn('Logging out user');
         // this.props.setTutorOnline(user, {online: false, logging_out: true});
-        console.log(user.type);
         if (user.type === types.typeTutor) {
             // TODO: remove self = this
             axios
@@ -63,11 +61,11 @@ export class MenuBar extends React.Component {
                                             );
                                             socket.emit('tutor-logout');
                                         } else {
-                                            console.log(res.data.error);
+                                            console.error(res.data.error);
                                         }
                                     })
                                     .catch(err => {
-                                        console.log(err);
+                                        console.error(err);
                                     });
                             }
                         } else {
@@ -81,11 +79,11 @@ export class MenuBar extends React.Component {
                             socket.emit('tutor-logout');
                         }
                     } else {
-                        console.log(response.data.error);
+                        console.error(response.data.error);
                     }
                 })
                 .catch(err => {
-                    console.log(err);
+                    console.error(err);
                 });
         } else if (user.type === types.typeStudent) {
             axios.post('/api/getPendingRequestsByStudent', {student_id:user._id}).then(response => {
@@ -103,7 +101,7 @@ export class MenuBar extends React.Component {
                                         setTutorOffline(new_tutor);
                                     }
                                 } else {
-                                    console.log(res.data.error);
+                                    console.error(res.data.error);
                                 }
                             });
                         }
@@ -114,7 +112,7 @@ export class MenuBar extends React.Component {
                         setTutorOffline(new_tutor);
                     }
                 } else {
-                    console.log(response.data.error)
+                    console.error(response.data.error);
                 }
             });
         } else {

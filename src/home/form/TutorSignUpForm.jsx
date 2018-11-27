@@ -125,10 +125,8 @@ class SignUpTutor extends React.Component {
         this.setState({ email: currentEmail });
 
         if (/@gatech.edu\s*$/.test(currentEmail)) {
-            console.log('valid email');
             this.setState({ emailValidation: 'input-success' });
         } else {
-            console.log('invalid email');
             this.setState({ emailValidation: 'input-error' });
         }
 
@@ -194,8 +192,6 @@ class SignUpTutor extends React.Component {
             axios
                 .post('/api/registerTutor', this.state)
                 .then(response => {
-                    console.log(response);
-                    console.log(self.state.username);
                     if (response.data.success) {
                         axios
                             .post('/calendar/createNewCalendar', {
@@ -211,21 +207,18 @@ class SignUpTutor extends React.Component {
                                         calendarId: response.data.calId
                                     })
                                     .then(res => {
-                                        console.log(res);
-                                        console.log('registration successful');
-
                                         const {username, password} = this.state;
                                         attemptLogin(username, password);
                                     })
                                     .catch(error => {
-                                        console.log(error);
+                                        console.error(error);
                                         self.setState({
                                             disabledSubmit: false
                                         });
                                     });
                             })
                             .catch(error => {
-                                console.log(error);
+                                console.error(error);
                                 self.setState({ disabledSubmit: false });
                             });
                     } else {
@@ -241,7 +234,7 @@ class SignUpTutor extends React.Component {
                     }
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.error(error);
                     self.setState({ errorMessage: 'error-message' });
                     self.setState({ inputErrorMessage: 'error-message-hide' });
                     self.setState({ disabledSubmit: false });
