@@ -87,7 +87,7 @@ class TutorUpcomingEvent extends React.Component {
         const now = new Date();
         const nowMoment = moment();
         const endTimeHour = parseInt(this.props.endTime.split(':')[0]);
-        const active = endTimeHour - now.getHours() >= 0 && this.props.today;
+        const active = endTimeHour - now.getHours() <= 0 && this.props.today;
         const startTimeSplit = this.props.startTime.split(':');
         now.setHours(
             parseInt(startTimeSplit[0]),
