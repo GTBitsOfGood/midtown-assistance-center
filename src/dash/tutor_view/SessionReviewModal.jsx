@@ -13,6 +13,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import ReportModal from './ReportModal';
 
 class SessionModal extends React.Component {
     /**
@@ -31,7 +32,8 @@ class SessionModal extends React.Component {
             rating: 0,
             satisfaction: '',
             error_message: 'hide',
-            comment: ''
+            comment: '',
+            receivedLink:false
         };
         this.changeStar = this.changeStar.bind(this);
         this.setRating = this.setRating.bind(this);
@@ -40,6 +42,21 @@ class SessionModal extends React.Component {
         this.handleCommentChange = this.handleCommentChange.bind(this);
         this.approveStudent = this.approveStudent.bind(this);
         this.denyStudent = this.denyStudent.bind(this);
+    }
+
+    componentDidMount() {
+        if (this.props.showModal) {
+            $(
+                `#Modal_${this.props.id}`
+            ).modal('show');
+        }
+    }
+
+    componentDidUpdate() {
+        if (this.props.showModal && this.props.session.hangouts_link && !this.state.receivedLink) {
+            window.open(this.props.session.hangouts_link, '_blank');
+            this.setState({receivedLink:true});
+        }
     }
 
     /**
@@ -67,47 +84,19 @@ class SessionModal extends React.Component {
      * @param number
      */
     changeStar(number) {
-        if (number === 1) {
-            this.setState({
-                first_star: true,
-                second_star: false,
-                third_star: false,
-                fourth_star: false,
-                fifth_star: false
-            });
-        } else if (number === 2) {
-            this.setState({
-                first_star: true,
-                second_star: true,
-                third_star: false,
-                fourth_star: false,
-                fifth_star: false
-            });
-        } else if (number === 3) {
-            this.setState({
-                first_star: true,
-                second_star: true,
-                third_star: true,
-                fourth_star: false,
-                fifth_star: false
-            });
-        } else if (number === 4) {
-            this.setState({
-                first_star: true,
-                second_star: true,
-                third_star: true,
-                fourth_star: true,
-                fifth_star: false
-            });
-        } else if (number === 5) {
-            this.setState({
-                first_star: true,
-                second_star: true,
-                third_star: true,
-                fourth_star: true,
-                fifth_star: true
-            });
+        const starState = {
+            first_star: false,
+            second_star: false,
+            third_star: false,
+            fourth_star: false,
+            fifth_star: false
+        };
+        // TODO: Ensure the keys are always returned in the same order
+        const starStateKeys = Object.keys(starState);
+        for (let i = 0; i < number; i++) {
+            starState[starStateKeys[i]] = true;
         }
+        this.setState(starState);
     }
 
     /**
@@ -116,55 +105,7 @@ class SessionModal extends React.Component {
      */
     changeStarOut() {
         const { rating } = this.state;
-        if (rating === 0) {
-            this.setState({
-                first_star: false,
-                second_star: false,
-                third_star: false,
-                fourth_star: false,
-                fifth_star: false
-            });
-        } else if (rating === 1) {
-            this.setState({
-                first_star: true,
-                second_star: false,
-                third_star: false,
-                fourth_star: false,
-                fifth_star: false
-            });
-        } else if (rating === 2) {
-            this.setState({
-                first_star: true,
-                second_star: true,
-                third_star: false,
-                fourth_star: false,
-                fifth_star: false
-            });
-        } else if (rating === 3) {
-            this.setState({
-                first_star: true,
-                second_star: true,
-                third_star: true,
-                fourth_star: false,
-                fifth_star: false
-            });
-        } else if (rating === 4) {
-            this.setState({
-                first_star: true,
-                second_star: true,
-                third_star: true,
-                fourth_star: true,
-                fifth_star: false
-            });
-        } else if (rating === 5) {
-            this.setState({
-                first_star: true,
-                second_star: true,
-                third_star: true,
-                fourth_star: true,
-                fifth_star: true
-            });
-        }
+        this.changeStar(rating);
     }
 
     /**
@@ -228,8 +169,6 @@ class SessionModal extends React.Component {
                 if (response.data.success) {
                     console.log(response.data);
                     updateSession(
-                        response.data.session.hangouts_link,
-                        response.data.session.eventId,
                         response.data.session
                     );
                     socket.emit('tutor-approve', {
@@ -272,8 +211,6 @@ class SessionModal extends React.Component {
                     if (response.data.success) {
                         console.log(response.data);
                         updateSession(
-                            response.data.session.hangouts_link,
-                            response.data.session.eventId,
                             response.data.session
                         );
                         socket.emit('tutor-deny', {
@@ -309,11 +246,22 @@ class SessionModal extends React.Component {
             comment
         } = this.state;
         const renStudents = (session.students_attended || []).map(student => (
-            <h5>{student.student_id}</h5>
+            <div className="student-join-request col-sm-12" key={student.student_id}>
+                <h5 className="col-sm-10">{student.student_id}</h5>
+                <span
+                    className="col-sm-2 glyphicon glyphicon-remove deny-student"
+                    data-toggle="modal"
+                    data-target={`#Modal_${student.student_id}`}
+                    data-backdrop="static"
+                />
+                <ReportModal
+                    student_id={student.student_id}
+                    modal_id={student.student_id}
+                />
+            </div>
         ));
-        console.log(session.join_requests);
         const renRequests = (session.join_requests || [])
-            .filter(student => student.status === 'pending')
+            .filter(student => student.status === 'pending' || student.status === 'approved')
             .map((student) => (
                 <div className="student-join-request col-sm-12">
                     <h5 className="col-sm-3">{student.student_id}</h5>
@@ -327,17 +275,22 @@ class SessionModal extends React.Component {
                             ? student.student_comment
                             : 'No Request Description'}
                     </h5>
-                    <span
-                        onClick={() => this.approveStudent(student)}
-                        className="col-sm-1 glyphicon glyphicon-ok approve-student"
-                    />
-                    <span
-                        onClick={() => this.denyStudent(student)}
-                        className="col-sm-1 glyphicon glyphicon-remove deny-student"
-                    />
+                    {
+                        student.status === 'pending' ?
+                            <div>
+                                <span
+                                    onClick={() => this.approveStudent(student)}
+                                    className="col-sm-1 glyphicon glyphicon-ok approve-student"
+                                />
+                                <span
+                                    onClick={() => this.denyStudent(student)}
+                                    className="col-sm-1 glyphicon glyphicon-remove deny-student"
+                                />
+                            </div> : <div><h5 className="approve-student">approved</h5></div>
+                    }
+
                 </div>
             ));
-
         return (
             <div>
                 {/* eslint-disable jsx-a11y/tabindex-no-positive, jsx-a11y/no-noninteractive-tabindex, jsx-a11y/no-autofocus */}
@@ -347,7 +300,7 @@ class SessionModal extends React.Component {
                     tabIndex="1000"
                     role="dialog"
                     aria-labelledby={`#Modal_${id}Label`}
-                    aria-hidden="true"
+                    aria-hidden={!this.props.showModal}
                     autoFocus
                 >
                     {/* eslint-enable */}
@@ -501,10 +454,10 @@ class SessionModal extends React.Component {
                                                 height="25"
                                             />
                                         </span>
+
                                         <span>
                                             <h5 className="rating-span">
-                                                {`${rating /
-                                                    5} ${satisfaction}`}
+                                                {`${rating}/5 ${satisfaction}`}
                                             </h5>
                                         </span>
                                         <h5>
@@ -553,7 +506,7 @@ SessionModal.propTypes = {
 };
 
 const mapStateToProps = state => ({
-    studentView: state.studentView
+    tutorId: state.user._id
 });
 
 const SessionReviewModal = connect(

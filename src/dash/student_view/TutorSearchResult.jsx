@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 // import socketIOClient from 'socket.io-client';
 import TutorReviewModal from './TutorReviewModal';
+import TutorRequestModal from './TutorRequestModal';
 import Subject from './Subject';
 import Availability from './Availability';
 
@@ -22,8 +23,13 @@ class TutorSearchResult extends React.Component {
                         0.5
                 ),
         };
-
+        this.showTutorModal = this.showTutorModal.bind(this);
         // this.onHangoutsButton = this.onHangoutsButton.bind(this);
+    }
+
+    showTutorModal() {
+        $(`#Modal_${this.props.tutor.first_name}_request`).modal('hide');
+        $(`#Modal_${this.props.tutor.first_name}`).modal('show');
     }
 
     // onHangoutsButton() {
@@ -43,51 +49,31 @@ class TutorSearchResult extends React.Component {
                 end_grade={subject.end_grade}
             />
         ));
-        
+
         const favorites = tutor.favorites.map(fav => (
             <Subject is_favorite subject={fav.favorite} />
         ));
-        const stars = [];
         const date = new Date(tutor.join_date).toLocaleDateString();
-        for (let x = 0; x < fullStars; x++) {
-            stars.push(
-                <span>
-                    <img
-                        alt="full star"
-                        className="star"
-                        src="/images/full-star.png"
-                        width="25"
-                        height="25"
-                    />
-                </span>
-            );
+        const stars = [];
+        function addRatingStars(numStars, starImageString) {
+            for (let x = 0; x < numStars; x++) {
+                stars.push(
+                    <span>
+                        <img
+                            className="star"
+                            src={starImageString}
+                            width="25"
+                            height="25"
+                            alt=""
+                        />
+                    </span>
+                );
+            }
         }
-        for (let y = 0; y < halfStars; y++) {
-            stars.push(
-                <span>
-                    <img
-                        alt="half star"
-                        className="star"
-                        src="/images/half-star.png"
-                        width="25"
-                        height="25"
-                    />
-                </span>
-            );
-        }
-        for (let z = 0; z < emptyStars; z++) {
-            stars.push(
-                <span>
-                    <img
-                        alt="empty star"
-                        className="star"
-                        src="/images/empty-star.png"
-                        width="25"
-                        height="25"
-                    />
-                </span>
-            );
-        }
+        addRatingStars(fullStars, '/images/full-star.png');
+        addRatingStars(halfStars, '/images/half-star.png');
+        addRatingStars(emptyStars, '/images/empty-star.png');
+        
         return (
             <div>
                 <div className="panel panel-default tutor-panel">
@@ -115,17 +101,21 @@ class TutorSearchResult extends React.Component {
                             >
                                 <h3 className="">
                                     {`${tutor.first_name} ${tutor.last_name}`}
-                                    <span className="online-img">
-                                        <img
-                                            alt="online/offline"
-                                            className="online-ic"
-                                            src={
-                                                tutor.online
-                                                    ? '/images/status-online.png'
-                                                    : '/images/status-offline.png'
-                                            }
-                                        />
+                                    <span 
+                                        className={(tutor.online)
+                                            ? "online-img"
+                                            : "online-img tutor-offline"}
+                                    >
+                                        {(tutor.online) ? 'Online'
+                                            : 'Offline'}
                                     </span>
+                                    {
+                                        (tutor.session) ?
+                                            <span className="online-img tutor-offline">
+                                                In Session
+                                            </span>
+                                            : ''
+                                    }
                                     &emsp;
                                     {stars}
                                 </h3>
@@ -186,17 +176,18 @@ class TutorSearchResult extends React.Component {
                                 </div>
                             </div>
                             <div className="request_hangout text-center">
+                                <h4>{tutor.session ? `${tutor.first_name} is in an open tutoring session with ${tutor.session.students_attended.length} student(s).` : ''}</h4>
                                 <button
                                     className="btn btn-md btn-default mac_button"
                                     type="button"
                                     data-toggle="modal"
-                                    data-target={`#Modal_${tutor.first_name}`}
+                                    data-target={tutor.session ? `#Modal_${tutor.first_name}` : `#Modal_${tutor.first_name}_request`}
                                     data-backdrop="static"
-                                    disabled={!tutor.session}
+                                    disabled={!tutor.online}
                                 >
                                     {tutor.session
                                         ? 'Request to Join Session'
-                                        : 'Session Not Active'}
+                                        : 'Request a Session'}
                                 </button>
                             </div>
                         </div>
@@ -210,6 +201,17 @@ class TutorSearchResult extends React.Component {
                         favorites={tutor.favorites}
                         firstName={tutor.first_name}
                         session={tutor.session}
+                        tutor_id={tutor._id}
+                    />
+                    <TutorRequestModal
+                        key={`modal-${id}`}
+                        socket={socket}
+                        username={username}
+                        subjects={tutor.subjects}
+                        favorites={tutor.favorites}
+                        firstName={tutor.first_name}
+                        tutorId={tutor._id}
+                        showTutorModal={this.showTutorModal}
                     />
                 </div>
 

@@ -7,7 +7,10 @@ const initialState = {
     errorType: null,
     schoolsAndAccessCodes: [],
     unapprovedTutors: [],
-    allTutors: []
+    allTutors: [],
+    bans: [],
+    bannedStudents: [],
+    bannedTutors: []
 };
 
 export default function change_admin(state = initialState, action) {
@@ -45,6 +48,7 @@ export default function change_admin(state = initialState, action) {
             fetched: true,
             error: null
         };
+
     case types.getAllTutorsPending:
         return { ...state, fetching: true, error: null };
     case types.getAllTutorsRejected:
@@ -105,6 +109,43 @@ export default function change_admin(state = initialState, action) {
             fetching: false,
             error: action.payload,
             errorType: types.addNewAccessCodeRejected,
+        };
+
+    case types.getAllBansPending:
+        return { ...state, fetching: true, error: null };
+    case types.getAllBansRejected:
+        return {
+            ...state,
+            fetching: false,
+            error: action.payload,
+            errorType: types.getAllTutorsRejected
+        };
+    case types.getAllBansFulfilled:
+        return {
+            ...state,
+            fetching: false,
+            fetched: true,
+            error: null,
+            bans: action.payload.data.bans
+        };
+
+    case types.getBannedUsersPending:
+        return { ...state, fetching: true, error: null };
+    case types.getBannedUsersRejected:
+        return {
+            ...state,
+            fetching: false,
+            error: action.payload,
+            errorType: types.getBannedUsersRejected
+        };
+    case types.getBannedUsersFulfilled:
+        return {
+            ...state,
+            fetching: false,
+            fetched: true,
+            error: null,
+            bannedStudents: action.payload.data.students,
+            bannedTutors: action.payload.data.tutors
         };
 
     default:

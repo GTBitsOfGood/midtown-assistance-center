@@ -53,7 +53,7 @@ class Profile extends React.Component {
             email: user.email,
             gmail: user.gmail,
             is_edit: false,
-            button_text: 'Edit',
+            button_text: 'Edit Info',
             availabilityList: list,
             subjects: user.subjects,
             favorites: user.favorites,
@@ -142,7 +142,7 @@ class Profile extends React.Component {
         if (editing) {
             this.setState({ button_text: 'Save' });
         } else {
-            this.setState({ button_text: 'Edit' });
+            this.setState({ button_text: 'Edit Info' });
             this.handleSave();
         }
     }
@@ -408,6 +408,17 @@ class Profile extends React.Component {
                                         <h4 className="tutor-username">
                                             {user._id}
                                         </h4>
+                                        <button
+                                            className="btn btn-primary"
+                                            type="submit"
+                                            disabled={invalid}
+                                            onClick={this.handleEdit}
+                                        >
+                                            {button_text === 'Edit Info' &&
+                                                <i className="glyphicon glyphicon-pencil">&nbsp;</i>
+                                            }
+                                            {button_text}
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="col-sm-12">
@@ -515,18 +526,6 @@ class Profile extends React.Component {
                                             </button>
                                         </div>
                                     </div>
-                                    <button
-                                        className="btn btn-primary"
-                                        type="submit"
-                                        style={{
-                                            float: 'right',
-                                            margin: '5px'
-                                        }}
-                                        disabled={invalid}
-                                        onClick={this.handleEdit}
-                                    >
-                                        {button_text}
-                                    </button>
                                 </div>
                             </div>
                         </div>

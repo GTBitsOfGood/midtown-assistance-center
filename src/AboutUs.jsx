@@ -21,6 +21,9 @@ const AboutUs = () => (
                                 We connect students with college students for
                                 tutoring!
                             </p>
+                            <a href="/home/signup" className="get-started-link">
+                                Get Started Now &gt;
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -64,18 +67,20 @@ const AboutUs = () => (
                         <h3>Phone:</h3>
                         <hr />
                         <div className="text-left">
-                            <p>Main: 404-681-0470</p>
-                            <p>For Assistance: 404-681-5777</p>
+                            <p>Main: <a href="tel:404-681-0470">404-681-0470</a></p>
+                            <p>For Assistance: <a href="tel:404-681-5777">404-681-5777</a></p>
                         </div>
                     </div>
                     <div className="col-xs-4">
                         <h3>Location:</h3>
                         <hr />
-                        <div className="text-left">
-                            <p>Midtown Assistance Center</p>
-                            <p>30 Porter Place NE</p>
-                            <p>Atlanta, GA 30308</p>
-                        </div>
+                        <a href="https://goo.gl/maps/BuBc2Bu23U22">
+                            <div className="text-left">
+                                <p>Midtown Assistance Center</p>
+                                <p>30 Porter Place NE</p>
+                                <p>Atlanta, GA 30308</p>
+                            </div>
+                        </a>
                     </div>
                 </div>
             </div>

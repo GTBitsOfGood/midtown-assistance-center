@@ -10,6 +10,7 @@
 
 import React from 'react';
 import axios from 'axios';
+import moment from 'moment';
 import SessionReviewModal from './SessionReviewModal';
 
 class TutorUpcomingEvent extends React.Component {
@@ -21,19 +22,16 @@ class TutorUpcomingEvent extends React.Component {
         super(props);
 
         this.state = {
-            hangoutsLink: '',
-            hangoutsLinkExpires: '',
-            eventId: '',
             session: {},
-            display: true
+            display: true,
         };
 
         this.handleAccessHangoutLink = this.handleAccessHangoutLink.bind(this);
         this.submitReview = this.submitReview.bind(this);
         this.updateSession = this.updateSession.bind(this);
-        this.setNewState = this.setNewState.bind(this);
         this.initUpcomingEvent = this.initUpcomingEvent.bind(this);
         this.onUnload = this.onUnload.bind(this);
+        this.setNewState = this.setNewState.bind(this);
     }
 
     /**
@@ -59,6 +57,7 @@ class TutorUpcomingEvent extends React.Component {
         // window.removeEventListener("beforeunload", this.onUnload);
     }
 
+
     /**
      * Check for an open session on unload
      * TODO: figure out how to get this to work
@@ -73,20 +72,8 @@ class TutorUpcomingEvent extends React.Component {
         }
     }
 
-    /**
-     * Update the session in the current state
-     * @param link
-     * @param id
-     * @param session
-     */
-    setNewState(link, id, session) {
-        // TODO: There is no reason to store hangoutsLink and eventId in the state
-        // TODO: since they are part of the session object itself.
-        this.setState({
-            hangoutsLink: link,
-            eventId: id,
-            session: session
-        });
+    setNewState(session) {
+        this.setState({session});
     }
 
     /**
@@ -98,9 +85,10 @@ class TutorUpcomingEvent extends React.Component {
         // TODO: this causes a bug where if new times are added, the state of this component does not
         // TODO: change and it hides new times.
         const now = new Date();
+        const nowMoment = moment();
         const startTimeHour = parseInt(this.props.startTime.split(':')[0]);
-        let active = startTimeHour - now.getHours() <= 1 && this.props.today;
-        let startTimeSplit = this.props.startTime.split(':');
+        const active = startTimeHour - now.getHours() <= 1 && this.props.today;
+        const startTimeSplit = this.props.startTime.split(':');
         now.setHours(
             parseInt(startTimeSplit[0]),
             parseInt(startTimeSplit[1]),
@@ -114,31 +102,32 @@ class TutorUpcomingEvent extends React.Component {
             }
         };
         if (active) {
-            let self = this;
+            const self = this;
             axios
                 .post('/api/getTutorSession', sessionRequestBody)
-                .then(function(response) {
+                .then((response) => {
                     if (response.data.success) {
+                        const end = moment(response.data.session.expected_end_time);
                         if (
-                            response.data.session &&
-                            response.data.session.end_time
+                            ((response.data.session &&
+                            response.data.session.end_time) ||
+                            nowMoment.diff(end) > 0) &&
+                            !(self.props.type === 'currentEvent')
                         ) {
                             self.setState({ display: false });
                         } else {
                             self.setState({ display: true });
                             if (response.data.session) {
-                                self.setNewState(
-                                    response.data.session.hangouts_link,
-                                    response.data.session.eventId,
-                                    response.data.session
-                                );
+                                self.setState({
+                                    session:response.data.session
+                                });
                             }
                         }
                     } else {
                         console.log(response.data.error);
                     }
                 })
-                .catch(function(err) {
+                .catch((err) => {
                     console.log(err);
                 });
         } else {
@@ -152,45 +141,42 @@ class TutorUpcomingEvent extends React.Component {
      * @param data
      */
     updateSession() {
-        let start = new Date();
-        let startTimeSplit = this.props.startTime.split(':');
+        const start = new Date();
+        const startTimeSplit = this.props.startTime.split(':');
         start.setHours(
             parseInt(startTimeSplit[0]),
             parseInt(startTimeSplit[1]),
             0,
             0
         );
-        let sessionRequestBody = {
+        const sessionRequestBody = {
             _id: {
                 expected_start_time: start,
                 tutor_id: this.props.tutorId
             }
         };
-        let self = this;
+        const self = this;
         axios
             .post('/api/getTutorSession', sessionRequestBody)
-            .then(function(response) {
+            .then((response) => {
                 if (response.data.success) {
-                    self.setNewState(
-                        response.data.link,
-                        response.data.id,
-                        response.data.session
-                    );
+                    self.setState({session:response.data.session});
                     $(
-                        '#Modal_' +
-                            self.props.dayName +
-                            '_' +
-                            self.props.startTime.split(':')[0] +
-                            '_' +
-                            self.props.endTime.split(':')[0]
+                        `#Modal_${ 
+                            self.props.dayName 
+                        }_${ 
+                            self.props.startTime.split(':')[0] 
+                        }_${ 
+                            self.props.endTime.split(':')[0]}`
                     ).modal('show');
                     console.log('showing modal...');
                     console.log(response.data.session);
+                    self.props.socket.emit('tutor-update-session');
                 } else {
                     console.log(response.data.error);
                 }
             })
-            .catch(function(err) {
+            .catch((err) => {
                 console.log(err);
             });
     }
@@ -202,35 +188,38 @@ class TutorUpcomingEvent extends React.Component {
      * @param comment
      */
     submitReview(rating, comment) {
-        let now = new Date();
-        let start = new Date();
-        let startTimeSplit = this.props.startTime.split(':');
+        const now = new Date();
+        const start = new Date();
+        const startTimeSplit = this.props.startTime.split(':');
+        const self = this;
         start.setHours(
             parseInt(startTimeSplit[0]),
             parseInt(startTimeSplit[1]),
             0,
+            0,
             0
         );
-        let sessionRequestBody = {
+        const sessionRequestBody = {
             _id: {
                 expected_start_time: start,
                 tutor_id: this.props.tutorId
             },
-            rating: rating,
-            comment: comment,
+            rating,
+            comment,
             end_time: now
         };
         axios
             .post('/api/tutorSubmitReview', sessionRequestBody)
-            .then(function(response) {
+            .then((response) => {
                 if (response.data.success) {
                     console.log(response.data);
+                    self.props.socket.emit('tutor-update-session');
                     window.location.reload();
                 } else {
                     console.log(response.data.error);
                 }
             })
-            .catch(function(err) {
+            .catch((err) => {
                 console.log(err);
             });
     }
@@ -242,60 +231,12 @@ class TutorUpcomingEvent extends React.Component {
      * link or create a new one.
      */
     handleAccessHangoutLink() {
-        let now = new Date();
-        let time = now.getHours() + ':' + now.getMinutes();
-        let start = new Date();
-        let end = new Date();
-        let startTimeSplit = this.props.startTime.split(':');
-        let endTimeSplit = this.props.endTime.split(':');
-        start.setHours(
-            parseInt(startTimeSplit[0]),
-            parseInt(startTimeSplit[1]),
-            0,
-            0
-        );
-        end.setHours(
-            parseInt(endTimeSplit[0]),
-            parseInt(endTimeSplit[1]),
-            0,
-            0
-        );
+        if (this.state.session) {
+            window.open(this.state.session.hangouts_link, '_blank');
+        } else {
+            this.props.setParentSession(this.props.startTime, this.props.endTime);
+        }
 
-        let sessionRequestBody = {
-            _id: {
-                tutor_id: this.props.tutorId,
-                expected_start_time: start
-            },
-            start_time: now,
-            expected_end_time: end
-        };
-        let requestBody = {
-            sessionRequestBody: sessionRequestBody,
-            tutorId: this.props.tutorId,
-            calId: this.props.calId,
-            startTime: this.props.startTime,
-            endTime: this.props.endTime,
-            email: this.props.gmail
-        };
-
-        let self = this;
-        axios
-            .post('/calendar/createEvent', requestBody)
-            .then(function(response) {
-                if (response.data.success) {
-                    self.setState({
-                        hangoutsLink: response.data.link,
-                        eventId: response.data.id,
-                        session: response.data.session
-                    });
-                    window.open(response.data.link, '_blank');
-                } else {
-                    console.log(response.data.error);
-                }
-            })
-            .catch(function(err) {
-                console.log(err);
-            });
     }
 
     /**
@@ -305,38 +246,39 @@ class TutorUpcomingEvent extends React.Component {
      * @returns {HTML}
      */
     render() {
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip()
-        })
-        let now = new Date();
-        let startTimeHour = parseInt(this.props.startTime.split(':')[0]);
-        let endTimeHour = parseInt(this.props.endTime.split(':')[0]);
-        let startTime =
-            startTimeHour % 12 +
-            ':' +
-            this.props.startTime.split(':')[1] +
-            (startTimeHour >= 12 ? ' PM' : ' AM');
-        let endTime =
-            endTimeHour % 12 +
-            ':' +
-            this.props.endTime.split(':')[1] +
-            (endTimeHour >= 12 ? ' PM' : ' AM');
-        let active = startTimeHour - now.getHours() <= 1 && this.props.today;
+        $(() => {
+            $('[data-toggle="tooltip"]').tooltip();
+        });
+        const now = new Date();
+        const startTimeHour = parseInt(this.props.startTime.split(':')[0]);
+        const endTimeHour = parseInt(this.props.endTime.split(':')[0]);
+        const startTime =
+            `${startTimeHour % 12 
+            }:${ 
+                this.props.startTime.split(':')[1] 
+            }${startTimeHour >= 12 ? ' PM' : ' AM'}`;
+        const endTime =
+            `${endTimeHour % 12 
+            }:${ 
+                this.props.endTime.split(':')[1] 
+            }${endTimeHour >= 12 ? ' PM' : ' AM'}`;
+        const active = startTimeHour - now.getHours() <= 1 && this.props.today;
         const renLogo = active ? (
             <a
-                onClick={this.handleAccessHangoutLink}
+                onClick={this.props.type === 'currentEvent' ? this.handleAccessHangoutLink : () => this.props.setParentSession(this.props.startTime, this.props.endTime)}
                 href="#"
-                data-toggle="modal"
-                data-target={
-                    '#Modal_' +
-                    this.props.dayName +
-                    '_' +
-                    this.props.startTime.split(':')[0] +
-                    '_' +
-                    this.props.endTime.split(':')[0]
+                data-toggle={this.props.type === 'currentEvent' ? 'modal' : ''}
+                data-target={this.props.type === 'currentEvent' ? (
+                    `#Modal_${ 
+                        this.props.dayName 
+                    }_${ 
+                        this.props.startTime.split(':')[0] 
+                    }_${ 
+                        this.props.endTime.split(':')[0]}`) : ''
                 }
             >
-                <div data-toggle="tooltip" title="Click to begin session">
+                <div className="session-info-container" data-toggle="tooltip" title="Click to enter session">
+                    <h4 className="session-info session-info-active">Enter Session</h4>
                     <img
                         className=" google-link"
                         src="/images/google-icon-active.png"
@@ -344,17 +286,17 @@ class TutorUpcomingEvent extends React.Component {
                 </div>
             </a>
         ) : (
-          <div data-toggle="tooltip" title="Can not start inactive session">
-          <img
-                className=" google-link"
-                src="/images/google-icon-disabled.png"
-            />
-          </div>
-
+            <div className="session-info-container" data-toggle="tooltip" title="Can not enter inactive session">
+                <h4 className="session-info session-info-inactive">Session Inactive</h4>
+                <img
+                    className=" google-link"
+                    src="/images/google-icon-disabled.png"
+                />
+            </div>
         );
 
         this.props.socket.on(
-            'session-update-' + this.state.session.eventId,
+            `session-update-${  this.state.session.eventId}`,
             data => {
                 console.log('Session update!');
                 console.log(data);
@@ -385,12 +327,13 @@ class TutorUpcomingEvent extends React.Component {
                     updateSession={this.setNewState}
                     onSubmit={this.submitReview}
                     tutorId={this.props.tutorId}
+                    showModal={this.props.showModal}
                     id={
-                        this.props.dayName +
-                        '_' +
-                        this.props.startTime.split(':')[0] +
-                        '_' +
-                        this.props.endTime.split(':')[0]
+                        `${this.props.dayName 
+                        }_${ 
+                            this.props.startTime.split(':')[0] 
+                        }_${ 
+                            this.props.endTime.split(':')[0]}`
                     }
                     session={this.state.session}
                 />

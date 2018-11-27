@@ -94,7 +94,7 @@ class SubjectPicker extends React.Component {
                         onClick={this.handleRemoveClick}
                         disabled={!is_edit}
                     >
-                        Remove
+                        <span className="glyphicon glyphicon-remove" />
                     </button>
                 </span>
             </div>

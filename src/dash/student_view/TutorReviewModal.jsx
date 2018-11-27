@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import axios from 'axios/index';
+import ReportModal from './ReportModal';
 
 class TutorModal extends React.Component {
     constructor(props) {
@@ -57,6 +58,45 @@ class TutorModal extends React.Component {
         this.handleSubmitRequest = this.handleSubmitRequest.bind(this);
         this.handleGeneralChange = this.handleGeneralChange.bind(this);
         this.handleJoinSession = this.handleJoinSession.bind(this);
+        this.setApproval = this.setApproval.bind(this);
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.session && this.props.session !== prevProps.session) {
+            this.setApproval();
+        }
+    }
+
+    setApproval() {
+        const { session, username } = this.props;
+        session.join_requests.forEach(join_request => {
+            if (join_request.student_id === username) {
+                if (join_request.status === 'pending') {
+                    this.setState({
+                        request:join_request.student_comment,
+                        topic:join_request.topic
+                    });
+                } else if (join_request.status === 'rejected') {
+                    this.setState({
+                        rejection_reason:join_request.tutor_comment
+                    });
+                }
+                // another possibility: status == 'approved'
+                this.setState({
+                    approval:join_request.status
+                });
+            }
+        });
+
+        session.students_attended.forEach(student_attended => {
+            if (student_attended.student_id === username) {
+                this.setState({
+                    approval:'in_session',
+                    rating:student_attended.student_rating,
+                    comment:student_attended.student_comment
+                });
+            }
+        });
     }
 
     setRating(number) {
@@ -341,7 +381,7 @@ class TutorModal extends React.Component {
     }
 
     render() {
-        const { subjects, favorites, socket, session, username, firstName } = this.props;
+        const { subjects, favorites, socket, session, username, firstName, tutor_id } = this.props;
         const {
             approval,
             error_message,
@@ -369,8 +409,6 @@ class TutorModal extends React.Component {
         socket.on(
             `student-session-update-${session ? session.eventId : 'unused'}${username}`,
             data => {
-                console.log('Session update!');
-                console.log(data);
                 if (data.approved) {
                     this.setState({ approval: 'approved' });
                 } else {
@@ -492,6 +530,15 @@ class TutorModal extends React.Component {
                     onChange={this.handleGeneralChange}
                     className="input-sm input feedback-text"
                 />
+                <button
+                    className="btn btn-md btn-default mac_button_inverse"
+                    type="button"
+                    data-toggle="modal"
+                    data-target={`#Report_Modal_${tutor_id}`}
+                    data-backdrop="static"
+                >
+                    Report Tutor
+                </button>
             </div>
         );
         const approved_html = (
@@ -622,6 +669,9 @@ class TutorModal extends React.Component {
                         </div>
                     </div>
                 </div>
+                <ReportModal
+                    tutor_id={tutor_id}
+                />
             </div>
         );
     }
@@ -635,6 +685,7 @@ TutorModal.propTypes = {
     updateTutors: PropTypes.func.isRequired,
     favorites: PropTypes.array.isRequired,
     firstName: PropTypes.string.isRequired,
+    tutor_id: PropTypes.string.isRequired
 };
 
 const mapStateToProps = state => ({

@@ -255,9 +255,9 @@ module.exports = {
     //     });
     // },
 
-    getAllAvailableTutors: function(subject, availability, callback) {
-        let todayDate = new Date();
-        let today = todayDate.getDay();
+    getAllAvailableTutors: (subject, availability, callback) => {
+        const todayDate = new Date();
+        const today = todayDate.getDay();
         const days = [
             'Sunday',
             'Monday',
@@ -267,7 +267,7 @@ module.exports = {
             'Friday',
             'Saturday'
         ];
-        let dayName = days[today];
+        const dayName = days[today];
 
         function filterByOnline(tutor) {
             return tutor.online;
@@ -283,7 +283,7 @@ module.exports = {
 
         function filterBySubject(tutor) {
             for (let i = 0; i < tutor.subjects.length; i++) {
-                let subject_json = tutor.subjects[i];
+                const subject_json = tutor.subjects[i];
 
                 if (
                     subject_json.subject.toLowerCase() === subject.toLowerCase()
@@ -294,7 +294,7 @@ module.exports = {
             }
 
             for (let i = 0; i < tutor.favorites.length; i++) {
-                let fav_json = tutor.favorites[i];
+                const fav_json = tutor.favorites[i];
                 if (
                     fav_json.favorite.toLowerCase() === subject.toLowerCase() ||
                     fav_json.subject.toLowerCase() === subject.toLowerCase()
@@ -310,13 +310,15 @@ module.exports = {
             // FIXME we should probably do this based on datetime
             if (availability === 'ASAP') {
                 return tutor.online;
-            } else if (availability === 'today') {
+            }
+            if (availability === 'today') {
                 return tutor.availability[dayName].length > 0 || tutor.online;
             }
             return true;
         }
 
-        Tutor.find({}, function(err, tutors) {
+        Tutor.find({}, (err, tutors_param) => {
+            let tutors = tutors_param;
             if (err) {
                 console.log('Error getting all online tutors');
                 callback(err);
@@ -326,6 +328,7 @@ module.exports = {
             }
             tutors = tutors.filter(filterByApproved);
             tutors = tutors.filter(filterByConfirmed);
+            tutors = tutors.filter(tutor => !tutor.banned);
             if (subject) {
                 tutors = tutors.filter(filterBySubject);
             }
@@ -395,5 +398,68 @@ module.exports = {
                 callback(null, updatedTutor);
             }
         );
-    }
+    },
+
+    banUser: (user_id, callback) => {
+        Tutor.findByIdAndUpdate(user_id, { $set: {banned: true}}, {new: true}, (err, newTutor) => {
+            if (err) {
+                console.log('Error banning user', err);
+                return callback(err);
+            }
+            if (newTutor) {
+                return callback(null, newTutor);
+            }
+            return Student.findByIdAndUpdate(user_id, { $set: {banned: true}}, {new: true}, (err, newStudent) => {
+                if (err) {
+                    console.log('Error banning user', err);
+                    return callback(err);
+                }
+                if (newStudent) {
+                    return callback(null, newTutor);
+                }
+                return callback('ID not found in Tutor or Student');
+            });
+        });
+    },
+
+    getBannedStudents: (callback) => {
+        Student.find({ banned: true }, (err, students) => {
+            if (err) {
+                console.log('Error getting banned students', err);
+                return callback(err);
+            }
+            return callback(null, students);
+        });
+    },
+
+    getBannedTutors: (callback) => {
+        Tutor.find({ banned: true }, (err, tutors) => {
+            if (err) {
+                console.log('Error getting banned tutors', err);
+                return callback(err);
+            }
+            return callback(null, tutors);
+        });
+    },
+
+    unbanStudent: (student_id, callback) => {
+        Student.findByIdAndUpdate(student_id, { $set: { banned: false }}, {new: true}, (err, newStudent) => {
+            if (err) {
+                console.log('Error unbanning student', err);
+                return callback(err);
+            }
+            return callback(null, newStudent);
+        });
+    },
+
+    unbanTutor: (tutor_id, callback) => {
+        Tutor.findByIdAndUpdate(tutor_id, { $set: { banned: false }}, {new: true}, (err, newTutor) => {
+            if (err) {
+                console.log('Error unbanning tutor', err);
+                return callback(err);
+            }
+            return callback(null, newTutor);
+        });
+    },
+
 };

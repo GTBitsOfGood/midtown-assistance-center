@@ -78,3 +78,55 @@ export function addSchoolAndUpdate(school) {
         });
     };
 }
+
+export const getBans = () => ({
+    type: types.getAllBans,
+    payload: axios.get('/api/allPendingBans')
+});
+
+export const banUser = (ban_id, banned) => ({
+    type: types.banUser,
+    payload: axios.post('/api/banUser', {ban_id, banned})
+});
+
+export const getBannedUsers = () => ({
+    type: types.getBannedUsers,
+    payload: axios.get('/api/allBannedUsers')
+});
+
+export const unbanStudent = (student_id) => ({
+    type: types.unbanStudent,
+    payload: axios.post('/api/unbanStudent', { student_id })
+});
+
+export const unbanTutor = (tutor_id) => ({
+    type: types.unbanTutor,
+    payload: axios.post('/api/unbanTutor', { tutor_id })
+});
+
+export function unbanStudentAndUpdate(student_id) {
+    return (dispatch) => {
+        return dispatch(unbanStudent(student_id)).then(() => {
+            return dispatch(getBannedUsers());
+        });
+    };
+}
+
+export function unbanTutorAndUpdate(tutor_id) {
+    return (dispatch) => {
+        return dispatch(unbanTutor(tutor_id)).then(() => {
+            return dispatch(getBannedUsers());
+        });
+    };
+}
+
+
+export function banUserAndUpdate(ban_id, banned) {
+    return (dispatch, getState) => {
+        return dispatch(banUser(ban_id, banned)).then(() => {
+            return dispatch(getBans()).then(() => {
+                return dispatch(getBannedUsers());
+            });
+        });
+    };
+}
