@@ -2,6 +2,8 @@ import express from 'express';
 import ApiRouter from './api/api.js';
 import passportRoutes from './passportConfig';
 import calendar_api from './api/calendar_api';
+const sslRedirect = require('heroku-ssl-redirect');
+
 
 let bodyParser = require('body-parser');
 let Raven = require('raven');
@@ -18,6 +20,7 @@ const server = express();
 const http_server = http.createServer(server);
 const io = socketio(http_server);
 
+server.use(sslRedirect());
 server.use(express.static('public'));
 server.use(bodyParser.urlencoded({ extended: false }));
 server.use(bodyParser.json());
