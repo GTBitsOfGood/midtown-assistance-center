@@ -38,9 +38,11 @@ const TutorList = (props) => {
             </span>
         </div>
     );
+
     const tutorsOnline = (
         <h4 className="tutors-header">Tutors Currently Online</h4>
     );
+
     return (
         <div className="col-md-10 col-md-offset-1 tutor-list-wrapper">
             <div className="search-list-header">
