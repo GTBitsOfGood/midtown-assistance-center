@@ -2,6 +2,7 @@ import React from 'react';
 import axios from 'axios';
 import { HelpBlock } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import attemptLogin from './LoginLogic';
 import styles from '../../../public/css/login_signup.css';
 
 class SignUpTutor extends React.Component {
@@ -212,7 +213,9 @@ class SignUpTutor extends React.Component {
                                     .then(res => {
                                         console.log(res);
                                         console.log('registration successful');
-                                        document.location.href = '/home/login';
+
+                                        const {username, password} = this.state;
+                                        attemptLogin(username, password);
                                     })
                                     .catch(error => {
                                         console.log(error);

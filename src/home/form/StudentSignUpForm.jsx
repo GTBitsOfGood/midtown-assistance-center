@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { HelpBlock } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import attemptLogin from './LoginLogic';
 import axios from 'axios';
 import styles from '../../../public/css/login_signup.css';
 
@@ -171,8 +172,10 @@ class StudentSignUpForm extends React.Component {
                 .then(response => {
                     console.log(response);
                     if (response.data.success) {
-                        document.location.href = '/home/login';
                         console.log('registration successful');
+
+                        const {username, password} = this.state;
+                        attemptLogin(username, password);
                     } else {
                         // Registration error
                         self.setState({ errorMessage: 'error-message' });
