@@ -98,7 +98,7 @@ class Loginpage extends React.Component {
                             </h5>
                             <div className="row col-xs-12">
                                 {/* TODO: implement forgot password link */}
-                                <Link className="login-anchor" to="foobar">
+                                <Link className="login-anchor" to="forgotPassword">
                                     Forgot your password?
                                 </Link>
                             </div>
