@@ -48,7 +48,7 @@ class TutorDash extends React.Component {
             dashDisplay = (
                 <h4 className="alert alert-warning tutor-approval-msg">
                     <i className="glyphicon glyphicon-exclamation-sign tutor-approval-msg-glyph" aria-hidden="true" />
-                    We've sent an email to you. Please click the link in that message to confirm your email address.
+                    We've sent an email to your university address. Please click the link in that message to confirm your email address.
                 </h4>
             );
         }
