@@ -1,6 +1,8 @@
 import styles from '../../../public/css/admin.css';
 import React from 'react';
 import AddSubject from './AddSubject.jsx';
+import SchoolsListContainer from './SchoolsListContainer.jsx';
+import AddSchool from './AddSchool';
 
 class Subjects extends React.Component {
     constructor(props) {
@@ -9,6 +11,10 @@ class Subjects extends React.Component {
     render() {
         return (
             <div>
+                <h1>SCHOOLS</h1>
+                <br />
+                <SchoolsListContainer />
+                <AddSchool/>
                 <AddSubject />
             </div>
         );

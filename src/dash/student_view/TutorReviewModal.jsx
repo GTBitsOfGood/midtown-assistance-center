@@ -420,6 +420,31 @@ class TutorModal extends React.Component {
                 // this.props.updateTutors();
             }
         );
+        const submitButton = (
+            <button
+                type="submit"
+                onClick={
+                    approval === 'in_session'
+                        ? this.handleSubmit
+                        : this.handleSubmitRequest
+                }
+                className="btn btn-default mac_button_inverse"
+            >
+                Submit
+            </button>
+        );
+
+        const reportButton = (
+            <button
+                className="btn btn-md btn-default mac_button_warning"
+                type="button"
+                data-toggle="modal"
+                data-target={`#Report_Modal_${tutor_id}`}
+                data-backdrop="static"
+            >
+                Report Tutor
+            </button>
+        );
 
         const in_session_html = (
             <div>
@@ -530,15 +555,7 @@ class TutorModal extends React.Component {
                     onChange={this.handleGeneralChange}
                     className="input-sm input feedback-text"
                 />
-                <button
-                    className="btn btn-md btn-default mac_button_inverse"
-                    type="button"
-                    data-toggle="modal"
-                    data-target={`#Report_Modal_${tutor_id}`}
-                    data-backdrop="static"
-                >
-                    Report Tutor
-                </button>
+                { submitButton }
             </div>
         );
         const approved_html = (
@@ -597,19 +614,6 @@ class TutorModal extends React.Component {
                 <h4>{rejection_reason}</h4>
             </div>
         );
-        const submitButton = (
-            <button
-                type="submit"
-                onClick={
-                    approval === 'in_session'
-                        ? this.handleSubmit
-                        : this.handleSubmitRequest
-                }
-                className="btn btn-default mac_button_inverse"
-            >
-                Submit
-            </button>
-        );
         let resHtml = null;
         if(approval === 'in_session') {
             resHtml = in_session_html;
@@ -663,7 +667,7 @@ class TutorModal extends React.Component {
                                         : 'Close'}
                                 </button>
                                 {approval === 'in_session' || approval === 'new'
-                                    ? submitButton
+                                    ? reportButton
                                     : ''}
                             </div>
                         </div>
