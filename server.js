@@ -22,7 +22,7 @@ const io = socketio(http_server);
 // server.use(sslRedirect());
 server.use(express.static('public'));
 server.use(bodyParser.urlencoded({ extended: false }));
-server.use(bodyParser.json());
+server.use(bodyParser.json({limit: '50mb', type: 'application/json'}));
 server.set('views', './views');
 server.set('view engine', 'ejs');
 server.use('/api', ApiRouter);
