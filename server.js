@@ -4,7 +4,6 @@ import passportRoutes from './passportConfig';
 import calendar_api from './api/calendar_api';
 const sslRedirect = require('heroku-ssl-redirect');
 
-
 let bodyParser = require('body-parser');
 let Raven = require('raven');
 Raven.config(
