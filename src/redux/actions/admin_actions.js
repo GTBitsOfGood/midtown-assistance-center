@@ -1,5 +1,6 @@
 import * as types from './types/admin_types';
 import axios from 'axios';
+import { deepStrictEqual } from 'assert';
 
 export function getUnapprovedTutors() {
     return {
@@ -38,6 +39,43 @@ export function getAllTutors() {
     return {
         type: types.getAllTutors,
         payload: axios.get('/api/allTutors')
+    };
+}
+
+export function getAllSchoolsAndAccessCodes() {
+    return {
+        type: types.getAllSchoolsAndAccessCodes,
+        payload: axios.get('/api/schoolsAndAccessCodes')
+    };
+}
+export function addAccessCode(school_code, name) {
+    return {
+        type: types.addNewAccessCode,
+        payload: axios.post('/api/accessCodes', {
+            school_code,
+            name,
+        }),
+    };
+}
+
+export function addAccessCodeAndUpdate(school_code, name) {
+    return (dispatch) => {
+        return dispatch(addAccessCode(school_code, name)).then(() => {
+            return dispatch(getAllSchoolsAndAccessCodes());
+        });
+    };
+};
+
+export const addSchool = (school) => ({
+    type: types.addSchool,
+    payload: axios.post('/api/schools', school)
+});
+
+export function addSchoolAndUpdate(school) {
+    return (dispatch) => {
+        return dispatch(addSchool(school)).then(() => {
+            return dispatch(getAllSchoolsAndAccessCodes());
+        });
     };
 }
 

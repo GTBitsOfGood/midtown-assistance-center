@@ -293,43 +293,58 @@ app.post('/registerStudent', (req, res) => {
 
         }
         console.log(resultUsername);
-        data_access.users.checkIfEmailIsTaken(req.body.email, (
-            err,
-            resultEmail
-        ) => {
+        data_access.access_codes.checkAccessCodeExist(req.body.access_code, (err, resultCode) => {
             if (err) {
                 console.log(err);
-            } else {
-                console.log(resultEmail);
-                if (!resultEmail) {
-                    data_access.users.createStudent(
-                        {
-                            first_name: req.body.firstName,
-                            last_name: req.body.lastName,
-                            email: req.body.email,
-                            _id: req.body.username,
-                            password,
-                            join_date: Date.now(),
-                            classroom: req.body.access_code,
-                            grade_level: req.body.grade_level
-                        },
-                        (err, user_instance) => {
-                            if (err) {
-                                console.log(err);
-                            } else {
-                                res.send({
-                                    success: true,
-                                    error_message: null
-                                });
-                            }
+            }
+            if (!resultCode) {
+                res.send({
+                    success: false,
+                    error_message:'Classroom code does not exist'
+                });
+            }
+            else {
+                console.log('classroom code EXISTS');
+                data_access.users.checkIfEmailIsTaken(req.body.email, (
+                    err,
+                    resultEmail
+                ) => {
+                    if (err) {
+                        console.log(err);
+                    } else {
+                        console.log(resultEmail);
+                        if (!resultEmail) {
+                            data_access.users.createStudent(
+                                {
+                                    first_name: req.body.firstName,
+                                    last_name: req.body.lastName,
+                                    email: req.body.email,
+                                    _id: req.body.username,
+                                    password,
+                                    join_date: Date.now(),
+                                    classroom: req.body.access_code,
+                                    grade_level: req.body.grade_level
+                                },
+                                (err, user_instance) => {
+                                    if (err) {
+                                        console.log(err);
+                                    } else {
+                                        res.send({
+                                            success: true,
+                                            error_message: null
+                                        });
+                                    }
+                                }
+                            );
+
+                        } else {
+                            res.json({
+                                success: false,
+                                error_message: 'Email already exists'
+                            });
                         }
-                    );
-                } else {
-                    res.json({
-                        success: false,
-                        error_message: 'Email already exists'
-                    });
-                }
+                    }
+                });
             }
         });
 
@@ -407,13 +422,13 @@ app.get('/confirmEmail', (req, res) => {
                     success: false,
                     error_message: 'Failed to confirm tutor, no tutor found'
                 });
-            } 
+            }
             return res.json({
                 success: true,
                 error_message: null,
                 message: 'Successfully confirmed email'
             });
-            
+
         }
     );
 });
@@ -994,6 +1009,105 @@ app.get('/allTutors', (req, res) => {
         }
     });
 });
+
+app.get('/schools', (req, res) => {
+    data_access.schools.getAllSchools((err, response) => {
+        if (err) {
+            console.log(err);
+            res.json({ success: false, error:err});
+        } else{
+            console.log('Getting all schools');
+            res.send(response);
+        }
+    });
+});
+
+app.post('/schools', (req, res) => {
+    const schoolCodeValue = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+    // TODO: validation that the school_code does not already exist
+    data_access.schools.addSchool(
+        {
+            school_name: req.body.school_name,
+            school_code: schoolCodeValue,
+            address: {
+                street: req.body.street,
+                zip_code: req.body.zip_code,
+                state: req.body.state
+            }
+        }, (err, response) => {
+            if (err) {
+                console.log(err);
+                res.json({success: false, error: err});
+            } else {
+                console.log('Adding school...');
+                res.json({ success: true, school: response});
+            }
+        });
+});
+
+app.post('/accessCodes', (req, res) => {
+    const accessCodeValue = Math.random().toString(36).replace(/[^a-z]+/g, '').substr(0, 5);
+    // TODO: validation that accessCodeValue hasn't already been generated/taken
+    // data_access.access_codes.validateAccessCode(accessCodeValue);
+
+    data_access.schools.verifySchoolCodeExists(req.body.school_code, (err, resultSchoolCode) => {
+        if (err || !resultSchoolCode) {
+            console.log(err);
+            return res.json(400, {success: false, error: err});
+        }
+        return data_access.access_codes.addAccessCode({
+            access_code: accessCodeValue,
+            school_code: req.body.school_code,
+            name: req.body.name
+        }, (err, resultAccessCode) => {
+            if (err) {
+                console.log(err);
+                return res.json(400, {success: false, error: err});
+            }
+            return res.json({
+                success: true,
+                accessCode: resultAccessCode
+            });
+        });
+    });
+});
+
+// returns all access codes if req param is empty,
+// else returns all access codes for a specific school
+app.get('/accessCodes', (req, res) => {
+    if (Object.keys(req.query).length === 0) {
+        data_access.access_codes.getAllAccessCodes((err, response) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('Getting all access codes');
+                res.send(response);
+            }
+        });
+    } else {
+        data_access.access_codes.getAccessCodesForSchool(req.query.school_code, (err, response) => {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log('Getting all access codes for school');
+                console.log(req.query);
+                res.send(response);
+            }
+        });
+    }
+
+});
+
+app.get('/schoolsAndAccessCodes', (req, res) => data_access.schools.getAllSchools((err, response) => {
+    if (err) {
+        console.log(err);
+        return res.json({success: false, error: err});
+    }
+    data_access.access_codes.getAccessCodesForSchool(response, (err, result) => {
+        console.log(result);
+        return res.send({success: true, filteredCodes: result});
+    });
+}));
 
 // TUTOR SESSION REQUESTS
 
