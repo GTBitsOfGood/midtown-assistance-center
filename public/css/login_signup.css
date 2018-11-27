@@ -1,5 +1,6 @@
 /* Signup Tutor Form */
 :root {
+    /*--gold: #d4af37;*/
     --gold: #eeb211;
     --gray: #aeb7b3;
     --ltgray: #f1f6f7;
@@ -38,6 +39,28 @@ input:-webkit-autofill {
     background-color: var(--black);
 }
 
+.forgot-pass-bkgrd {
+    position: fixed;
+    margin-top: calc(50vh - 200px);
+    min-height: 250px;
+    max-width: 500px;
+    background-color: var(--login_signup);
+    z-index: 0;
+    height: 40vh;
+    opacity: 0.6;
+}
+
+.reset-pass-bkgrd {
+    position: fixed;
+    margin-top: calc(50vh - 200px);
+    min-height: 350px;
+    max-width: 500px;
+    background-color: var(--login_signup);
+    z-index: 0;
+    height: 60vh;
+    opacity: 0.6;
+}
+
 .signup-tabs {
     background-color: transparent;
 }
@@ -59,8 +82,11 @@ input:-webkit-autofill {
 }
 
 .signup-form,
-.login-form {
+.login-form,
+.reset-pass-form {
     position: relative;
+
+    position: fixed;
     margin-top: calc(50vh - 200px);
     min-height: 300px;
     max-width: 500px;
@@ -73,6 +99,24 @@ input:-webkit-autofill {
     padding-left: 1.5%;
     background-color: var(--login_signup_bkgrd);
     color: var(--ltgray);
+}
+
+.forgot-pass-form {
+    position: relative;
+    position: fixed;
+    margin-top: calc(50vh - 200px);
+    min-height: 250px;
+    max-width: 500px;
+    width: 100%;
+    padding: 2%;
+    height: 40vh;
+    z-index: 1;
+    overflow-y: scroll;
+    padding-right: 0;
+    padding-left: 1.5%;
+    background-color: var(--login_signup_bkgrd);
+    color: var(--ltgray);
+    display: table;
 }
 
 .signup-form {
@@ -95,7 +139,8 @@ input:-webkit-autofill {
     }
 }
 
-.login-form {
+.login-form,
+.reset-pass-form {
     display: table;
 }
 
@@ -105,7 +150,11 @@ input:-webkit-autofill {
 }
 
 .signup-form .signup-header,
-.login-form .login-header {
+.login-form .login-header,
+.forgot-pass-form .forgot-pass-header,
+.reset-pass-form .reset-pass-header {
+    /*color: var(--dkgray);*/
+    /*color: black;*/
     font-weight: 300;
     text-transform: none;
 }
@@ -132,13 +181,17 @@ input:-webkit-autofill {
 
 .signup-form input:not(.input-error),
 .signup-form select,
-.login-form input:not(.input-error) {
+.login-form input:not(.input-error),
+.forgot-pass-form input:not(.input-error),
+.reset-pass-form input:not(.input-error){
     border-bottom: 1px solid var(--gray);
 }
 
 .signup-form input,
 .signup-form select,
-.login-form input {
+.login-form input,
+.forgot-pass-form input,
+.reset-pass-form input {
     border-top: 0;
     border-left: 0;
     border-right: 0;
@@ -150,13 +203,17 @@ input:-webkit-autofill {
 }
 
 .signup-form input::placeholder,
-.login-form input::placeholder {
+.login-form input::placeholder,
+.forgot-pass-form input::placeholder,
+.reset-pass-form input::placeholder {
     color: var(--gray);
     font-style: italic;
 }
 
 .signup-form input:focus,
-.login-form input:focus {
+.login-form input:focus,
+.forgot-pass-form input:focus,
+.reset-pass-form input:focus {
     outline: none;
 }
 
@@ -175,16 +232,20 @@ input:-webkit-autofill {
     background-size: 10px 10px;
 }
 
-option.signup-select-option {
-    background: var(--dkgray);
-}
-
-.login-form input {
+.login-form input,
+.forgot-pass-form input,
+.reset-pass-form input {
     margin-top: 5%;
 }
 
+option.signup-select-option {
+    background: var(--dkgray);
+}
 .signup-form .signup-button,
-.login-form .login-button {
+.login-form .login-button,
+.forgot-pass-form .forgot-pass-button,
+.reset-pass-form .reset-pass-button {
+    /*background-color: var(--gold);*/
     background-color: var(--accent);
     color: var(--ltgray);
     margin-top: 5%;
@@ -204,7 +265,9 @@ option.signup-select-option {
     z-index: 90;
 }
 
-.login-form .login-button {
+.login-form .login-button,
+.forgot-pass-form .forgot-pass-button,
+.reset-pass-form .reset-pass-button {
     margin-bottom: 5%;
 }
 
@@ -217,7 +280,9 @@ option.signup-select-option {
 }
 
 .signup-form .signup-button:hover,
-.login-form .login-button:hover {
+.login-form .login-button:hover,
+.forgot-pass-form .forgot-pass-button:hover,
+.reset-pass-form .reset-pass-button:hover {
     opacity: 0.7;
 }
 
@@ -244,4 +309,9 @@ option.signup-select-option {
     margin-bottom: 5%;
     text-transform: none;
     font-weight: 400;
+}
+
+.reset-pass-form reset-pass-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
 }

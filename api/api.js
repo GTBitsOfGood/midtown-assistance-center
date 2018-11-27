@@ -21,6 +21,9 @@ const app = express();
 // https://github.com/sendgrid/sendgrid-nodejs
 const sgMail = require('@sendgrid/mail');
 const bcrypt = require('bcrypt');
+const Tutor = require('../models/Tutor');
+const Student = require('../models/Student');
+const Admin = require('../models/Admin');
 
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -38,6 +41,118 @@ function encryptPassword(password) {
 app.get('/getRecentSessions', (req, res) => {
     // TO DO: Add method in Session Dao
     //
+});
+
+app.post('/forgotPassword', (req, res) => {
+    data_access.users.findUserType(req.body.email, (err, emailType) => {
+        if(err) {
+            return res.send(400, {error: err});
+        }
+
+        if (!emailType) {
+            return res.send({
+                success: false,
+                error_message: 'Email does not exist in the system'
+            });
+        }
+        const reset_key = Math.random()
+            .toString(36)
+            .substring(7);
+        const endpoint =
+            req.headers.host +
+            (req.headers.port ? `:${req.headers.port}` : '');
+        const msg = {
+            to: req.body.email,
+            from: 'mac@mactutoring.com',
+            subject:
+                'Reset your password for your MAC Tutoring account',
+            text:
+                `Click here to reset your password for your MAC tutoring account, or copy and paste the following URL into your browser: ${endpoint}/home/resetPassword?reset_key=${reset_key}&email=${req.body.email}`,
+            html:
+                `Click <a href="${endpoint}/home/resetPassword?reset_key=${reset_key}&email=${req.body.email}">here</a> to reset your password for your MAC tutoring account, or copy and paste the following URL into your browser: <strong>${endpoint}/home/resetPassword?reset_key=${reset_key}&email=${req.body.email}</strong>`
+        };
+
+        data_access.users.updateResetKey(req.body.email, reset_key, emailType, (err) => {
+            if (err) {
+                return res.send({
+                    success: false,
+                    error_message: 'Unable to add reset key to account'
+                });
+            }
+            sgMail.send(msg);
+            return res.send({
+                success: true,
+                error_message: null
+            });
+        });
+    });
+});
+
+app.patch('/resetPassword', (req, res) => {
+    const { password, reset_key, email } = req.body;
+
+    data_access.users.getUserByEmail(email, (err, user, userType) => {
+        if(err) {
+            res.status(400).send({
+                error_message: 'Invalid Email, cannot reset password.'
+            });
+        } else if (user.reset_key == null) {
+            res.status(400).json({
+                error_message: 'Invalid password change request. Please request a new reset link on the forgot password page.'
+            });
+        } else if (reset_key !== user.reset_key) {
+            res.status(400).json({
+                error_message: 'Invalid password change request. Make sure you are using the most recent link sent to your email.'
+            });
+        } else {
+            user.password = encryptPassword(password);
+            user.reset_key = null;
+            if (userType === 'tutor') {
+                data_access.users.saveTutor(user, (err) => {
+                    if (err) {
+                        res.send({
+                            success: false,
+                            error_message: 'Error updating user password. Please request a new reset link on the forgot password page.'
+                        });
+                    } else {
+                        res.send({
+                            success: true,
+                            error_message: null
+                        });
+                    }
+                });
+            } else if (userType === 'student') {
+                data_access.users.saveStudent(user, (err) => {
+                    if (err) {
+                        res.send({
+                            success: false,
+                            error_message: 'Error updating user password. Please request a new reset link on the forgot password page.'
+                        });
+                    } else {
+
+                        res.send({
+                            success: true,
+                            error_message: null
+                        });
+                    }
+                });
+            } else {
+                data_access.users.saveAdmin(user, (err) => {
+                    if (err) {
+                        res.send({
+                            success: false,
+                            error_message: 'Error updating user password. Please request a new reset link.'
+                        });
+                    } else {
+                        res.send({
+                            success: true,
+                            error_message: null
+                        });
+                    }
+                });
+            }
+        }
+    });
 });
 
 app.get('/onlineTutors', (req, res) => {
@@ -899,21 +1014,6 @@ app.post('/createSessionRequest', (req, res) => {
 
 app.post('/getPendingRequests', (req, res) => {
     data_access.tutor_session_requests.getPendingRequestsByTutor(req.body._id, (err, response) => {
-        if (err) {
-            console.log(err);
-            res.json({success:false, error:err});
-        } else {
-            res.json({
-                success:true,
-                error:null,
-                docs:response
-            });
-        }
-    });
-});
-
-app.post('/getPendingRequestsByTutorAndStudent', (req, res) => {
-    data_access.tutor_session_requests.getPendingRequestsByTutorAndStudent(req.body.data, (err, response) => {
         if (err) {
             console.log(err);
             res.json({success:false, error:err});

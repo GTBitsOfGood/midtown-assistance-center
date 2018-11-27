@@ -4,11 +4,11 @@
  * We need to add some for Admins!!
  */
 
+import config from 'config';
+
 const Tutor = require('../../models/Tutor');
 const Student = require('../../models/Student');
 const Admin = require('../../models/Admin');
-
-import config from 'config';
 
 module.exports = {
     /**
@@ -18,9 +18,9 @@ module.exports = {
      * @param username: string for username
      * @param callback: takes two parameters: error and boolean which represents if a tutor exists already
      */
-    checkIfUsernameIsTaken: function(username, callback) {
+    checkIfUsernameIsTaken(username, callback) {
         // Look for tutors with the same username
-        Tutor.find({ _id: username }, function(err, docs) {
+        Tutor.find({ _id: username }, (err, docs) => {
             if (err) {
                 console.error('Error checking if username is taken:', err);
                 callback(err);
@@ -29,7 +29,7 @@ module.exports = {
                 callback(null, true);
             } else {
                 // Look for students with the same username
-                Student.find({ _id: username }, function(err, docs) {
+                Student.find({ _id: username }, (err, docs) => {
                     if (err) {
                         console.error(
                             'Error checking if username is taken:',
@@ -40,7 +40,7 @@ module.exports = {
                         // Found a student with the same username
                         callback(null, true);
                     } else {
-                        Admin.find({ _id: username }, function(err, docs) {
+                        Admin.find({ _id: username }, (err, docs) => {
                             if (err) {
                                 console.error(
                                     'Error checking if username is taken:',
@@ -60,9 +60,9 @@ module.exports = {
         });
     },
 
-    checkIfEmailIsTaken: function(email, callback) {
+    checkIfEmailIsTaken(email, callback) {
         // Look for tutors with the same email
-        Tutor.find({ email: email }, function(err, docs) {
+        Tutor.find({ email }, (err, docs) => {
             if (err) {
                 console.error('Error checking if email is taken:', err);
                 callback(err);
@@ -71,7 +71,7 @@ module.exports = {
                 callback(null, true);
             } else {
                 // Look for students with the same email
-                Student.find({ email: email }, function(err, docs) {
+                Student.find({ email }, (err, docs) => {
                     if (err) {
                         console.error('Error checking if email is taken:', err);
                         callback(err);
@@ -79,7 +79,7 @@ module.exports = {
                         // Found a student with the same email
                         callback(null, true);
                     } else {
-                        Admin.find({ email: email }, function(err, docs) {
+                        Admin.find({ email }, (err, docs) => {
                             if (err) {
                                 console.error(
                                     'Error checking if email is taken:',
@@ -87,7 +87,7 @@ module.exports = {
                                 );
                                 callback(err);
                             } else if (docs.length > 0) {
-                                // Found a student with the same email
+                                // Found a admin with the same email
                                 callback(null, true);
                             } else {
                                 callback(null, false);
@@ -99,8 +99,8 @@ module.exports = {
         });
     },
 
-    createStudent: function(student, callback) {
-        Student.create(student, function(err, student_instance) {
+    createStudent(student, callback) {
+        Student.create(student, (err, student_instance) => {
             if (err) {
                 console.error('Error creating a new student:', err);
                 callback(err);
@@ -110,8 +110,8 @@ module.exports = {
         });
     },
 
-    createTutor: function(tutor, callback) {
-        Tutor.create(tutor, function(err, tutor_instance) {
+    createTutor(tutor, callback) {
+        Tutor.create(tutor, (err, tutor_instance) => {
             if (err) {
                 console.error(
                     'Error creating a new tutor AND THIS IS WHY DUDE:',
@@ -124,21 +124,21 @@ module.exports = {
         });
     },
 
-    confirmEmail: function(data, callback) {
-        Tutor.find({ _id: data._id, confirm_key: data.confirm_key }, function(
+    confirmEmail(data, callback) {
+        Tutor.find({ _id: data._id, confirm_key: data.confirm_key }, (
             err,
             docs
-        ) {
+        ) => {
             if (err) {
                 console.error('Error confirming email :(');
                 callback(err);
-                return;
+
             } else {
                 console.log(docs);
                 if (docs.length > 0) {
-                    let tutor_obj = docs[0];
+                    const tutor_obj = docs[0];
                     tutor_obj.confirmed = true;
-                    tutor_obj.save(function(err) {
+                    tutor_obj.save((err) => {
                         if (err) {
                             console.error(err);
                         }
@@ -149,9 +149,9 @@ module.exports = {
         });
     },
 
-    //Not being used right now, but could be if we choose to allow superadmins to create lowerlevel admins
-    createAdmin: function(admin, callback) {
-        Admin.create(admin, function(err, admin_instance) {
+    // Not being used right now, but could be if we choose to allow superadmins to create lowerlevel admins
+    createAdmin(admin, callback) {
+        Admin.create(admin, (err, admin_instance) => {
             if (err) {
                 console.error('Error creating a new admin in database:', err);
                 callback(err);
@@ -161,9 +161,9 @@ module.exports = {
         });
     },
 
-    getUser: function(username, callback) {
+    getUser(username, callback) {
         // Look for tutors with the same username
-        Tutor.find({ _id: username }, function(err, docs) {
+        Tutor.find({ _id: username }, (err, docs) => {
             if (err) {
                 console.error('Error checking if Tutor username is taken', err);
                 callback(err);
@@ -178,14 +178,14 @@ module.exports = {
                 callback(null, docs[0]);
             } else {
                 // Look for students with the same username
-                Student.find({ _id: username }, function(err, docs) {
+                Student.find({ _id: username }, (err, docs) => {
                     if (err) {
                         console.error(
                             'Error checking if Student username is taken:',
                             err
                         );
                         callback(err);
-                        return;
+
                     } else if (docs.length > 0) {
                         if (docs.length > 1) {
                             console.error(
@@ -195,9 +195,9 @@ module.exports = {
                         }
                         // Found a student with the same username
                         callback(null, docs[0]);
-                        return;
+
                     } else {
-                        Admin.find({ _id: username }, function(err, docs) {
+                        Admin.find({ _id: username }, (err, docs) => {
                             if (err) {
                                 console.error(
                                     'Error checking if Admin username is taken'
@@ -210,6 +210,65 @@ module.exports = {
                                     );
                                 }
                                 callback(null, docs[0]);
+                            } else {
+                                callback('No users found', null);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    },
+
+    getUserByEmail(email, callback) {
+        // Look for tutors with the same email
+        Tutor.find({ email }, (err, docs) => {
+            if (err) {
+                console.error('Error checking if Tutor email is taken', err);
+                callback(err);
+            } else if (docs.length > 0) {
+                // Found a tutor with the same email
+                if (docs.length > 1) {
+                    console.error(
+                        'Multiple tutors with same email!',
+                        email
+                    );
+                }
+                callback(null, docs[0], 'tutor');
+            } else {
+                // Look for students with the same email
+                Student.find({ email }, (err, docs) => {
+                    if (err) {
+                        console.error(
+                            'Error checking if Student email is taken:',
+                            err
+                        );
+                        callback(err);
+
+                    } else if (docs.length > 0) {
+                        if (docs.length > 1) {
+                            console.error(
+                                'Multiple students with same email!',
+                                email
+                            );
+                        }
+                        // Found a student with the same email
+                        callback(null, docs[0], 'student');
+
+                    } else {
+                        Admin.find({ email }, (err, docs) => {
+                            if (err) {
+                                console.error(
+                                    'Error checking if Admin email is taken'
+                                );
+                                callback(err);
+                            } else if (docs.length > 0) {
+                                if (docs.length > 1) {
+                                    console.error(
+                                        'Multiple Admins with same email!'
+                                    );
+                                }
+                                callback(null, docs[0], 'admin');
                             } else {
                                 callback('No users found', null);
                             }
@@ -349,7 +408,7 @@ module.exports = {
         });
     },
 
-    saveStudent: function(student, callback) {
+    saveStudent(student, callback) {
         if (student.password === config.get('hidden_password')) {
             callback('The student password is masked! Not saving this to db');
         }
@@ -358,7 +417,7 @@ module.exports = {
             student._id,
             { $set: student },
             { new: true },
-            function(err, updatedStudent) {
+            (err, updatedStudent) => {
                 if (err) {
                     console.log('Error saving student');
                     return callback(err);
@@ -368,8 +427,8 @@ module.exports = {
         );
     },
 
-    getUnapprovedTutors: function(callback) {
-        Tutor.find({ approved: false }, function(err, docs) {
+    getUnapprovedTutors(callback) {
+        Tutor.find({ approved: false }, (err, docs) => {
             if (err) {
                 console.log(err);
                 return callback(err);
@@ -378,18 +437,18 @@ module.exports = {
         });
     },
 
-    saveTutor: function(tutor, callback) {
+    saveTutor(tutor, callback) {
         if (tutor.password === config.get('hidden_password')) {
             callback('The tutor password is masked! Not saving this to db');
         }
 
         console.log('updating tutor');
-        debugger
+
         Tutor.findByIdAndUpdate(
             tutor._id,
             { $set: tutor },
             { new: true },
-            function(err, updatedTutor) {
+            (err, updatedTutor) => {
                 if (err) {
                     console.log('Error saving tutor');
                     return callback(err);
@@ -398,6 +457,82 @@ module.exports = {
                 callback(null, updatedTutor);
             }
         );
+    },
+
+    saveAdmin(admin, callback) {
+        if (admin.password === config.get('hidden_password')) {
+            callback('The admin password is masked! Not saving this to db');
+        }
+
+        console.log('updating admin');
+
+        Admin.findByIdAndUpdate(
+            admin._id,
+            { $set: admin },
+            { new: true },
+            (err, updatedAdmin) => {
+                if (err) {
+                    console.log('Error saving admin');
+                    return callback(err);
+                }
+
+                callback(null, updatedAdmin);
+            }
+        );
+    },
+
+    updateResetKey(email, reset_key, emailType, callback) {
+        if (emailType === 'tutor') {
+            Tutor.findOneAndUpdate({ email }, {$set:{ reset_key }}, { new: true }, (err) => {
+                return callback(err);
+            });
+        } else if (emailType === 'student') {
+            Student.findOneAndUpdate({ email }, {$set:{ reset_key }}, { new: true }, (err) => {
+                return callback(err);
+            });
+        } else {
+            Admin.findOneAndUpdate({ email }, { $set: { reset_key } }, { new: true }, (err) => {
+                return callback(err);
+            });
+        }
+    },
+
+    findUserType(email, callback) {
+        Tutor.find({ email }, (err, docs) => {
+            if (err) {
+                console.error('Error checking if email is taken:', err);
+                callback(err);
+            } else if (docs.length > 0) {
+                // Found a tutor with the same email
+                callback(null, 'tutor');
+            } else {
+                // Look for students with the same email
+                Student.find({ email }, (err, docs) => {
+                    if (err) {
+                        console.error('Error checking if email is taken:', err);
+                        callback(err);
+                    } else if (docs.length > 0) {
+                        // Found a student with the same email
+                        callback(null, 'student');
+                    } else {
+                        Admin.find({ email }, (err, docs) => {
+                            if (err) {
+                                console.error(
+                                    'Error checking if email is taken:',
+                                    err
+                                );
+                                callback(err);
+                            } else if (docs.length > 0) {
+                                // Found a admin with the same email
+                                callback(null, 'admin');
+                            } else {
+                                callback(null, null);
+                            }
+                        });
+                    }
+                });
+            }
+        });
     },
 
     banUser: (user_id, callback) => {
@@ -461,5 +596,4 @@ module.exports = {
             return callback(null, newTutor);
         });
     },
-
 };
