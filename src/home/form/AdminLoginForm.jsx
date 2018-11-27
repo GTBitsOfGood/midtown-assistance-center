@@ -46,12 +46,11 @@ class AdminLoginpage extends React.Component {
                 if (response.data !== '') {
                     document.location.href = '/dash';
                 } else {
-                    console.log(response.data);
                     this.setErrorMessage();
                 }
             })
             .catch(error => {
-                console.log(error);
+                console.error(error);
                 this.setErrorMessage();
             });
     }

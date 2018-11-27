@@ -24,17 +24,17 @@ class TutorRequest extends React.Component {
             const self = this;
             axios
                 .post('/api/updateSessionRequest', request)
-                .then(function(response) {
+                .then((response) => {
                     if (response.data.success) {
                         self.props.getPendingSessionRequests();
                         self.props.setSessionDuration(response.data.sessionRequest);
                         self.props.socket.emit('tutor-approve-request', {request:response.data.sessionRequest});
                     } else {
-                        console.log(response.data.error);
+                        console.error(response.data.error);
                     }
                 })
-                .catch(function(err) {
-                    console.log(err);
+                .catch((err) => {
+                    console.error(err);
                 });
         }
 
@@ -51,16 +51,16 @@ class TutorRequest extends React.Component {
             const self = this;
             axios
                 .post('/api/updateSessionRequest', request)
-                .then(function(response) {
+                .then((response) => {
                     if (response.data.success) {
                         self.props.socket.emit('tutor-deny-request', {request:response.data.sessionRequest});
                         self.props.getPendingSessionRequests();
                     } else {
-                        console.log(response.data.error);
+                        console.error(response.data.error);
                     }
                 })
-                .catch(function(err) {
-                    console.log(err);
+                .catch((err) => {
+                    console.error(err);
                 });
         }
 

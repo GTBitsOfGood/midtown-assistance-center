@@ -141,11 +141,11 @@ class SessionModal extends React.Component {
                         $('.modal').modal('hide');
                         onSubmit(rating, comment);
                     } else {
-                        console.log(response.data.error);
+                        console.error(response.data.error);
                     }
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.error(error);
                 });
         }
     }
@@ -167,7 +167,6 @@ class SessionModal extends React.Component {
             .post('/api/updateJoinRequest', requestBody)
             .then(response => {
                 if (response.data.success) {
-                    console.log(response.data);
                     updateSession(
                         response.data.session
                     );
@@ -176,11 +175,11 @@ class SessionModal extends React.Component {
                         student_id: join_request.student_id
                     });
                 } else {
-                    console.log(response.data.error);
+                    console.error(response.data.error);
                 }
             })
             .catch(err => {
-                console.log(err);
+                console.error(err);
             });
     }
 
@@ -209,7 +208,6 @@ class SessionModal extends React.Component {
                 .post('/api/updateJoinRequest', requestBody)
                 .then(response => {
                     if (response.data.success) {
-                        console.log(response.data);
                         updateSession(
                             response.data.session
                         );
@@ -219,11 +217,11 @@ class SessionModal extends React.Component {
                             student_id: join_request.student_id
                         });
                     } else {
-                        console.log(response.data.error);
+                        console.error(response.data.error);
                     }
                 })
                 .catch(err => {
-                    console.log(err);
+                    console.error(err);
                 });
         }
     }

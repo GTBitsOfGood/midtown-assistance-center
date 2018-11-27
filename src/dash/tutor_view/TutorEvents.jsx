@@ -93,17 +93,17 @@ class Events extends React.Component {
             let self = this;
             axios
                 .post('/calendar/createEvent', requestBody)
-                .then(function(response) {
+                .then((response) => {
                     if (response.data.success) {
                         self.initEvents(true, response.data.session);
                         self.props.socket.emit('tutor-update-session');
                         //window.open(response.data.link, '_blank');
                     } else {
-                        console.log(response.data.error);
+                        console.error(response.data.error);
                     }
                 })
-                .catch(function(err) {
-                    console.log(err);
+                .catch((err) => {
+                    console.error(err);
                 });
         } else {
             window.alert('Must close open session before opening a new one');
@@ -150,17 +150,16 @@ class Events extends React.Component {
         const self = this;
         axios
             .post('/calendar/createEvent', requestBody)
-            .then(function(response) {
-                console.log(response);
+            .then((response) => {
                 if (response.data.success) {
                     self.initEvents(true, response.data.session);
                     self.props.socket.emit('tutor-update-session');
                 } else {
-                    console.log(response.data.error);
+                    console.error(response.data.error);
                 }
             })
-            .catch(function(err) {
-                console.log(err);
+            .catch((err) => {
+                console.error(err);
             });
     }
 
@@ -174,19 +173,16 @@ class Events extends React.Component {
         const checkOpenSession = !session ? new Promise((resolve, reject) => {
             axios
                 .post('/api/checkActiveSession', requestBody)
-                .then(function(response) {
+                .then((response) => {
                     if (response.error) {
-                        console.log(response.error);
+                        console.error(response.error);
+                    } else if (response.data.has_open_session) {
+                        resolve(response.data.session);
                     } else {
-                        console.log(response.data);
-                        if (response.data.has_open_session) {
-                            resolve(response.data.session);
-                        } else {
-                            resolve(null);
-                        }
+                        resolve(null);
                     }
                 })
-                .catch(function(err) {
+                .catch((err) => {
                     reject(err);
                 });
         }) : new Promise((resolve, reject) => {
@@ -229,7 +225,7 @@ class Events extends React.Component {
                 showModal
             });
         }, (err) => {
-            console.log(err);
+            console.error(err);
         });
 
 

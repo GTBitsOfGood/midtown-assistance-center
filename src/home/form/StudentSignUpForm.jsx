@@ -169,10 +169,8 @@ class StudentSignUpForm extends React.Component {
             axios
                 .post('/api/registerStudent', this.state)
                 .then(response => {
-                    console.log(response);
                     if (response.data.success) {
                         document.location.href = '/home/login';
-                        console.log('registration successful');
                     } else {
                         // Registration error
                         self.setState({ errorMessage: 'error-message' });
@@ -185,7 +183,7 @@ class StudentSignUpForm extends React.Component {
                     }
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.error(error);
                     self.setState({ errorMessage: 'error-message' });
                     self.setState({ inputErrorMessage: 'error-message-hide' });
                 });

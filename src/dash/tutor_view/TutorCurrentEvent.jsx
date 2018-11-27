@@ -61,11 +61,11 @@ class CurrentEvent extends React.Component {
                 if (response.data.success) {
                     self.setState({pendingRequests: response.data.docs});
                 } else {
-                    console.log(response.data.error);
+                    console.error(response.data.error);
                 }
             })
             .catch((err) => {
-                console.log(err);
+                console.error(err);
             });
     }
 

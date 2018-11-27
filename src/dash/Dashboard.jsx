@@ -97,32 +97,27 @@ class DashComp extends React.Component {
             return loading;
         }
         if (user.logging_out) {
-            console.log('LOGGING OUT');
             axios
                 .get('/logout', { params: { username: user._id } })
                 .then(response => {
-                    console.log(response.data);
                     if (response.data) {
                         document.location.href = '/';
                     }
                 })
                 .catch(error => {
-                    console.log(error);
+                    console.error(error);
                 });
             return loading;
         }
         let routes;
         if (user.type === types.typeStudent) {
-            console.log('Student logged in');
             routes = studentRoutes;
         } else if (user.type === types.typeTutor) {
-            console.log('Tutor logged in');
             routes = tutorRoutes;
             if (!user.online) {
                 socket.emit('tutor-login');
             }
         } else if (user.type === types.typeAdmin) {
-            console.log('Admin logged in');
             return adminRoutes;
         }
         return (

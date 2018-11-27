@@ -41,7 +41,6 @@ class StudentDashboard extends React.Component {
             );
         } else {
             socket.on('update-tutors', () => {
-                console.log('Tutor update!');
                 this.updateOnlineTutors();
             });
             dashDisplay = (

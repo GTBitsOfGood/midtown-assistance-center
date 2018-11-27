@@ -73,7 +73,7 @@ class TutorSearchResult extends React.Component {
         addRatingStars(fullStars, '/images/full-star.png');
         addRatingStars(halfStars, '/images/half-star.png');
         addRatingStars(emptyStars, '/images/empty-star.png');
-        
+
         return (
             <div>
                 <div className="panel panel-default tutor-panel">
@@ -101,7 +101,7 @@ class TutorSearchResult extends React.Component {
                             >
                                 <h3 className="">
                                     {`${tutor.first_name} ${tutor.last_name}`}
-                                    <span 
+                                    <span
                                         className={(tutor.online)
                                             ? "online-img"
                                             : "online-img tutor-offline"}
@@ -193,7 +193,7 @@ class TutorSearchResult extends React.Component {
                         </div>
                     </div>
                     <TutorReviewModal
-                        key={`modal-${id}`}
+                        key={`review-modal-${id}`}
                         updateTutors={updateTutors}
                         socket={socket}
                         username={username}
