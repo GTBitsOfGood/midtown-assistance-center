@@ -806,6 +806,19 @@ body {
     background-color: var(--gold);
 }
 
+.mac_button_warning {
+    border: 1px solid var(--black);
+    color: var(--error_red);
+    background-color: var(--gray);
+    margin-left: 1%;
+}
+
+.mac_button_warning:hover {
+    border: 1px solid var(--primaryLight);
+    color: var(--primaryLight);
+    background-color: inherit;
+}
+
 .gold_text {
     color: var(--gold);
 }
