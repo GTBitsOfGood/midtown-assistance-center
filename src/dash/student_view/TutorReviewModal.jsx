@@ -545,7 +545,7 @@ class TutorModal extends React.Component {
                     onChange={this.handleGeneralChange}
                     className="input-sm input feedback-text"
                 />
-                { submitButton }
+                {/* { reportButton } */}
             </div>
         );
         const approved_html = (
@@ -643,6 +643,9 @@ class TutorModal extends React.Component {
                                 </div>
                             </div>
                             <div className="review-modal-footer modal-footer">
+                                { approval === 'in_session' ? (
+                                    reportButton
+                                ) : null }
                                 <button
                                     type="button"
                                     onClick={
@@ -657,7 +660,7 @@ class TutorModal extends React.Component {
                                         : 'Close'}
                                 </button>
                                 {approval === 'in_session' || approval === 'new'
-                                    ? reportButton
+                                    ? submitButton
                                     : ''}
                             </div>
                         </div>
