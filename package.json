@@ -62,7 +62,7 @@
         "moment": "^2.22.1",
         "mongodb": "^2.2.31",
         "mongoose": "^4.13.17",
-        "nodemon": "^1.18.4",
+        "nodemon": "^1.18.9",
         "passport": "^0.4.0",
         "passport-local": "^1.0.0",
         "prop-types": "^15.6.2",
