@@ -33,7 +33,7 @@
     },
     "homepage": "https://github.com/GTBitsOfGood/midtown-assistance-center#readme",
     "dependencies": {
-        "@sendgrid/mail": "^6.2.1",
+        "@sendgrid/mail": "^6.3.1",
         "animate.css": "^3.5.2",
         "axios": "^0.16.2",
         "babel-cli": "^6.26.0",
