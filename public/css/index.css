@@ -622,6 +622,10 @@ body {
     margin-top: 10px;
 }
 
+.accept-all-requests-btn {
+    margin-bottom: 10px;
+}
+
 .approve-student {
     color: var(--success_green);
 }
