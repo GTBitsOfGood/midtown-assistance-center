@@ -248,10 +248,10 @@ class TutorUpcomingEvent extends React.Component {
         });
 
         function createTimeString(currentTime) {
-            const militaryTimeHour = currentTime.split(':')[0];
-            const printedHour = ((militaryTimeHour > 12)
-                ? militaryTimeHour - 12
-                : militaryTimeHour);
+            const militaryTimeHour = parseInt(currentTime.split(':')[0]);
+            const printedHour = ((militaryTimeHour % 12 === 0)
+                ? 12 : militaryTimeHour % 12);
+
             return `${printedHour}:${currentTime.split(':')[1]}
                 ${militaryTimeHour >= 12 ? ' PM' : ' AM'}`;
         }
