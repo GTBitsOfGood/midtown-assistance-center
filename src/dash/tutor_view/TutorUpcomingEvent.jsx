@@ -246,19 +246,21 @@ class TutorUpcomingEvent extends React.Component {
         $(() => {
             $('[data-toggle="tooltip"]').tooltip();
         });
+
+        function createTimeString(currentTime) {
+            const militaryTimeHour = parseInt(currentTime.split(':')[0]);
+            const printedHour = ((militaryTimeHour % 12 === 0)
+                ? 12 : militaryTimeHour % 12);
+
+            return `${printedHour}:${currentTime.split(':')[1]}
+                ${militaryTimeHour >= 12 ? ' PM' : ' AM'}`;
+        }
+
+        const startTimeString = createTimeString(this.props.startTime);
+        const endTimeString = createTimeString(this.props.endTime);
+
         const now = new Date();
         const startTimeHour = parseInt(this.props.startTime.split(':')[0]);
-        const endTimeHour = parseInt(this.props.endTime.split(':')[0]);
-        const startTime =
-            `${startTimeHour % 12
-            }:${
-                this.props.startTime.split(':')[1]
-            }${startTimeHour >= 12 ? ' PM' : ' AM'}`;
-        const endTime =
-            `${endTimeHour % 12
-            }:${
-                this.props.endTime.split(':')[1]
-            }${endTimeHour >= 12 ? ' PM' : ' AM'}`;
         const active = startTimeHour - now.getHours() <= 1 && this.props.today;
         const renLogo = active ? (
             <a
@@ -308,15 +310,17 @@ class TutorUpcomingEvent extends React.Component {
                             {' '}
                             from{' '}
                         </span>
-                        {startTime}
+                        {startTimeString}
                         <span className="upcoming-event-light lighter-text">
                             {' '}
                             to{' '}
                         </span>
-                        {endTime}
+                        {endTimeString}
                     </h4>
                 </div>
-                <div className="tutorUpcomingEventContent">{renLogo}</div>
+                <div className="tutorUpcomingEventContent">
+                    {renLogo}
+                </div>
                 <SessionReviewModal
                     socket={this.props.socket}
                     updateSession={this.setNewState}
@@ -326,9 +330,9 @@ class TutorUpcomingEvent extends React.Component {
                     id={
                         `${this.props.dayName
                         }_${
-                            this.props.startTime.split(':')[0]
+                            this.props.startTime.split(':')[0] //startTime hour
                         }_${
-                            this.props.endTime.split(':')[0]}`
+                            this.props.endTime.split(':')[0]}` //endTime hour
                     }
                     session={this.state.session}
                 />
