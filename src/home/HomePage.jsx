@@ -8,6 +8,7 @@ import AboutUs from '../AboutUs';
 import styles from '../../public/css/login_signup.css';
 import ForgotPasswordForm from './form/ForgotPasswordForm';
 import ResetPasswordForm from './form/ResetPasswordForm';
+import ForgotUsernameForm from './form/ForgotUsernameForm';
 
 const HomeComp = () => (
     <div>
@@ -19,6 +20,7 @@ const HomeComp = () => (
                     <Route exact path="/home/login" component={LoginPage} />
                     <Route exact path="/home/signUp" component={SignUpTabs} />
                     <Route exact path="/home/forgotPassword" component={ForgotPasswordForm} />
+                    <Route exact path="/home/forgotUsername" component={ForgotUsernameForm} />
                     <Route exact path="/home/resetPassword" component={ResetPasswordForm} />
                     <Route path="/home" component={AboutUs} />
                 </Switch>

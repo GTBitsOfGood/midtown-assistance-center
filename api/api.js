@@ -43,6 +43,46 @@ app.get('/getRecentSessions', (req, res) => {
     //
 });
 
+app.post('/forgotUsername', (req, res) => {
+    data_access.users.findUserIdByEmail(req.body.email, (err, user_id) => {
+        if (err) {
+            return res.send(400, {error: err});
+        }
+
+        if (!user_id) {
+            return res.send({
+                success: false,
+                error_message: 'Email does not exist in the system'
+            });
+        }
+        const endpoint =
+            req.headers.host +
+            (req.headers.port ? `:${req.headers.port}` : '');
+        const msg = {
+            to: req.body.email,
+            from: 'no-reply@mac-tutoring.com',
+            subject:
+                'MAC Tutoring account username',
+            text: `
+                Your username is <strong>${user_id}</strong><br>
+                Click here to log in, or copy and paste the following URL into your browser: ${endpoint}/home/login
+            `,
+            html:
+                `
+                Your username is <strong>${user_id}</strong><br>
+                <a href="${endpoint}/home/login">Click here</a> to log in, or copy and paste the following URL into your browser: ${endpoint}/home/login
+                `
+        };
+
+        sgMail.send(msg);
+        return res.send({
+            success: true,
+            error_message: null
+        });
+    });
+
+});
+
 app.post('/forgotPassword', (req, res) => {
     data_access.users.findUserType(req.body.email, (err, emailType) => {
         if(err) {
