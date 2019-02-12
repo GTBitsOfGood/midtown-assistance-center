@@ -105,20 +105,22 @@ class CurrentEvent extends React.Component {
             <div className="row animated fadeInLeft tutorCurrentEvent">
                 <div className="col">
                     <div className="text-center row">
-                        <h4 className="lighter-text text-uppercase tutor-events-header">
-                            Current Session
-                        </h4>
-                    </div>
-                    <div className="col-xs-12">
-                        {renEvent}
-                        { this.state.pendingRequests.length > 0 ?
-                            <div className="text-center">
-                                <h4>
-                                    You have ({this.state.pendingRequests.length}) new session requests
-                                </h4>
-                            </div>
-                            : ''}
-                        {renSessionRequests}
+                        <div className="list-inline row">
+                            <h4 className="lighter-text text-uppercase tutor-events-header">
+                                Current Session
+                            </h4>
+                        </div>
+                        <div className="col-xs-12">
+                            {renEvent}
+                            { this.state.pendingRequests.length > 0 ?
+                                <div className="text-center">
+                                    <h4>
+                                        You have ({this.state.pendingRequests.length}) new session requests
+                                    </h4>
+                                </div>
+                                : ''}
+                            {renSessionRequests}
+                        </div>
                     </div>
                 </div>
             </div>
