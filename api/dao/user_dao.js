@@ -497,6 +497,44 @@ module.exports = {
         }
     },
 
+    findUserIdByEmail(email, callback) {
+        Tutor.find({ email }, (err, docs) => {
+            if (err) {
+                console.error('Error checking if email is taken:', err);
+                callback(err);
+            } else if (docs.length > 0) {
+                // Found a tutor with the same email
+                callback(null, docs[0]._id);
+            } else {
+                // Look for students with the same email
+                Student.find({ email }, (err, docs) => {
+                    if (err) {
+                        console.error('Error checking if email is taken:', err);
+                        callback(err);
+                    } else if (docs.length > 0) {
+                        // Found a student with the same email
+                        callback(null, docs[0]._id);
+                    } else {
+                        Admin.find({ email }, (err, docs) => {
+                            if (err) {
+                                console.error(
+                                    'Error checking if email is taken:',
+                                    err
+                                );
+                                callback(err);
+                            } else if (docs.length > 0) {
+                                // Found a admin with the same email
+                                callback(null, docs[0]._id);
+                            } else {
+                                callback(null, null);
+                            }
+                        });
+                    }
+                });
+            }
+        });
+    },
+
     findUserType(email, callback) {
         Tutor.find({ email }, (err, docs) => {
             if (err) {
