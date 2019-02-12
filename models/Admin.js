@@ -8,6 +8,7 @@ let schema = new Schema({
     email: { type: String, required: true },
     _id: { type: String, required: true },
     password: { type: String, required: true },
+    reset_key: { type: String, required: false },
     school: { type: String, required: false }, //super admin wouldn't need school?
     classroom: { type: String, required: false }, //
     isSuperAdmin: { type: Boolean, required: true }
