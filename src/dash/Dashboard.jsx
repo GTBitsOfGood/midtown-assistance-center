@@ -12,6 +12,7 @@ import DashMenuBar from './DashMenuBar';
 import StudentDash from './student_view/StudentDash';
 import StudentProfile from './student_view/Profile';
 import TutorDash from './tutor_view/TutorDash';
+import TutorProfile from './tutor_view/Profile';
 import store from '../redux/store';
 import AboutUs from '../AboutUs';
 import styles from '../../public/css/index.css';
@@ -61,6 +62,7 @@ const tutorRoutes = (
     <div>
         <Route exact path="/dash" component={TutorDash} />
         <Route exact path="/dash/about" component={AboutUs} />
+        <Route exact path="/dash/profile" component={TutorProfile} />
     </div>
 );
 
