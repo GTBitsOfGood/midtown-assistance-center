@@ -103,7 +103,7 @@ app.post('/forgotPassword', (req, res) => {
             (req.headers.port ? `:${req.headers.port}` : '');
         const msg = {
             to: req.body.email,
-            from: 'mac@mactutoring.com',
+            from: 'no-reply@mac-tutoring.com',
             subject:
                 'Reset your password for your MAC Tutoring account',
             text:
@@ -291,7 +291,7 @@ app.post('/registerTutor', (req, res) => {
                     }
                     const msg = {
                         to: req.body.email,
-                        from: 'mac@mactutoring.com',
+                        from: 'no-reply@mac-tutoring.com',
                         subject:
                             'Confirm your MAC Tutoring account',
                         text:
