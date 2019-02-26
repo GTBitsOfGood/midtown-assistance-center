@@ -61,7 +61,7 @@
         "history": "^4.7.2",
         "moment": "^2.22.1",
         "mongodb": "^2.2.31",
-        "mongoose": "^4.13.17",
+        "mongoose": "^5.4.15",
         "nodemon": "^1.18.9",
         "passport": "^0.4.0",
         "passport-local": "^1.0.0",

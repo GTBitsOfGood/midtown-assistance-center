@@ -11,7 +11,8 @@ const ban = require('./dao/ban_dao');
 // Set up default mongoose connection
 const mongoDB = process.env.DB_CONNECTION_STRING;
 mongoose.connect(mongoDB, {
-    useMongoClient: true
+    dbName: 'mac-info',
+    useNewUrlParser: true
 });
 
 // Get the default connection
