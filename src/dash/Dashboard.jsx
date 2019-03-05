@@ -23,6 +23,7 @@ import Dashboard from './admin_view/Dashboard';
 import Schools from './admin_view/Schools';
 import BanDash from './admin_view/BanDash';
 import Navigation from './admin_view/navigation/Navigation';
+import BugReportForm from '../home/form/BugReportForm';
 
 // TODO: use global const
 const SOCKETIO_ENDPOINT =
@@ -128,6 +129,7 @@ class DashComp extends React.Component {
                         <Switch>{routes}</Switch>
                     </div>
                 </BrowserRouter>
+                <BugReportForm />
             </div>
         );
     }
