@@ -73,7 +73,7 @@ class StudentProfile extends React.Component {
                                         </cite>
                                     </small>
                                     <br/>
-                                    
+
 
                                     <div className="form-group">
                                         <div className="row">
@@ -140,6 +140,9 @@ class StudentProfile extends React.Component {
                         </div>
                     </div>
                 </div>
+                <br />
+                <br />
+                <br />
             </div>
         );
     }

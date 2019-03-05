@@ -1,4 +1,5 @@
 import React from 'react';
+import BugReportForm from './home/form/BugReportForm';
 
 const AboutUs = () => (
     <div className="animated fadeInDown">
@@ -15,7 +16,7 @@ const AboutUs = () => (
                     />
                     <div className="col-xs-8 col-xs-offset-2">
                         <hr />
-                        <h1 className="text-center">MAC Tutoring</h1>
+                        <h1 className="text-center head">MAC Tutoring</h1>
                         <div className="col-md-offset-2 col-md-8 mx-auto text-center">
                             <p>
                                 We connect students with college students for
@@ -32,7 +33,7 @@ const AboutUs = () => (
 
         <section className="who-we-are">
             <div className="container">
-                <h2 className="text-center">Who We Are</h2>
+                <h2 className="text-center head">Who We Are</h2>
                 <div className="">
                     <div className="row">
                         <br />
@@ -52,11 +53,11 @@ const AboutUs = () => (
 
         <section className="contact">
             <div className="container">
-                <h2 className="text-center">Contact Us</h2>
+                <h2 className="text-center head">Contact Us</h2>
                 <br />
                 <div className="row text-center">
                     <div className="col-xs-4">
-                        <h3>Website</h3>
+                        <h3 className="head">Website</h3>
                         <hr />
                         <a href="http://www.midtownassistancectr.org">
                             {' '}
@@ -64,7 +65,7 @@ const AboutUs = () => (
                         </a>
                     </div>
                     <div className="col-xs-4">
-                        <h3>Phone:</h3>
+                        <h3 className="head">Phone:</h3>
                         <hr />
                         <div className="text-left">
                             <p>Main: <a href="tel:404-681-0470">404-681-0470</a></p>
@@ -72,7 +73,7 @@ const AboutUs = () => (
                         </div>
                     </div>
                     <div className="col-xs-4">
-                        <h3>Location:</h3>
+                        <h3 className="head">Location:</h3>
                         <hr />
                         <a href="https://goo.gl/maps/BuBc2Bu23U22">
                             <div className="text-left">
@@ -85,6 +86,9 @@ const AboutUs = () => (
                 </div>
             </div>
         </section>
+        {window.location.pathname === '/home/about' || window.location.pathname === '/home'
+        || window.location.pathname === '/home/about/' || window.location.pathname === '/home/'
+        ? <BugReportForm /> : ''}
     </div>
 );
 
