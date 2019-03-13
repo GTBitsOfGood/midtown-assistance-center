@@ -146,7 +146,6 @@ class StudentSignUpForm extends React.Component {
     }
 
     handleTermsAgreementChange(valid) {
-        console.log("handleTerms" + valid);
         this.setState( { termsAgreementValidation: valid})
     }
 

@@ -2,18 +2,16 @@ import React from 'react';
 import { HelpBlock } from 'react-bootstrap';
 import { FormGroup, Label, Input } from 'reactstrap';
 
-class StudentTerms extends React.Component {
+class TutorTerms extends React.Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            checkFreeService: false,
-            checkWillNotSue: false,
-            checkOfficeHours: false,
-            checkNotSameTutor: false,
+            checkLowIncome: false,
+            checkComputerHelp: false,
             checkRatingRequired: false,
             checkReportBehavior: false,
-            checkFeedbackComments: false,
+            checkTutorHelp: false,
             canSubmit: false
         };
 
@@ -27,10 +25,10 @@ class StudentTerms extends React.Component {
     }
 
     checkCanSubmit() {
-        const { checkFreeService, checkWillNotSue, checkOfficeHours, checkNotSameTutor,
-            checkRatingRequired, checkReportBehavior, checkFeedbackComments } = this.state;
-        const canSubmit = checkFreeService && checkWillNotSue && checkOfficeHours && checkNotSameTutor
-            && checkReportBehavior && checkRatingRequired && checkFeedbackComments;
+        const { checkLowIncome, checkComputerHelp,
+            checkRatingRequired, checkReportBehavior, checkTutorHelp} = this.state;
+        const canSubmit = checkLowIncome && checkComputerHelp &&
+            checkRatingRequired && checkReportBehavior && checkTutorHelp;
         this.props.handleTermsAgreementChange(canSubmit);
         this.setState({ canSubmit });
     }
@@ -48,26 +46,14 @@ class StudentTerms extends React.Component {
                 <div align="left" className="terms">
                     <FormGroup check>
                         <Label check>
-                            <Input name="checkFreeService" id="checkFreeService" type="checkbox" onClick={this.toggle} />
-                            I understand this is a free service. I am not guaranteed a result.
+                            <Input name="checkLowIncome" id="checkLowIncome" type="checkbox" onClick={this.toggle} />
+                            I understand that the students or parents I am tutoring are from low income families.  I agree to be sensitive to this.
                         </Label>
                     </FormGroup>
                     <FormGroup check>
                         <Label check>
-                            <Input name="checkWillNotSue" type="checkbox" onClick={this.toggle}/>
-                            I understand that by using this free service I waive any right to sue any of the parties involved (MAC, Georgia Tech, School, tutors).
-                        </Label>
-                    </FormGroup>
-                    <FormGroup check>
-                        <Label check>
-                            <Input name="checkOfficeHours" type="checkbox" onClick={this.toggle}/>
-                            I understand that a tutor’s office hours are posted if there is no one immediately available to assist me.
-                        </Label>
-                    </FormGroup>
-                    <FormGroup check>
-                        <Label check>
-                            <Input name="checkNotSameTutor" type="checkbox" onClick={this.toggle}/>
-                            I understand I may not get the same tutor for every session.
+                            <Input name="checkComputerHelp" type="checkbox" onClick={this.toggle}/>
+                            I understand that some families may need help with basic tech/computer support in addition to scholastic content.
                         </Label>
                     </FormGroup>
                     <FormGroup check>
@@ -79,7 +65,7 @@ class StudentTerms extends React.Component {
                     <FormGroup>
                         <Label check>
                             <Input name="checkReportBehavior" type="checkbox" onClick={this.toggle}/>
-                            I understand and agree to report any inappropriate behavior including:
+                            I understand and agree to report any inappropriate behavior via the rating popup including:
                         </Label>
                         <ul>
                             <li>Any request for contact outside of the tutoring program</li>
@@ -90,9 +76,10 @@ class StudentTerms extends React.Component {
                     </FormGroup>
                     <FormGroup check>
                         <Label check>
-                            <Input name="checkFeedbackComments" type="checkbox" onClick={this.toggle}/>
-                            I agree to share my feedback in the comments section following the “rating” to improve the site. Any success stories will help expand the program.
+                            <Input name="checkTutorHelp" type="checkbox" onClick={this.toggle}/>
+                            I understand that if I need content to help me tutor, I can try out <a href="https://www.powermylearning.org/">Power My Learning</a>.
                         </Label>
+                        <p>Thank you for giving your time to help make the community better!</p>
                     </FormGroup>
                 </div>
             </div>
@@ -100,4 +87,4 @@ class StudentTerms extends React.Component {
     }
 }
 
-export default StudentTerms;
+export default TutorTerms;
