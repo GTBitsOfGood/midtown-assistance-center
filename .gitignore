@@ -55,5 +55,11 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+*.env
 
+# DS Store file
+*.DS_Store
+
+/.idea/
+/public/js/*.bundle.js
+/config/client.json

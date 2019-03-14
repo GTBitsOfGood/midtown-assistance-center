@@ -1,0 +1,363 @@
+/* Signup Tutor Form */
+:root {
+    /*--gold: #d4af37;*/
+    --gold: #eeb211;
+    --gray: #aeb7b3;
+    --ltgray: #f1f6f7;
+    --dkgray: #5f6462;
+    --purple: #160c28;
+    --black: #000411;
+    --blackhover: #222633;
+    --error_red: #d8000c;
+    --success_green: #4f8a10;
+    --warning_yellow: #9f6000;
+    --login_signup: #1c272b;
+    --login_signup_bkgrd: rgba(28, 39, 43, 0.9);
+    --accent: var(--gold);
+}
+
+body {
+    font-family: 'Lato', sans-serif;
+}
+
+input:-webkit-autofill {
+    -webkit-box-shadow: 0 0 0 30px var(--ltgray) inset;
+    box-shadow: 0 0 0 30px var(--ltgray) inset;
+}
+
+.bkgrd {
+    display: flex;
+    justify-content: center;
+    height: calc(100vh - 50px);
+    width: 100%;
+    background: url('/images/atlanta_home.png');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    position: fixed;
+    z-index: -10;
+    background-color: var(--black);
+}
+
+.forgot-pass-bkgrd {
+    position: fixed;
+    margin-top: calc(50vh - 200px);
+    min-height: 250px;
+    max-width: 500px;
+    background-color: var(--login_signup);
+    z-index: 0;
+    height: 40vh;
+    opacity: 0.6;
+}
+
+.reset-pass-bkgrd {
+    position: fixed;
+    margin-top: calc(50vh - 200px);
+    min-height: 350px;
+    max-width: 500px;
+    background-color: var(--login_signup);
+    z-index: 0;
+    height: 60vh;
+    opacity: 0.6;
+}
+
+.signup-tabs {
+    background-color: transparent;
+}
+
+.nav-tabs {
+    border-bottom: 1px solid var(--gray);
+}
+
+.signup-tab {
+    background-color: transparent;
+}
+
+.nav-tabs > li.active > a,
+.nav-tabs > li.active > a:focus,
+.nav-tabs > li.active > a:hover {
+    background-color: transparent !important;
+    color: var(--ltgray);
+    border-bottom: 0 !important;
+}
+
+.signup-form,
+.login-form,
+.reset-pass-form {
+    position: relative;
+
+    position: fixed;
+    margin-top: calc(50vh - 200px);
+    min-height: 300px;
+    max-width: 500px;
+    width: 100%;
+    padding: 2%;
+    height: 60vh;
+    z-index: 1;
+    overflow-y: scroll;
+    padding-right: 0;
+    padding-left: 1.5%;
+    background-color: var(--login_signup_bkgrd);
+    color: var(--ltgray);
+}
+
+.forgot-pass-form {
+    position: relative;
+    position: fixed;
+    margin-top: calc(50vh - 200px);
+    min-height: 250px;
+    max-width: 500px;
+    width: 100%;
+    padding: 2%;
+    height: 40vh;
+    z-index: 1;
+    overflow-y: scroll;
+    padding-right: 0;
+    padding-left: 1.5%;
+    background-color: var(--login_signup_bkgrd);
+    color: var(--ltgray);
+    display: table;
+}
+
+.signup-form {
+    height: 70vh;
+    min-height: 300px;
+    margin-top: 15vh;
+}
+
+@media (max-width: 500px) {
+    .signup-form, .login-form {
+        margin-top: 0;
+        height: 100%;
+    }
+}
+@media (max-height: 500px) {
+    .signup-form, .login-form {
+        margin-top: 0;
+        min-height: 0px;
+        height: 100%;
+    }
+}
+
+.login-form,
+.reset-pass-form {
+    display: table;
+}
+
+.vert-center {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.signup-form .signup-header,
+.login-form .login-header,
+.forgot-pass-form .forgot-pass-header,
+.reset-pass-form .reset-pass-header {
+    /*color: var(--dkgray);*/
+    /*color: black;*/
+    font-weight: 300;
+    text-transform: none;
+}
+
+.signup-form .signup-header {
+    margin-bottom: 10px;
+    margin-top: 5px;
+}
+
+.signup-form .input-error,
+.login-form .input-error {
+    border-bottom: 1px solid var(--error_red);
+}
+
+.error-message {
+    display: block;
+    color: var(--error_red);
+    padding-left: 0;
+}
+
+.error-message-hide {
+    display: none;
+}
+
+.signup-form input:not(.input-error),
+.signup-form select,
+.login-form input:not(.input-error),
+.forgot-pass-form input:not(.input-error),
+.reset-pass-form input:not(.input-error){
+    border-bottom: 1px solid var(--gray);
+}
+
+.signup-form input,
+.signup-form select,
+.login-form input,
+.forgot-pass-form input,
+.reset-pass-form input {
+    border-top: 0;
+    border-left: 0;
+    border-right: 0;
+    border-radius: 0px;
+    margin-top: 2%;
+    background-color: transparent;
+    font-weight: 300;
+    color: var(--ltgray);
+}
+
+.signup-form input::placeholder,
+.login-form input::placeholder,
+.forgot-pass-form input::placeholder,
+.reset-pass-form input::placeholder {
+    color: var(--gray);
+    font-style: italic;
+}
+
+.signup-form input:focus,
+.login-form input:focus,
+.forgot-pass-form input:focus,
+.reset-pass-form input:focus {
+    outline: none;
+}
+
+.help-block {
+    color: var(--error_red);
+}
+
+.signup-form select {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    color: var(--ltgray);
+    background-image: url('/images/select-down-arrow.png');
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: 10px 10px;
+}
+
+.login-form input,
+.forgot-pass-form input,
+.reset-pass-form input {
+    margin-top: 5%;
+}
+
+option.signup-select-option {
+    background: var(--dkgray);
+}
+.signup-form .signup-button,
+.login-form .login-button,
+.forgot-pass-form .forgot-pass-button,
+.reset-pass-form .reset-pass-button {
+    /*background-color: var(--gold);*/
+    background-color: var(--accent);
+    color: var(--ltgray);
+    margin-top: 5%;
+    font-weight: 400;
+    border-radius: 3px;
+    border-bottom: 0;
+}
+
+.signup-form .terms-header {
+    padding: 10px;
+    margin-bottom: 10px;
+    margin-top: 5px;
+    font-weight: 300;
+    text-transform: none;
+}
+
+.signup-form .signup-divider {
+    background-color: var(--gray);
+    border: 0;
+    height: 1px;
+}
+
+.signup-form .terms input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    display: inline-block;
+    position: relative;
+    background-color: var(--ltgray);
+    color: var(--ltgray);
+    top: 2px;
+    height: 17px;
+    width: 17px;
+    border: 0;
+    border-radius: 3px;
+    cursor: pointer;
+    margin-right: 7px;
+    outline: none;
+}
+
+.signup-form .terms input[type="checkbox"]:checked::after {
+    text-align: center;
+    font: 14px/1 'Lato', sans-serif;
+    content: '\2713';
+    padding-left: 2px;
+}
+
+.signup-form .terms input[type="checkbox"]:checked {
+    background: var(--gold);
+}
+
+.signup-form .terms input[type="checkbox"]:hover {
+     background: var(--dkgray);
+}
+
+.form-tooltip:hover:after {
+    content: attr(title);
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    background: var(--black);
+    border-radius: 3px;
+    padding: 3px;
+    z-index: 90;
+}
+
+.login-form .login-button,
+.forgot-pass-form .forgot-pass-button,
+.reset-pass-form .reset-pass-button {
+    margin-bottom: 5%;
+}
+
+.signup-form .signup-button {
+    margin-bottom: 2%;
+}
+
+.bootstrap-select.btn-group .dropdown-menu li a {
+    color: var(--dkgray) !important;
+}
+
+.signup-form .signup-button:hover,
+.login-form .login-button:hover,
+.forgot-pass-form .forgot-pass-button:hover,
+.reset-pass-form .reset-pass-button:hover {
+    opacity: 0.7;
+}
+
+.login-anchor,
+.signup-anchor {
+    color: var(--gray);
+}
+
+.login-anchor:hover,
+.signup-anchor:hover {
+    color: var(--gold);
+    text-decoration: none;
+}
+
+.hide-error {
+    display: none;
+}
+
+.show-error {
+    display: inline-block;
+}
+
+.signup-dialogue {
+    margin-bottom: 5%;
+    text-transform: none;
+    font-weight: 400;
+}
+
+.reset-pass-form reset-pass-button:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
