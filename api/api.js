@@ -33,6 +33,34 @@ function encryptPassword(password) {
     return hash;
 }
 
+const alertAdmins = (ban, callback) => {
+    data_access.users.getAllAdminEmails((err, emails) => {
+        if (err) {
+            callback(err);
+        }
+        emails.forEach(({_id, email}) => {
+            const msg = {
+                to: email,
+                from: 'alert@mac-tutoring.com',
+                subject:
+                    `Report Recorded: ${ban.personOfInterest}`,
+                text: `
+                    A Report has been submitted. Here are the details:
+
+                    reporter: ${ban.reporter}
+                    reporterType: ${ban.reporterType}
+                    personOfInterest: ${ban.personOfInterest}
+                    explanation: ${ban.explanation}
+                `,
+            };
+
+            sgMail.send(msg);
+        });
+
+        callback(null);
+    });
+};
+
 /*
     1. This is a route for the admin dash to get the N most recent tutoring sessions
     2.
@@ -781,9 +809,18 @@ app.post('/submitTutorReportOnFeedback', (req, res) => {
                     error: err
                 });
             }
-            return res.json({
-                success: true,
-                error: null
+            alertAdmins(ban, (error) => {
+                if (error) {
+                    console.log(error);
+                    return res.json(400, {
+                        success: false,
+                        error
+                    });
+                }
+                return res.json({
+                    success: true,
+                    error: null
+                });
             });
         });
     });
@@ -806,11 +843,22 @@ app.post('/submitTutorReportInSession', (req, res) => {
                 error: err
             });
         }
-        return res.json({
-            success: true,
-            error: null
+
+        alertAdmins(ban, (error) => {
+            if (error) {
+                console.log(err);
+                return res.json(400, {
+                    success: false,
+                    error: err
+                });
+            }
+            return res.json({
+                success: true,
+                error: null
+            });
         });
     });
+
 });
 
 // submit report from student about a tutor
@@ -830,9 +878,18 @@ app.post('/submitStudentReport', (req, res) => {
                 error: err
             });
         }
-        return res.json({
-            success: true,
-            error: null
+        alertAdmins(ban, (error) => {
+            if (error) {
+                console.log(error);
+                return res.json(400, {
+                    success: false,
+                    error
+                });
+            }
+            return res.json({
+                success: true,
+                error: null
+            });
         });
     });
 });

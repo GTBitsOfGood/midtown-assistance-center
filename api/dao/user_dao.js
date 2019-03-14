@@ -408,6 +408,16 @@ module.exports = {
         });
     },
 
+    getAllAdminEmails(callback) {
+        Admin.find({}, 'email', (err, emails) => {
+            if (err) {
+                console.log('Error retrieving all admin emails');
+                callback(err);
+            }
+            callback(null, emails);
+        });
+    },
+
     saveStudent(student, callback) {
         if (student.password === config.get('hidden_password')) {
             callback('The student password is masked! Not saving this to db');
