@@ -4,6 +4,7 @@ import { HelpBlock } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import attemptLogin from './LoginLogic';
 import axios from 'axios';
+import StudentTerms from './StudentTerms';
 import styles from '../../../public/css/login_signup.css';
 
 class StudentSignUpForm extends React.Component {
@@ -25,6 +26,7 @@ class StudentSignUpForm extends React.Component {
             access_code: '',
             grade_level: 'default',
             gradeLevelValidation: 'input-error',
+            termsAgreementValidation: false,
             errorMessage: 'error-message-hide',
             inputErrorMessage: 'error-message-hide',
             errorMessageContent: '',
@@ -43,6 +45,7 @@ class StudentSignUpForm extends React.Component {
         this.handleAccessCodeChange = this.handleAccessCodeChange.bind(this);
         this.handleGradeChange = this.handleGradeChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleTermsAgreementChange = this.handleTermsAgreementChange.bind(this);
 
         const grades = [];
         for (let i = props.startingGrade; i <= props.endingGrade; i++) {
@@ -142,6 +145,10 @@ class StudentSignUpForm extends React.Component {
         }
     }
 
+    handleTermsAgreementChange(valid) {
+        this.setState( { termsAgreementValidation: valid})
+    }
+
     handleSubmit(event) {
         const {
             firstNameValidation,
@@ -150,7 +157,8 @@ class StudentSignUpForm extends React.Component {
             passwordValidation,
             confirmPasswordValidation,
             emailValidation,
-            gradeLevelValidation
+            gradeLevelValidation,
+            termsAgreementValidation,
         } = this.state;
         event.preventDefault();
         if (
@@ -160,7 +168,8 @@ class StudentSignUpForm extends React.Component {
             passwordValidation === 'input-error' ||
             confirmPasswordValidation === 'input-error' ||
             emailValidation === 'input-error' ||
-            gradeLevelValidation === 'input-error'
+            gradeLevelValidation === 'input-error'||
+            termsAgreementValidation === false
         ) {
             this.setState({ inputErrorMessage: 'error-message' });
             this.setState({ errorMessage: 'error-message-hide' });
@@ -370,6 +379,7 @@ class StudentSignUpForm extends React.Component {
                         Grade level must be set.
                     </HelpBlock>
                 </div>
+                <StudentTerms handleTermsAgreementChange={this.handleTermsAgreementChange}></StudentTerms>
                 <div className="row col-xs-12">
                     <input
                         className="signup-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"

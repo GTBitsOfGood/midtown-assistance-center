@@ -3,6 +3,7 @@ import axios from 'axios';
 import { HelpBlock } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import attemptLogin from './LoginLogic';
+import TutorTerms from './TutorTerms';
 import styles from '../../../public/css/login_signup.css';
 
 class SignUpTutor extends React.Component {
@@ -25,6 +26,7 @@ class SignUpTutor extends React.Component {
             confirmEmailValidation: 'input-success',
             gmail: '',
             gmailValidation: 'input-success',
+            termsAgreementValidation: false,
             errorMessage: 'error-message-hide',
             inputErrorMessage: 'error-message-hide',
             errorMessageContent: '',
@@ -52,6 +54,7 @@ class SignUpTutor extends React.Component {
             this
         );
         this.handleGmailChange = this.handleGmailChange.bind(this);
+        this.handleTermsAgreementChange = this.handleTermsAgreementChange.bind(this);
 
         this.handleSubmit = this.handleSubmit.bind(this);
     }
@@ -160,6 +163,10 @@ class SignUpTutor extends React.Component {
         }
     }
 
+    handleTermsAgreementChange(valid) {
+        this.setState( { termsAgreementValidation: valid})
+    }
+
     handleSubmit(event) {
         const {
             firstNameValidation,
@@ -169,7 +176,8 @@ class SignUpTutor extends React.Component {
             confirmPasswordValidation,
             emailValidation,
             confirmEmailValidation,
-            gmailValidation
+            gmailValidation,
+            termsAgreementValidation
         } = this.state;
         event.preventDefault();
         if (
@@ -180,7 +188,8 @@ class SignUpTutor extends React.Component {
             confirmPasswordValidation === 'input-error' ||
             emailValidation === 'input-error' ||
             confirmEmailValidation === 'input-error' ||
-            gmailValidation === 'input-error'
+            gmailValidation === 'input-error' ||
+            termsAgreementValidation === false
         ) {
             this.setState({ inputErrorMessage: 'error-message' });
             this.setState({ errorMessage: 'error-message-hide' });
@@ -260,6 +269,7 @@ class SignUpTutor extends React.Component {
             confirmEmail,
             gmailValidation,
             gmail,
+            termsAgreementValidation,
             inputErrorMessage,
             errorMessage,
             errorMessageContent,
@@ -417,6 +427,7 @@ class SignUpTutor extends React.Component {
                         Gmail must be valid.
                     </HelpBlock>
                 </div>
+                <TutorTerms handleTermsAgreementChange={this.handleTermsAgreementChange}></TutorTerms>
                 <div className="row col-xs-12">
                     <input
                         className="signup-button btn btn-lg btn-default col-xs-10 col-xs-offset-1"
