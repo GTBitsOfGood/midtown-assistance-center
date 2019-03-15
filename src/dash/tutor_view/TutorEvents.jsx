@@ -16,7 +16,8 @@ import TutorUpcomingEvents from './TutorUpcomingEvents';
 import axios from 'axios';
 import TutorCurrentEvent from './TutorCurrentEvent';
 
-const NUM_OF_EVENTS = 5;
+// Maximum number of upcoming events to display at once
+const MAX_NUM_OF_EVENTS = 5;
 
 const days = [
     'Sunday',
@@ -163,6 +164,7 @@ class Events extends React.Component {
             });
     }
 
+    // Gets the user's current/upcoming events (if any) and adds them to the state
     initEvents(showModal, session) {
         const {user} = this.props;
         const requestBody = {
@@ -191,11 +193,16 @@ class Events extends React.Component {
 
         checkOpenSession.then((data) => {
             currentEvent = data;
-            const todayDate = new Date();
-            const today = todayDate.getDay();
-            let dayName = days[today];
-            let day = today;
             const upcomingEvents = [];
+
+            const todayDate = new Date();
+            const todayIndex = todayDate.getDay();
+            let dayName = days[todayIndex];
+            let dayIndex = todayIndex;
+
+            // if the current event exists, get the time it starts at
+            // TODO: Is there a reason we're checking the time instead of just
+            // checking if upcomingEvent == currentEvent?
             const startTime = currentEvent ? new Date(currentEvent._id.expected_start_time) : null;
             let startTimeHours;
             let startTimeMinutes;
@@ -203,20 +210,26 @@ class Events extends React.Component {
                 startTimeHours = startTime.getHours();
                 startTimeMinutes = startTime.getMinutes() < 10 ? '0' + startTime.getMinutes().toString() : startTime.getMinutes();
             }
-            for (let i = 0; i < NUM_OF_EVENTS; i++) {
+
+            // add all upcoming events that aren't the current event (up to MAX_NUM_OF_EVENTS)
+            const DAYS_IN_WEEK = 7;
+            for (let i = 0; i < DAYS_IN_WEEK; i++) {
                 let events = user.availability[dayName];
                 for (let event in events) {
-                    if (!startTime || !(events[event].start_time === startTimeHours + ':' + startTimeMinutes)) {
-                        upcomingEvents.push({
-                            start_time: events[event].start_time,
-                            end_time: events[event].end_time,
-                            active: dayName === days[today],
-                            dayName
-                        });
+                    const isCurrentEvent = events[event].start_time === startTimeHours + ':' + startTimeMinutes;
+                    if (!startTime || !isCurrentEvent) {
+                        if (upcomingEvents.length < MAX_NUM_OF_EVENTS) {
+                            upcomingEvents.push({
+                                start_time: events[event].start_time,
+                                end_time: events[event].end_time,
+                                active: dayName === days[todayIndex],
+                                dayName
+                            });
+                        }
                     }
                 }
-                day = (day + 1) % 7;
-                dayName = days[day];
+                dayIndex = (dayIndex + 1) % 7;
+                dayName = days[dayIndex];
             }
             this.setState({
                 currentEvent,
