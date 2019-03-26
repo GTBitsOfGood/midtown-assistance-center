@@ -14,13 +14,17 @@ class Approve extends React.Component {
     }
 
     render() {
-        const renTutors = this.props.unapprovedTutors.map((obj, num) => {
-            return obj.confirmed ? (
-                <ApproveTutorItem key={num} tutor={obj} id={num} />
-            ) : (
-                ''
-            );
-        });
+        const renTutors = this.props.unapprovedTutors.length === 0 ? (
+            <div><h3>No Unapproved Tutors</h3></div>
+        ) : (
+            this.props.unapprovedTutors.map((obj, num) => {
+                return obj.confirmed ? (
+                    <ApproveTutorItem key={num} tutor={obj} id={num} />
+                ) : (
+                    ''
+                );
+            })
+        );
         return <div>{renTutors}</div>;
     }
 }
