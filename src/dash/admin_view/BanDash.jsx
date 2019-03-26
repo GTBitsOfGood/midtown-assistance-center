@@ -13,9 +13,15 @@ class BanDash extends React.Component {
     }
 
     render() {
-        const renTutors = this.props.bans.map(ban => (
-            <BanItem key={ban._id} ban={ban} id={ban._id} />
-        ));
+        const renTutors = this.props.bans.length === 0 ? (
+            <div>
+                <h3>No Pending Bans</h3>
+            </div>
+        ) : (
+            this.props.bans.map(ban => (
+                <BanItem key={ban._id} ban={ban} id={ban._id} />
+            ))
+        );
         const bannedTutorsList = this.props.bannedTutors.map((tutor, index) => {
             return (
                 <tr key={tutor._id}>
@@ -46,7 +52,11 @@ class BanDash extends React.Component {
                 </tr>
             );
         });
-        const bannedTutorsHtml = this.props.bannedTutors.length === 0  ? null : (
+        const bannedTutorsHtml = this.props.bannedTutors.length === 0  ? (
+            <div>
+                <h3>No Banned Tutors</h3>
+            </div>
+        ) : (
             <div>
                 <h3>Banned Tutors</h3>
                 <Table striped bordered>
@@ -62,7 +72,11 @@ class BanDash extends React.Component {
             </div>
         );
 
-        const bannedStudentsHtml = this.props.bannedStudents.length === 0 ? null : (
+        const bannedStudentsHtml = this.props.bannedStudents.length === 0 ? (
+            <div>
+                <h3>No Banned Students</h3>
+            </div>
+        ) : (
             <div>
                 <h3>Banned Students</h3>
                 <Table striped bordered>
@@ -81,7 +95,9 @@ class BanDash extends React.Component {
         return (
             <div>
                 { renTutors }
+                <hr />
                 { bannedTutorsHtml }
+                <hr />
                 { bannedStudentsHtml }
             </div>
         );
