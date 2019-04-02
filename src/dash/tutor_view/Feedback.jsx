@@ -28,24 +28,24 @@ const Feedback = props => {
     );
 
     return (
-        <div className="row animated fadeInLeft feedback">
-            <div className="col">
-                <div className="text-center">
-                    <h4 className="lighter-text text-uppercase tutor-events-header">
-                        {' '}
-                        Feedback
-                    </h4>
-                </div>
-                <div className="feedbackWrapper col-xs-12">
-                    {renSessions.length === 0 ? (
-                        <div className="text-center">
-                            <h5>You do not have any feedback yet</h5>
-                        </div>
-                    ) : (
-                        renSessions
-                    )}
-                </div>
+        <div className="animated fadeInLeft feedback">
+            <div className="text-center">
+                <h4 className="lighter-text text-uppercase tutor-events-header">
+                    {' '}
+                    Feedback
+                </h4>
             </div>
+
+            <div className="feedbackWrapper col-xs-12">
+                {renSessions.length === 0 ? (
+                    <div className="text-center">
+                        <h5>You do not have any feedback yet</h5>
+                    </div>
+                ) : (
+                    renSessions
+                )}
+            </div>
+
         </div>
     );
 };

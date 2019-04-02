@@ -33,7 +33,8 @@ class SessionModal extends React.Component {
             satisfaction: '',
             error_message: 'hide',
             comment: '',
-            receivedLink:false
+            receivedLink: false,
+            modalShowing: false
         };
         this.changeStar = this.changeStar.bind(this);
         this.setRating = this.setRating.bind(this);
@@ -42,6 +43,7 @@ class SessionModal extends React.Component {
         this.handleCommentChange = this.handleCommentChange.bind(this);
         this.approveStudent = this.approveStudent.bind(this);
         this.denyStudent = this.denyStudent.bind(this);
+        this.modalButtonClick = this.modalButtonClick.bind(this);
     }
 
     componentDidMount() {
@@ -226,12 +228,21 @@ class SessionModal extends React.Component {
         }
     }
 
+
+
+    modalButtonClick() {
+        this.setState(state => ({
+            modalShowing: !state.modalShowing
+        }));
+        window.open(this.props.session.hangouts_link);
+        return false;
+    }
+
     /**
      * Render the TutorModal
      * @returns {HTML}
      */
-    render() {
-        const { session, id } = this.props;
+    render() {const { session, id } = this.props;
         const {
             error_message,
             first_star,
@@ -313,8 +324,9 @@ class SessionModal extends React.Component {
                                 </h4>
                                 <h5>
                                     <a
-                                        href={session.hangouts_link}
-                                        target="_blank"
+                                        data-dismiss="modal"
+                                        data-toggle='modal'
+                                        data-target={`#Guidelines_${id}`}
                                     >
                                         Click here to re-enter the hangouts
                                     </a>
@@ -493,6 +505,7 @@ class SessionModal extends React.Component {
         );
     }
 }
+
 
 SessionModal.propTypes = {
     onSubmit: PropTypes.func.isRequired,

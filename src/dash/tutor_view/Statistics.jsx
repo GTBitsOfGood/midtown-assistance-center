@@ -60,15 +60,15 @@ const Statistics = props => {
     }
 
     return (
-        <div className="row animated fadeInLeft">
-            <div className="col">
-                <div className="text-center row">
-                    <h4 className="lighter-text text-uppercase tutor-events-header text-center">
-                        Statistics
-                    </h4>
-                </div>
+        <div className="animated fadeInLeft">
+
+            <div className="text-center">
+                <h4 className="lighter-text text-uppercase tutor-events-header text-center">
+                    Statistics
+                </h4>
             </div>
-            <div className="statistics row">
+
+            <div className="row statistics m-0">
                 <div className="col-xs-12">
                     <div className="col-md-6">
                         <div className="col">

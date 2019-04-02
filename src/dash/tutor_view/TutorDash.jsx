@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import socketIOClient from 'socket.io-client';
-import TutorUpcomingEvents from './TutorUpcomingEvents';
 import TutorEvents from './TutorEvents';
 import Feedback from './Feedback';
 import TutorProfile from './Profile';
@@ -54,11 +53,13 @@ class TutorDash extends React.Component {
         }
         return (
             <div className="tutor-dash container col-xs-12">
-                <div className="col-md-6 upcoming-events-list">
-                    {dashDisplay}
-                </div>
-                <div className="col-md-6">
-                    <TutorProfile />
+                <div className="row">
+                    <div className="col-md-6 upcoming-events-list">
+                        {dashDisplay}
+                    </div>
+                    <div className="col-md-6">
+                        <TutorProfile />
+                    </div>
                 </div>
             </div>
         );

@@ -11,7 +11,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import TutorUpcomingEvent from './TutorUpcomingEvent';
 import TutorUpcomingEvents from './TutorUpcomingEvents';
 import axios from 'axios';
 import TutorCurrentEvent from './TutorCurrentEvent';

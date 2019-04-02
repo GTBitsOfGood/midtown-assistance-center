@@ -64,24 +64,20 @@ class UpcomingEvents extends React.Component {
         // renEvents = renEvents.slice(0, NUM_OF_EVENTS);
 
         return (
-            <div className="row animated fadeInLeft tutorUpcomingEvents">
-                <div className="col">
-                    <div className="text-center row">
-                        <div className="row list-inline ">
-                            <h4 className="lighter-text text-uppercase tutor-events-header">
-                                Upcoming Sessions
-                            </h4>
-                            <span
-                                className="glyphicon glyphicon glyphicon-info-sign"
-                                data-toggle="tooltip"
-                                data-placement="right"
-                                title="Your upcoming sessions are shown below.
-                                        Active sessions are shown in yellow."
-                            />
-                        </div>
-                        <div className="col-xs-12">{renEvents}</div>
-                    </div>
+            <div className="animated fadeInLeft tutorUpcomingEvents">
+                <div className="text-center">
+                    <h4 className="lighter-text text-uppercase tutor-events-header text-center">
+                        Upcoming Sessions
+                    </h4>
+                    <span
+                        className="glyphicon glyphicon glyphicon-info-sign text-center"
+                        data-toggle="tooltip"
+                        data-placement="right"
+                        title="Your upcoming sessions are shown below.
+                                Active sessions are shown in yellow."
+                    />
                 </div>
+                <div>{renEvents}</div>
             </div>
         );
     }

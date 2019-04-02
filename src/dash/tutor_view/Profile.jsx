@@ -336,7 +336,7 @@ class Profile extends React.Component {
         ));
 
         return (
-            <div className="row tutor-dash animated fadeInRight">
+            <div className="row animated fadeInRight" style={{margin:'10px'}}>
                 <div className="col">
                     <div className="text-center row">
                         <h4 className="lighter-text text-uppercase tutor-events-header">

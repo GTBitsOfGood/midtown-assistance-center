@@ -12,6 +12,7 @@ import React from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import SessionReviewModal from './SessionReviewModal';
+import TutorGuidelinesModal from './TutorGuidelinesModal';
 
 class TutorUpcomingEvent extends React.Component {
     /**
@@ -229,7 +230,7 @@ class TutorUpcomingEvent extends React.Component {
      */
     handleAccessHangoutLink() {
         if (this.state.session) {
-            window.open(this.state.session.hangouts_link, '_blank');
+            //window.open(this.state.session.hangouts_link, '_blank');
         } else {
             this.props.setParentSession(this.props.startTime, this.props.endTime);
         }
@@ -263,34 +264,96 @@ class TutorUpcomingEvent extends React.Component {
         const startTimeHour = parseInt(this.props.startTime.split(':')[0]);
         const active = startTimeHour - now.getHours() <= 1 && this.props.today;
         const renLogo = active ? (
-            <a
-                onClick={this.props.type === 'currentEvent' ? this.handleAccessHangoutLink : () => this.props.setParentSession(this.props.startTime, this.props.endTime)}
-                href="#"
-                data-toggle={this.props.type === 'currentEvent' ? 'modal' : ''}
-                data-target={this.props.type === 'currentEvent' ? (
-                    `#Modal_${
-                        this.props.dayName
-                    }_${
-                        this.props.startTime.split(':')[0]
-                    }_${
-                        this.props.endTime.split(':')[0]}`) : ''
-                }
-            >
-                <div className="session-info-container" data-toggle="tooltip" title="Click to enter session">
-                    <h4 className="session-info session-info-active">Enter Session</h4>
+            <div className="row tutorUpcomingEvent" style={{backgroundColor:'white', margin:'0px', display:'flex', alignItems:'center'}}>
+                <div className="col-xs-7">
+                    <h4 className="upcoming-event-desc">
+                        {this.props.today ? 'Today' : this.props.dayName}
+                        <span className="upcoming-event-light lighter-text">
+                                {' '}
+                            from{' '}
+                            </span>
+                        {startTimeString}
+                        <span className="upcoming-event-light lighter-text">
+                                {' '}
+                            to{' '}
+                            </span>
+                        {endTimeString}
+                    </h4>
+                </div>
+
+                <div className="col-xs-2">
+                    <a
+                        onClick={this.props.type === 'currentEvent' ? this.handleAccessHangoutLink : () => this.props.setParentSession(this.props.startTime, this.props.endTime)}
+                        href="#"
+                        data-toggle={this.props.type === 'currentEvent' ? 'modal' : ''}
+                        data-target={this.props.type === 'currentEvent' ? (
+                            `#Modal_${
+                                this.props.dayName
+                            }_${
+                                this.props.startTime.split(':')[0]
+                            }_${
+                                this.props.endTime.split(':')[0]}`) : ''
+                        }
+                    >
+                        <div className="session-info-container text-center" data-toggle="tooltip" title="Click to enter session">
+                            <h4 className="session-info session-info-active text-center">Session Info</h4>
+                        </div>
+                    </a>
+
+                </div>
+                <div className="col-xs-1">
+                    <a
+                        onClick={this.props.type === 'currentEvent' ? this.handleAccessHangoutLink : () => this.props.setParentSession(this.props.startTime, this.props.endTime)}
+                        href="#"
+                        data-toggle={this.props.type === 'currentEvent' ? 'modal' : ''}
+                        data-target={this.props.type === 'currentEvent' ? (
+                            `#Guidelines_${
+                                this.props.dayName
+                                }_${
+                                this.props.startTime.split(':')[0]
+                                }_${
+                                this.props.endTime.split(':')[0]}`) : ''
+                        }
+                    >
+                        <div className="session-info-container text-center m-5" data-toggle="tooltip" title="Click to enter session">
+                            <h4 className="session-info session-info-active text-center">Enter Session</h4>
+                        </div>
+                    </a>
+                </div>
+                <div className="col-xs-2 text-right" style={{padding:'0px'}}>
                     <img
-                        className=" google-link"
+                        className=" google-link float-right"
                         src="/images/google-icon-active.png"
                     />
                 </div>
-            </a>
+            </div>
+
+
         ) : (
-            <div className="session-info-container" data-toggle="tooltip" title="Can not enter inactive session">
-                <h4 className="session-info session-info-inactive">Session Inactive</h4>
-                <img
-                    className=" google-link"
-                    src="/images/google-icon-disabled.png"
-                />
+            <div className="row">
+                <div className="col-xs-6">
+                    <h4 className="upcoming-event-desc">
+                        {this.props.today ? 'Today' : this.props.dayName}
+                        <span className="upcoming-event-light lighter-text">
+                                {' '}
+                            from{' '}
+                            </span>
+                        {startTimeString}
+                        <span className="upcoming-event-light lighter-text">
+                                {' '}
+                            to{' '}
+                            </span>
+                        {endTimeString}
+                    </h4>
+                </div>
+
+                <div className="session-info-container" data-toggle="tooltip" title="Can not enter inactive session">
+                    <h4 className="session-info session-info-inactive">Session Inactive</h4>
+                    <img
+                        className=" google-link"
+                        src="/images/google-icon-disabled.png"
+                    />
+                </div>
             </div>
         );
 
@@ -302,25 +365,21 @@ class TutorUpcomingEvent extends React.Component {
         );
 
         const upcomingEvent = (
-            <div className="tutorUpcomingEvent">
-                <div className="tutorUpcomingEventContent">
-                    <h4 className="upcoming-event-desc">
-                        {this.props.today ? 'Today' : this.props.dayName}
-                        <span className="upcoming-event-light lighter-text">
-                            {' '}
-                            from{' '}
-                        </span>
-                        {startTimeString}
-                        <span className="upcoming-event-light lighter-text">
-                            {' '}
-                            to{' '}
-                        </span>
-                        {endTimeString}
-                    </h4>
-                </div>
-                <div className="tutorUpcomingEventContent">
-                    {renLogo}
-                </div>
+            <div>
+
+                {renLogo}
+
+                <TutorGuidelinesModal
+                    id={
+                        `${ this.props.dayName
+                        }_${
+                            this.props.startTime.split(':')[0] //startTime hour
+                        }_${
+                            this.props.endTime.split(':')[0]}` //endTime hour
+                    }
+                    session={this.state.session}
+                />
+
                 <SessionReviewModal
                     socket={this.props.socket}
                     updateSession={this.setNewState}
