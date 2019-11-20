@@ -57,7 +57,7 @@
         "express": "^4.15.4",
         "express-session": "^1.15.6",
         "googleapis": "^22.2.0",
-        "handlebars": "^4.0.10",
+        "handlebars": "^4.5.3",
         "history": "^4.7.2",
         "moment": "^2.22.1",
         "mongodb": "^2.2.31",
