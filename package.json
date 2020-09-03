@@ -56,7 +56,7 @@
         "ejs": "^2.5.7",
         "express": "^4.15.4",
         "express-session": "^1.15.6",
-        "googleapis": "^22.2.0",
+        "googleapis": "^49.0.0",
         "handlebars": "^4.0.10",
         "history": "^4.7.2",
         "moment": "^2.22.1",
