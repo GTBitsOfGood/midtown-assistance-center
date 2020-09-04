@@ -60,7 +60,7 @@
         "handlebars": "^4.0.10",
         "history": "^4.7.2",
         "moment": "^2.22.1",
-        "mongodb": "^2.2.31",
+        "mongodb": "^3.1.13",
         "mongoose": "^4.13.17",
         "nodemon": "^1.18.9",
         "passport": "^0.4.0",
