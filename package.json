@@ -82,7 +82,7 @@
         "redux-logger": "^3.0.6",
         "redux-promise-middleware": "^4.4.1",
         "redux-thunk": "^2.2.0",
-        "socket.io": "^2.0.4",
+        "socket.io": "^2.4.0",
         "socket.io-client": "^2.0.4",
         "style-loader": "^0.18.2",
         "web-notification": "^1.0.3"
